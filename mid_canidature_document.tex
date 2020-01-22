@@ -103,7 +103,8 @@
 
 %\begin{titlepage}
 \begin{center}
-\LARGE{\textbf{Identification cell type marker genes of the brain and their use in estimation of cell type proportions}}\\
+\LARGE{\textbf{\LARGE{\textbf{Dynamic visualization of high-dimensional data via
+low-dimension projections and sectioning across 2D and 3D display devices}}}}\\
 \vspace*{2\baselineskip}
 \Large{\textbf{Mid canidature review}}\\
 \normalsize{Monash University, Faculty of Information Technology}\\
@@ -117,7 +118,6 @@ Prof. Dianne Cook\\
 \Large{\textbf{Committee Members}}\\
 Dr. Maxime Cordiel\\
 Dr. Shirui Pan\\
-Dr. Sara Mostafavi\\
 \vspace*{1\baselineskip}
 \Large{\textbf{Chair}}\\
 Assoc. Prof. Bernhard Jenny\\
@@ -162,15 +162,17 @@ DD Feburuary, 2020
 
 A bib reference (Wickham, Cook, and Hofmann 2015).
 
-A \protect\hyperlink{sec:intro}{Section intro} reference, alternatively, section \ref{sec:intro} (with no @; \textbackslash ref\{sec:intro\}).
+A \protect\hyperlink{sec:intro}{Section intro} reference, alternatively, section \ref{sec:intro} (\texttt{\textbackslash{}@ref(sec:intro)}).
 
-A figure \ref{fig:crest} reference (with @; \ref{fig:crest}.
+A figure \ref{fig:crest} reference (\texttt{\textbackslash{}@ref(fig:crest)}).
 
 \textbf{For bib files:} make sure to include \texttt{bibliography:\ \textless{}MyFilename\textgreater{}.bib} in the YAML header and have asscociated .bib file in the base directory.
 
 \textbf{For Tex Title pages:} make sure to include them in the YAML header (see this one) and have the asscociated .sty files in the base directory.
 
 \textbf{For figure references:} make sure to use \texttt{bookdown::pdf\_document2} (with 2) in the yaml, turns an R chunk name into a label, alternatively hardcode labels in the caption with \texttt{"\textbackslash{}\textbackslash{}label\{fig:fig1\}\ Some\ caption\ here"} while kniting to a \texttt{pdf\_document}.
+
+\texttt{\textbackslash{}@ref(\textless{}label\textgreater{})} is used with bookdown::pdf\_document2, \texttt{\textbackslash{}ref\{\textless{}label\textgreater{}\}} (no @, curly \{\}) is standard md.
 
 \hypertarget{sec2:subsection}{%
 \subsection{Figure height and width}\label{sec2:subsection}}
@@ -204,8 +206,8 @@ in-line equation: \(A = \pi*r^{2}\)
 equation block: \[E = mc^{2}\]
 
 \begin{quote}
-``If it weren't for my lawyer, I'd still be in prison.
-It went a lot faster with two people digging.''
+If it weren't for my lawyer, I'd still be in prison.
+It went a lot faster with two people digging.
 
 \hfill --- Joe Martin
 \end{quote}

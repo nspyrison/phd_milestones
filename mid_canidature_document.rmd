@@ -34,19 +34,22 @@ knitr::opts_chunk$set(fig.align = "center",
 
 # Rmarkdown note {#sec:intro}
 
-## References and cross references 
+## References and cross references
 
-A bib reference [@wickham_visualizing_2015]. 
+A bib reference [@wickham_visualizing_2015].
 
-A [Section intro](#sec:intro) reference, alternatively, section \ref{sec:intro} (with no @; \\ref{sec:intro}). 
+A [Section intro](#sec:intro) reference, alternatively, section \@ref(sec:intro) (`\@ref(sec:intro)`).
 
-A figure \@ref(fig:crest) reference (with @; \@ref(fig:crest). 
+A figure \@ref(fig:crest) reference (`\@ref(fig:crest)`).
+
 
 __For bib files:__ make sure to include `bibliography: <MyFilename>.bib` in the YAML header and have asscociated .bib file in the base directory.
 
 __For Tex Title pages:__ make sure to include them in the YAML header (see this one) and have the asscociated .sty files in the base directory.
 
 __For figure references:__ make sure to use `bookdown::pdf_document2` (with 2) in the yaml, turns an R chunk name into a label, alternatively hardcode labels in the caption with `"\\label{fig:fig1} Some caption here"` while kniting to a `pdf_document`.
+
+`\@ref(<label>)` is used with bookdown::pdf_document2, `\ref{<label>}` (no @, curly {}) is standard md.
 
 
 ## Figure height and width {#sec2:subsection}
@@ -79,9 +82,9 @@ equation block: $$E = mc^{2}$$
 >
 > `r tufte::quote_footer('--- Joe Martin')`
 
-A footnote [^1]
+A footnote [^2]
 
-[^1]: The bottom text. 
+[^2]: The bottom text. 
 
 
 ### Other sources
