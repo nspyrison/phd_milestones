@@ -1,0 +1,231 @@
+\documentclass[11,]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\PassOptionsToPackage{usenames,dvipsnames}{color} % color is loaded by hyperref
+\hypersetup{unicode=true,
+            colorlinks=true,
+            linkcolor=Maroon,
+            citecolor=Blue,
+            urlcolor=blue,
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{longtable,booktabs}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\usepackage[normalem]{ulem}
+% avoid problems with \sout in headers with hyperref:
+\pdfstringdefDisableCommands{\renewcommand{\sout}{}}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{}
+    \pretitle{\vspace{\droptitle}}
+  \posttitle{}
+    \author{}
+    \preauthor{}\postauthor{}
+    \date{}
+    \predate{}\postdate{}
+  
+%%% .rmd + .sty setup borrowed from: https://github.com/oganm/ThesisProposal
+
+% Must load tex packages here (import.sty run in preamble, title.sty run after)
+\usepackage{setspace} % for title page spacing
+\usepackage{hyperref} % for all sorts of linking
+
+\begin{document}
+
+%%% .rmd + .sty setup borrowed from: https://github.com/oganm/ThesisProposal
+
+\onehalfspacing
+\pagenumbering{gobble}
+
+%\begin{titlepage}
+\begin{center}
+\LARGE{\textbf{Identification cell type marker genes of the brain and their use in estimation of cell type proportions}}\\
+\vspace*{2\baselineskip}
+\Large{\textbf{Mid canidature review}}\\
+\normalsize{Monash University, Faculty of Information Technology}\\
+\vspace*{2\baselineskip}
+\Large{Nicholas Spyrison}\\ %, B.Sc
+\vspace*{3\baselineskip}
+\Large{\textbf{Thesis Supervisors}}\\
+Prof. Kimbal Marriott\\
+Prof. Dianne Cook\\
+\vspace*{2\baselineskip}
+\Large{\textbf{Committee Members}}\\
+Dr. Maxime Cordiel\\
+Dr. Shirui Pan\\
+Dr. Sara Mostafavi\\
+\vspace*{1\baselineskip}
+\Large{\textbf{Chair}}\\
+Assoc. Prof. Bernhard Jenny\\
+\vspace*{1\baselineskip}
+\Large{\textbf{Presention Date}}\\
+DD Feburuary, 2020
+\end{center}
+% \end{titlepage}
+
+\doublespacing
+
+\hypersetup{linkcolor = blue}
+\newpage
+\pagenumbering{roman}
+\tableofcontents
+\addcontentsline{toc}{section}{\contentsname}
+
+\newpage
+
+%% list of figures have to be added manually to table of contents
+% \listoffigures 
+% 
+% \newpage
+% \listoftables
+
+\doublespacing
+
+\newpage
+\pagenumbering{arabic}
+\hypersetup{linkcolor = blue}
+
+{
+\hypersetup{linkcolor=black}
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\hypertarget{sec:intro}{%
+\section{Rmarkdown note}\label{sec:intro}}
+
+\hypertarget{references-and-cross-references}{%
+\subsection{References and cross references}\label{references-and-cross-references}}
+
+A bib reference (Wickham, Cook, and Hofmann 2015).
+
+A \protect\hyperlink{sec:intro}{Section intro} reference, alternatively, section \ref{sec:intro} (with no @; \textbackslash ref\{sec:intro\}).
+
+A figure \ref{fig:crest} reference (with @; \ref{fig:crest}.
+
+\textbf{For bib files:} make sure to include \texttt{bibliography:\ \textless{}MyFilename\textgreater{}.bib} in the YAML header and have asscociated .bib file in the base directory.
+
+\textbf{For Tex Title pages:} make sure to include them in the YAML header (see this one) and have the asscociated .sty files in the base directory.
+
+\textbf{For figure references:} make sure to use \texttt{bookdown::pdf\_document2} (with 2) in the yaml, turns an R chunk name into a label, alternatively hardcode labels in the caption with \texttt{"\textbackslash{}\textbackslash{}label\{fig:fig1\}\ Some\ caption\ here"} while kniting to a \texttt{pdf\_document}.
+
+\hypertarget{sec2:subsection}{%
+\subsection{Figure height and width}\label{sec2:subsection}}
+
+\texttt{fig.height=2,\ fig.width=3} {[}inches{]} will effect R rendered plots.
+
+while \texttt{out.height\ =\ "20\%",\ out.width\ =\ "20\%"} will effect both \texttt{include\_graphics()} and R rendered plots.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.2\linewidth,height=0.2\textheight]{figures/can_con/crest} 
+
+}
+
+\caption{A caption for crest figure}\label{fig:crest}
+\end{figure}
+
+\hypertarget{intermediate-md-formating}{%
+\subsection{Intermediate MD formating}\label{intermediate-md-formating}}
+
+sub/superscript\textsuperscript{2}\textsubscript{2}
+
+\sout{strikethrough}
+
+escaped characters: * \_ \textbackslash{}
+
+endash: --, emdash: ---
+
+in-line equation: \(A = \pi*r^{2}\)
+
+equation block: \[E = mc^{2}\]
+
+\begin{quote}
+``If it weren't for my lawyer, I'd still be in prison.
+It went a lot faster with two people digging.''
+
+\hfill --- Joe Martin
+\end{quote}
+
+A footnote\footnote{The bottom text.}
+
+\hypertarget{other-sources}{%
+\subsubsection{Other sources}\label{other-sources}}
+
+\href{http://zevross.com/blog/2017/06/19/tips-and-tricks-for-working-with-images-and-figures-in-r-markdown-documents/}{Working with images and figure in RMD}
+
+\href{https://rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf}{R Markdown Cheat Sheet}
+
+\hypertarget{references}{%
+\section*{References}\label{references}}
+\addcontentsline{toc}{section}{References}
+
+\hypertarget{refs}{}
+\leavevmode\hypertarget{ref-wickham_visualizing_2015}{}%
+Wickham, Hadley, Dianne Cook, and Heike Hofmann. 2015. ``Visualizing Statistical Models: Removing the Blindfold: Visualizing Statistical Models.'' \emph{Statistical Analysis and Data Mining: The ASA Data Science Journal} 8 (4): 203--25. \url{https://doi.org/10.1002/sam.11271}.
+
+
+\end{document}

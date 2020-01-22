@@ -1,0 +1,93 @@
+---
+# setspace: doublespacing
+output: 
+    bookdown::pdf_document2:
+      ## pdf_document2 changes how fig references work; /@ref()
+      includes:
+        in_header: import.sty
+        before_body: title.sty
+      keep_tex: yes
+      number_sections: yes
+      toc_depth: 2
+      fig_caption: yes
+      ## also needed for fid cross references
+bibliography: thesisrefs.bib
+fontsize: 11
+urlcolor: blue
+---
+
+```{r include=FALSE, cache=FALSE}
+## Keep it simple! No R code in .rmd, use a seprate .r script if need be.
+library(knitr) 
+knitr::opts_chunk$set(fig.align = "center",
+                      echo = F 
+                      #message = FALSE,
+                      #warning = FALSE,
+                      #error = FALSE,
+                      #collapse = TRUE,
+                      #comment = "",
+                      #cache = F, 
+                      #cache.lazy = FALSE
+)
+```
+
+
+# Rmarkdown note {#sec:intro}
+
+## References and cross references 
+
+A bib reference [@wickham_visualizing_2015]. 
+
+A [Section intro](#sec:intro) reference, alternatively, section \ref{sec:intro} (with no @; \\ref{sec:intro}). 
+
+A figure \@ref(fig:crest) reference (with @; \@ref(fig:crest). 
+
+__For bib files:__ make sure to include `bibliography: <MyFilename>.bib` in the YAML header and have asscociated .bib file in the base directory.
+
+__For Tex Title pages:__ make sure to include them in the YAML header (see this one) and have the asscociated .sty files in the base directory.
+
+__For figure references:__ make sure to use `bookdown::pdf_document2` (with 2) in the yaml, turns an R chunk name into a label, alternatively hardcode labels in the caption with `"\\label{fig:fig1} Some caption here"` while kniting to a `pdf_document`.
+
+
+## Figure height and width {#sec2:subsection}
+
+`fig.height=2, fig.width=3` [inches] will effect R rendered plots.
+
+while `out.height = "20%", out.width = "20%"` will effect both `include_graphics()` and R rendered plots.
+
+
+```{r crest, echo=FALSE, out.height = "20%", out.width = "20%", fig.cap = "A caption for crest figure"}
+knitr::include_graphics("figures/can_con/crest.jpg",)
+```
+
+## Intermediate MD formating
+
+sub/superscript^2^~2~
+
+~~strikethrough~~
+
+escaped characters: \* \_ \\
+
+endash: --, emdash: ---
+
+in-line equation: $A = \pi*r^{2}$
+
+equation block: $$E = mc^{2}$$
+
+> If it weren't for my lawyer, I'd still be in prison.
+> It went a lot faster with two people digging.
+>
+> `r tufte::quote_footer('--- Joe Martin')`
+
+A footnote [^1]
+
+[^1]: The bottom text. 
+
+
+### Other sources
+
+[Working with images and figure in RMD](http://zevross.com/blog/2017/06/19/tips-and-tricks-for-working-with-images-and-figures-in-r-markdown-documents/)
+
+[R Markdown Cheat Sheet](https://rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)
+
+# References 
