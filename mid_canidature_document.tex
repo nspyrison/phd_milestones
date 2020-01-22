@@ -41,9 +41,6 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-\usepackage[normalem]{ulem}
-% avoid problems with \sout in headers with hyperref:
-\pdfstringdefDisableCommands{\renewcommand{\sout}{}}
 \IfFileExists{parskip.sty}{%
 \usepackage{parskip}
 }{% else
@@ -103,7 +100,8 @@
 
 %\begin{titlepage}
 \begin{center}
-\LARGE{\textbf{Identification cell type marker genes of the brain and their use in estimation of cell type proportions}}\\
+\LARGE{\textbf{Dynamic visualization of high-dimensional data via
+low-dimension projections and sectioning across 2D and 3D display devices}}\\
 \vspace*{2\baselineskip}
 \Large{\textbf{Mid canidature review}}\\
 \normalsize{Monash University, Faculty of Information Technology}\\
@@ -117,7 +115,6 @@ Prof. Dianne Cook\\
 \Large{\textbf{Committee Members}}\\
 Dr. Maxime Cordiel\\
 Dr. Shirui Pan\\
-Dr. Sara Mostafavi\\
 \vspace*{1\baselineskip}
 \Large{\textbf{Chair}}\\
 Assoc. Prof. Bernhard Jenny\\
@@ -154,30 +151,14 @@ DD Feburuary, 2020
 \setcounter{tocdepth}{2}
 \tableofcontents
 }
-\hypertarget{sec:intro}{%
-\section{Rmarkdown note}\label{sec:intro}}
-
-\hypertarget{references-and-cross-references}{%
-\subsection{References and cross references}\label{references-and-cross-references}}
+\hypertarget{cheatsheet}{%
+\section{cheatsheet}\label{cheatsheet}}
 
 A bib reference (Wickham, Cook, and Hofmann 2015).
 
 A \protect\hyperlink{sec:intro}{Section intro} reference, alternatively, section \ref{sec:intro} (with no @; \textbackslash ref\{sec:intro\}).
 
-A figure \ref{fig:crest} reference (with @; \ref{fig:crest}.
-
-\textbf{For bib files:} make sure to include \texttt{bibliography:\ \textless{}MyFilename\textgreater{}.bib} in the YAML header and have asscociated .bib file in the base directory.
-
-\textbf{For Tex Title pages:} make sure to include them in the YAML header (see this one) and have the asscociated .sty files in the base directory.
-
-\textbf{For figure references:} make sure to use \texttt{bookdown::pdf\_document2} (with 2) in the yaml, turns an R chunk name into a label, alternatively hardcode labels in the caption with \texttt{"\textbackslash{}\textbackslash{}label\{fig:fig1\}\ Some\ caption\ here"} while kniting to a \texttt{pdf\_document}.
-
-\hypertarget{sec2:subsection}{%
-\subsection{Figure height and width}\label{sec2:subsection}}
-
-\texttt{fig.height=2,\ fig.width=3} {[}inches{]} will effect R rendered plots.
-
-while \texttt{out.height\ =\ "20\%",\ out.width\ =\ "20\%"} will effect both \texttt{include\_graphics()} and R rendered plots.
+A figure \ref{fig:crest} reference (with @; \textbackslash{}({\textbf{???}})(fig:crest).
 
 \begin{figure}
 
@@ -188,36 +169,44 @@ while \texttt{out.height\ =\ "20\%",\ out.width\ =\ "20\%"} will effect both \te
 \caption{A caption for crest figure}\label{fig:crest}
 \end{figure}
 
-\hypertarget{intermediate-md-formating}{%
-\subsection{Intermediate MD formating}\label{intermediate-md-formating}}
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
 
-sub/superscript\textsuperscript{2}\textsubscript{2}
+\hypertarget{summary-of-research}{%
+\subsection{Summary of research}\label{summary-of-research}}
 
-\sout{strikethrough}
+\hypertarget{movition}{%
+\subsection{Movition}\label{movition}}
 
-escaped characters: * \_ \textbackslash{}
+\hypertarget{research-aim}{%
+\subsection{Research aim}\label{research-aim}}
 
-endash: --, emdash: ---
+\hypertarget{methodology}{%
+\subsection{Methodology}\label{methodology}}
 
-in-line equation: \(A = \pi*r^{2}\)
+\hypertarget{since-confirmation}{%
+\section{Since Confirmation}\label{since-confirmation}}
 
-equation block: \[E = mc^{2}\]
+\hypertarget{spinifex-app}{%
+\subsection{Spinifex app}\label{spinifex-app}}
 
-\begin{quote}
-``If it weren't for my lawyer, I'd still be in prison.
-It went a lot faster with two people digging.''
+\hypertarget{multivate-linear-projection-study}{%
+\subsection{Multivate linear projection study}\label{multivate-linear-projection-study}}
 
-\hfill --- Joe Martin
-\end{quote}
+\hypertarget{thesis-structure}{%
+\section{Thesis structure}\label{thesis-structure}}
 
-A footnote\footnote{The bottom text.}
+\hypertarget{publications}{%
+\section{Publications}\label{publications}}
 
-\hypertarget{other-sources}{%
-\subsubsection{Other sources}\label{other-sources}}
+\hypertarget{spinifex-package-r-journal}{%
+\subsection{spinifex package (R Journal)}\label{spinifex-package-r-journal}}
 
-\href{http://zevross.com/blog/2017/06/19/tips-and-tricks-for-working-with-images-and-figures-in-r-markdown-documents/}{Working with images and figure in RMD}
+\hypertarget{multivate-linear-projection-study-iee-vast}{%
+\subsection{Multivate linear projection study (IEE VAST)}\label{multivate-linear-projection-study-iee-vast}}
 
-\href{https://rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf}{R Markdown Cheat Sheet}
+\hypertarget{aim-3}{%
+\subsection{Aim 3}\label{aim-3}}
 
 \hypertarget{references}{%
 \section*{References}\label{references}}
