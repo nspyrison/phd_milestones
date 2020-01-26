@@ -45,6 +45,20 @@ knitr::include_graphics("figures/can_con/crest.jpg",)
 
 # Introduction
 
+## Exploratory data analysis
+
+<!-- When EDA; need visuals -->
+The term exploratory data analysis was coined by Tukey -@tukey_exploratory_1977, who leaves it as an intentionally broad term which encompasses the initial summarization and visualization of a data set. This is a critical first step of checking for realistic values and validating model assumptions. It may be temping to reduce data down to a series of summary statitics and apply model assumptions to these. However, there are known datasets where the same summary statistics miss glaringly obvious visual paterns [@anscombe_graphs_1973; @matejka_same_2017]. It is strikingly simple to look at the wrong, or incomplete set of statistics needed to validate assumtions. Data visualization is fast, versitile, and robust relative to the alternative of numeric statistical summarization. Data vizualization does and must remain a primary component of data anysis and model validation.
+
+<!-- Humans percieve more information from data visualizations than numeric reprsentations[CITATION NEEDED]. Because there are inherent dangers to relying on statistics alone, this requirement for looking at visuals necessitates *human-in-the-loop* analysis, defined as any model that requires human interaction [@karwowski_international_2006]. -->
+
+<!-- data is diverse, which data (munzner img)--> 
+
+
+
+<!-- visuals are diverse, which visual? -->
+
+
 ## Summary of research
 
 ## Movition
