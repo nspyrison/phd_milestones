@@ -151,26 +151,26 @@ DD Feburuary, 2020
 \setcounter{tocdepth}{2}
 \tableofcontents
 }
-\hypertarget{cheatsheet}{%
-\section{cheatsheet}\label{cheatsheet}}
+\hypertarget{sec:intro}{%
+\section{Introduction}\label{sec:intro}}
 
-A bib reference (Wickham, Cook, and Hofmann 2015).
+\hypertarget{exploratory-data-analysis}{%
+\subsection{Exploratory data analysis}\label{exploratory-data-analysis}}
 
-A \protect\hyperlink{sec:intro}{Section intro} reference, alternatively, section \ref{sec:intro} (with no @; \textbackslash ref\{sec:intro\}).
+The term exploratory data analysis was coined by Tukey (1977), who leaves it as an intentionally broad term which encompasses the initial summarization and visualization of a data set. This is a critical first step of checking for realistic values and validating model assumptions. It may be temping to reduce data down to a series of summary statitics and apply model assumptions to these. However, there are known datasets where the same summary statistics miss glaringly obvious visual paterns (Anscombe 1973; Matejka and Fitzmaurice 2017). It is strikingly simple to look at the wrong, or incomplete set of statistics needed to validate assumtions. Data visualization is fast, versitile, and robust relative to the alternative of numeric statistical summarization. Data vizualization does and must remain a primary component of data anysis and model validation.
 
-A figure \ref{fig:crest} reference (with @; \textbackslash{}({\textbf{???}})(fig:crest).
+The mediums and quantities of data are every increasing. Modern computing and network systems have made the collection and aggregation of data commonplace. Munzner (2014) distinguishs between 3 base dataset types: tables, networks, and spatial. At the onset this seems like a gross oversimplification. Yet, seemingly distant mediums - books, schedules, movies, and metadata - can all be decomposed or deconstructed into these 3 classes. The exact variables (attributes), or features being captured may change, but the base relationship structure boil down to these. Tables are the most commonly consumed dataset and regularly contain many more than few variables. For the remainder of the discussion let's consider tabluar data containing more than 3 variables (p \textgreater{} 3). Munzner notes that ``geometry is a design decision'', where geometry refers to the shape used to depict a quantity (for example: bar, line, contour). Possible geometries are decided by the number and types of values measured, as a baseline we will stick to appliation of scatterplots.
 
 \begin{figure}
 
-{\centering \includegraphics[width=0.2\linewidth,height=0.2\textheight]{figures/can_con/crest} 
+{\centering \includegraphics[width=1\linewidth]{figures/tmunzner_vad16} 
 
 }
 
-\caption{A caption for crest figure}\label{fig:crest}
+\caption{Dataset types, (Munzner 2014)}\label{fig:datasetTypes}
 \end{figure}
 
-\hypertarget{introduction}{%
-\section{Introduction}\label{introduction}}
+Consider ploting 2 variables as an XY scatterplot. To add a 3rd variable append a z-axis othogonal (right angle to) the XY plane. Adding a 4th dimension is not so easily solved. Scatterplot matrices (SPLOM)(Chambers et al. 1983) plot every combination of variable pairs and views them in a matrix. This beats no visualization, but is not the ideal solution. Consider a small, square aquarium. Given 3 still frames of the variable-pair (that is, a square-on view from each dimension) does not accurately portray all of the information. For instance, a three-quarter (3/4) perspective helps relate the square on images and are ubiquitous in assembly and machining instustions. This perspective relates information contained in the view of sides. Mathematically, we describe the angle of view as a \texttt{basis}. Bases (plural of basis) are depicted as unit axes, they point in the direction each dimension is oriented. The axes for the three-quarter perspective is different from the square-on views in that the directions are a combination of 2 and 3 variables respectively, rather than one variable mapped fully to the horizontal or vertical.
 
 \hypertarget{summary-of-research}{%
 \subsection{Summary of research}\label{summary-of-research}}
@@ -213,8 +213,20 @@ A figure \ref{fig:crest} reference (with @; \textbackslash{}({\textbf{???}})(fig
 \addcontentsline{toc}{section}{References}
 
 \hypertarget{refs}{}
-\leavevmode\hypertarget{ref-wickham_visualizing_2015}{}%
-Wickham, Hadley, Dianne Cook, and Heike Hofmann. 2015. ``Visualizing Statistical Models: Removing the Blindfold: Visualizing Statistical Models.'' \emph{Statistical Analysis and Data Mining: The ASA Data Science Journal} 8 (4): 203--25. \url{https://doi.org/10.1002/sam.11271}.
+\leavevmode\hypertarget{ref-anscombe_graphs_1973}{}%
+Anscombe, F. J. 1973. ``Graphs in Statistical Analysis.'' \emph{The American Statistician} 27 (1): 17--21. \url{https://doi.org/10.2307/2682899}.
+
+\leavevmode\hypertarget{ref-chambers_graphical_1983}{}%
+Chambers, J. M., W. S. Cleveland, B. Kleiner, and P. A. Tukey. 1983. ``Graphical Methods for Data Analysis.''
+
+\leavevmode\hypertarget{ref-matejka_same_2017}{}%
+Matejka, Justin, and George Fitzmaurice. 2017. ``Same Stats, Different Graphs: Generating Datasets with Varied Appearance and Identical Statistics Through Simulated Annealing.'' In \emph{Proceedings of the 2017 CHI Conference on Human Factors in Computing Systems - CHI '17}, 1290--4. Denver, Colorado, USA: ACM Press. \url{https://doi.org/10.1145/3025453.3025912}.
+
+\leavevmode\hypertarget{ref-munzner_visualization_2014}{}%
+Munzner, Tamara. 2014. \emph{Visualization Analysis and Design}. AK Peters/CRC Press.
+
+\leavevmode\hypertarget{ref-tukey_exploratory_1977}{}%
+Tukey, John W. 1977. \emph{Exploratory Data Analysis}. Vol. 32. Pearson.
 
 
 \end{document}
