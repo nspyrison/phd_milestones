@@ -29,45 +29,70 @@ knitr::opts_chunk$set(fig.align = "center",
                       #cache = F, 
                       #cache.lazy = FALSE
 )
+
+# <!-- # cheatsheet -->
+# 
+# <!-- A bib reference [@wickham_visualizing_2015].  -->
+# 
+# <!-- A [Section intro](#sec:intro) reference, alternatively, section \ref{sec:intro} (with no @; \\ref{sec:intro}).  -->
+# 
+# <!-- A figure \@ref(fig:crest) reference (with @; \\@ref(fig:crest).  -->
+# 
+# <!-- ```{r crest, echo=FALSE, out.height = "10%", out.width = "10%", fig.cap = "A caption for crest figure"} -->
+# <!-- knitr::include_graphics("figures/can_con/crest.jpg",) -->
+# <!-- ``` -->
 ```
-
-<!-- # cheatsheet -->
-
-<!-- A bib reference [@wickham_visualizing_2015].  -->
-
-<!-- A [Section intro](#sec:intro) reference, alternatively, section \ref{sec:intro} (with no @; \\ref{sec:intro}).  -->
-
-<!-- A figure \@ref(fig:crest) reference (with @; \\@ref(fig:crest).  -->
-
-<!-- ```{r crest, echo=FALSE, out.height = "10%", out.width = "10%", fig.cap = "A caption for crest figure"} -->
-<!-- knitr::include_graphics("figures/can_con/crest.jpg",) -->
-<!-- ``` -->
 
 # Introduction {#sec:intro}
 
-## Exploratory data analysis
+## Exploration of tabular data
 
 <!-- When EDA; need visuals -->
-The term exploratory data analysis was coined by Tukey -@tukey_exploratory_1977, who leaves it as an intentionally broad term which encompasses the initial summarization and visualization of a data set. This is a critical first step of checking for realistic values and validating model assumptions. It may be temping to reduce data down to a series of summary statitics and apply model assumptions to these. However, there are known datasets where the same summary statistics miss glaringly obvious visual paterns [@anscombe_graphs_1973; @matejka_same_2017]. It is strikingly simple to look at the wrong, or incomplete set of statistics needed to validate assumtions. Data visualization is fast, versitile, and robust relative to the alternative of numeric statistical summarization. Data vizualization does and must remain a primary component of data anysis and model validation.
+The term exploratory data analysis was coined by Tukey -@tukey_exploratory_1977, who leaves it as an intentionally broad term that encompasses the initial summarization and visualization of a data set. This is a critical first step of checking for realistic values and validating model assumptions. It may be tempting to review a series of summary statistics to check model assumptions. However, there are known datasets where the same summary statistics miss glaringly obvious visual patterns [@anscombe_graphs_1973; @matejka_same_2017]. It is strikingly simple to look at the wrong, or incomplete set of statistics needed to validate assumptions. Data visualization is fast, versatile, and robust relative to the alternative of numeric statistical summarization. Data visualization does and must remain a primary component of data analysis and model validation.
 
-<!-- Humans percieve more information from data visualizations than numeric reprsentations[CITATION NEEDED]. Because there are inherent dangers to relying on statistics alone, this requirement for looking at visuals necessitates *human-in-the-loop* analysis, defined as any model that requires human interaction [@karwowski_international_2006]. -->
+<!-- Humans perceive more information from data visualizations than numeric reprsentations[CITATION NEEDED]. Because there are inherent dangers to relying on statistics alone, this requirement for looking at visuals necessitates *human-in-the-loop* analysis, defined as any model that requires human interaction [@karwowski_international_2006]. -->
 
-<!-- data is diverse, which data (munzner img)--> 
-The mediums and quantities of data are every increasing. Modern computing and network systems have made the collection and aggregation of data commonplace. Munzner -@munzner_visualization_2014 distinguishs between 3 base dataset types: tables, networks, and spatial. At the onset this seems like a gross oversimplification. Yet, seemingly distant mediums - books, schedules, movies, and metadata - can all be decomposed or deconstructed into these 3 classes. The exact variables (attributes), or features being captured may change, but the base relationship structure boil down to these. Tables are the most commonly consumed dataset and regularly contain many more than few variables. For the remainder of the discussion let's consider tabluar data containing more than 3 variables (p > 3). Munzner notes that "geometry is a design decision", where geometry refers to the shape used to depict a quantity (for example: bar, line, contour). Possible geometries are decided by the number and types of values measured, as a baseline we will stick to appliation of scatterplots. 
+<!-- data is diverse, which data (T Munzner image)-->
+The mediums and quantities of data are ever-increasing. Modern computing and network systems have made the collection and aggregation of data commonplace. Munzner -@munzner_visualization_2014 distinguishes between 3 base dataset types: tables, networks, and spatial. At the onset, this seems like a gross oversimplification. Yet, seemingly distant mediums - books, schedules, movies, and metadata - can all be decomposed or deconstructed into these 3 classes. The exact variables (or attributes), or features being captured may change, but the base relationship structure boils down to these. Tables are the most commonly consumed dataset and regularly contain many more than a few variables. For the remainder of the discussion let's consider tabular data containing more than 3 variables (`p > 2`). Munzner notes that "geometry is a design decision", where geometry refers to the shape used to depict a quantity (for example bar, line, and contour). Possible geometries are decided by the number and types of values measured, as a baseline we will stick to the application of scatterplots.
 
 
 ```{r datasetTypes, echo=FALSE, out.width = "100%", fig.cap = "Dataset types, (Munzner 2014)"}
 knitr::include_graphics("figures/tmunzner_vad16.PNG",)
 ```
 
+## Exdending dimensionality
 
-<!-- Thinking about axes and basis? -->
-Consider ploting 2 variables as an XY scatterplot. To add a 3rd variable append a z-axis othogonal (right angle to) the XY plane. Adding a 4th dimension is not so easily solved. Scatterplot matrices (SPLOM)[@chambers_graphical_1983] plot every combination of variable pairs and views them in a matrix. This beats no visualization, but is not the ideal solution. Consider a small, square aquarium. Given 3 still frames of the variable-pair (that is, a square-on view from each dimension) does not accurately portray all of the information. For instance, a three-quarter (3/4) perspective helps relate the square on images and are ubiquitous in assembly and machining instustions. This perspective relates information contained in the view of sides. Mathematically, we describe the angle of view as a `basis`. Bases (plural of basis) are depicted as unit axes, they point in the direction each dimension is oriented. The axes for the three-quarter perspective is different from the square-on views in that the directions are a combination of 2 and 3 variables respectively, rather than one variable mapped fully to the horizontal or vertical. 
+<!-- Adding plotting dimensions -->
+Consider plotting 2 variables as an XY scatterplot. To add a 3rd variable append the z-axis orthogonal (right angle to) the XY plane. Adding a 4th dimension is not so easily solved. To resolve this we will use scatterplot matrices to introduce axes and bases. Then we generalise to linear projections before discussing princial component analysis and introducing tours.
+
+<!-- explaining axes and bases -->
+Scatterplot matrices [@chambers_graphical_1983] plot every combination of variable pairs and views them in a matrix. This is a good method to check variable ranges and extreme values but is not the ideal visualization. Consider a bar stool as in figure \@ref(fig:basisExample). Given 3 still frames of the variable-pair (that is, a square-on view from each dimension) does not necessarily convey the full information of the data. For instance, a three-quarter perspective helps relate the square on images and are ubiquitous in assembly and machining instructions. This perspective relates information contained in the view of sides. Mathematically, we describe the angle of view as a `basis`. Bases (plural of basis) are depicted as unit axes, they point in the direction each dimension is oriented. The axes for the three-quarter perspective differ from the square-on views in that the directions are a combination of 2 and 3 variables respectively, rather than one variable mapped fully to the horizontal or vertical.
+
+<!-- ```{r basisExample, echo=FALSE, out.width = "100%", fig.cap = "Illustrate the relation between bases, axes, and projection of the data"} -->
+<!-- knitr::include_graphics("figures/PLOT_FROM_stool_basis.r.PNG",) -->
+<!-- ``` -->
+
+<!-- intro into linear projections -->
+Building on pairs of variables, an arbitrary `p` variables can be projected down to 2 dimensions. This seems unintuitive at first, but we have already discussed a number of trivial cases with scatterplot matrices. Consider figure \@ref(fig:basisExample) again. The first 3 cases plot pairs variables, while the third direction extends directly beyond the XY plane. These are trivial projections of 3- down to 2- dimensions, where the 3rd variable has no contribution with a row of zeros in the basis. The three-quarter perspective is more interesting as more than one variable contributes to each direction. The resulting plot is said to be a 'linear projection' when the basis is produced with an affine transformation, that is, any transformation in which all parallel lines remain parallel. One crutial aspect of linear projections is that they are interoperable back to the original attributes; any observation identified in any linear projection can be mapped back to its variable values. Recently, some non-linear projection techniques such as
+self-organizing maps [@kohonen_self-organizing_1990] and t-distributed stochastic neighbor embedding [@maaten_visualizing_2008] have recieved substaintial following. However, due to their non-linear transformation observations cannot be mapped back to the original attribute-space and interpretation becomes opaque. For this reason we will not compare non-linear transformations for exploration of data- or parameter-spaces.
+
+<!-- PCA gives one projection -->
+Principal component analysis (PCA, @pearson_liii._1901) is one common way of identifying projections to consider. In PCA the new components are formed from a linear combination of the original attributes. The new components must be orthogonal to all previous components and ordered by desending variation explained. A pair of these new components are then viewed as an XY scatterplot. This has the added benefit of viewing the most variation in as few dimensions as possible. The scree plot/test [@cattell_scree_1966] can be used on the components to quickly zero in on a space that has the intrinsic dimensionality of the data. This is a common data processing step once the number of attributes becomes sizable (larger than 10 or so).
+
+<!-- LDA + PDA? basis -->
+
+<!-- Grand Tour -->
+The previous methods ARE DISCREATE
+
 
 
 ## Summary of research
 
-## Movition
+
+
+## Motivation
+
+<!-- Motivation supporting research -->
 
 ## Research aim
 

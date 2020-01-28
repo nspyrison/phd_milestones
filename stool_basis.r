@@ -28,20 +28,20 @@ dim(stool)
 
 stool_samp <- sample_n(stool, 5000)
 
-axis_seg <- data.frame(x = c(1, 0, 0), y = c(0, 1, 0), z = c(0, 0, 1), zero = 0)
-axis_lab <- data.frame(x = c(1, -.1, -.1), y = c(-.1, 1, -.1), z = c(-.1, -.1, 1), lab = c("x", "y", "z"))
+axis_seg <- data.frame(x = c(0, -1, -1), y = c(0, 1, 0), z = c(0, -1, 0), x_end = -1, y_end = 0)
+axis_lab <- data.frame(x = c(-.1, -1.1, -1.1), y = c(-.1, .9, -.1), z = c(-.1, -1.1, -.1), lab = c("x", "y", "z"))
 
 (gg1 <- ggplot(stool_samp) + coord_fixed() + theme_minimal() +
   geom_point(stool_samp, mapping = aes(x, y)) +
-  geom_segment(axis_seg, mapping = aes(x, y, xend = zero, yend = zero)) +
+  geom_segment(axis_seg[1:2, ], mapping = aes(x, y, xend = x_end, yend = y_end)) +
   geom_text(axis_lab, mapping = aes(x, y, label = lab)))
 (gg2 <- ggplot(stool_samp) + coord_fixed() + theme_minimal() +
-  geom_point(aes(x, z)) + coord_fixed() +
-  geom_segment(axis_seg, mapping = aes(x, z, xend = zero, yend = zero)) +
+  geom_point(aes(x, z)) +
+  geom_segment(axis_seg[c(1, 3), ], mapping = aes(x, z, xend = x_end, yend = y_end)) +
   geom_text(axis_lab, mapping = aes(x, z, label = lab)))
 (gg3 <- ggplot(stool_samp) + coord_fixed() + theme_minimal() +
-  geom_point(aes(z, y)) + coord_fixed() +
-  geom_segment(axis_seg, mapping = aes(z, y, xend = zero, yend = zero)) +
+  geom_point(aes(z, y)) +
+  geom_segment(axis_seg[2:3, ], mapping = aes(z, y, xend = x_end, yend = y_end)) +
   geom_text(axis_lab, mapping = aes(z, y, label = lab)))
 
 #TODO:
@@ -50,3 +50,31 @@ axis_lab <- data.frame(x = c(1, -.1, -.1), y = c(-.1, 1, -.1), z = c(-.1, -.1, 1
 #rotate to 3/4 perspective
 #stitch together with basis.
 
+rot3xy_of <- function(mat, ang = pi/6){ # https://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
+  mat <- as.matrix(mat)
+  ang <- -ang
+  c <- cos(ang)
+  s <- sin(ang)
+  rot_x <- matrix(c(1, 0,  0,
+                    0, c, -s,
+                    0, s,  c), ncol = 3, byrow = T)
+  rot_y <- matrix(c( c, 0, s,
+                     0, 1, 0,
+                    -s, 0, c), ncol = 3, byrow = T)
+  rot_z <- matrix(c(c, -s, 0,
+                    s,  c, 0,
+                    0,  0, 1),   ncol = 3, byrow = T)
+  ret <- mat %*% (rot_x %*% rot_y) 
+  colnames(ret) <- c("x", "y", "z")
+  as.data.frame(ret)
+}
+
+stool_samp45 <- rot3xy_of(stool_samp)
+axis_seg45 <- axis_seg
+axis_seg45[, 1:3] <- rot3xy_of(axis_seg[, 1:3])
+axis_lab45 <- axis_lab
+axis_lab45[, 1:3] <- rot3xy_of(axis_lab[, 1:3])
+(gg4 <- ggplot(stool_samp45) + coord_fixed() + theme_minimal() +
+    geom_point(aes(x, y)) +
+    geom_segment(axis_seg45, mapping = aes(x, y, xend = x_end, yend = y_end)) +
+    geom_text(axis_lab45, mapping = aes(x, y, label = lab)))

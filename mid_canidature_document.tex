@@ -154,12 +154,12 @@ DD Feburuary, 2020
 \hypertarget{sec:intro}{%
 \section{Introduction}\label{sec:intro}}
 
-\hypertarget{exploratory-data-analysis}{%
-\subsection{Exploratory data analysis}\label{exploratory-data-analysis}}
+\hypertarget{exploration-of-tabular-data}{%
+\subsection{Exploration of tabular data}\label{exploration-of-tabular-data}}
 
-The term exploratory data analysis was coined by Tukey (1977), who leaves it as an intentionally broad term which encompasses the initial summarization and visualization of a data set. This is a critical first step of checking for realistic values and validating model assumptions. It may be temping to reduce data down to a series of summary statitics and apply model assumptions to these. However, there are known datasets where the same summary statistics miss glaringly obvious visual paterns (Anscombe 1973; Matejka and Fitzmaurice 2017). It is strikingly simple to look at the wrong, or incomplete set of statistics needed to validate assumtions. Data visualization is fast, versitile, and robust relative to the alternative of numeric statistical summarization. Data vizualization does and must remain a primary component of data anysis and model validation.
+The term exploratory data analysis was coined by Tukey (1977), who leaves it as an intentionally broad term that encompasses the initial summarization and visualization of a data set. This is a critical first step of checking for realistic values and validating model assumptions. It may be tempting to review a series of summary statistics to check model assumptions. However, there are known datasets where the same summary statistics miss glaringly obvious visual patterns (Anscombe 1973; Matejka and Fitzmaurice 2017). It is strikingly simple to look at the wrong, or incomplete set of statistics needed to validate assumptions. Data visualization is fast, versatile, and robust relative to the alternative of numeric statistical summarization. Data visualization does and must remain a primary component of data analysis and model validation.
 
-The mediums and quantities of data are every increasing. Modern computing and network systems have made the collection and aggregation of data commonplace. Munzner (2014) distinguishs between 3 base dataset types: tables, networks, and spatial. At the onset this seems like a gross oversimplification. Yet, seemingly distant mediums - books, schedules, movies, and metadata - can all be decomposed or deconstructed into these 3 classes. The exact variables (attributes), or features being captured may change, but the base relationship structure boil down to these. Tables are the most commonly consumed dataset and regularly contain many more than few variables. For the remainder of the discussion let's consider tabluar data containing more than 3 variables (p \textgreater{} 3). Munzner notes that ``geometry is a design decision'', where geometry refers to the shape used to depict a quantity (for example: bar, line, contour). Possible geometries are decided by the number and types of values measured, as a baseline we will stick to appliation of scatterplots.
+The mediums and quantities of data are ever-increasing. Modern computing and network systems have made the collection and aggregation of data commonplace. Munzner (2014) distinguishes between 3 base dataset types: tables, networks, and spatial. At the onset, this seems like a gross oversimplification. Yet, seemingly distant mediums - books, schedules, movies, and metadata - can all be decomposed or deconstructed into these 3 classes. The exact variables (or attributes), or features being captured may change, but the base relationship structure boils down to these. Tables are the most commonly consumed dataset and regularly contain many more than a few variables. For the remainder of the discussion let's consider tabular data containing more than 3 variables (\texttt{p\ \textgreater{}\ 2}). Munzner notes that ``geometry is a design decision'', where geometry refers to the shape used to depict a quantity (for example bar, line, and contour). Possible geometries are decided by the number and types of values measured, as a baseline we will stick to the application of scatterplots.
 
 \begin{figure}
 
@@ -170,13 +170,25 @@ The mediums and quantities of data are every increasing. Modern computing and ne
 \caption{Dataset types, (Munzner 2014)}\label{fig:datasetTypes}
 \end{figure}
 
-Consider ploting 2 variables as an XY scatterplot. To add a 3rd variable append a z-axis othogonal (right angle to) the XY plane. Adding a 4th dimension is not so easily solved. Scatterplot matrices (SPLOM)(Chambers et al. 1983) plot every combination of variable pairs and views them in a matrix. This beats no visualization, but is not the ideal solution. Consider a small, square aquarium. Given 3 still frames of the variable-pair (that is, a square-on view from each dimension) does not accurately portray all of the information. For instance, a three-quarter (3/4) perspective helps relate the square on images and are ubiquitous in assembly and machining instustions. This perspective relates information contained in the view of sides. Mathematically, we describe the angle of view as a \texttt{basis}. Bases (plural of basis) are depicted as unit axes, they point in the direction each dimension is oriented. The axes for the three-quarter perspective is different from the square-on views in that the directions are a combination of 2 and 3 variables respectively, rather than one variable mapped fully to the horizontal or vertical.
+\hypertarget{exdending-dimensionality}{%
+\subsection{Exdending dimensionality}\label{exdending-dimensionality}}
+
+Consider plotting 2 variables as an XY scatterplot. To add a 3rd variable append the z-axis orthogonal (right angle to) the XY plane. Adding a 4th dimension is not so easily solved. To resolve this we will use scatterplot matrices to introduce axes and bases. Then we generalise to linear projections before discussing princial component analysis and introducing tours.
+
+Scatterplot matrices (Chambers et al. 1983) plot every combination of variable pairs and views them in a matrix. This is a good method to check variable ranges and extreme values but is not the ideal visualization. Consider a bar stool as in figure \ref{fig:basisExample}. Given 3 still frames of the variable-pair (that is, a square-on view from each dimension) does not necessarily convey the full information of the data. For instance, a three-quarter perspective helps relate the square on images and are ubiquitous in assembly and machining instructions. This perspective relates information contained in the view of sides. Mathematically, we describe the angle of view as a \texttt{basis}. Bases (plural of basis) are depicted as unit axes, they point in the direction each dimension is oriented. The axes for the three-quarter perspective differ from the square-on views in that the directions are a combination of 2 and 3 variables respectively, rather than one variable mapped fully to the horizontal or vertical.
+
+Building on pairs of variables, an arbitrary \texttt{p} variables can be projected down to 2 dimensions. This seems unintuitive at first, but we have already discussed a number of trivial cases with scatterplot matrices. Consider figure \ref{fig:basisExample} again. The first 3 cases plot pairs variables, while the third direction extends directly beyond the XY plane. These are trivial projections of 3- down to 2- dimensions, where the 3rd variable has no contribution with a row of zeros in the basis. The three-quarter perspective is more interesting as more than one variable contributes to each direction. The resulting plot is said to be a `linear projection' when the basis is produced with an affine transformation, that is, any transformation in which all parallel lines remain parallel. One crutial aspect of linear projections is that they are interoperable back to the original attributes; any observation identified in any linear projection can be mapped back to its variable values. Recently, some non-linear projection techniques such as
+self-organizing maps (Kohonen 1990) and t-distributed stochastic neighbor embedding (Maaten and Hinton 2008) have recieved substaintial following. However, due to their non-linear transformation observations cannot be mapped back to the original attribute-space and interpretation becomes opaque. For this reason we will not compare non-linear transformations for exploration of data- or parameter-spaces.
+
+Principal component analysis (PCA, Pearson (1901)) is one common way of identifying projections to consider. In PCA the new components are formed from a linear combination of the original attributes. The new components must be orthogonal to all previous components and ordered by desending variation explained. A pair of these new components are then viewed as an XY scatterplot. This has the added benefit of viewing the most variation in as few dimensions as possible. The scree plot/test (Cattell 1966) can be used on the components to quickly zero in on a space that has the intrinsic dimensionality of the data. This is a common data processing step once the number of attributes becomes sizable (larger than 10 or so).
+
+The previous methods ARE DISCREATE
 
 \hypertarget{summary-of-research}{%
 \subsection{Summary of research}\label{summary-of-research}}
 
-\hypertarget{movition}{%
-\subsection{Movition}\label{movition}}
+\hypertarget{motivation}{%
+\subsection{Motivation}\label{motivation}}
 
 \hypertarget{research-aim}{%
 \subsection{Research aim}\label{research-aim}}
@@ -216,14 +228,26 @@ Consider ploting 2 variables as an XY scatterplot. To add a 3rd variable append 
 \leavevmode\hypertarget{ref-anscombe_graphs_1973}{}%
 Anscombe, F. J. 1973. ``Graphs in Statistical Analysis.'' \emph{The American Statistician} 27 (1): 17--21. \url{https://doi.org/10.2307/2682899}.
 
+\leavevmode\hypertarget{ref-cattell_scree_1966}{}%
+Cattell, Raymond B. 1966. ``The Scree Test for the Number of Factors.'' \emph{Multivariate Behavioral Research} 1 (2): 245--76.
+
 \leavevmode\hypertarget{ref-chambers_graphical_1983}{}%
 Chambers, J. M., W. S. Cleveland, B. Kleiner, and P. A. Tukey. 1983. ``Graphical Methods for Data Analysis.''
+
+\leavevmode\hypertarget{ref-kohonen_self-organizing_1990}{}%
+Kohonen, Teuvo. 1990. ``The Self-Organizing Map.'' \emph{Proceedings of the IEEE} 78 (9): 1464--80.
+
+\leavevmode\hypertarget{ref-maaten_visualizing_2008}{}%
+Maaten, Laurens van der, and Geoffrey Hinton. 2008. ``Visualizing Data Using T-SNE.'' \emph{Journal of Machine Learning Research} 9 (Nov): 2579--2605.
 
 \leavevmode\hypertarget{ref-matejka_same_2017}{}%
 Matejka, Justin, and George Fitzmaurice. 2017. ``Same Stats, Different Graphs: Generating Datasets with Varied Appearance and Identical Statistics Through Simulated Annealing.'' In \emph{Proceedings of the 2017 CHI Conference on Human Factors in Computing Systems - CHI '17}, 1290--4. Denver, Colorado, USA: ACM Press. \url{https://doi.org/10.1145/3025453.3025912}.
 
 \leavevmode\hypertarget{ref-munzner_visualization_2014}{}%
 Munzner, Tamara. 2014. \emph{Visualization Analysis and Design}. AK Peters/CRC Press.
+
+\leavevmode\hypertarget{ref-pearson_liii._1901}{}%
+Pearson, Karl. 1901. ``LIII. On Lines and Planes of Closest Fit to Systems of Points in Space.'' \emph{The London, Edinburgh, and Dublin Philosophical Magazine and Journal of Science} 2 (11): 559--72.
 
 \leavevmode\hypertarget{ref-tukey_exploratory_1977}{}%
 Tukey, John W. 1977. \emph{Exploratory Data Analysis}. Vol. 32. Pearson.
