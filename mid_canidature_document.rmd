@@ -39,7 +39,7 @@ knitr::opts_chunk$set(fig.align = "center",
 # <!-- A figure \@ref(fig:crest) reference (with @; \\@ref(fig:crest).  -->
 # 
 # <!-- ```{r crest, echo=FALSE, out.height = "10%", out.width = "10%", fig.cap = "A caption for crest figure"} -->
-# <!-- knitr::include_graphics("figures/can_con/crest.jpg",) -->
+# <!-- knitr::include_graphics("figures/can_con/crest.jpg") -->
 # <!-- ``` -->
 ```
 
@@ -57,7 +57,7 @@ The mediums and quantities of data are ever-increasing. Modern computing and net
 
 
 ```{r datasetTypes, echo=FALSE, out.width = "100%", fig.cap = "Dataset types, (Munzner 2014)"}
-knitr::include_graphics("figures/tmunzner_vad16.PNG",)
+knitr::include_graphics("figures/tmunzner_vad16.PNG")
 ```
 
 ## Exdending dimensionality
@@ -69,7 +69,7 @@ Consider plotting 2 variables as an XY scatterplot. To add a 3rd variable append
 Scatterplot matrices [@chambers_graphical_1983] plot every combination of variable pairs and views them in a matrix. This is a good method to check variable ranges and extreme values but is not the ideal visualization. Consider a bar stool as in figure \@ref(fig:basisExample). Given 3 still frames of the variable-pair (that is, a square-on view from each dimension) does not necessarily convey the full information of the data. For instance, a three-quarter perspective helps relate the square on images and are ubiquitous in assembly and machining instructions. This perspective relates information contained in the view of sides. Mathematically, we describe the angle of view as a `basis`. Bases (plural of basis) are depicted as unit axes, they point in the direction each dimension is oriented. The axes for the three-quarter perspective differ from the square-on views in that the directions are a combination of 2 and 3 variables respectively, rather than one variable mapped fully to the horizontal or vertical.
 
 <!-- ```{r basisExample, echo=FALSE, out.width = "100%", fig.cap = "Illustrate the relation between bases, axes, and projection of the data"} -->
-<!-- knitr::include_graphics("figures/PLOT_FROM_stool_basis.r.PNG",) -->
+<!-- knitr::include_graphics("figures/PLOT_FROM_stool_basis.r.PNG") -->
 <!-- ``` -->
 
 <!-- intro into linear projections -->
@@ -80,11 +80,30 @@ self-organizing maps [@kohonen_self-organizing_1990] and t-distributed stochasti
 Principal component analysis (PCA, @pearson_liii._1901) is one common way of identifying projections to consider. In PCA the new components are formed from a linear combination of the original attributes. The new components must be orthogonal to all previous components and ordered by desending variation explained. A pair of these new components are then viewed as an XY scatterplot. This has the added benefit of viewing the most variation in as few dimensions as possible. The scree plot/test [@cattell_scree_1966] can be used on the components to quickly zero in on a space that has the intrinsic dimensionality of the data. This is a common data processing step once the number of attributes becomes sizable (larger than 10 or so).
 
 <!-- LDA + PDA? basis -->
+<!-- Full sample variation in not the only feature that is interesting. Clustering, that is group data into discrete values is common. A related task is to identify the basis whos projection disninguishes the clusters most.  -->
+<!-- TODO: [@LDA]lubischew_use_1962?, and explaination -->
+<!-- for PDA see lee + cook projection pursuit index for large n, small p. -->
+
+## From discrete to continuous
 
 <!-- Grand Tour -->
-The previous methods ARE DISCREATE
+The above methods have suggested a _discrete_ number of linear projections to look at. At the same time the stool example illustrates that looking at intermidiate views improves understanding. A continuous animation of the object being rotated would improve this unstanding even further. This is analagous to the idea of a data visualization 'tour'[@asimov_grand_1985]. A tour produces a relatively high number of linear projections andviews them in quick sucsession, typically as an animation. When the bases have a relatively small change in the contributions the projections are much closer. Single points and features can be tracked and follow from projection to projection allowing for a better understanding for the local stucture. 
+<!-- especially through the use of the depth cue motion paralax, the apparent relative motion of objects at different depths -->
 
+<!-- Tour paths  -->
+One key feature about tours is the selection of the path animated.
+Asimov originally purposed a 'grand' tour. In the grand tour, several target planes are identified somewhat close to the starting basis. Many interim planes are found between target planes via geodisic interpolation. Figure \@ref(fig:grandFrames) illustrates a simplification of this process. A 'little' tour [@LITTLE TOUR] starts on a basis with only 2 variables contributing and trades the contribution one variable for another single variable. This effectively animates between the planes displayed in a scatterplot matrix. A `local` tour explores a dense area of the possible projections around the initiaed basis. It walks a short distance away before returning to the starting basis and selecting a new random frame very near by.
 
+<!-- ASK DI FOR CITATION:: -->
+<!-- ```{r grandFrames, echo=FALSE, out.width = "100%", fig.cap = "Simlified illustration of a grand tour target and interim frames"} -->
+<!-- knitr::include_graphics("figures/GRANDFRAMES.r.PNG") -->
+<!-- ``` -->
+
+<!-- PP and guided tour -->
+The `guided` tour [@GUIDED TOUR] makes use of projection pursuit [@PROJECTION PURSUIT] to identify a path. Here a selected index function is selected. Starting from the intial basis a number of near by bases are checked to see if they perform better on the index function. If so, this new basis is moved and nearby bases are checked again in an iteritive process. If the closest bases do not perform better, bases slightly further away are checked as in simulated anneling [@Simulated anneling]. If no better basis is identified within the selected stopping criterium, the angorithim stops.
+
+<!-- knowldge gap -->
+The discreate methods above identity bases that highlight some feature. The above tours can help understand the the structure leading to and from certain projections. 
 
 ## Summary of research
 
