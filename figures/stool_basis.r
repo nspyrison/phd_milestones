@@ -64,7 +64,7 @@ rot3xy_of <- function(mat, ang = pi/6){ # https://en.wikipedia.org/wiki/Rotation
   rot_z <- matrix(c(c, -s, 0,
                     s,  c, 0,
                     0,  0, 1),   ncol = 3, byrow = T)
-  ret <- mat %*% (rot_x %*% rot_y) 
+  ret <- mat %*% rot_x %*% rot_y
   colnames(ret) <- c("x", "y", "z")
   as.data.frame(ret)
 }
@@ -74,7 +74,16 @@ axis_seg45 <- axis_seg
 axis_seg45[, 1:3] <- rot3xy_of(axis_seg[, 1:3])
 axis_lab45 <- axis_lab
 axis_lab45[, 1:3] <- rot3xy_of(axis_lab[, 1:3])
-(gg4 <- ggplot(stool_samp45) + coord_fixed() + theme_minimal() +
-    geom_point(aes(x, y)) +
+(gg4 <- ggplot() + coord_fixed() + theme_minimal() +
+    geom_point(stool_samp45, mapping = aes(x, y)) +
     geom_segment(axis_seg45, mapping = aes(x, y, xend = x_end, yend = y_end)) +
-    geom_text(axis_lab45, mapping = aes(x, y, label = lab)))
+    geom_text(axis_lab45, mapping = aes(x, y, label = lab))
+)
+
+
+#Rotation by x, is good start.
+#rotation by x & y is same /w or w/o (); and looks wrong.
+#rotation of just y is good, but basis is wrong.
+#rotation on z is wrong not the type of roation we want. and basis is wrong.
+### IS THIS A ROTATION ABOUT THE ORIGIN ISSUE?
+

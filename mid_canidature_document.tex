@@ -180,33 +180,135 @@ Scatterplot matrices (Chambers et al. 1983) plot every combination of variable p
 Building on pairs of variables, an arbitrary \texttt{p} variables can be projected down to 2 dimensions. This seems unintuitive at first, but we have already discussed a number of trivial cases with scatterplot matrices. Consider figure \ref{fig:basisExample} again. The first 3 cases plot pairs variables, while the third direction extends directly beyond the XY plane. These are trivial projections of 3- down to 2- dimensions, where the 3rd variable has no contribution with a row of zeros in the basis. The three-quarter perspective is more interesting as more than one variable contributes to each direction. The resulting plot is said to be a `linear projection' when the basis is produced with an affine transformation, that is, any transformation in which all parallel lines remain parallel. One crutial aspect of linear projections is that they are interoperable back to the original attributes; any observation identified in any linear projection can be mapped back to its variable values. Recently, some non-linear projection techniques such as
 self-organizing maps (Kohonen 1990) and t-distributed stochastic neighbor embedding (Maaten and Hinton 2008) have recieved substaintial following. However, due to their non-linear transformation observations cannot be mapped back to the original attribute-space and interpretation becomes opaque. For this reason we will not compare non-linear transformations for exploration of data- or parameter-spaces.
 
-Principal component analysis (PCA, Pearson (1901)) is one common way of identifying projections to consider. In PCA the new components are formed from a linear combination of the original attributes. The new components must be orthogonal to all previous components and ordered by desending variation explained. A pair of these new components are then viewed as an XY scatterplot. This has the added benefit of viewing the most variation in as few dimensions as possible. The scree plot/test (Cattell 1966) can be used on the components to quickly zero in on a space that has the intrinsic dimensionality of the data. This is a common data processing step once the number of attributes becomes sizable (larger than 10 or so).
+Principal component analysis (PCA; Pearson 1901) is one common way of identifying projections to consider. In PCA the new components are formed from a linear combination of the original attributes. The new components must be orthogonal to all previous components and ordered by desending variation explained. A pair of these new components are then viewed as an XY scatterplot. This has the added benefit of viewing the most variation in as few dimensions as possible. The scree plot/test (Cattell 1966) can be used on the components to quickly zero in on a space that has the intrinsic dimensionality of the data. This is a common data processing step once the number of attributes becomes sizable (larger than 10 or so).
 
-The previous methods ARE DISCREATE
+\hypertarget{from-discrete-to-continuous}{%
+\subsection{From discrete to continuous}\label{from-discrete-to-continuous}}
 
-\hypertarget{summary-of-research}{%
-\subsection{Summary of research}\label{summary-of-research}}
+The above methods have suggested a \emph{discrete} number of linear projections to look at. At the same time the stool example illustrates that looking at intermidiate views improves understanding. A \emph{continuous} animation of the object being rotated would improve this unstanding even further. This is analagous to the idea of a data visualization `tour'(Asimov 1985, @buja\_grand\_1986). A tour produces a relatively high number of linear projections andviews them in quick sucsession, typically as an animation. When the bases have a relatively small change in the contributions the projections are much closer. Single points and features can be tracked and follow from projection to projection allowing for a better understanding for the local stucture.
+
+One key feature about tours is the selection of the path animated.
+Asimov originally purposed a `grand' tour. In the grand tour, several target planes are identified somewhat close to the starting basis. Many interim planes are found between target planes via geodisic interpolation. Figure \ref{fig:grandFrames} illustrates a simplification of this process. A `little' tour (Wickham et al. 2011) starts on a basis with only 2 variables contributing and trades the contribution one variable for another single variable. This effectively animates between the planes displayed in a scatterplot matrix. A \texttt{local} tour explores a dense area of the possible projections around the initiaed basis. It walks a short distance away before returning to the starting basis and selecting a new random frame very near by.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{figures/buja05fig} 
+
+}
+
+\caption{Simlified illustration of a grand tour target and interim frames  (Buja et al. 2005)}\label{fig:grandFrames}
+\end{figure}
+
+The \texttt{guided} tour (Cook, Buja, and Cabrera 1993) makes use of projection pursuit (Kruskal 1969, 1972) to identify a path. Here a selected index function is selected. Starting from the intial basis a number of near by bases are checked to see if they perform better on the index function. If so, this new basis is moved and nearby bases are checked again in an iteritive process. If the closest bases do not perform better, bases slightly further away are checked as in simulated anneling (Kirkpatrick, Gelatt, and Vecchi 1983). If no better basis is identified within the selected stopping criterium, the angorithim stops.
+
+The discreate methods above identity bases that highlight some feature. The above tours can help understand the the structure leading to and from certain projections. In order to explore higher dimensional spaces visually we need \emph{human-in-the-loop} (Karwowski 2006) tools. We need to be able to choose and direct the change in a basis. (1997) introduces the idea of the `manual' tour. In a manual tour an individual variable is selected as the manipulation variable. Its contribution to the basis is then controled. The contributions of the remaining variables also change as they perform an orthagonally-constrained rotation. Figure \ref{fig:manipSpace} This allows for the exploration of a given projection as defined by the user.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.5\linewidth]{figures/manip_space} 
+
+}
+
+\caption{Manipulation space of a manual tour. Variable 5 is being manipulated as though the red segment is rotated about the origin changing the contribution of all variables on the basis axes on the blue projection plane.}\label{fig:manipSpace}
+\end{figure}
+
+In the \protect\hyperlink{sec:research}{following section} we discuss research objectives, motivation and methodology and summarize the research completed. The \protect\hyperlink{sec:thesis}{third section} covers the purposed thesis structure and schedule, and coursework.
+
+\hypertarget{sec:research}{%
+\section{Research}\label{sec:research}}
+
+\hypertarget{research-objectives}{%
+\subsection{Research objectives}\label{research-objectives}}
+
+Data and models are typically high-dimensional, with many variables and parameters. Developing new methods to visualize high dimensions has been a pursuit of statisticians, computer scientists and visualization researchers for decades. As technology evolves examining, extending, and assessing current techniques, in new environments, for new data challenges, is an important endeavor. The primary objectives of this Ph.D.~research can then be summarized as the following.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{How can UCS be generalized to work within graphic-specific environments for 2D projections?}\\
+  Building from the UCS algorithm in Cook and Buja (1997), the algorithm should be modified for generalized use with graphic-specific environments. This enables fine control to explore the sensitivity of structure to the variable contributing to the projection and sets the foundation to be used in the remaining objectives.
+\item
+  \textbf{Does 2D UCS tours provide benefits over alternatives?}\\
+  The quality and effectiveness of 2D UCS will be compared with alternatives of static, single, linear and non-linear projection techniques. They will be quantified by the measurement of structure, variation, and clustering across on benchmark datasets.
+\item
+  \textbf{How can UCS be extended to 3D?}\\
+  The addition of a 3rd dimension potentially allows for the improved perception of the structure of the data in dynamic UCS. To investigate this UCS algorithm needs to be extended to a third dimension. This would also allow for novel application multi-parameter function projection. This will involve the addition of a new angle and it controls to the projection space, reference axes, and manipulation space. In particular, the manipulation space, now in 4D, will be hard to visualize, but it should be able to stand as a mathematical construct facilitated through interaction with a point (the projection coefficients of the selected manipulation variable) on the now 3D reference axes volume.
+\end{enumerate}
 
 \hypertarget{motivation}{%
 \subsection{Motivation}\label{motivation}}
 
-\hypertarget{research-aim}{%
-\subsection{Research aim}\label{research-aim}}
-
 \hypertarget{methodology}{%
 \subsection{Methodology}\label{methodology}}
 
-\hypertarget{since-confirmation}{%
-\section{Since Confirmation}\label{since-confirmation}}
+This research is interdisciplinary; it stems from a linear dimension reduction technique developed by statisticians and extended with information technology into 3D including VR technologies, with applications in high energy physics identified(Cook, Laa, and Valencia 2018). Experts in these fields correspondingly supervise the research.
+
+The research corresponding with RO \#1 entails a work in progress \textbf{algorithm design} following the work in Cook and Buja (1997). The proposed algorithm discusses the generalized application of UCS for use across animation-specific frameworks. The outcome of this is an \emph{R} package, \texttt{spinifex}, which will be submitted to CRAN and for hosting and distribution. This forms the foundation for future work in the remaining objectives.
+
+The second objective is addressed with a benchmark dataset \textbf{performance comparison} between dynamic linear projections and alternatives (static linear and static non-linear projections such as principal component analysis, multi-dimensional scaling, and t-distributed neighbor embeddings, described in more detail in chapter \ref{ch:future_work}). Benchmark datasets will be compared across techniques, measurements will include variation explained, transparency to the original variable space, clustering identification, and outlier identification.
+
+The research for RO \#3 involves \textbf{algorithm design}, where the work in RO \#1 will be extended to display with the use of a third spatial dimension. This will also be used to develop visualization of projected multi-dimension function surfaces. This forms the calculation base for the work. Several difficulties may arise when bringing dynamic projection into 3D spaces, especially when exploring 3D surfaces (discussed in more detail in chapter \ref{ch:future_work}).
+
+The research resulting from RO \#4 is a controlled \textbf{usability study} to explore the efficacy of bringing UCS into 3D as compared across various display devices, in a standardized interface allowed by the work stemming from RO \# 3. In this design, the factors are user tasks (such as separation of clusters and ranking of manipulation variable) across the treatment of display device (including 2D standard monitor, 3D head-tracked monitor, and head-mounted display). Quantitative measurements include participant speed and accuracy of tasks, biometric readings, and subjective Likert surveys of participants. A lineup-type model as outlined in Hofmann et al. (2012) may also be employed for assessing the quality of display types.
+
+\hypertarget{summary-of-research}{%
+\subsection{Summary of research}\label{summary-of-research}}
 
 \hypertarget{spinifex-app}{%
-\subsection{Spinifex app}\label{spinifex-app}}
+\subsubsection{Spinifex app}\label{spinifex-app}}
 
 \hypertarget{multivate-linear-projection-study}{%
-\subsection{Multivate linear projection study}\label{multivate-linear-projection-study}}
+\subsubsection{Multivate linear projection study}\label{multivate-linear-projection-study}}
 
-\hypertarget{thesis-structure}{%
-\section{Thesis structure}\label{thesis-structure}}
+\hypertarget{sec:thesis}{%
+\section{Thesis proposal}\label{sec:thesis}}
+
+\hypertarget{structure}{%
+\subsection{Structure}\label{structure}}
+
+\hypertarget{timeline}{%
+\subsection{Timeline}\label{timeline}}
+
+\hypertarget{program-requirements}{%
+\subsection{Program requirements}\label{program-requirements}}
+
+\begin{itemize}
+\tightlist
+\item
+  WES Academic record
+
+  \begin{itemize}
+  \tightlist
+  \item
+    FIT5144: 2019 S1+2, \textbf{In progress}, extended to pre-submission seminar with unit cordinator for the ussual 2 oppertunities to complete.
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Hours: 147\textgreater120 hours \textbf{Tracked}, followng required (12 hr total)
+    \item
+      \emph{Needed:} CYR 2 (A \& B) -- 2x 3hr
+    \item
+      \emph{Needed:} Faculty of IT Workshop 1 and 3 on Ethical Research and Publishing -- 2x 3hr
+    \end{itemize}
+  \item
+    FIT5113: 2018 S2, \textbf{Exemption}
+  \item
+    FIT6021: 2018 S2, \textbf{Completed} with distinction
+  \end{itemize}
+\item
+  myDevelopment - IT: Monash Doctoral Program - Compulsory Module
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Monash graduate research student induction: \textbf{Completed}
+  \item
+    Research Integrity - Choose the Option most relevant: \textbf{Completed}
+  \item
+    Faculty Induction: \textbf{Completed}
+  \end{itemize}
+\end{itemize}
 
 \hypertarget{publications}{%
 \section{Publications}\label{publications}}
@@ -220,6 +322,13 @@ The previous methods ARE DISCREATE
 \hypertarget{aim-3}{%
 \subsection{Aim 3}\label{aim-3}}
 
+\hypertarget{sec:acknowledgements}{%
+\section{Acknowledgements}\label{sec:acknowledgements}}
+
+This report was created in \texttt{R} {[}r\_core\_team\_r:\_2019{]}, using \texttt{bookdown} (Xie 2016) and \texttt{rmarkdown} (Xie, Allaire, and Grolemund 2018).
+
+For the purposes of version control, transparency, and reproducibility, the source files are made available found at \href{https://github.com/nspyrison/mid_canidature}{github.com/nspyrison/mid\_canidature}.
+
 \hypertarget{references}{%
 \section*{References}\label{references}}
 \addcontentsline{toc}{section}{References}
@@ -228,14 +337,44 @@ The previous methods ARE DISCREATE
 \leavevmode\hypertarget{ref-anscombe_graphs_1973}{}%
 Anscombe, F. J. 1973. ``Graphs in Statistical Analysis.'' \emph{The American Statistician} 27 (1): 17--21. \url{https://doi.org/10.2307/2682899}.
 
+\leavevmode\hypertarget{ref-asimov_grand_1985}{}%
+Asimov, Daniel. 1985. ``The Grand Tour: A Tool for Viewing Multidimensional Data.'' \emph{SIAM Journal on Scientific and Statistical Computing} 6 (1): 128--43. \url{https://doi.org/https://doi.org/10.1137/0906011}.
+
+\leavevmode\hypertarget{ref-buja_grand_1986}{}%
+Buja, Andreas, and Daniel Asimov. 1986. ``Grand Tour Methods: An Outline.'' In \emph{Proceedings of the Seventeenth Symposium on the Interface of Computer Sciences and Statistics on Computer Science and Statistics}, 63--67. New York, NY, USA: Elsevier North-Holland, Inc. \url{http://dl.acm.org/citation.cfm?id=26036.26046}.
+
 \leavevmode\hypertarget{ref-cattell_scree_1966}{}%
 Cattell, Raymond B. 1966. ``The Scree Test for the Number of Factors.'' \emph{Multivariate Behavioral Research} 1 (2): 245--76.
 
 \leavevmode\hypertarget{ref-chambers_graphical_1983}{}%
 Chambers, J. M., W. S. Cleveland, B. Kleiner, and P. A. Tukey. 1983. ``Graphical Methods for Data Analysis.''
 
+\leavevmode\hypertarget{ref-cook_manual_1997}{}%
+Cook, Dianne, and Andreas Buja. 1997. ``Manual Controls for High-Dimensional Data Projections.'' \emph{Journal of Computational and Graphical Statistics} 6 (4): 464--80. \url{https://doi.org/10.2307/1390747}.
+
+\leavevmode\hypertarget{ref-cook_projection_1993}{}%
+Cook, Dianne, Andreas Buja, and Javier Cabrera. 1993. ``Projection Pursuit Indexes Based on Orthonormal Function Expansions.'' \emph{Journal of Computational and Graphical Statistics} 2 (3): 225--50. \url{https://doi.org/10.1080/10618600.1993.10474610}.
+
+\leavevmode\hypertarget{ref-cook_dynamical_2018}{}%
+Cook, Dianne, Ursula Laa, and German Valencia. 2018. ``Dynamical Projections for the Visualization of PDFSense Data.'' \emph{Eur. Phys. J. C} 78 (9): 742. \url{https://doi.org/10.1140/epjc/s10052-018-6205-2}.
+
+\leavevmode\hypertarget{ref-hofmann_graphical_2012}{}%
+Hofmann, Heike, Lendie Follett, Mahbubul Majumder, and Dianne Cook. 2012. ``Graphical Tests for Power Comparison of Competing Designs.'' \emph{IEEE Transactions on Visualization and Computer Graphics} 18 (12): 2441--8.
+
+\leavevmode\hypertarget{ref-karwowski_international_2006}{}%
+Karwowski, Waldemar. 2006. \emph{International Encyclopedia of Ergonomics and Human Factors, -3 Volume Set}. CRC Press.
+
+\leavevmode\hypertarget{ref-kirkpatrick_optimization_1983}{}%
+Kirkpatrick, Scott, C. Daniel Gelatt, and Mario P. Vecchi. 1983. ``Optimization by Simulated Annealing.'' \emph{Science} 220 (4598): 671--80. \url{https://doi.org/10.1126/science.220.4598.671}.
+
 \leavevmode\hypertarget{ref-kohonen_self-organizing_1990}{}%
 Kohonen, Teuvo. 1990. ``The Self-Organizing Map.'' \emph{Proceedings of the IEEE} 78 (9): 1464--80.
+
+\leavevmode\hypertarget{ref-kruskal_toward_1969}{}%
+Kruskal, Joseph B. 1969. ``Toward a Practical Method Which Helps Uncover the Structure of a Set of Multivariate Observations by Finding the Linear Transformation Which Optimizes a New `Index of Condensation'.'' In \emph{Statistical Computation}, edited by Roy C. Milton and John A. Nelder, 427--40. Academic Press. \url{https://doi.org/10.1016/B978-0-12-498150-8.50024-0}.
+
+\leavevmode\hypertarget{ref-kruskal_linear_1972}{}%
+---------. 1972. ``Linear Transformation of Multivariate Data to Reveal Clustering.'' \emph{Multidimensional Scaling: Theory and Applications in the Behavioral Sciences} 1: 181--91.
 
 \leavevmode\hypertarget{ref-maaten_visualizing_2008}{}%
 Maaten, Laurens van der, and Geoffrey Hinton. 2008. ``Visualizing Data Using T-SNE.'' \emph{Journal of Machine Learning Research} 9 (Nov): 2579--2605.
@@ -251,6 +390,15 @@ Pearson, Karl. 1901. ``LIII. On Lines and Planes of Closest Fit to Systems of Po
 
 \leavevmode\hypertarget{ref-tukey_exploratory_1977}{}%
 Tukey, John W. 1977. \emph{Exploratory Data Analysis}. Vol. 32. Pearson.
+
+\leavevmode\hypertarget{ref-wickham_tourr:_2011}{}%
+Wickham, Hadley, Dianne Cook, Heike Hofmann, and Andreas Buja. 2011. ``Tourr: An R Package for Exploring Multivariate Data with Projections.'' \emph{Journal of Statistical Software} 40 (2). \url{https://doi.org/10.18637/jss.v040.i02}.
+
+\leavevmode\hypertarget{ref-xie_bookdown:_2016}{}%
+Xie, Yihui. 2016. \emph{Bookdown: Authoring Books and Technical Documents with R Markdown}. Boca Raton, Florida: Chapman; Hall/CRC. \url{https://github.com/rstudio/bookdown}.
+
+\leavevmode\hypertarget{ref-xie_r_2018}{}%
+Xie, Yihui, J. J. Allaire, and Garrett Grolemund. 2018. \emph{R Markdown: The Definitive Guide}. Boca Raton, Florida: Chapman; Hall/CRC. \url{https://bookdown.org/yihui/rmarkdown}.
 
 
 \end{document}

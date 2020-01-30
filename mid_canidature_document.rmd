@@ -30,7 +30,7 @@ knitr::opts_chunk$set(fig.align = "center",
                       #cache.lazy = FALSE
 )
 
-# <!-- # cheatsheet -->
+# <!-- # cheatsheet {#sec:cheatsheet}-->
 # 
 # <!-- A bib reference [@wickham_visualizing_2015].  -->
 # 
@@ -41,6 +41,13 @@ knitr::opts_chunk$set(fig.align = "center",
 # <!-- ```{r crest, echo=FALSE, out.height = "10%", out.width = "10%", fig.cap = "A caption for crest figure"} -->
 # <!-- knitr::include_graphics("figures/can_con/crest.jpg") -->
 # <!-- ``` -->
+# 
+# ref:myFig-cap) Seprate fig cap
+# 
+# ```{r step2, echo=F, fig.cap = "(ref:myFig-cap)"}
+# # <!-- knitr::include_graphics("figures/can_con/crest.jpg") -->
+# ```
+
 ```
 
 # Introduction {#sec:intro}
@@ -77,7 +84,7 @@ Building on pairs of variables, an arbitrary `p` variables can be projected down
 self-organizing maps [@kohonen_self-organizing_1990] and t-distributed stochastic neighbor embedding [@maaten_visualizing_2008] have recieved substaintial following. However, due to their non-linear transformation observations cannot be mapped back to the original attribute-space and interpretation becomes opaque. For this reason we will not compare non-linear transformations for exploration of data- or parameter-spaces.
 
 <!-- PCA gives one projection -->
-Principal component analysis (PCA, @pearson_liii._1901) is one common way of identifying projections to consider. In PCA the new components are formed from a linear combination of the original attributes. The new components must be orthogonal to all previous components and ordered by desending variation explained. A pair of these new components are then viewed as an XY scatterplot. This has the added benefit of viewing the most variation in as few dimensions as possible. The scree plot/test [@cattell_scree_1966] can be used on the components to quickly zero in on a space that has the intrinsic dimensionality of the data. This is a common data processing step once the number of attributes becomes sizable (larger than 10 or so).
+Principal component analysis [PCA; @pearson_liii._1901] is one common way of identifying projections to consider. In PCA the new components are formed from a linear combination of the original attributes. The new components must be orthogonal to all previous components and ordered by desending variation explained. A pair of these new components are then viewed as an XY scatterplot. This has the added benefit of viewing the most variation in as few dimensions as possible. The scree plot/test [@cattell_scree_1966] can be used on the components to quickly zero in on a space that has the intrinsic dimensionality of the data. This is a common data processing step once the number of attributes becomes sizable (larger than 10 or so).
 
 <!-- LDA + PDA? basis -->
 <!-- Full sample variation in not the only feature that is interesting. Clustering, that is group data into discrete values is common. A related task is to identify the basis whos projection disninguishes the clusters most.  -->
@@ -87,48 +94,103 @@ Principal component analysis (PCA, @pearson_liii._1901) is one common way of ide
 ## From discrete to continuous
 
 <!-- Grand Tour -->
-The above methods have suggested a _discrete_ number of linear projections to look at. At the same time the stool example illustrates that looking at intermidiate views improves understanding. A continuous animation of the object being rotated would improve this unstanding even further. This is analagous to the idea of a data visualization 'tour'[@asimov_grand_1985]. A tour produces a relatively high number of linear projections andviews them in quick sucsession, typically as an animation. When the bases have a relatively small change in the contributions the projections are much closer. Single points and features can be tracked and follow from projection to projection allowing for a better understanding for the local stucture. 
+The above methods have suggested a _discrete_ number of linear projections to look at. At the same time the stool example illustrates that looking at intermidiate views improves understanding. A _continuous_ animation of the object being rotated would improve this unstanding even further. This is analagous to the idea of a data visualization 'tour'[@asimov_grand_1985; @buja_grand_1986]. A tour produces a relatively high number of linear projections andviews them in quick sucsession, typically as an animation. When the bases have a relatively small change in the contributions the projections are much closer. Single points and features can be tracked and follow from projection to projection allowing for a better understanding for the local stucture. 
 <!-- especially through the use of the depth cue motion paralax, the apparent relative motion of objects at different depths -->
 
 <!-- Tour paths  -->
 One key feature about tours is the selection of the path animated.
-Asimov originally purposed a 'grand' tour. In the grand tour, several target planes are identified somewhat close to the starting basis. Many interim planes are found between target planes via geodisic interpolation. Figure \@ref(fig:grandFrames) illustrates a simplification of this process. A 'little' tour [@LITTLE TOUR] starts on a basis with only 2 variables contributing and trades the contribution one variable for another single variable. This effectively animates between the planes displayed in a scatterplot matrix. A `local` tour explores a dense area of the possible projections around the initiaed basis. It walks a short distance away before returning to the starting basis and selecting a new random frame very near by.
+Asimov originally purposed a 'grand' tour. In the grand tour, several target planes are identified somewhat close to the starting basis. Many interim planes are found between target planes via geodisic interpolation. Figure \@ref(fig:grandFrames) illustrates a simplification of this process. A 'little' tour [@wickham_tourr:_2011] starts on a basis with only 2 variables contributing and trades the contribution one variable for another single variable. This effectively animates between the planes displayed in a scatterplot matrix. A `local` tour explores a dense area of the possible projections around the initiaed basis. It walks a short distance away before returning to the starting basis and selecting a new random frame very near by.
 
-<!-- ASK DI FOR CITATION:: -->
-<!-- ```{r grandFrames, echo=FALSE, out.width = "100%", fig.cap = "Simlified illustration of a grand tour target and interim frames"} -->
-<!-- knitr::include_graphics("figures/GRANDFRAMES.r.PNG") -->
-<!-- ``` -->
+```{r grandFrames, echo=FALSE, out.width = "80%", fig.cap = "Simlified illustration of a grand tour target and interim frames  (Buja et al. 2005)"}
+knitr::include_graphics("figures/buja05fig.PNG")
+```
 
 <!-- PP and guided tour -->
-The `guided` tour [@GUIDED TOUR] makes use of projection pursuit [@PROJECTION PURSUIT] to identify a path. Here a selected index function is selected. Starting from the intial basis a number of near by bases are checked to see if they perform better on the index function. If so, this new basis is moved and nearby bases are checked again in an iteritive process. If the closest bases do not perform better, bases slightly further away are checked as in simulated anneling [@Simulated anneling]. If no better basis is identified within the selected stopping criterium, the angorithim stops.
+The `guided` tour [@cook_projection_1993] makes use of projection pursuit [@kruskal_toward_1969; @kruskal_linear_1972] to identify a path. Here a selected index function is selected. Starting from the intial basis a number of near by bases are checked to see if they perform better on the index function. If so, this new basis is moved and nearby bases are checked again in an iteritive process. If the closest bases do not perform better, bases slightly further away are checked as in simulated anneling [@kirkpatrick_optimization_1983]. If no better basis is identified within the selected stopping criterium, the angorithim stops.
 
 <!-- knowldge gap -->
-The discreate methods above identity bases that highlight some feature. The above tours can help understand the the structure leading to and from certain projections. 
+The discreate methods above identity bases that highlight some feature. The above tours can help understand the the structure leading to and from certain projections. In order to explore higher dimensional spaces visually we need _human-in-the-loop_ [@karwowski_international_2006] tools. We need to be able to choose and direct the change in a basis. [cook_manual_1997] introduces the idea of the 'manual' tour. In a manual tour an individual variable is selected as the manipulation variable. Its contribution to the basis is then controled. The contributions of the remaining variables also change as they perform an orthagonally-constrained rotation. Figure \@ref(fig:manipSpace) This allows for the exploration of a given projection as defined by the user. 
 
-## Summary of research
+```{r manipSpace, echo=FALSE, out.width = "50%", fig.cap = "Manipulation space of a manual tour. Variable 5 is being manipulated as though the red segment is rotated about the origin changing the contribution of all variables on the basis axes on the blue projection plane."}
+knitr::include_graphics("figures/manip_space.PNG")
+```
+
+In the [following section](#sec:research) we discuss research objectives, motivation and methodology and summarize the research completed. The [third section](#sec:thesis) covers the purposed thesis structure and schedule, and coursework.
 
 
+# Research {#sec:research}
+
+## Research objectives
+<!-- NS: Need to edit for mid can yet: -->
+
+Data and models are typically high-dimensional, with many variables and parameters. Developing new methods to visualize high dimensions has been a pursuit of statisticians, computer scientists and visualization researchers for decades. As technology evolves examining, extending, and assessing current techniques, in new environments, for new data challenges, is an important endeavor. The primary objectives of this Ph.D. research can then be summarized as the following.
+
+1. **How can UCS be generalized to work within graphic-specific environments for 2D projections?**\
+Building from the UCS algorithm in @cook_manual_1997, the algorithm should be modified for generalized use with graphic-specific environments. This enables fine control to explore the sensitivity of structure to the variable contributing to the projection and sets the foundation to be used in the remaining objectives.
+
+2. **Does 2D UCS tours provide benefits over alternatives?**\
+The quality and effectiveness of 2D UCS will be compared with alternatives of static, single, linear and non-linear projection techniques. They will be quantified by the measurement of structure, variation, and clustering across on benchmark datasets.
+
+3. **How can UCS be extended to 3D?**\
+The addition of a 3rd dimension potentially allows for the improved perception of the structure of the data in dynamic UCS. To investigate this UCS algorithm needs to be extended to a third dimension. This would also allow for novel application multi-parameter function projection. This will involve the addition of a new angle and it controls to the projection space, reference axes, and manipulation space. In particular, the manipulation space, now in 4D, will be hard to visualize, but it should be able to stand as a mathematical construct facilitated through interaction with a point (the projection coefficients of the selected manipulation variable) on the now 3D reference axes volume. 
 
 ## Motivation
 
 <!-- Motivation supporting research -->
 
-## Research aim
-
 ## Methodology
+<!-- NS: Need to edit for mid can yet: -->
+
+This research is interdisciplinary; it stems from a linear dimension reduction technique developed by statisticians and extended with information technology into 3D including VR technologies, with applications in high energy physics identified[@cook_dynamical_2018]. Experts in these fields correspondingly supervise the research.
+
+The research corresponding with RO #1 entails a work in progress **algorithm design** following the work in @cook_manual_1997. The proposed algorithm discusses the generalized application of UCS for use across animation-specific frameworks. The outcome of this is an *R* package, `spinifex`, which will be submitted to CRAN and for hosting and distribution. This forms the foundation for future work in the remaining objectives. 
+
+The second objective is addressed with a benchmark dataset **performance comparison** between dynamic linear projections and alternatives (static linear and static non-linear projections such as principal component analysis, multi-dimensional scaling, and t-distributed neighbor embeddings, described in more detail in chapter \ref{ch:future_work}). Benchmark datasets will be compared across techniques, measurements will include variation explained, transparency to the original variable space, clustering identification, and outlier identification.
+
+The research for RO #3 involves **algorithm design**, where the work in RO #1 will be extended to display with the use of a third spatial dimension. This will also be used to develop visualization of projected multi-dimension function surfaces. This forms the calculation base for the work. Several difficulties may arise when bringing dynamic projection into 3D spaces, especially when exploring 3D surfaces (discussed in more detail in chapter \ref{ch:future_work}).
+
+The research resulting from RO #4 is a controlled **usability study** to explore the efficacy of bringing UCS into 3D as compared across various display devices, in a standardized interface allowed by the work stemming from RO # 3. In this design, the factors are user tasks (such as separation of clusters and ranking of manipulation variable) across the treatment of display device (including 2D standard monitor, 3D head-tracked monitor, and head-mounted display). Quantitative measurements include participant speed and accuracy of tasks, biometric readings, and subjective Likert surveys of participants. A lineup-type model as outlined in @hofmann_graphical_2012 may also be employed for assessing the quality of display types.
+
+
+## Summary of research
+
+### Spinifex app
+
+### Multivate linear projection study
 
 
 
-# Since Confirmation
-
-## Spinifex app
-
-## Multivate linear projection study
 
 
 
-# Thesis structure
 
+# Thesis proposal {#sec:thesis}
+
+## Structure
+
+## Timeline
+
+## Program requirements
+<!-- http://www.monash.edu/pubs/2018handbooks/aos/information-technology-phd-program/ -->
+
+- WES Academic record
+    - FIT5144: 2019 S1+2, **In progress**, extended to pre-submission seminar with unit cordinator for the ussual 2 oppertunities to complete.
+        - Hours: 147>120 hours __Tracked__, followng required (12 hr total)
+        - _Needed:_ CYR 2 (A & B) -- 2x 3hr 
+        - _Needed:_ Faculty of IT Workshop 1 and 3 on Ethical Research and Publishing -- 2x 3hr
+    - FIT5113: 2018 S2, **Exemption** 
+    <!-- (submitted:08/2018, recorded 4/2019) -->
+    - FIT6021: 2018 S2, **Completed** with distinction
+- myDevelopment - IT: Monash Doctoral Program - Compulsory Module
+    - Monash graduate research student induction: **Completed** 
+    <!-- last assesed: 20/02/2018 -->
+    - Research Integrity - Choose the Option most relevant: **Completed** 
+    <!-- Last Accessed:	20/02/2018 (2 of 4 required & completed) -->
+    - Faculty Induction: **Completed** 
+    <!-- marked completed, online class "08/05/2019 @ 09:45 for 3hr 15min" -->
+    <!-- previously: **Content unavailable** (01/04/2019: "Currently being updated and will be visible in this section soon") -->
+
+<!-- Induction To be completed within 6 months of commencement -->
 
 
 # Publications
@@ -139,6 +201,12 @@ The discreate methods above identity bases that highlight some feature. The abov
 
 ## Aim 3
 
+
+# Acknowledgements {#sec:acknowledgements}
+
+This report was created in `R` [r_core_team_r:_2019], using `bookdown` [@xie_bookdown:_2016] and `rmarkdown` [@xie_r_2018].
+
+For the purposes of version control, transparency, and reproducibility, the source files are made available found at [github.com/nspyrison/mid_canidature](https://github.com/nspyrison/mid_canidature).
 
 
 # References 
