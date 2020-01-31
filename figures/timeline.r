@@ -1,6 +1,4 @@
 
-# TODO: Cut out RO 2 and adjust RO 3,4 accordingly.
-#
 
 ## working from: https://stats.andrewheiss.com/misc/gantt.html
 library(tidyverse)
@@ -10,28 +8,31 @@ library(scales)
 tasks <- tribble(
   ~Start,       ~End,         ~Project,     ~Task,
   "2018-04-01", "2019-06-01", "1) 2D UCS",  "1) 2D UCS",
-  "2018-04-01", "2019-02-01", "1) 2D UCS",  "1) code",
+  "2018-04-01", "2019-02-01", "1) 2D UCS",  "1) application",
   "2018-12-01", "2019-06-01", "1) 2D UCS",  "1) paper (The R journal)",
   "2019-01-01", "2019-03-01", "Milestones", "Candidature confirmation",
-
-  "2019-03-01", "2019-12-01", "3) 3D UCS",  "3) 3D UCS",
-  "2019-03-01", "2019-08-01", "3) 3D UCS",  "3) code",
-  "2019-06-01", "2019-12-01", "3) 3D UCS",  "3) paper (VAST)",
-  "2020-01-01", "2020-03-01", "Milestones", "Mid candidature review",
-
-  "2019-10-01", "2020-09-01", "4) UCS 2D vs 3D", "4) UCS across display type",
-  "2019-10-01", "2020-02-01", "4) UCS 2D vs 3D", "4) code",
-  "2020-01-01", "2020-04-01", "4) UCS 2D vs 3D", "4) experimental survey",
-  "2020-03-01", "2020-09-01", "4) UCS 2D vs 3D", "4) paper (CHI)",
-
-  "2020-04-01", "2020-12-01", "2) UCS vs alts", "2) UCS vs alternatives",
-  "2020-04-01", "2020-08-01", "2) UCS vs alts", "2) code",
-  "2020-06-01", "2020-12-01", "2) UCS vs alts", "2) paper (VAST)",
-
-
-  "2020-11-01", "2021-03-01", "Milestones", "pre-submission presentation",
-  "2020-09-01", "2021-04-01", "Milestones", "thesis composition"
+  
+  "2019-03-01", "2020-04-01", "2) UCS vs alts", "2) UCS vs alternatives",
+  "2019-03-01", "2020-02-01", "2) UCS vs alts", "2) application",
+  "2020-01-01", "2020-04-01", "2) UCS vs alts", "2) study&paper (IEEE SciVis)", # submission: Saturday, March 21, 2020
+  "2020-02-01", "2020-03-01", "Milestones",     "Mid candidature review",
+  
+  "2020-01-01", "2020-10-01", "3) 3D UCS", "3) 3D UCS",
+  "2020-01-01", "2020-04-01", "3) 3D UCS", "3) theory",
+  "2020-03-01", "2020-09-01", "3) 3D UCS", "3) application",
+  "2020-08-01", "2020-10-01", "3) 3D UCS", "3) paper (CHI)", # submission: Thursday Sep. 10,
+  
+  "2021-02-01", "2021-03-01", "Milestones", "pre-submission seminar",
+  "2020-10-01", "2021-05-01", "Milestones", "thesis composition"
 )
+### Conferences:
+# CHI 2021: May 8-13, 2021 Yokohama, Japan
+# submission: Thursday Sep. 10, 2020 (+ 1wk for full)
+# https://chi2021.acm.org/
+# 
+# IEEE VIS - SciVis 2020: 25-30 October 2020 Salt Lake City, Utah, USA
+# submission: Saturday, March 21, 2020 (+ 10 days for full) SciVis - Empirical Study
+# http://ieeevis.org/year/2020/info/call-participation/scivis-paper-types
 
 # Convert data to long for ggplot
 tasks.long <- tasks %>%
@@ -49,7 +50,7 @@ theme_gantt <- function(base_size=11) {
           panel.border = element_blank(), axis.line=element_blank(),
           panel.grid.minor=element_blank(),
           panel.grid.major.y = element_blank(),
-          panel.grid.major.x = element_line(size=0.5, colour="grey80"),
+          panel.grid.major.x = element_line(size = 0.5, colour = "grey80"),
           axis.ticks=element_blank(),
           legend.position="bottom",
           axis.title=element_text(size=rel(0.8)),
@@ -77,23 +78,28 @@ timeline <- ggplot(tasks.long, aes(x=Task, y=task.date, colour=Project)) +
         axis.text.y = element_text(size = 12),
         legend.text = element_text(size = 12))
 
-timeline
-#TODO: Save off .png and hard code figure.
+ggsave("./figures/phd_timeline.PNG", timeline, width = 9, height = 5)
 
 
-# ## Accompanying documents
-#
-# - FIT 5144 hours
-#     - \>120 hours __Tracked, awaiting mandatory events__, due at the mid-candidature review
-# - WES Academic record
-#     - FIT6021: 2018 S2, **Completed** with distinction
-#     - FIT5144: 2019 S1+2, **Upcoming**, due at mid-candidature review
-#     - FIT5113: 2018 S2, **Exemption** #(submitted:08/2018, recorded 4/2019)
+# ## Program requirements
+# <!-- http://www.monash.edu/pubs/2018handbooks/aos/information-technology-phd-program/ -->
+#   
+#   - WES Academic record
+# - FIT5144: 2019 S1+2, **In progress**, extended to pre-submission seminar with unit cordinator for the ussual 2 oppertunities to complete.
+# - Hours: 147>120 hours __Tracked__, followng required (12 hr total)
+# - _Needed:_ CYR 2 (A & B) -- 2x 3hr 
+# - _Needed:_ Faculty of IT Workshop 1 and 3 on Ethical Research and Publishing -- 2x 3hr
+# - FIT5113: 2018 S2, **Exemption**
+#   <!-- (submitted:08/2018, recorded 4/2019) -->
+#   - FIT6021: 2018 S2, **Completed** with distinction
 # - myDevelopment - IT: Monash Doctoral Program - Compulsory Module
-#     - Monash Graduate Research Student Induction: **Completed**
-#     - Research Integrity - Choose the Option most relevant: **Completed** (2 required of 4)
-#     - Faculty Induction: **Content unavailable** (01/04/2019: "Currently being updated and will be visible in this section soon")
-#
-# <!-- Induction To be completed within 6 months of commencement -->
-
+# - Monash graduate research student induction: **Completed** 
+#   <!-- last assesed: 20/02/2018 -->
+#   - Research Integrity - Choose the Option most relevant: **Completed** 
+#   <!-- Last Accessed:	20/02/2018 (2 of 4 required & completed) -->
+#   - Faculty Induction: **Completed** 
+#   <!-- marked completed, online class "08/05/2019 @ 09:45 for 3hr 15min" -->
+#   <!-- previously: **Content unavailable** (01/04/2019: "Currently being updated and will be visible in this section soon") -->
+#   
+# 
 
