@@ -143,37 +143,57 @@ The addition of a 3rd dimension potentially allows for the improved perception o
 ## Methodology
 <!-- NS: Need to edit for mid can yet: -->
 
-This research is interdisciplinary; it stems from a linear dimension reduction technique developed by statisticians and extended with information technology into 3D including VR technologies, with applications in high energy physics identified[@cook_dynamical_2018]. Experts in these fields correspondingly supervise the research.
+This research is interdisciplinary; touring was developed by statisticians to explore physics data. Modern advances in hardware from information technology allow for 3D rending in higher quality and immersion than previously possible. Looping back to the original use care, applications in high energy physics identified [@cook_dynamical_2018].
 
-The research corresponding with RO #1 entails a work in progress **algorithm design** following the work in @cook_manual_1997. The proposed algorithm discusses the generalized application of UCS for use across animation-specific frameworks. The outcome of this is an *R* package, `spinifex`, which will be submitted to CRAN and for hosting and distribution. This forms the foundation for future work in the remaining objectives.
+The research corresponding with RO #1 entails _algorithm design_ following and further clarifying the work done in @cook_manual_1997. In the application of the manual tour, we clarified the creation of the rotation matrix. The key to the matrix is to specify the 2 axes of rotation for the manipulation space and apply Rodegeze's formula. In the application, attention was given to both pre-compiled tour and human-in-the-loop UCS. We provide an open-source version of the manual tour in the R package, `spinifex`, which has since been published on CRAN. This forms the foundation for future work in the remaining objectives.
 
-The second objective is addressed with a benchmark dataset **performance comparison** between dynamic linear projections and alternatives (static linear and static non-linear projections such as principal component analysis, multidimensional scaling, and t-distributed neighbor embeddings, described in more detail in chapter \ref{ch:future_work}). Benchmark datasets will be compared across techniques, measurements will include variation explained, transparency to the original variable space, clustering identification, and outlier identification.
+The second objective is addressed with a benchmark dataset _performance comparison_ between dynamic linear projections and alternatives (static linear and static non-linear projections such as principal component analysis, multidimensional scaling, and t-distributed neighbor embeddings, described in more detail in chapter \ref{ch:future_work}). Benchmark datasets will be compared across techniques, measurements will include variation explained, transparency to the original variable space, clustering identification, and outlier identification.
+
+The research resulting from RO #2 is a controlled _experimental study_ to explore the efficacy of interactive UCS compared with the benchmarks factors of PCA and the grand tour.
+This is designed as a within-participant study where each participant performs all factors. the study is balanced by assigning participants into one of 3 groups where the factor order is controlled by a Latin square while simulation order remains the same.
+<!-- Within each factor, 2 tasks are performed. Each factor-task is performed on increasing difficulty of simulations is a block in the study. Quantitative measurements include participant speed and accuracy of tasks and subjective Likert surveys of participants. A lineup-type model as outlined in @hofmann_graphical_2012 may also be employed for assessing the quality of display types. -->
 
 The research for RO #3 involves **algorithm design**, where the work in RO #1 will be extended to display with the use of a third spatial dimension. This will also be used to develop visualizations of projected multi-dimension function surfaces. This forms the calculation base for the work. Several difficulties may arise when bringing dynamic projection into 3D spaces, especially when exploring 3D surfaces (discussed in more detail in chapter \ref{ch:future_work}).
 
-The research resulting from RO #4 is a controlled **usability study** to explore the efficacy of bringing UCS into 3D as compared across various display devices, in a standardized interface allowed by the work stemming from RO # 3. In this design, the factors are user tasks (such as separation of clusters and ranking of manipulation variable) across the treatment of display device (including 2D standard monitor, 3D head-tracked monitor, and head-mounted display). Quantitative measurements include participant speed and accuracy of tasks, biometric readings, and subjective Likert surveys of participants. A lineup-type model as outlined in @hofmann_graphical_2012 may also be employed for assessing the quality of display types.
 
 # Progress since confirmation
 
+During the candidature confirmation review (27 March 2019) we discussed exploratory data analysis, visualization of high dimensional spaces, covered the literature for tours and 3D rendering for information perception. We concluded with a process for a manual tour that allows for user-controlled steering. The appending the document was a mostly complete R package and respective paper providing an open-source application as well as clarifying the rotation matrix that was outlined in @cook_manual_1997.
+
 ## Publication
 
-Paper accepted in the R Journal, available in the first issue 2020 [https://journal.r-project.org/]. 
+The paper has since been accepted in the R Journal and it currently undergoing editorial review. This will be published in the first issue of 2020 and available at [journal.r-project.org](https://journal.r-project.org/).
 
-## Software 
+## Software
 
-R package accepted on CRAN [https://cran.r-project.org/web/packages/spinifex/index.html]. 
+The R package, `spinifex (v0.1.0)`, has been approved and hosted for public use on the Comprehensive R Archival Network, CRAN (cran.r-project.org/web/packages/spinifex/)(https://cran.r-project.org/web/packages/spinifex/index.html).
+
+New functionality has been added to the development branch, specifically around the interactive use. A user application is developed with `shiny`[@chang_shiny:_2018]. It allows users to explore their data without the need for coding familiarity. It features interactive or precompiled manual touring. It also contains a gallery for flagging bases which can then further be reviewed or saved as .gif and .png files.
 
 ## Experimental study
 
-Design completed, pilot testing underway, experiment to be rolled out in the coming weeks.
-[include in supplementary material]
+<!-- Design completed, pilot testing underway, experiment to be rolled out in the coming weeks. -->
+<!-- [include in supplementary material] -->
+
+The prominent appeal of the manual tour is that it allows users to control the contributions of individual variables. In theory, this should enable the finer exploration of features of interest. The hypothesis we will study is _Does the finer control afforded_ _by the manual tour improve the ability of the analyst to understand the_
+_importance of variables contributing to the structure?_
+
+
 
 
 # Proposed thesis structure
 
 ## Structure
 
-NOTES: NO SEPARATE REPO? REVIEW STATUS OF CHAPTERS AND STRUCTURE OF CONFIRMATION REPO. (CHANGES TO YAML)
+__Thesis__
+
+- Introduction -- 60%
+- Literature review -- 80%
+- Manual tour and user-controlled steering -- 90%
+- Experimental study -- 40%
+- The extension of the manual tour to 3D -- 0%
+- Conclusion and future plans -- 0%
+
 
 ```{r timeline, echo=FALSE, out.width = "100%", fig.cap = "Proposed research timeline."}
 knitr::include_graphics("figures/phd_timeline.PNG")
