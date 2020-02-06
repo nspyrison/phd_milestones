@@ -14,13 +14,16 @@ output:
 bibliography: thesisrefs.bib
 fontsize: 11
 urlcolor: blue
+
 ---
 
 ```{r include=FALSE, cache=FALSE}
 ## Keep it simple! No R code in .rmd, use a seprate .r script if need be.
 library(knitr) 
 knitr::opts_chunk$set(fig.align = "center",
-                      echo = F 
+                      echo = F,
+                      fig.pos = "h",
+                      out.extra = ''
                       #message = FALSE,
                       #warning = FALSE,
                       #error = FALSE,
@@ -28,22 +31,17 @@ knitr::opts_chunk$set(fig.align = "center",
                       #comment = "",
                       #cache = F, 
                       #cache.lazy = FALSE
+                      
 )
 
 # <!-- # cheatsheet {#sec:cheatsheet}-->
-# 
 # <!-- A bib reference [@wickham_visualizing_2015].  -->
-# 
-# <!-- A [Section intro](#sec:intro) reference, alternatively, section \ref{sec:intro} (with no @; \\ref{sec:intro}).  -->
-# 
-# <!-- A figure \@ref(fig:crest) reference (with @; \\@ref(fig:crest).  -->
-# 
+# <!-- A [Section intro](#sec:cheatsheet) reference, alternatively, section \ref{sec:intro} (with no @; \\ref{sec:intro}). -->
 # <!-- ```{r crest, echo=FALSE, out.height = "10%", out.width = "10%", fig.cap = "A caption for crest figure"} -->
 # <!-- knitr::include_graphics("figures/can_con/crest.jpg") -->
 # <!-- ``` -->
-# 
+# <!-- A figure \@ref(fig:crest) reference (with @; \\@ref(fig:crest). -->
 # ref:myFig-cap) Seprate fig cap
-# 
 # ```{r step2, echo=F, fig.cap = "(ref:myFig-cap)"}
 # # <!-- knitr::include_graphics("figures/can_con/crest.jpg") -->
 # ```
@@ -115,45 +113,38 @@ knitr::include_graphics("figures/buja05fig.PNG")
 The _guided_ tour [@cook_projection_1993] makes use of projection pursuit [@kruskal_toward_1969; @kruskal_linear_1972] to identify a path. Here a selected index function is selected. Starting from the initial basis several nearby bases are checked to see if they perform better on the index function. If so, this new basis is moved and nearby bases are checked again in an iterative process. If the closest bases do not perform better, bases slightly further away are checked as in simulated annealing [@kirkpatrick_optimization_1983]. If no better basis is identified within the selected stopping criterium, the algorithm stops.
 
 <!-- knowledge gap -->
-The discrete methods above identity bases that highlight some feature. The above tours can help understand the structure leading to and from certain projections. To explore higher dimensional spaces visually, we need _human-in-the-loop_ [@karwowski_international_2006] tools. We need to be able to choose and direct the change to a basis. [@cook_manual_1997] introduces the idea of the _manual_ tour. In a manual tour, an individual variable is selected as the manipulation variable. Its contribution to the basis is then controlled. The contributions of the remaining variables also change as they perform an orthogonally-constrained rotation. Figure \@ref(fig:manipSpace) This allows for the exploration of a given projection as defined by the user. 
+The discrete methods above identity bases that highlight some feature. The above tours can help understand the structure leading to and from certain projections. To explore higher dimensional spaces visually, we need _human-in-the-loop_ [@karwowski_international_2006] tools. We need to be able to choose and direct the change to a basis. [@cook_manual_1997] introduces the idea of the _manual_ tour. In a manual tour, an individual variable is selected and its contribution to the projection basis is then controlled. The manual tour can play a predefined manual path or be used interactively, where the user defines each subsequant step while viewing the current projection. The later, human-in-loop method we define as _User-Controlled Steering_ (UCS) specifically as the interactive use case of the manual tour.
 
-```{r manipSpace, echo=FALSE, out.width = "50%", fig.cap = "Manipulation space of a manual tour. Variable 5 is being manipulated as though the red segment is rotated about the origin changing the contribution of all variables on the basis axes on the blue projection plane."}
-knitr::include_graphics("figures/manip_space.PNG")
-```
+<!-- The contributions of the remaining variables also change as they perform an orthogonally-constrained rotation. Figure \@ref(fig:manipSpace) illustrates  This allows for the exploration of a given projection as defined by the user.  -->
 
-<!-- In the [following section](#sec:research) we discuss research objectives, motivation, and methodology and summarize the research completed. The [third section](#sec:thesis) covers the purposed thesis structure and schedule, and coursework. -->
-
-
+<!-- ```{r manipSpace, echo=FALSE, out.width = "50%", fig.cap = "Manipulation space of a manual tour. Variable 5 is being manipulated as though the red segment is rotated about the origin changing the contribution of all variables on the basis axes on the blue projection plane."} -->
+<!-- knitr::include_graphics("figures/manip_space.PNG") -->
+<!-- ``` -->
 
 
 ## Research objectives
-<!-- NS: Need to edit for mid can yet: -->
 
-Data and models are typically high-dimensional, with many variables and parameters. Developing new methods to visualize high dimensions has been a pursuit of statisticians, computer scientists and visualization researchers for decades. As technology evolves examining, extending, and assessing current techniques, in new environments, for new data challenges, is an important endeavor. The primary objectives of this Ph.D. research can then be summarized as the following.
+Data and models are typically high-dimensional, with many variables and parameters. Developing new methods to visualize high dimensions has been a pursuit of statisticians, computer scientists and visualization researchers for decades. As technology evolves examining, extending, and assessing current techniques, in new environments, for new data challenges, is an important endeavor. The primary Reseach Objectives (RO) can then be summarized as the following.
 
-1. **How can UCS be generalized to work within graphic-specific environments for 2D projections?**\
-Building from the UCS algorithm in @cook_manual_1997, the algorithm should be modified for generalized use with graphic-specific environments. This enables fine control to explore the sensitivity of structure to the variable contributing to the projection and sets the foundation to be used in the remaining objectives.
+1. **What is the ideal form of an interoperable application of manual tour?**\
+An algorithim for the manual tour is discussed in @cook_manual_1997. The algorithm should be better supported, especially proof for the rotation matrix identified. An application of this ideally embodies two properties: interoperable with with other tour applcations and allow for 'next step' interaction for UCS. Manual tours, and specifically the fine control of UCS, should allow analysts to better explore the sensitivity of structure from single variable contributions on the projection. This also acts as the foundation to be used in the remaining objectives.
 
-2. **Does 2D UCS tours provide benefits over alternatives?**\
-The quality and effectiveness of 2D UCS will be compared with alternatives of static, single, linear and non-linear projection techniques. They will be quantified by the measurement of structure, variation, and clustering across on benchmark datasets.
+2. **Does 2D interactive manual tours provide benefits over alternatives?**\
+User-control manipulation around identified projections of interest theoretically allows for better unstanding of the variables contributing to the structure. However, the level of abstraction and sheer number of basis permutations is formidable. The idea that UCS will provide digestable improvments to the understanding of structure should be validated.
 
-3. **How can UCS be extended to 3D?**\
-The addition of a 3rd dimension potentially allows for the improved perception of the structure of the data in dynamic UCS. To investigate this UCS algorithm needs to be extended to a third dimension. This would also allow for novel application multi-parameter function projection. This will involve the addition of a new angle and it controls the projection space, reference axes, and manipulation space. In particular, the manipulation space, now in 4D, will be hard to visualize, but it should be able to stand as a mathematical construct facilitated through interaction with a point (the projection coefficients of the selected manipulation variable) on the now 3D reference axes volume. 
+3. **How can the manual tour be extended to 3D?**\
+@gracia_new_2016 compares analyst tasks between 2- and 3-D scatterplots. They find modest accuracy and error improvements for distance perception and outlier identification in favor of 3D at the cost of a relatively small increase in task time. @nelson_xgobi_1998 similarly compare a 2D scatterplot projection and the 3D scatterplot manipulation space (of the same projection). They find slight advantage in the sphere test and a large advantage in the cluster test in favor of the 3D manipulation space. The manual tour should be extended to accomadate a 3D projection as analogous improvements may be obtainable.
+
 
 ## Methodology
-<!-- NS: Need to edit for mid can yet: -->
 
 This research is interdisciplinary; touring was developed by statisticians to explore physics data. Modern advances in hardware from information technology allow for 3D rending in higher quality and immersion than previously possible. Looping back to the original use care, applications in high energy physics identified [@cook_dynamical_2018].
 
-The research corresponding with RO #1 entails _algorithm design_ following and further clarifying the work done in @cook_manual_1997. In the application of the manual tour, we clarified the creation of the rotation matrix. The key to the matrix is to specify the 2 axes of rotation for the manipulation space and apply Rodegeze's formula. In the application, attention was given to both pre-compiled tour and human-in-the-loop UCS. We provide an open-source version of the manual tour in the R package, `spinifex`, which has since been published on CRAN. This forms the foundation for future work in the remaining objectives.
+The research corresponding with RO #1 entails _algorithm design_ following and further clarifying the work done in @cook_manual_1997. In the application of the manual tour, we clarified the creation of the rotation matrix. The key to the matrix is to specify the 2 axes of rotation for the manipulation space and apply Rodrigues' rotation formula [@rodrigues_lois_1840]. In the application, attention was given to both pre-compiled tour and human-in-the-loop UCS. We provide an open-source version of the manual tour in the R package, `spinifex`, which has since been published on CRAN. This forms the foundation for future work in the remaining objectives.
 
-The second objective is addressed with a benchmark dataset _performance comparison_ between dynamic linear projections and alternatives (static linear and static non-linear projections such as principal component analysis, multidimensional scaling, and t-distributed neighbor embeddings, described in more detail in chapter \ref{ch:future_work}). Benchmark datasets will be compared across techniques, measurements will include variation explained, transparency to the original variable space, clustering identification, and outlier identification.
+For RO #2 is a controlled _experimental study_ to explore the efficacy of interactive UCS compared with the benchmarks factors of PCA and the grand tour. This is designed as a within-participant study where each participant performs all factors. the study is balanced by assigning participants into one of 3 groups where the factor order is controlled by a Latin square while simulation order remains the same. The details are discussed in finer detail in section (#sec:expStudy), below.
 
-The research resulting from RO #2 is a controlled _experimental study_ to explore the efficacy of interactive UCS compared with the benchmarks factors of PCA and the grand tour.
-This is designed as a within-participant study where each participant performs all factors. the study is balanced by assigning participants into one of 3 groups where the factor order is controlled by a Latin square while simulation order remains the same.
-<!-- Within each factor, 2 tasks are performed. Each factor-task is performed on increasing difficulty of simulations is a block in the study. Quantitative measurements include participant speed and accuracy of tasks and subjective Likert surveys of participants. A lineup-type model as outlined in @hofmann_graphical_2012 may also be employed for assessing the quality of display types. -->
-
-The research for RO #3 involves **algorithm design**, where the work in RO #1 will be extended to display with the use of a third spatial dimension. This will also be used to develop visualizations of projected multi-dimension function surfaces. This forms the calculation base for the work. Several difficulties may arise when bringing dynamic projection into 3D spaces, especially when exploring 3D surfaces (discussed in more detail in chapter \ref{ch:future_work}).
+The research for RO #3 involves _algorithm design_ extending the current 2D manual tour into a 3D project. For a 2D projection the axes basis is rotated through a 3D 'manipulation space'. In a 3D projection, such a space requires 4 dimensions. Theoretically, after the addition of a new angle of rotation, the rotation matrix must be extended to accomadate a new dimension and angle parameter. This also means that analysts have another parameter to define, further incresing their already sizable input-volume. 
 
 
 # Progress since confirmation
@@ -163,14 +154,15 @@ During the candidature confirmation review (27 March 2019) we discussed explorat
 ## Publication
 
 The paper has since been accepted in the R Journal and it currently undergoing editorial review. This will be published in the first issue of 2020 and available at [journal.r-project.org](https://journal.r-project.org/).
+<!-- Is there a pre-print version to cite? -->
 
 ## Software
 
-The R package, `spinifex (v0.1.0)`, has been approved and hosted for public use on the Comprehensive R Archival Network, CRAN (cran.r-project.org/web/packages/spinifex/)(https://cran.r-project.org/web/packages/spinifex/index.html).
+The R package, `spinifex (v0.1.0)` [@spyrison_spinifex_2019], has been approved and hosted for public use on the Comprehensive R Archival Network, CRAN (cran.r-project.org/web/packages/spinifex/)(https://cran.r-project.org/web/packages/spinifex/index.html).
 
 New functionality has been added to the development branch, specifically around the interactive use. A user application is developed with `shiny`[@chang_shiny:_2018]. It allows users to explore their data without the need for coding familiarity. It features interactive or precompiled manual touring. It also contains a gallery for flagging bases which can then further be reviewed or saved as .gif and .png files.
 
-## Experimental study
+## Experimental study {#sec:expStudy}
 
 <!-- Design completed, pilot testing underway, experiment to be rolled out in the coming weeks. -->
 <!-- [include in supplementary material] -->
@@ -178,14 +170,14 @@ New functionality has been added to the development branch, specifically around 
 The prominent appeal of the manual tour is that it allows users to control the contributions of individual variables. In theory, this should enable the finer exploration of features of interest. The hypothesis we will study is _Does the finer control afforded_ _by the manual tour improve the ability of the analyst to understand the_
 _importance of variables contributing to the structure?_
 
+<!-- Within each factor, 2 tasks are performed. Each factor-task is performed on increasing difficulty of simulations is a block in the study. Quantitative measurements include participant speed and accuracy of tasks and subjective Likert surveys of participants. A lineup-type model as outlined in @hofmann_graphical_2012 may also be employed for assessing the quality of display types. -->
+
 
 
 
 # Proposed thesis structure
 
-## Structure
-
-__Thesis__
+## Thesis structure
 
 - Introduction -- 60%
 - Literature review -- 80%
@@ -194,8 +186,10 @@ __Thesis__
 - The extension of the manual tour to 3D -- 0%
 - Conclusion and future plans -- 0%
 
+__Proposed research timeline__
 
-```{r timeline, echo=FALSE, out.width = "100%", fig.cap = "Proposed research timeline."}
+```{r timeline, echo=FALSE, out.width = "100%", out.extra = '', fig.cap = "Proposed research timeline."}
+# fig.pos="H" # Holds the figure postion reltive to local content
 knitr::include_graphics("figures/phd_timeline.PNG")
 ```
 
