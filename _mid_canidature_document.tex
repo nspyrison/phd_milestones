@@ -85,11 +85,9 @@
     \date{}
     \predate{}\postdate{}
   
-%%% .rmd + .sty setup borrowed from: https://github.com/oganm/ThesisProposal
-
-% Must load tex packages here (import.sty run in preamble, title.sty run after)
-\usepackage{setspace} % for title page spacing
-\usepackage{hyperref} % for all sorts of linking
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{graphicx}
 
 \begin{document}
 
@@ -100,37 +98,39 @@
 
 %\begin{titlepage}
 \begin{center}
-\LARGE{\textbf{Dynamic visualization of high-dimensional data via
-low-dimension projections and sectioning across 2D and 3D display devices}}\\
-\vspace*{2\baselineskip}
-\Large{\textbf{Mid canidature review}}\\
-\normalsize{Monash University, Faculty of Information Technology}\\
-\vspace*{2\baselineskip}
-\Large{Nicholas Spyrison}\\ %, B.Sc
-\vspace*{3\baselineskip}
+\huge{\textbf{Interactive visualization of high-dimensional data via
+continuous low-dimensional projections}}\\
+\vspace*{1\baselineskip}
+\Large{\textbf{Mid canidature review --- 25 Feburuary, 2020}}\\
+%\vspace*{1\baselineskip}
+\LARGE{Nicholas Spyrison, B.Sc}\\
+\vspace*{1\baselineskip}
+
+\LARGE{Monash University}\\
+\Large{Faculty of Information Technology}\\
+\vspace*{1\baselineskip}
+\includegraphics[height = 3.5cm]{./figures/crest.jpg}\\
+\vspace*{1\baselineskip}
+
 \Large{\textbf{Thesis Supervisors}}\\
 Prof. Kimbal Marriott\\
 Prof. Dianne Cook\\
-\vspace*{2\baselineskip}
+\vspace*{1\baselineskip}
 \Large{\textbf{Committee Members}}\\
 Dr. Maxime Cordiel\\
 Dr. Shirui Pan\\
 \vspace*{1\baselineskip}
 \Large{\textbf{Chair}}\\
 Assoc. Prof. Bernhard Jenny\\
-\vspace*{1\baselineskip}
-\Large{\textbf{Presention Date}}\\
-DD Feburuary, 2020
 \end{center}
 % \end{titlepage}
 
 \doublespacing
 
-\hypersetup{linkcolor = blue}
+%\hypersetup{linkcolor = blue}
 \newpage
 \pagenumbering{roman}
-\tableofcontents
-\addcontentsline{toc}{section}{\contentsname}
+\addcontentsline{toc}{section}{\contentsname}%
 
 \newpage
 
@@ -192,24 +192,24 @@ Asimov originally purposed a \emph{grand} tour. In the grand tour, several targe
 
 The \emph{guided} tour (Cook, Buja, and Cabrera 1993) makes use of projection pursuit (Kruskal 1969, 1972) to identify a path. Here a selected index function is selected. Starting from the initial basis several nearby bases are checked to see if they perform better on the index function. If so, this new basis is moved and nearby bases are checked again in an iterative process. If the closest bases do not perform better, bases slightly further away are checked as in simulated annealing (Kirkpatrick, Gelatt, and Vecchi 1983). If no better basis is identified within the selected stopping criterium, the algorithm stops.
 
-The discrete methods above identity bases that highlight some feature. The above tours can help understand the structure leading to and from certain projections. To explore higher dimensional spaces visually, we need \emph{human-in-the-loop} (Karwowski 2006) tools. We need to be able to choose and direct the change to a basis. (Cook and Buja 1997) introduces the idea of the \emph{manual} tour. In a manual tour, an individual variable is selected and its contribution to the projection basis is then controlled. The manual tour can play a predefined manual path or be used interactively, where the user defines each subsequant step while viewing the current projection. The later, human-in-loop method we define as User-Controlled Steering (UCS) specifically as the interactive use case of the manual tour.
+The discrete methods above identity bases that highlight some feature. The above tours can help understand the structure leading to and from certain projections. To explore higher dimensional spaces visually, we need \emph{human-in-the-loop} (Karwowski 2006) tools. We need to be able to choose and direct the change to a basis. (Cook and Buja 1997) introduces the idea of the \emph{manual} tour. In a manual tour, an individual variable is selected and its contribution to the projection basis is then controlled. The manual tour can play a predefined manual path or be used interactively, where the user defines each subsequent step while viewing the current projection. The later, human-in-loop method we define as \emph{User-Controlled Steering} (UCS) specifically as the interactive use case of the manual tour.
 
 \hypertarget{research-objectives}{%
 \subsection{Research objectives}\label{research-objectives}}
 
-Data and models are typically high-dimensional, with many variables and parameters. Developing new methods to visualize high dimensions has been a pursuit of statisticians, computer scientists and visualization researchers for decades. As technology evolves examining, extending, and assessing current techniques, in new environments, for new data challenges, is an important endeavor. The primary Reseach Objectives (RO) can then be summarized as the following.
+Data and models are typically high-dimensional, with many variables and parameters. Developing new methods to visualize high dimensions has been a pursuit of statisticians, computer scientists and visualization researchers for decades. As technology evolves examining, extending, and assessing current techniques, in new environments, for new data challenges, is an important endeavor. The primary Research Objectives (RO) can then be summarized as the following.
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
   \textbf{What is the ideal form of an interoperable application of manual tour?}\\
-  An algorithim for the manual tour is discussed in Cook and Buja (1997). The algorithm should be better supported, especially proof for the rotation matrix identified. An application of this ideally embodies two properties: interoperable with with other tour applcations and allow for `next step' interaction for UCS. Manual tours, and specifically the fine control of UCS, should allow analysts to better explore the sensitivity of structure from single variable contributions on the projection. This also acts as the foundation to be used in the remaining objectives.
+  An algorithm for the manual tour is discussed in Cook and Buja (1997). The algorithm should be better supported, especially proof for the rotation matrix identified. An application of this ideally embodies two properties: interoperable with other tour applications and allow for `next step' interaction for UCS. Manual tours, and specifically the fine control of UCS, should allow analysts to better explore the sensitivity of structure from single variable contributions on the projection. This also acts as the foundation to be used in the remaining objectives.
 \item
   \textbf{Does 2D interactive manual tours provide benefits over alternatives?}\\
-  User-control manipulation around identified projections of interest theoretically allows for better unstanding of the variables contributing to the structure. However, the level of abstraction and sheer number of basis permutations is formidable. The idea that UCS will provide digestable improvments to the understanding of structure should be validated.
+  User-control manipulation around identified projections of interest theoretically allows for a better understanding of the variables contributing to the structure. However, the level of abstraction and the sheer number of basis permutations is formidable. The idea that UCS will provide digestible improvements to the understanding of structure should be validated.
 \item
   \textbf{How can the manual tour be extended to 3D?}\\
-  Gracia et al. (2016) compares analyst tasks between 2- and 3-D scatterplots. They find modest accuracy and error improvements for distance perception and outlier identification in favor of 3D at the cost of a relatively small increase in task time. Nelson, Cook, and Cruz-Neira (1998) similarly compare a 2D scatterplot projection and the 3D scatterplot manipulation space (of the same projection). They find slight advantage in the sphere test and a large advantage in the cluster test in favor of the 3D manipulation space. The manual tour should be extended to accomadate a 3D projection as analogous improvements may be obtainable.
+  Gracia et al. (2016) compares analyst tasks between 2- and 3-D scatterplots. They find modest accuracy and error improvements for distance perception and outlier identification in favor of 3D at the cost of a relatively small increase in task time. Nelson, Cook, and Cruz-Neira (1998) similarly compare a 2D scatterplot projection and the 3D scatterplot manipulation space (of the same projection). They find a slight advantage in the sphere test and a large advantage in the cluster test in favor of the 3D manipulation space. The manual tour should be extended to accommodate a 3D projection as analogous improvements may be obtainable.
 \end{enumerate}
 
 \hypertarget{methodology}{%
@@ -221,7 +221,7 @@ The research corresponding with RO \#1 entails \emph{algorithm design} following
 
 For RO \#2 is a controlled \emph{experimental study} to explore the efficacy of interactive UCS compared with the benchmarks factors of PCA and the grand tour. This is designed as a within-participant study where each participant performs all factors. the study is balanced by assigning participants into one of 3 groups where the factor order is controlled by a Latin square while simulation order remains the same. The details are discussed in finer detail in section (\#sec:expStudy), below.
 
-The research for RO \#3 involves \emph{algorithm design} extending the current 2D manual tour into a 3D project. For a 2D projection the axes basis is rotated through a 3D `manipulation space'. In a 3D projection, such a space requires 4 dimensions. Theoretically, after the addition of a new angle of rotation, the rotation matrix must be extended to accomadate a new dimension and angle parameter. This also means that analysts have another parameter to define, further incresing their already sizable input-volume.
+The research for RO \#3 involves \emph{algorithm design} extending the current 2D manual tour into a 3D project. For a 2D projection, the axes basis is rotated through a 3D `manipulation space'. In a 3D projection, such a space requires 4 dimensions. Theoretically, after the addition of a new angle of rotation, the rotation matrix must be extended to accommodate a new dimension and angle parameter. This also means that analysts have another parameter to define, further increasing their already sizable input-volume.
 
 \hypertarget{progress-since-confirmation}{%
 \section{Progress since confirmation}\label{progress-since-confirmation}}
@@ -243,8 +243,7 @@ New functionality has been added to the development branch, specifically around 
 \hypertarget{sec:expStudy}{%
 \subsection{Experimental study}\label{sec:expStudy}}
 
-The prominent appeal of the manual tour is that it allows users to control the contributions of individual variables. In theory, this should enable the finer exploration of features of interest. The hypothesis we will study is \emph{Does the finer control afforded} \emph{by the manual tour improve the ability of the analyst to understand the}
-\emph{importance of variables contributing to the structure?}
+The prominent appeal of the manual tour is that it allows users to control the contributions of individual variables. In theory, this should enable the finer exploration of features of interest. The hypothesis we will study is \emph{Does the finer control afforded by the manual tour improve the ability of the analyst to understand the importance of variables contributing to the structure?}
 
 \hypertarget{proposed-thesis-structure}{%
 \section{Proposed thesis structure}\label{proposed-thesis-structure}}
@@ -338,11 +337,11 @@ The prominent appeal of the manual tour is that it allows users to control the c
 \textbf{Conferences:}\\
 ~\\
 CHI 2021: May 8-13, 2021 Yokohama, Japan\\
-submission: Thursday Sep.~10, 2020 (+ 1wk for full)\\
+submission: Thursday Sep.~10, 2020\\
 \url{https://chi2021.acm.org/}~\\
 ~\\
 IEEE VIS - SciVis 2020: 25-30 October 2020 Salt Lake City, Utah, USA\\
-submission: Saturday, March 21, 2020 (+ 10 days for full) SciVis - Empirical Study\\
+submission: Saturday, March 21, 2020\\
 \url{http://ieeevis.org/year/2020/info/call-participation/scivis-paper-types}
 
 \hypertarget{sec:acknowledgements}{%
@@ -434,6 +433,10 @@ Xie, Yihui. 2016. \emph{Bookdown: Authoring Books and Technical Documents with R
 
 \leavevmode\hypertarget{ref-xie_r_2018}{}%
 Xie, Yihui, J. J. Allaire, and Garrett Grolemund. 2018. \emph{R Markdown: The Definitive Guide}. Boca Raton, Florida: Chapman; Hall/CRC. \url{https://bookdown.org/yihui/rmarkdown}.
+
+THIS IS A READ ME FILE
+
+content for mid anidature review at Monash University, Q1 2020
 
 
 \end{document}

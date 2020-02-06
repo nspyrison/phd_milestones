@@ -1,24 +1,29 @@
 ---
-# setspace: doublespacing
+#setspace: doublespacing
 output: 
-    bookdown::pdf_document2:
-      ## pdf_document2 changes how fig references work; /@ref()
+    ### pdf_document2 changes how fig references work to /@ref() :
+    bookdown::pdf_document2: 
       includes:
-        in_header: import.sty
+        #in_header: import.sty ## #Preamble covered in .yaml `header-includes`
         before_body: title.sty
+        after_body: "`r knitr::knit('spyrison-cook-marriott.Rmd')`"
       keep_tex: yes
       number_sections: yes
       #toc_depth: 2
+            ### also needed for fig cross references:
       fig_caption: yes
-      ## also needed for fid cross references
 bibliography: thesisrefs.bib
 fontsize: 11
 urlcolor: blue
-
+### LaTeX preamble
+header-includes: 
+ - \usepackage{setspace} ### for title page spacing
+ - \usepackage{hyperref} ### for all sorts of linking
+ - \usepackage{graphicx} ### to insert Monash crest
 ---
 
 ```{r include=FALSE, cache=FALSE}
-## Keep it simple! No R code in .rmd, use a seprate .r script if need be.
+### Keep it simple! No R code in .rmd, use a seprate .r script if need be.
 library(knitr) 
 knitr::opts_chunk$set(fig.align = "center",
                       echo = F,
@@ -113,7 +118,7 @@ knitr::include_graphics("figures/buja05fig.PNG")
 The _guided_ tour [@cook_projection_1993] makes use of projection pursuit [@kruskal_toward_1969; @kruskal_linear_1972] to identify a path. Here a selected index function is selected. Starting from the initial basis several nearby bases are checked to see if they perform better on the index function. If so, this new basis is moved and nearby bases are checked again in an iterative process. If the closest bases do not perform better, bases slightly further away are checked as in simulated annealing [@kirkpatrick_optimization_1983]. If no better basis is identified within the selected stopping criterium, the algorithm stops.
 
 <!-- knowledge gap -->
-The discrete methods above identity bases that highlight some feature. The above tours can help understand the structure leading to and from certain projections. To explore higher dimensional spaces visually, we need _human-in-the-loop_ [@karwowski_international_2006] tools. We need to be able to choose and direct the change to a basis. [@cook_manual_1997] introduces the idea of the _manual_ tour. In a manual tour, an individual variable is selected and its contribution to the projection basis is then controlled. The manual tour can play a predefined manual path or be used interactively, where the user defines each subsequant step while viewing the current projection. The later, human-in-loop method we define as _User-Controlled Steering_ (UCS) specifically as the interactive use case of the manual tour.
+The discrete methods above identity bases that highlight some feature. The above tours can help understand the structure leading to and from certain projections. To explore higher dimensional spaces visually, we need _human-in-the-loop_ [@karwowski_international_2006] tools. We need to be able to choose and direct the change to a basis. [@cook_manual_1997] introduces the idea of the _manual_ tour. In a manual tour, an individual variable is selected and its contribution to the projection basis is then controlled. The manual tour can play a predefined manual path or be used interactively, where the user defines each subsequent step while viewing the current projection. The later, human-in-loop method we define as _User-Controlled Steering_ (UCS) specifically as the interactive use case of the manual tour.
 
 <!-- The contributions of the remaining variables also change as they perform an orthogonally-constrained rotation. Figure \@ref(fig:manipSpace) illustrates  This allows for the exploration of a given projection as defined by the user.  -->
 
@@ -124,16 +129,16 @@ The discrete methods above identity bases that highlight some feature. The above
 
 ## Research objectives
 
-Data and models are typically high-dimensional, with many variables and parameters. Developing new methods to visualize high dimensions has been a pursuit of statisticians, computer scientists and visualization researchers for decades. As technology evolves examining, extending, and assessing current techniques, in new environments, for new data challenges, is an important endeavor. The primary Reseach Objectives (RO) can then be summarized as the following.
+Data and models are typically high-dimensional, with many variables and parameters. Developing new methods to visualize high dimensions has been a pursuit of statisticians, computer scientists and visualization researchers for decades. As technology evolves examining, extending, and assessing current techniques, in new environments, for new data challenges, is an important endeavor. The primary Research Objectives (RO) can then be summarized as the following.
 
 1. **What is the ideal form of an interoperable application of manual tour?**\
-An algorithim for the manual tour is discussed in @cook_manual_1997. The algorithm should be better supported, especially proof for the rotation matrix identified. An application of this ideally embodies two properties: interoperable with with other tour applcations and allow for 'next step' interaction for UCS. Manual tours, and specifically the fine control of UCS, should allow analysts to better explore the sensitivity of structure from single variable contributions on the projection. This also acts as the foundation to be used in the remaining objectives.
+An algorithm for the manual tour is discussed in @cook_manual_1997. The algorithm should be better supported, especially proof for the rotation matrix identified. An application of this ideally embodies two properties: interoperable with other tour applications and allow for 'next step' interaction for UCS. Manual tours, and specifically the fine control of UCS, should allow analysts to better explore the sensitivity of structure from single variable contributions on the projection. This also acts as the foundation to be used in the remaining objectives.
 
 2. **Does 2D interactive manual tours provide benefits over alternatives?**\
-User-control manipulation around identified projections of interest theoretically allows for better unstanding of the variables contributing to the structure. However, the level of abstraction and sheer number of basis permutations is formidable. The idea that UCS will provide digestable improvments to the understanding of structure should be validated.
+User-control manipulation around identified projections of interest theoretically allows for a better understanding of the variables contributing to the structure. However, the level of abstraction and the sheer number of basis permutations is formidable. The idea that UCS will provide digestible improvements to the understanding of structure should be validated.
 
 3. **How can the manual tour be extended to 3D?**\
-@gracia_new_2016 compares analyst tasks between 2- and 3-D scatterplots. They find modest accuracy and error improvements for distance perception and outlier identification in favor of 3D at the cost of a relatively small increase in task time. @nelson_xgobi_1998 similarly compare a 2D scatterplot projection and the 3D scatterplot manipulation space (of the same projection). They find slight advantage in the sphere test and a large advantage in the cluster test in favor of the 3D manipulation space. The manual tour should be extended to accomadate a 3D projection as analogous improvements may be obtainable.
+@gracia_new_2016 compares analyst tasks between 2- and 3-D scatterplots. They find modest accuracy and error improvements for distance perception and outlier identification in favor of 3D at the cost of a relatively small increase in task time. @nelson_xgobi_1998 similarly compare a 2D scatterplot projection and the 3D scatterplot manipulation space (of the same projection). They find a slight advantage in the sphere test and a large advantage in the cluster test in favor of the 3D manipulation space. The manual tour should be extended to accommodate a 3D projection as analogous improvements may be obtainable.
 
 
 ## Methodology
@@ -144,7 +149,7 @@ The research corresponding with RO #1 entails _algorithm design_ following and f
 
 For RO #2 is a controlled _experimental study_ to explore the efficacy of interactive UCS compared with the benchmarks factors of PCA and the grand tour. This is designed as a within-participant study where each participant performs all factors. the study is balanced by assigning participants into one of 3 groups where the factor order is controlled by a Latin square while simulation order remains the same. The details are discussed in finer detail in section (#sec:expStudy), below.
 
-The research for RO #3 involves _algorithm design_ extending the current 2D manual tour into a 3D project. For a 2D projection the axes basis is rotated through a 3D 'manipulation space'. In a 3D projection, such a space requires 4 dimensions. Theoretically, after the addition of a new angle of rotation, the rotation matrix must be extended to accomadate a new dimension and angle parameter. This also means that analysts have another parameter to define, further incresing their already sizable input-volume. 
+The research for RO #3 involves _algorithm design_ extending the current 2D manual tour into a 3D project. For a 2D projection, the axes basis is rotated through a 3D 'manipulation space'. In a 3D projection, such a space requires 4 dimensions. Theoretically, after the addition of a new angle of rotation, the rotation matrix must be extended to accommodate a new dimension and angle parameter. This also means that analysts have another parameter to define, further increasing their already sizable input-volume. 
 
 
 # Progress since confirmation
@@ -167,8 +172,7 @@ New functionality has been added to the development branch, specifically around 
 <!-- Design completed, pilot testing underway, experiment to be rolled out in the coming weeks. -->
 <!-- [include in supplementary material] -->
 
-The prominent appeal of the manual tour is that it allows users to control the contributions of individual variables. In theory, this should enable the finer exploration of features of interest. The hypothesis we will study is _Does the finer control afforded_ _by the manual tour improve the ability of the analyst to understand the_
-_importance of variables contributing to the structure?_
+The prominent appeal of the manual tour is that it allows users to control the contributions of individual variables. In theory, this should enable the finer exploration of features of interest. The hypothesis we will study is _Does the finer control afforded by the manual tour improve the ability of the analyst to understand the importance of variables contributing to the structure?_
 
 <!-- Within each factor, 2 tasks are performed. Each factor-task is performed on increasing difficulty of simulations is a block in the study. Quantitative measurements include participant speed and accuracy of tasks and subjective Likert surveys of participants. A lineup-type model as outlined in @hofmann_graphical_2012 may also be employed for assessing the quality of display types. -->
 
@@ -225,11 +229,13 @@ knitr::include_graphics("figures/phd_timeline.PNG")
 __Conferences:__\
 \
 CHI 2021: May 8-13, 2021 Yokohama, Japan\
-submission: Thursday Sep. 10, 2020 (+ 1wk for full)\
+submission: Thursday Sep. 10, 2020\
+<!-- (+ 1wk for full) -->
 https://chi2021.acm.org/ \
 \
 IEEE VIS - SciVis 2020: 25-30 October 2020 Salt Lake City, Utah, USA\
-submission: Saturday, March 21, 2020 (+ 10 days for full) SciVis - Empirical Study\
+submission: Saturday, March 21, 2020\
+<!-- (+ 10 days for full) SciVis - Empirical Study\ -->
 http://ieeevis.org/year/2020/info/call-participation/scivis-paper-types
 
 
