@@ -14,7 +14,7 @@ tasks <- tribble(
   
   "2019-03-01", "2020-04-01", "2) UCS vs alts", "2) UCS vs alternatives",
   "2019-03-01", "2020-02-01", "2) UCS vs alts", "2) application",
-  "2020-01-01", "2020-04-01", "2) UCS vs alts", "2) study&paper (IEEE SciVis)", # submission: Saturday, March 21, 2020
+  "2020-01-01", "2020-04-01", "2) UCS vs alts", "2) study&paper (IEEE VAST)", # submission: Saturday, March 21, 2020
   "2020-02-01", "2020-03-01", "Milestones",     "Mid candidature review",
   
   "2020-01-01", "2020-10-01", "3) 3D UCS", "3) 3D UCS",
@@ -30,9 +30,9 @@ tasks <- tribble(
 # submission: Thursday Sep. 10, 2020 (+ 1wk for full)
 # https://chi2021.acm.org/
 # 
-# IEEE VIS - SciVis 2020: 25-30 October 2020 Salt Lake City, Utah, USA
-# submission: Saturday, March 21, 2020 (+ 10 days for full) SciVis - Empirical Study
-# http://ieeevis.org/year/2020/info/call-participation/scivis-paper-types
+# IEEE VIS - VAST 2020: 25-30 October 2020 Salt Lake City, Utah, USA
+# submission: Saturday, March 21, 2020 (+ 10 days for full) VAST - Empirical Study
+# http://ieeevis.org/year/2020/info/call-participation/vast-paper-types
 
 # Convert data to long for ggplot
 tasks.long <- tasks %>%
@@ -100,6 +100,4 @@ ggsave("./figures/phd_timeline.PNG", timeline, width = 9, height = 5)
 #   - Faculty Induction: **Completed** 
 #   <!-- marked completed, online class "08/05/2019 @ 09:45 for 3hr 15min" -->
 #   <!-- previously: **Content unavailable** (01/04/2019: "Currently being updated and will be visible in this section soon") -->
-#   
-# 
 

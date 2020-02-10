@@ -1,37 +1,60 @@
-\documentclass[11,]{article}
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames*,x11names*}{xcolor}
+%
+\documentclass[
+  11,
+]{article}
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
-\usepackage{fixltx2e} % provides \textsubscript
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
-\else % if luatex or xelatex
-  \ifxetex
-    \usepackage{mathspec}
-  \else
-    \usepackage{fontspec}
-  \fi
-  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
 \fi
-% use upquote if available, for straight quotes in verbatim environments
+% Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-% use microtype if available
-\IfFileExists{microtype.sty}{%
-\usepackage{microtype}
-\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=Maroon,
+  filecolor=Maroon,
+  citecolor=Blue,
+  urlcolor=blue,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
 \usepackage[margin=1in]{geometry}
-\usepackage{hyperref}
-\PassOptionsToPackage{usenames,dvipsnames}{color} % color is loaded by hyperref
-\hypersetup{unicode=true,
-            colorlinks=true,
-            linkcolor=Maroon,
-            citecolor=Blue,
-            urlcolor=blue,
-            breaklinks=true}
-\urlstyle{same}  % don't use monospace font for urls
 \usepackage{longtable,booktabs}
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
 \usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -41,53 +64,20 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-\IfFileExists{parskip.sty}{%
-\usepackage{parskip}
-}{% else
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{6pt plus 2pt minus 1pt}
-}
-\setlength{\emergencystretch}{3em}  % prevent overfull lines
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{5}
-% Redefines (sub)paragraphs to behave more like sections
-\ifx\paragraph\undefined\else
-\let\oldparagraph\paragraph
-\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
-\fi
-\ifx\subparagraph\undefined\else
-\let\oldsubparagraph\subparagraph
-\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
-\fi
-
-%%% Use protect on footnotes to avoid problems with footnotes in titles
-\let\rmarkdownfootnote\footnote%
-\def\footnote{\protect\rmarkdownfootnote}
-
-%%% Change title format to be more compact
-\usepackage{titling}
-
-% Create subtitle command for use in maketitle
-\providecommand{\subtitle}[1]{
-  \posttitle{
-    \begin{center}\large#1\end{center}
-    }
-}
-
-\setlength{\droptitle}{-2em}
-
-  \title{}
-    \pretitle{\vspace{\droptitle}}
-  \posttitle{}
-    \author{}
-    \preauthor{}\postauthor{}
-    \date{}
-    \predate{}\postdate{}
-  
 \usepackage{setspace}
 \usepackage{hyperref}
 \usepackage{graphicx}
+
+\author{}
+\date{\vspace{-2.5em}}
 
 \begin{document}
 
@@ -101,7 +91,7 @@
 \huge{\textbf{Interactive visualization of high-dimensional data via
 continuous low-dimensional projections}}\\
 \vspace*{1\baselineskip}
-\Large{\textbf{Mid canidature review --- 25 Feburuary, 2020}}\\
+\Large{\textbf{Mid-candidature review --- 25 Feburuary, 2020}}\\
 %\vspace*{1\baselineskip}
 \LARGE{Nicholas Spyrison, B.Sc}\\
 \vspace*{1\baselineskip}
@@ -130,7 +120,7 @@ Assoc. Prof. Bernhard Jenny\\
 %\hypersetup{linkcolor = blue}
 \newpage
 \pagenumbering{roman}
-\addcontentsline{toc}{section}{\contentsname}%
+\addcontentsline{toc}{section}{\contentsname}
 
 \newpage
 
@@ -147,7 +137,7 @@ Assoc. Prof. Bernhard Jenny\\
 \hypersetup{linkcolor = blue}
 
 {
-\hypersetup{linkcolor=black}
+\hypersetup{linkcolor=}
 \setcounter{tocdepth}{2}
 \tableofcontents
 }
@@ -192,30 +182,35 @@ Asimov originally purposed a \emph{grand} tour. In the grand tour, several targe
 
 The \emph{guided} tour (Cook, Buja, and Cabrera 1993) makes use of projection pursuit (Kruskal 1969, 1972) to identify a path. Here a selected index function is selected. Starting from the initial basis several nearby bases are checked to see if they perform better on the index function. If so, this new basis is moved and nearby bases are checked again in an iterative process. If the closest bases do not perform better, bases slightly further away are checked as in simulated annealing (Kirkpatrick, Gelatt, and Vecchi 1983). If no better basis is identified within the selected stopping criterium, the algorithm stops.
 
-The discrete methods above identity bases that highlight some feature. The above tours can help understand the structure leading to and from certain projections. To explore higher dimensional spaces visually, we need \emph{human-in-the-loop} (Karwowski 2006) tools. We need to be able to choose and direct the change to a basis. (Cook and Buja 1997) introduces the idea of the \emph{manual} tour. In a manual tour, an individual variable is selected and its contribution to the projection basis is then controlled. The manual tour can play a predefined manual path or be used interactively, where the user defines each subsequent step while viewing the current projection. The later, human-in-loop method we define as \emph{User-Controlled Steering} (UCS) specifically as the interactive use case of the manual tour.
+The discrete methods above identity bases that highlight some feature. The above tours can help understand the structure leading to and from certain projections. To explore higher dimensional spaces visually, we need \emph{human-in-the-loop} (Karwowski 2006) tools. We need to be able to choose and direct the change to a basis. (Cook and Buja 1997) introduces the idea of the \emph{manual} tour. In a manual tour, an individual variable is selected and its contribution to the projection basis is then controlled. The manual tour can play a predefined manual path or be used interactively, where the user defines each subsequent step while viewing the current projection. The later, human-in-loop method we define as \emph{User-Controlled Steering} (UCS) specifically as the interactive aplication of the manual tour.
 
 \hypertarget{research-objectives}{%
 \subsection{Research objectives}\label{research-objectives}}
 
 Data and models are typically high-dimensional, with many variables and parameters. Developing new methods to visualize high dimensions has been a pursuit of statisticians, computer scientists and visualization researchers for decades. As technology evolves examining, extending, and assessing current techniques, in new environments, for new data challenges, is an important endeavor. The primary Research Objectives (RO) can then be summarized as the following.
 
+\textbf{\#TODO: rework ``ideal form'', drop to contribution}
+1. \textbf{What is the ideal form of an interoperable application of manual tour?}\\
+An algorithm for the manual tour is discussed in Cook and Buja (1997). The algorithm should be better supported, especially proof for the rotation matrix identified. An application of this ideally embodies two properties: interoperable with other tour applications and allow for `next step' interaction for UCS. Manual tours, and specifically the fine control of UCS, should allow analysts to better explore the sensitivity of structure from single variable contributions on the projection. This also acts as the foundation to be used in the remaining objectives.
+
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
 \item
-  \textbf{What is the ideal form of an interoperable application of manual tour?}\\
-  An algorithm for the manual tour is discussed in Cook and Buja (1997). The algorithm should be better supported, especially proof for the rotation matrix identified. An application of this ideally embodies two properties: interoperable with other tour applications and allow for `next step' interaction for UCS. Manual tours, and specifically the fine control of UCS, should allow analysts to better explore the sensitivity of structure from single variable contributions on the projection. This also acts as the foundation to be used in the remaining objectives.
-\item
-  \textbf{Does 2D interactive manual tours provide benefits over alternatives?}\\
+  \textbf{Do 2D interactive manual tours provide benefits over alternatives?}\\
   User-control manipulation around identified projections of interest theoretically allows for a better understanding of the variables contributing to the structure. However, the level of abstraction and the sheer number of basis permutations is formidable. The idea that UCS will provide digestible improvements to the understanding of structure should be validated.
 \item
   \textbf{How can the manual tour be extended to 3D?}\\
   Gracia et al. (2016) compares analyst tasks between 2- and 3-D scatterplots. They find modest accuracy and error improvements for distance perception and outlier identification in favor of 3D at the cost of a relatively small increase in task time. Nelson, Cook, and Cruz-Neira (1998) similarly compare a 2D scatterplot projection and the 3D scatterplot manipulation space (of the same projection). They find a slight advantage in the sphere test and a large advantage in the cluster test in favor of the 3D manipulation space. The manual tour should be extended to accommodate a 3D projection as analogous improvements may be obtainable.
+\item
+  \textbf{Do 3D manual tours provide benefits over alternatives?}\\
+  \textbf{\#TODO: add here, can we use the same data? same app? same idea as RO2?}
 \end{enumerate}
 
 \hypertarget{methodology}{%
 \subsection{Methodology}\label{methodology}}
 
-This research is interdisciplinary; touring was developed by statisticians to explore physics data. Modern advances in hardware from information technology allow for 3D rending in higher quality and immersion than previously possible. Looping back to the original use care, applications in high energy physics identified (Cook, Laa, and Valencia 2018).
+This research is interdisciplinary; touring was developed by statisticians to explore physics data. Modern advances in hardware from information technology allow for 3D rending in higher quality and immersion than previously possible.
 
 The research corresponding with RO \#1 entails \emph{algorithm design} following and further clarifying the work done in Cook and Buja (1997). In the application of the manual tour, we clarified the creation of the rotation matrix. The key to the matrix is to specify the 2 axes of rotation for the manipulation space and apply Rodrigues' rotation formula (Rodrigues 1840). In the application, attention was given to both pre-compiled tour and human-in-the-loop UCS. We provide an open-source version of the manual tour in the R package, \texttt{spinifex}, which has since been published on CRAN. This forms the foundation for future work in the remaining objectives.
 
@@ -340,9 +335,9 @@ CHI 2021: May 8-13, 2021 Yokohama, Japan\\
 submission: Thursday Sep.~10, 2020\\
 \url{https://chi2021.acm.org/}~\\
 ~\\
-IEEE VIS - SciVis 2020: 25-30 October 2020 Salt Lake City, Utah, USA\\
+IEEE VAST - VAST 2020: 25-30 October 2020 Salt Lake City, Utah, USA\\
 submission: Saturday, March 21, 2020\\
-\url{http://ieeevis.org/year/2020/info/call-participation/scivis-paper-types}
+\url{http://ieeevis.org/year/2020/info/call-participation/vast-paper-types}
 
 \hypertarget{sec:acknowledgements}{%
 \section{Acknowledgements}\label{sec:acknowledgements}}
@@ -379,9 +374,6 @@ Cook, Dianne, and Andreas Buja. 1997. ``Manual Controls for High-Dimensional Dat
 
 \leavevmode\hypertarget{ref-cook_projection_1993}{}%
 Cook, Dianne, Andreas Buja, and Javier Cabrera. 1993. ``Projection Pursuit Indexes Based on Orthonormal Function Expansions.'' \emph{Journal of Computational and Graphical Statistics} 2 (3): 225--50. \url{https://doi.org/10.1080/10618600.1993.10474610}.
-
-\leavevmode\hypertarget{ref-cook_dynamical_2018}{}%
-Cook, Dianne, Ursula Laa, and German Valencia. 2018. ``Dynamical Projections for the Visualization of PDFSense Data.'' \emph{Eur. Phys. J. C} 78 (9): 742. \url{https://doi.org/10.1140/epjc/s10052-018-6205-2}.
 
 \leavevmode\hypertarget{ref-gracia_new_2016}{}%
 Gracia, Antonio, Santiago González, Víctor Robles, Ernestina Menasalvas, and Tatiana von Landesberger. 2016. ``New Insights into the Suitability of the Third Dimension for Visualizing Multivariate/Multidimensional Data: A Study Based on Loss of Quality Quantification.'' \emph{Information Visualization} 15 (1): 3--30. \url{https://doi.org/10.1177/1473871614556393}.
@@ -433,10 +425,5 @@ Xie, Yihui. 2016. \emph{Bookdown: Authoring Books and Technical Documents with R
 
 \leavevmode\hypertarget{ref-xie_r_2018}{}%
 Xie, Yihui, J. J. Allaire, and Garrett Grolemund. 2018. \emph{R Markdown: The Definitive Guide}. Boca Raton, Florida: Chapman; Hall/CRC. \url{https://bookdown.org/yihui/rmarkdown}.
-
-THIS IS A READ ME FILE
-
-content for mid anidature review at Monash University, Q1 2020
-
 
 \end{document}
