@@ -154,7 +154,7 @@ Consider tabular data containing many attributes (variables). Visualization of t
 \hypertarget{current-state-of-the-field}{%
 \subsubsection{Current state of the field}\label{current-state-of-the-field}}
 
-Consider plotting 2 variables as an XY scatterplot. To add a 3rd variable append the z-axis orthogonal (right angle to) the XY plane. Adding a 4th dimension is not so easily solved. To resolve this we will use scatterplot matrices to introduce axes and bases. Then we generalize to linear projections before discussing principal component analysis and introducing tours.
+Consider plotting 2 variables as an XY scatterplot. To add a 3rd variable append the z-axis orthogonal (right angle to) the XY plane. Adding a 4th dimension is not so easily solved. To resolve this, we will use scatterplot matrices to introduce axes and bases. Then we generalize to linear projections before discussing principal component analysis and introducing tours.
 
 Scatterplot matrices (Chambers et al. 1983) plot every combination of variable pairs and views them in a matrix. This is a good method to check variable ranges and extreme values but is not the ideal visualization. Consider a bar stool as in figure \ref{fig:basisExample}. Given 3 still-frames of the variable-pair (that is, a square-on view from each dimension) does not necessarily convey the full information of the data. For instance, a three-quarter perspective helps relate the square on images and are ubiquitous in assembly and machining instructions. This perspective relates information contained in the view of sides. Mathematically, we describe the angle of view as a \texttt{basis}. Bases (plural of basis) are depicted as unit axes, they point in the direction each dimension is oriented. The axes for the three-quarter perspective differ from the square-on views in that the directions are a combination of 2 and 3 variables respectively, rather than one variable mapped fully to the horizontal or vertical.
 
@@ -182,14 +182,14 @@ Asimov originally purposed a \emph{grand} tour. In the grand tour, several targe
 
 The \emph{guided} tour (Cook, Buja, and Cabrera 1993) makes use of projection pursuit (Kruskal 1969, 1972) to identify a path. Here a selected index function is selected. Starting from the initial basis several nearby bases are checked to see if they perform better on the index function. If so, this new basis is moved and nearby bases are checked again in an iterative process. If the closest bases do not perform better, bases slightly further away are checked as in simulated annealing (Kirkpatrick, Gelatt, and Vecchi 1983). If no better basis is identified within the selected stopping criterium, the algorithm stops.
 
-The discrete methods above identity bases that highlight some feature. The above tours can help understand the structure leading to and from certain projections. To explore higher dimensional spaces visually, we need \emph{human-in-the-loop} (Karwowski 2006) tools. We need to be able to choose and direct the change to a basis. (Cook and Buja 1997) introduces the idea of the \emph{manual} tour. In a manual tour, an individual variable is selected and its contribution to the projection basis is then controlled. The manual tour can play a predefined manual path or be used interactively, where the user defines each subsequent step while viewing the current projection. The later, human-in-loop method we define as \emph{User-Controlled Steering} (UCS) specifically as the interactive aplication of the manual tour.
+The discrete methods above identity bases that highlight some feature. The above tours can help understand the structure leading to and from certain projections. To explore higher dimensional spaces visually, we need \emph{human-in-the-loop} (Karwowski 2006) tools. We need to be able to choose and direct the change to a basis. (Cook and Buja 1997) introduces the idea of the \emph{manual} tour. In a manual tour, an individual variable is selected and its contribution to the projection basis is then controlled. The manual tour can play a predefined manual path or be used interactively, where the user defines each subsequent step while viewing the current projection. The later, human-in-loop method we define as \emph{User-Controlled Steering} (UCS) specifically as the interactive application of the manual tour.
 
 \hypertarget{research-objectives}{%
 \subsection{Research objectives}\label{research-objectives}}
 
 Data and models are typically high-dimensional, with many variables and parameters. Developing new methods to visualize high dimensions has been a pursuit of statisticians, computer scientists and visualization researchers for decades. As technology evolves examining, extending, and assessing current techniques, in new environments, for new data challenges, is an important endeavor. The primary Research Objectives (RO) can then be summarized as the following.
 
-\textbf{\#TODO: rework ``ideal form'', drop to contribution}
+\textbf{\#TODO: reword ``ideal form'', drop to contribution? discuss with Di tomrorrow.}
 1. \textbf{What is the ideal form of an interoperable application of manual tour?}\\
 An algorithm for the manual tour is discussed in Cook and Buja (1997). The algorithm should be better supported, especially proof for the rotation matrix identified. An application of this ideally embodies two properties: interoperable with other tour applications and allow for `next step' interaction for UCS. Manual tours, and specifically the fine control of UCS, should allow analysts to better explore the sensitivity of structure from single variable contributions on the projection. This also acts as the foundation to be used in the remaining objectives.
 
@@ -240,6 +240,52 @@ New functionality has been added to the development branch, specifically around 
 
 The prominent appeal of the manual tour is that it allows users to control the contributions of individual variables. In theory, this should enable the finer exploration of features of interest. The hypothesis we will study is \emph{Does the finer control afforded by the manual tour improve the ability of the analyst to understand the importance of variables contributing to the structure?}
 
+We list out an abbreviated summary of the experimental design in the subsections below. A more detailed draft of the working paper is included as an appendix.
+
+\hypertarget{sec:groups}{%
+\subsubsection{Groups}\label{sec:groups}}
+
+Each participant will be randomly split into one of three even groups. The group controls the order of the factors that the participant was evaluated in for a latin square of the 3 factors. For instance, the order of the first group was PCA, grand, manual. Group level only impacts the order the factors are displayed while task, block, and simulation order will remain the same.
+
+\begin{figure}[h]
+
+{\centering \includegraphics[width=0.8\linewidth,]{./figures/experimental_design} 
+
+}
+
+\caption{Experimental design setup. Participants are assigned to one of 3 even groups controlling the factor order. Within each factor, users perform 3 difficulty blocks of task 1 and then of task 2 before proceeding to the next factor. Simulations are used in a fixed order (while factor order changes). Simulations for the first block difficulty are unique samples drawn from the same distribution. Similarly, the second and third block difficulties are drawn from increasing complex distributions.}\label{fig:design}
+\end{figure}
+
+\begin{figure}[h]
+
+{\centering \includegraphics[width=0.8\linewidth,]{./figures/experimental_design_personA} 
+
+}
+
+\caption{Example case. Person 'A' is assigned to group 2, where they will use factor 2 (grand tour) for the first period. They perform 3 block difficulties of task 1 on simulations of increasing difficulty. Then 3 block difficulties of task 2 on unique simulations sampled from the same distributions of increasing difficulty. After this, they proceed to period 2, where they are use factor 3 (manual tour) to perform 3 block difficulties of each task. Lastly, in the third period, they use factor 1 (PCA) to perform the tasks.}\label{fig:designExample}
+\end{figure}
+
+\hypertarget{sec:factors}{%
+\subsubsection{Factors}\label{sec:factors}}
+
+We will explore performance across three factors. The first factor is Principal Component Analysis (PCA). The second factor is an animated walk of interpolation frames between target bases, called a \emph{grand} tour. The third factor allows for the manual control of the individual variable's contribution to the projection, performing a \emph{manual} tour.
+
+All factors are shown as a scatterplot. The basis axes projection was also illustrated to the left of the plot. They are shown in a unit circle and show the magnitude and direction each variable contributes to the projection.
+
+The user interface was kept the same whenever possible, but the control inputs do change slightly to accommodate the differences between factors. The inputs for PCA select a pair of principal components to display on the x- and y-axes. The manual tour had the same axes selection, with the addition of a drop-down bar and slider control selecting the manipulation variable and magnitude. The grand tour comes precompiled as an animation of a 15 second showing 90 frames at 6 frames per second. The user can control the location or play/pause the animation at will.
+
+\hypertarget{sec:tasks}{%
+\subsubsection{Tasks}\label{sec:tasks}}
+
+Within each factor, participants will perform 2 tasks. The first task asks participants to identify the number of clusters present in unsupervised data. This task served as a standard for assessing the general aptitude for this sort of high dimensional analysis as it was simpler. In application, linear discriminant analysis (Fisher 1936) or penalized discriminant analysis (Hastie, Buja, and Tibshirani 1995) are better suited for classifying such unsupervised data.
+
+The second task is focused on the hypothesis of the study, it asks participants to identify any/all variables that were very important and somewhat important for distinguishing a given cluster from the others. For instance, which variables are very- and somewhat- important for distinguishing clusters `A' and `B'.
+
+\hypertarget{sec:blocks}{%
+\subsubsection{Block difficulty}\label{sec:blocks}}
+
+Participants will be randomly assigned to 1 of 3 even groups. Each group has a different factor order containing all factors. Both tasks will be performed in the same order. Each task will have 3 repetitions performed on new simulations that were drawn from 3 parameterizations in increasing difficulty. Each participant will go through the simulations in the same order, while their factor order will vary. Fixing block difficulty order while varying factors should mitigate potential learning bias.
+
 \hypertarget{proposed-thesis-structure}{%
 \section{Proposed thesis structure}\label{proposed-thesis-structure}}
 
@@ -255,9 +301,9 @@ The prominent appeal of the manual tour is that it allows users to control the c
 \item
   Manual tour and user-controlled steering -- 90\%
 \item
-  Experimental study -- 40\%
+  Experimental study -- 60\%
 \item
-  The extension of the manual tour to 3D -- 0\%
+  The extension of the manual tour to 3D -- 5\%
 \item
   Conclusion and future plans -- 0\%
 \end{itemize}
@@ -289,7 +335,7 @@ The prominent appeal of the manual tour is that it allows users to control the c
     \begin{itemize}
     \tightlist
     \item
-      Hours: 147\textgreater120 hours \textbf{Tracked}, followng required (12 hr total)
+      Hours: 147\textgreater120 hours \textbf{Tracked}, missing the following requirments (12 hr total)
     \item
       \emph{Needed:} CYR 2 (A \& B) -- 2x 3hr
     \item
@@ -375,8 +421,14 @@ Cook, Dianne, and Andreas Buja. 1997. ``Manual Controls for High-Dimensional Dat
 \leavevmode\hypertarget{ref-cook_projection_1993}{}%
 Cook, Dianne, Andreas Buja, and Javier Cabrera. 1993. ``Projection Pursuit Indexes Based on Orthonormal Function Expansions.'' \emph{Journal of Computational and Graphical Statistics} 2 (3): 225--50. \url{https://doi.org/10.1080/10618600.1993.10474610}.
 
+\leavevmode\hypertarget{ref-fisher_use_1936}{}%
+Fisher, Ronald A. 1936. ``The Use of Multiple Measurements in Taxonomic Problems.'' \emph{Annals of Eugenics} 7 (2): 179--88. \url{https://doi.org/10.1111/j.1469-1809.1936.tb02137.x}.
+
 \leavevmode\hypertarget{ref-gracia_new_2016}{}%
 Gracia, Antonio, Santiago González, Víctor Robles, Ernestina Menasalvas, and Tatiana von Landesberger. 2016. ``New Insights into the Suitability of the Third Dimension for Visualizing Multivariate/Multidimensional Data: A Study Based on Loss of Quality Quantification.'' \emph{Information Visualization} 15 (1): 3--30. \url{https://doi.org/10.1177/1473871614556393}.
+
+\leavevmode\hypertarget{ref-hastie_penalized_1995}{}%
+Hastie, Trevor, Andreas Buja, and Robert Tibshirani. 1995. ``Penalized Discriminant Analysis.'' \emph{The Annals of Statistics}, 73--102.
 
 \leavevmode\hypertarget{ref-karwowski_international_2006}{}%
 Karwowski, Waldemar. 2006. \emph{International Encyclopedia of Ergonomics and Human Factors, -3 Volume Set}. CRC Press.

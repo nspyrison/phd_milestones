@@ -88,7 +88,7 @@ Consider tabular data containing many attributes (variables). Visualization of t
 ### Current state of the field
 
 <!-- Adding plotting dimensions -->
-Consider plotting 2 variables as an XY scatterplot. To add a 3rd variable append the z-axis orthogonal (right angle to) the XY plane. Adding a 4th dimension is not so easily solved. To resolve this we will use scatterplot matrices to introduce axes and bases. Then we generalize to linear projections before discussing principal component analysis and introducing tours.
+Consider plotting 2 variables as an XY scatterplot. To add a 3rd variable append the z-axis orthogonal (right angle to) the XY plane. Adding a 4th dimension is not so easily solved. To resolve this, we will use scatterplot matrices to introduce axes and bases. Then we generalize to linear projections before discussing principal component analysis and introducing tours.
 
 <!-- explaining axes and bases -->
 Scatterplot matrices [@chambers_graphical_1983] plot every combination of variable pairs and views them in a matrix. This is a good method to check variable ranges and extreme values but is not the ideal visualization. Consider a bar stool as in figure \@ref(fig:basisExample). Given 3 still-frames of the variable-pair (that is, a square-on view from each dimension) does not necessarily convey the full information of the data. For instance, a three-quarter perspective helps relate the square on images and are ubiquitous in assembly and machining instructions. This perspective relates information contained in the view of sides. Mathematically, we describe the angle of view as a `basis`. Bases (plural of basis) are depicted as unit axes, they point in the direction each dimension is oriented. The axes for the three-quarter perspective differ from the square-on views in that the directions are a combination of 2 and 3 variables respectively, rather than one variable mapped fully to the horizontal or vertical.
@@ -125,7 +125,7 @@ knitr::include_graphics("figures/buja05fig.PNG")
 The _guided_ tour [@cook_projection_1993] makes use of projection pursuit [@kruskal_toward_1969; @kruskal_linear_1972] to identify a path. Here a selected index function is selected. Starting from the initial basis several nearby bases are checked to see if they perform better on the index function. If so, this new basis is moved and nearby bases are checked again in an iterative process. If the closest bases do not perform better, bases slightly further away are checked as in simulated annealing [@kirkpatrick_optimization_1983]. If no better basis is identified within the selected stopping criterium, the algorithm stops.
 
 <!-- knowledge gap -->
-The discrete methods above identity bases that highlight some feature. The above tours can help understand the structure leading to and from certain projections. To explore higher dimensional spaces visually, we need _human-in-the-loop_ [@karwowski_international_2006] tools. We need to be able to choose and direct the change to a basis. [@cook_manual_1997] introduces the idea of the _manual_ tour. In a manual tour, an individual variable is selected and its contribution to the projection basis is then controlled. The manual tour can play a predefined manual path or be used interactively, where the user defines each subsequent step while viewing the current projection. The later, human-in-loop method we define as _User-Controlled Steering_ (UCS) specifically as the interactive aplication of the manual tour.
+The discrete methods above identity bases that highlight some feature. The above tours can help understand the structure leading to and from certain projections. To explore higher dimensional spaces visually, we need _human-in-the-loop_ [@karwowski_international_2006] tools. We need to be able to choose and direct the change to a basis. [@cook_manual_1997] introduces the idea of the _manual_ tour. In a manual tour, an individual variable is selected and its contribution to the projection basis is then controlled. The manual tour can play a predefined manual path or be used interactively, where the user defines each subsequent step while viewing the current projection. The later, human-in-loop method we define as _User-Controlled Steering_ (UCS) specifically as the interactive application of the manual tour.
 
 <!-- The contributions of the remaining variables also change as they perform an orthogonally-constrained rotation. Figure \@ref(fig:manipSpace) illustrates  This allows for the exploration of a given projection as defined by the user.  -->
 
@@ -138,7 +138,7 @@ The discrete methods above identity bases that highlight some feature. The above
 
 Data and models are typically high-dimensional, with many variables and parameters. Developing new methods to visualize high dimensions has been a pursuit of statisticians, computer scientists and visualization researchers for decades. As technology evolves examining, extending, and assessing current techniques, in new environments, for new data challenges, is an important endeavor. The primary Research Objectives (RO) can then be summarized as the following.
 
-__#TODO: rework "ideal form", drop to contribution__
+__#TODO: reword "ideal form", drop to contribution? discuss with Di tomrorrow.__
 1. **What is the ideal form of an interoperable application of manual tour?**\
 An algorithm for the manual tour is discussed in @cook_manual_1997. The algorithm should be better supported, especially proof for the rotation matrix identified. An application of this ideally embodies two properties: interoperable with other tour applications and allow for 'next step' interaction for UCS. Manual tours, and specifically the fine control of UCS, should allow analysts to better explore the sensitivity of structure from single variable contributions on the projection. This also acts as the foundation to be used in the remaining objectives.
 
@@ -155,7 +155,7 @@ __#TODO: add here, can we use the same data? same app? same idea as RO2?__
 ## Methodology
 
 This research is interdisciplinary; touring was developed by statisticians to explore physics data. Modern advances in hardware from information technology allow for 3D rending in higher quality and immersion than previously possible. 
-<!-- The original motivation for the grand tour was for use on particle physics [@fisherkeller_prim-9:_1974]. Likewise applications in high energy physics identified [@cook_dynamical_2018]. -->
+<!-- The original motivation for the grand tour was for use on particle physics [@fisherkeller_prim-9:_1974]. Likewise, applications in high energy physics identified [@cook_dynamical_2018]. -->
 
 The research corresponding with RO #1 entails _algorithm design_ following and further clarifying the work done in @cook_manual_1997. In the application of the manual tour, we clarified the creation of the rotation matrix. The key to the matrix is to specify the 2 axes of rotation for the manipulation space and apply Rodrigues' rotation formula [@rodrigues_lois_1840]. In the application, attention was given to both pre-compiled tour and human-in-the-loop UCS. We provide an open-source version of the manual tour in the R package, `spinifex`, which has since been published on CRAN. This forms the foundation for future work in the remaining objectives.
 
@@ -187,9 +187,46 @@ New functionality has been added to the development branch, specifically around 
 
 The prominent appeal of the manual tour is that it allows users to control the contributions of individual variables. In theory, this should enable the finer exploration of features of interest. The hypothesis we will study is _Does the finer control afforded by the manual tour improve the ability of the analyst to understand the importance of variables contributing to the structure?_
 
-<!-- Within each factor, 2 tasks are performed. Each factor-task is performed on increasing difficulty of simulations is a block in the study. Quantitative measurements include participant speed and accuracy of tasks and subjective Likert surveys of participants. A lineup-type model as outlined in @hofmann_graphical_2012 may also be employed for assessing the quality of display types. -->
+We list out an abbreviated summary of the experimental design in the subsections below. A more detailed draft of the working paper is included as an appendix. 
 
 
+### Groups {#sec:groups}
+
+Each participant will be randomly split into one of three even groups. The group controls the order of the factors that the participant was evaluated in for a latin square of the 3 factors. For instance, the order of the first group was PCA, grand, manual. Group level only impacts the order the factors are displayed while task, block, and simulation order will remain the same. 
+
+
+```{r design, echo = F, out.width = '80%',                                     fig.cap = "Experimental design setup. Participants are assigned to one of 3 even groups controlling the factor order. Within each factor, users perform 3 difficulty blocks of task 1 and then of task 2 before proceeding to the next factor. Simulations are used in a fixed order (while factor order changes). Simulations for the first block difficulty are unique samples drawn from the same distribution. Similarly, the second and third block difficulties are drawn from increasing complex distributions."}
+knitr::include_graphics("./figures/experimental_design.PNG")
+
+```
+
+```{r designExample, echo = F, out.width = '80%',                             fig.cap = "Example case. Person 'A' is assigned to group 2, where they will use factor 2 (grand tour) for the first period. They perform 3 block difficulties of task 1 on simulations of increasing difficulty. Then 3 block difficulties of task 2 on unique simulations sampled from the same distributions of increasing difficulty. After this, they proceed to period 2, where they are use factor 3 (manual tour) to perform 3 block difficulties of each task. Lastly, in the third period, they use factor 1 (PCA) to perform the tasks."}
+knitr::include_graphics("./figures/experimental_design_personA.PNG")
+
+```
+
+### Factors {#sec:factors}
+
+<!-- factors: PCA, grand, manual -->
+We will explore performance across three factors. The first factor is Principal Component Analysis (PCA). The second factor is an animated walk of interpolation frames between target bases, called a _grand_ tour. The third factor allows for the manual control of the individual variable's contribution to the projection, performing a _manual_ tour.
+
+<!-- Plot and axes -->
+All factors are shown as a scatterplot. The basis axes projection was also illustrated to the left of the plot. They are shown in a unit circle and show the magnitude and direction each variable contributes to the projection.
+
+<!-- interface differences -->
+The user interface was kept the same whenever possible, but the control inputs do change slightly to accommodate the differences between factors. The inputs for  PCA select a pair of principal components to display on the x- and y-axes. The manual tour had the same axes selection, with the addition of a drop-down bar and slider control selecting the manipulation variable and magnitude. The grand tour comes precompiled as an animation of a 15 second showing 90 frames at 6 frames per second. The user can control the location or play/pause the animation at will.
+
+
+### Tasks {#sec:tasks}
+
+Within each factor, participants will perform 2 tasks. The first task asks participants to identify the number of clusters present in unsupervised data. This task served as a standard for assessing the general aptitude for this sort of high dimensional analysis as it was simpler. In application, linear discriminant analysis [@fisher_use_1936] or penalized discriminant analysis [@hastie_penalized_1995] are better suited for classifying such unsupervised data.
+
+The second task is focused on the hypothesis of the study, it asks participants to identify any/all variables that were very important and somewhat important for distinguishing a given cluster from the others. For instance, which variables are very- and somewhat- important for distinguishing clusters 'A' and 'B'.
+
+
+### Block difficulty {#sec:blocks}
+
+Participants will be randomly assigned to 1 of 3 even groups. Each group has a  different factor order containing all factors. Both tasks will be performed in the same order. Each task will have 3 repetitions performed on new simulations that were drawn from 3 parameterizations in increasing difficulty. Each participant will go through the simulations in the same order, while their factor order will vary. Fixing block difficulty order while varying factors should mitigate potential learning bias.
 
 
 # Proposed thesis structure
@@ -199,8 +236,8 @@ The prominent appeal of the manual tour is that it allows users to control the c
 - Introduction -- 60%
 - Literature review -- 80%
 - Manual tour and user-controlled steering -- 90%
-- Experimental study -- 40%
-- The extension of the manual tour to 3D -- 0%
+- Experimental study -- 60%
+- The extension of the manual tour to 3D -- 5%
 - Conclusion and future plans -- 0%
 
 __Proposed research timeline__
@@ -215,7 +252,7 @@ knitr::include_graphics("figures/phd_timeline.PNG")
 
 - WES Academic record
     - FIT5144: 2019 S1+2, **In progress**, extended to the pre-submission seminar with the unit coordinator for the usual 2 opportunities to complete.
-        - Hours: 147>120 hours __Tracked__, followng required (12 hr total)
+        - Hours: 147>120 hours __Tracked__, missing the following requirments (12 hr total)
         - _Needed:_ CYR 2 (A & B) -- 2x 3hr 
         - _Needed:_ Faculty of IT Workshop 1 and 3 on Ethical Research and Publishing -- 2x 3hr
     - FIT5113: 2018 S2, **Exemption**
