@@ -138,18 +138,24 @@ The discrete methods above identity bases that highlight some feature. The above
 
 Data and models are typically high-dimensional, with many variables and parameters. Developing new methods to visualize high dimensions has been a pursuit of statisticians, computer scientists and visualization researchers for decades. As technology evolves examining, extending, and assessing current techniques, in new environments, for new data challenges, is an important endeavor. The primary Research Objectives (RO) can then be summarized as the following.
 
-__#TODO: reword "ideal form", drop to contribution? discuss with Di tomrorrow.__
-1. **What is the ideal form of an interoperable application of manual tour?**\
-An algorithm for the manual tour is discussed in @cook_manual_1997. The algorithm should be better supported, especially proof for the rotation matrix identified. An application of this ideally embodies two properties: interoperable with other tour applications and allow for 'next step' interaction for UCS. Manual tours, and specifically the fine control of UCS, should allow analysts to better explore the sensitivity of structure from single variable contributions on the projection. This also acts as the foundation to be used in the remaining objectives.
+Overall objective: **Can a geodesic interpolator be used to help analysts understand linear projections of data, and explore the sensitivity of structure in the projection to the variables contributing to the projection? **\
 
-2. **Do 2D interactive manual tours provide benefits over alternatives?**\
-User-control manipulation around identified projections of interest theoretically allows for a better understanding of the variables contributing to the structure. However, the level of abstraction and the sheer number of basis permutations is formidable. The idea that UCS will provide digestible improvements to the understanding of structure should be validated.
+<!--__#TODO: reword "ideal form", drop to contribution? discuss with Di tomrorrow.__-->
+1. **How do we define a geodesic interpolator be used to add and remove variables smoothly from a 2D linear projection of data? <!--What is the ideal form of an interoperable application of manual tour?-->**\
+An algorithm for the manual tour is discussed in @cook_manual_1997. The algorithm will be adapted to create the geodesic interpolator. Input will be a single projection, a full $p$-dimensional data matrix, and a choice of variable to control. The implementation will be in R. 
 
-3. **How can the manual tour be extended to 3D?**\
-@gracia_new_2016 compares analyst tasks between 2- and 3-D scatterplots. They find modest accuracy and error improvements for distance perception and outlier identification in favor of 3D at the cost of a relatively small increase in task time. @nelson_xgobi_1998 similarly compare a 2D scatterplot projection and the 3D scatterplot manipulation space (of the same projection). They find a slight advantage in the sphere test and a large advantage in the cluster test in favor of the 3D manipulation space. The manual tour should be extended to accommodate a 3D projection as analogous improvements may be obtainable.
+<!--to should be better supported, especially proof for the rotation matrix identified. An application of this ideally embodies two properties: interoperable with other tour applications and allow for 'next step' interaction for UCS. Manual tours, and specifically the fine control of UCS, should allow analysts to better explore the sensitivity of structure from single variable contributions on the projection. This also acts as the foundation to be used in the remaining objectives.-->
 
-4. **Do 3D manual tours provide benefits over alternatives?**\
-__#TODO: add here, can we use the same data? same app? same idea as RO2?__ 
+2. **Do analysts understand the relationship between variables and structure in a 2D linear projection better when the geodesic interpolator is available? <!--2D interactive manual tours provide benefits over alternatives?-->**\
+Current practice for high-dimensional data is to make a single low-dimensional representation, with a method such as principal component analysis (PCA). Often just the first two principal components are shown, which is equivalent to a 2D projection. This technique is also called a biplot. Another more rarely used technique is a tour, which shows a movie of 2D projections. It can be used to get an overview of the structure in the multivariate space, but it is difficult to assess the importance of variables to particularly interesting low-dimensional structure. A human subjects study will be designed and conducted to assess the learning about importance of variables, from each of these techniques. 
+
+<!--User-control manipulation around identified projections of interest theoretically allows for a better understanding of the variables contributing to the structure. However, the level of abstraction and the sheer number of basis permutations is formidable. The idea that UCS will provide digestible improvements to the understanding of structure should be validated.-->
+
+3. **Can we define a geodesic interpolator for 3D projections, so that the technology can be implemented in modern virtual reality environments?<!-- How can the manual tour be extended to 3D?-->**\
+The cutting edge of visualisation research today is in virtual environments, as technology has advanced to make this accessible to the masses. It is interesting to explore how analysis with 3D graphics operates in comparison with 2D graphics. Building a geodesic interpolator for 3D projections extends the technology from 2D to 3D, and will allow us to compare the benefits or not, of the new environment for analysing with multivariate data.
+
+4. **Does 3D provide advantages over 2D, when exploring low-dimensional projections, for understanding structure in high-dimensional data? <!-- manual tours provide benefits over alternatives?-->**\
+@gracia_new_2016 compares analyst tasks between 2- and 3-D scatterplots. They find modest accuracy and error improvements for distance perception and outlier identification in favor of 3D at the cost of a relatively small increase in task time. @nelson_xgobi_1998 similarly compare a 2D scatterplot projection and the 3D scatterplot manipulation space (of the same projection). They find a slight advantage in the sphere test and a large advantage in the cluster test in favor of the 3D manipulation space. A human subjects experiment will be conducted to assess the sensitivity analysis techniques in a 2D vs 3D environment.
 
 
 ## Methodology
