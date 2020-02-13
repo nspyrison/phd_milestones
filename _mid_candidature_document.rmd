@@ -72,7 +72,7 @@ knitr::opts_chunk$set(fig.align = "center",
 <!-- ## Other issues. -->
 
 
-<!-- An abstract summarizes, usually in one paragraph of 300 words or less, the major aspects of the entire paper in a prescribed sequence that includes: 1) the overall purpose of the study and the research problem(s) you investigated; 2) the basic design of the study; 3) major findings or trends found as a result of your analysis; and, 4) a brief summary of your interpretations and conclusions. -->
+<!-- An abstract summarizes, usually in one paragraph of 300 words or less, the major aspects of the entire paper in a prescribed sequence that includes: 1) the overall purpose of the study and the research problem(s) you investigated; 2) the basic design of the study; 3) major findings or trends found as a result of your analysis; and, 4) a summary of your interpretations and conclusions. -->
 
 
 # Introduction {#sec:intro}
@@ -90,14 +90,14 @@ Consider tabular data containing many attributes (I will use attribute and varia
 <!-- Adding plotting dimensions -->
 Consider plotting 2 variables as an XY scatterplot. To add a 3rd variable append the z-axis orthogonal (right angle to) the XY plane. Increasing dimensionality furth is not so trivial solved. To resolve this, we will introduce the basis vector and linear projections before traditional _discreate_ method, more recent _continuous_ methods and then discuss user control
 
-Mathematically, a 'basis' is an orthonormal set of `d` element vectors, where each element vector is an linear combination of `p` elements in vector-space.  Esentially a basis defines the direction and magnitude each of the `p` attributes contributes to every direction of the `d`-dimensional projection space. Consider a projection down to 2D. The basis defining this projection can be visually displayed as a unit circle with `p` line segments steming from the origin as shown in figure \@ref(fig:basis).
+Mathematically, a 'basis' is an orthonormal set of `d` element vectors, where each element vector is a linear combination of `p` elements in vector-space.  That is to say, a basis defines the direction and magnitude each of the `p` attributes contributes to every direction of the `d`-dimensional projection space. Consider a projection down to 2D. The basis defining this projection can be visually displayed as a unit circle with `p` line segments stemming from the origin as shown in figure \@ref(fig:basis).
 
 ```{r basis, echo = FALSE, out.width = "60%",                          fig.cap = "Illustration of a basis projecting 6 attributes down to 2 dimensions. The black line segments indicate the magnitude and direction a variable contributes to the projection."}
 knitr::include_graphics("./figures/basis.png")
 ```
 
 
-There are many methods that idenitfy one or more projections of interest. For instance scatterplot matrices [@chambers_graphical_1983] can be used to rapidly valid univariate supports and distributions. Principal component analysism [PCA; @pearson_liii._1901]  with the use of biplots highlight full sample variation. Linear discriminant analysis [@fisher_use_1936] and penalized discriminant analysis [@hastie_penalized_1995] can be used to idenfify projection with cluster separation. These are great techniques and all applicable for numeric data with many attributes, however, they have two notable features: they show only 1 or several _discrete_ projections and they do not allow for an analyst to steer or control.
+Many methods identify one or more projections of interest. For instance, scatterplot matrices [@chambers_graphical_1983] can be used to rapidly valid univariate supports and distributions. Principal component analysis [PCA; @pearson_liii._1901] and biplots [@gabriel_biplot_1971] highlight full sample variation. Linear discriminant analysis [@fisher_use_1936] and penalized discriminant analysis [@hastie_penalized_1995] can be used to identify projection with cluster separation. These are great techniques and all applicants for numeric data with many attributes, however, they have two notable features: they show only 1 or several _discrete_ projections and they do not allow for an analyst to steer or control.
 
 
 
@@ -107,11 +107,11 @@ There are many methods that idenitfy one or more projections of interest. For in
 The above methods have suggested a _discrete_ number of linear projections to look at. At the same time, the stool example illustrates that looking at intermediate views improves understanding. A _continuous_ animation of the object being rotated would improve this understanding even further. This is analogous to the idea of a data visualization _tour_[@asimov_grand_1985; @buja_grand_1986]. A tour produces a relatively high number of linear projections and views them in quick succession, typically as an animation. When the bases have a relatively small change in the contributions the projections are much closer. Single points and features can be tracked and follow from projection to projection allowing for a better understanding of the local structure. 
 
 <!-- knowledge gap -->
-The path that a tour animates is a cruital feature. There are various types of tours, many of which select an arbitrary or function-driven path. All of the discrete techniques also highlight a specific feature. For EDA it is desirable to give the analyst the ability to choose the direction to explore. To explore higher dimensional spaces visually, we need _human-in-the-loop_ [@karwowski_international_2006] tools. [@cook_manual_1997] introduces the idea of the _manual_ tour. In a manual tour, an individual variable is selected and its contribution to the projection basis is then controlled. This allows analysts to choose the direction of exploration.
+The path that a tour animates is a crucial feature. There are various types of tours, many of which select an arbitrary or function-driven path. All of the discrete techniques also highlight a specific feature. For EDA it is desirable to give the analyst the ability to choose the direction to explore. To explore higher dimensional spaces visually, we need _human-in-the-loop_ [@karwowski_international_2006] tools. [@cook_manual_1997] introduces the idea of the _manual_ tour. In a manual tour, an individual variable is selected and its contribution to the projection basis is then controlled. This allows analysts to choose the direction of exploration.
 
-Figure \@ref(fig:manipSp) illustrates a manipulation space. the basis we viewed before is shown in blue and unselected variables in grey on a horizontal plane. while the manipulation space extends above it in red. The contribution that V1 has on the blue projection plane can be controlled as though a hand might manipulate the end of the red line segment. The other variables would perform a constrained rotation, maintain orthagonality of the space.
+Figure \@ref(fig:manipSp) illustrates a manipulation space. the basis we viewed before is shown in blue and unselected variables in grey on a horizontal plane. while the manipulation space extends above it in red. The contribution that V1 has on the blue projection plane can be controlled as though a hand might manipulate the end of the red line segment. The other variables would perform a constrained rotation, maintain orthogonality of the space.
 
-```{r manipSp, echo = FALSE, out.width = "60%",                             fig.cap = "Visualization of a manipulation space. The projection plane is horizontal shown in blue and grey. The manipulation direction extends orthogonal to this. Variable 1 is selected as the manipulation variable is contribution on the projection plane is controled by it's position in the manipulation space. If move the other variables perfrom an orthogonally-constrained rotation."}
+```{r manipSp, echo = FALSE, out.width = "60%",                             fig.cap = "Visualization of a manipulation space. The projection plane extends horizontally in blue and grey. The manipulation direction in red extends orthogonal to this. Variable 1 is selected as the manipulation variable. Its contribution to the projection plane (blue) is controlled by its position in the manipulation space (red). If the red segment is manipulated all variable change due to orthogonally-constrained rotation."}
 knitr::include_graphics("./figures/manipSp.png")
 ```
 
@@ -127,7 +127,7 @@ User-control manipulation around identified projections of interest theoreticall
 
 ## Research objectives
 
-Data and models are typically high-dimensional, with many variables and parameters. Developing new methods to visualize high dimensions has been a pursuit of statisticians, computer scientists and visualization researchers for decades. Their continues to be tension and back-and-forth on automated- and manual- analysis. Hardware advances allow for more realistic virtual-, augmented-, and mixed- environments with ever increasing computing power. The degree of analyst choice and interaction with display dimension should be explored. The primary research objectives (RO) can then be summarized as the following.
+Data and models are typically high-dimensional, with many variables and parameters. Developing new methods to visualize high dimensions has been a pursuit of statisticians, computer scientists and visualization researchers for decades. Their continues to be tension and back-and-forth on automated- and manual- analysis. Hardware advances allow for more realistic virtual-, augmented-, and mixed- environments with ever-increasing computing power. The degree of analyst choice and interaction with the display dimension should be explored. The primary research objectives (RO) can then be summarized as the following.
 
 Overall objective: **Can a geodesic interpolator be used to help analysts understand linear projections of data, and explore the sensitivity of structure in the projection to the variables contributing to the projection? **
 
@@ -135,10 +135,10 @@ Overall objective: **Can a geodesic interpolator be used to help analysts unders
 An algorithm for the manual tour is discussed in @cook_manual_1997. The algorithm will be adapted to create the geodesic interpolator. Input will be a single projection, a full $p$-dimensional data matrix, and a choice of variable to control. The implementation will be in R. 
 
 2. **Do analysts understand the relationship between variables and structure in a 2D linear projection better when the geodesic interpolator is available?**\
-Current practice for high-dimensional data is to make a single low-dimensional representation, with a method such as principal component analysis (PCA). Often just the first two principal components are shown, which is equivalent to a 2D projection. This technique is also called a biplot. Another more rarely used technique is a tour, which shows an animation of 2D projections. It can be used to get an overview of the structure in the multivariate space, but it is difficult to assess the importance of variables to particularly interesting low-dimensional structure. A human subject study has be designed and conducted to assess the learning about importance of variables, from each of these techniques. 
+Current practice for high-dimensional data is to make a single low-dimensional representation, with a method such as principal component analysis (PCA). Often just the first two principal components are shown, which is equivalent to a 2D projection. This technique is also called a biplot. Another more rarely used technique is a tour, which shows an animation of 2D projections. It can be used to get an overview of the structure in the multivariate space, but it is difficult to assess the importance of variables to a particularly interesting low-dimensional structure. A human subject study has been designed and conducted to assess the learning about the importance of variables, from each of these techniques. 
 
 3. **Can we define a geodesic interpolator for 3D projections, so that the technology can be implemented in modern virtual reality environments?<!-- How can the manual tour be extended to 3D?-->**\
-The cutting edge of visualisation research today is in virtual environments, as technology has advanced to make this accessible to the masses. It is interesting to explore how analysis with 3D graphics operates in comparison with 2D graphics. Building a geodesic interpolator for 3D projections extends the technology from 2D to 3D, and will allow us to compare the benefits or not, of the new environment for analysing with multivariate data.
+The cutting edge of visualization research today is in virtual environments, as technology has advanced to make this accessible to the masses. It is interesting to explore how analysis with 3D graphics operates in comparison with 2D graphics. Building a geodesic interpolator for 3D projections extends the technology from 2D to 3D, and will allow us to compare the benefits or not, of the new environment for analyzing with multivariate data.
 
 4. **Does 3D provide advantages over 2D, when exploring low-dimensional projections, for understanding structure in high-dimensional data? <!-- manual tours provide benefits over alternatives?-->**\
 @gracia_new_2016 compares analyst tasks between 2- and 3-D scatterplots. They find modest accuracy and error improvements for distance perception and outlier identification in favor of 3D at the cost of a relatively small increase in task time. @nelson_xgobi_1998 similarly compare a 2D projection and its 3D  manipulation space. They find a slight advantage in the sphere test and a large advantage in the cluster test in favor of the 3D manipulation space. A human subjects experiment will be conducted to assess the sensitivity analysis techniques in a 2D vs 3D environment.
@@ -215,6 +215,10 @@ The second task is focused on the hypothesis of the study, it asks participants 
 
 Participants will be randomly assigned to 1 of 3 even groups. Each group has a  different factor order containing all factors. Both tasks will be performed in the same order. Each task will have 3 repetitions performed on new simulations that were drawn from 3 parameterizations in increasing difficulty. Each participant will go through the simulations in the same order, while their factor order will vary. Fixing block difficulty order while varying factors should mitigate potential learning bias.
 
+### Pilot study results
+
+__#TODO:__
+
 
 # Proposed thesis structure
 
@@ -259,7 +263,7 @@ knitr::include_graphics("figures/phd_timeline.PNG")
 
 ## Funding for human subjects
 
-- Beverage voucher: \$5 x 24 people (est) = \$120  
+- Beverage voucher: \$6 x 25 people (est) = \$150  
 
 ## Support for conference travel
 
@@ -278,9 +282,9 @@ http://ieeevis.org/year/2020/info/call-participation/vast-paper-types
 
 # Acknowledgements {#sec:acknowledgements}
 
-This report was created in `R` [@r_core_team_r:_2019], using `bookdown` [@xie_bookdown:_2016] and `rmarkdown` [@xie_r_2018].
+This report was created in `R` [@r_core_team_r:_2019] using `rmarkdown` [@xie_r_2018].
 
-For version control, transparency, and reproducibility, the source files are made available found at [github.com/nspyrison/mid_canidature](https://github.com/nspyrison/mid_canidature).
+For version control, transparency, and reproducibility, the source files are made available found at [github.com/nspyrison/mid_candidature](https://github.com/nspyrison/mid_candidature).
 
 
 # References 
