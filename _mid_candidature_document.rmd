@@ -217,7 +217,12 @@ Participants will be randomly assigned to 1 of 3 even groups. Each group has a  
 
 ### Pilot study results
 
-__#TODO:__
+__Tasks 1 and task 2 aggreageted to take levl:__
+
+```{r v3pilot, echo=FALSE, out.width = "100%", out.extra = '', fig.cap = "Proposed research timeline."}
+# fig.pos="H" # Holds the figure postion reltive to local content
+knitr::include_graphics("figures/v3pilot.png")
+```
 
 
 # Proposed thesis structure
