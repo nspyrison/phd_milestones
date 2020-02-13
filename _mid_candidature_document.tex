@@ -1,37 +1,60 @@
-\documentclass[11,]{article}
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames*,x11names*}{xcolor}
+%
+\documentclass[
+  11,
+]{article}
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
-\usepackage{fixltx2e} % provides \textsubscript
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
-\else % if luatex or xelatex
-  \ifxetex
-    \usepackage{mathspec}
-  \else
-    \usepackage{fontspec}
-  \fi
-  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
 \fi
-% use upquote if available, for straight quotes in verbatim environments
+% Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-% use microtype if available
-\IfFileExists{microtype.sty}{%
-\usepackage{microtype}
-\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=Maroon,
+  filecolor=Maroon,
+  citecolor=Blue,
+  urlcolor=blue,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
 \usepackage[margin=1in]{geometry}
-\usepackage{hyperref}
-\PassOptionsToPackage{usenames,dvipsnames}{color} % color is loaded by hyperref
-\hypersetup{unicode=true,
-            colorlinks=true,
-            linkcolor=Maroon,
-            citecolor=Blue,
-            urlcolor=blue,
-            breaklinks=true}
-\urlstyle{same}  % don't use monospace font for urls
 \usepackage{longtable,booktabs}
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
 \usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -41,53 +64,20 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-\IfFileExists{parskip.sty}{%
-\usepackage{parskip}
-}{% else
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{6pt plus 2pt minus 1pt}
-}
-\setlength{\emergencystretch}{3em}  % prevent overfull lines
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{5}
-% Redefines (sub)paragraphs to behave more like sections
-\ifx\paragraph\undefined\else
-\let\oldparagraph\paragraph
-\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
-\fi
-\ifx\subparagraph\undefined\else
-\let\oldsubparagraph\subparagraph
-\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
-\fi
-
-%%% Use protect on footnotes to avoid problems with footnotes in titles
-\let\rmarkdownfootnote\footnote%
-\def\footnote{\protect\rmarkdownfootnote}
-
-%%% Change title format to be more compact
-\usepackage{titling}
-
-% Create subtitle command for use in maketitle
-\providecommand{\subtitle}[1]{
-  \posttitle{
-    \begin{center}\large#1\end{center}
-    }
-}
-
-\setlength{\droptitle}{-2em}
-
-  \title{}
-    \pretitle{\vspace{\droptitle}}
-  \posttitle{}
-    \author{}
-    \preauthor{}\postauthor{}
-    \date{}
-    \predate{}\postdate{}
-  
 \usepackage{setspace}
 \usepackage{hyperref}
 \usepackage{graphicx}
+
+\author{}
+\date{\vspace{-2.5em}}
 
 \begin{document}
 
@@ -147,7 +137,7 @@ Assoc. Prof. Bernhard Jenny\\
 \hypersetup{linkcolor = blue}
 
 {
-\hypersetup{linkcolor=black}
+\hypersetup{linkcolor=}
 \setcounter{tocdepth}{2}
 \tableofcontents
 }
@@ -159,74 +149,74 @@ Assoc. Prof. Bernhard Jenny\\
 
 The term exploratory data analysis was coined by Tukey (1977), who leaves it as an intentionally broad term that encompasses the initial summarization and visualization of a data set. This is a critical first step of checking for realistic values and validating model assumptions. It may be tempting to review a series of summary statistics to check model assumptions. However, there are known datasets where the same summary statistics miss glaringly obvious visual patterns (Anscombe 1973; Matejka and Fitzmaurice 2017). It is strikingly simple to look at the wrong, or incomplete set of statistics needed to validate assumptions. Data visualization is fast, versatile, and robust relative to the alternative of numeric statistical summarization. Data visualization does and must remain a primary component of data analysis and model validation.
 
-Consider tabular data containing many attributes (variables). Visualization of this ubiquitous type of dataset is key to its understanding and exploration. Visualization of spaces in more than 3 dimensions quickly becomes problematic. We will discuss the use of linear projections to mitigate this obstacle. The motivation for this research is two-fold: expand the dimensionality support and improve the understanding from such visualizations.
+Consider tabular data containing many attributes (I will use attribute and variable as synonymous). Visualization of this ubiquitous type of dataset is key to its understanding and exploration. Visualization of spaces in more than 3 dimensions quickly becomes problematic. We will discuss the use of linear projections to mitigate this obstacle. The motivation for this research is two-fold: expand the dimensionality support and improve the understanding from such visualizations.
 
 \hypertarget{current-state-of-the-field}{%
-\subsubsection{Current state of the field}\label{current-state-of-the-field}}
+\subsection{Current state of the field}\label{current-state-of-the-field}}
 
-Consider plotting 2 variables as an XY scatterplot. To add a 3rd variable append the z-axis orthogonal (right angle to) the XY plane. Adding a 4th dimension is not so easily solved. To resolve this, we will use scatterplot matrices to introduce axes and bases. Then we generalize to linear projections before discussing principal component analysis and introducing tours.
+Consider plotting 2 variables as an XY scatterplot. To add a 3rd variable append the z-axis orthogonal (right angle to) the XY plane. Increasing dimensionality furth is not so trivial solved. To resolve this, we will introduce the basis vector and linear projections before traditional \emph{discreate} method, more recent \emph{continuous} methods and then discuss user control
 
-Scatterplot matrices (Chambers et al. 1983) plot every combination of variable pairs and views them in a matrix. This is a good method to check variable ranges and extreme values but is not the ideal visualization. Consider a bar stool as in figure \ref{fig:basisExample}. Given 3 still-frames of the variable-pair (that is, a square-on view from each dimension) does not necessarily convey the full information of the data. For instance, a three-quarter perspective helps relate the square on images and are ubiquitous in assembly and machining instructions. This perspective relates information contained in the view of sides. Mathematically, we describe the angle of view as a \texttt{basis}. Bases (plural of basis) are depicted as unit axes, they point in the direction each dimension is oriented. The axes for the three-quarter perspective differ from the square-on views in that the directions are a combination of 2 and 3 variables respectively, rather than one variable mapped fully to the horizontal or vertical.
+Mathematically, a `basis' is an orthonormal set of \texttt{d} element vectors, where each element vector is an linear combination of \texttt{p} elements in vector-space. Esentially a basis defines the direction and magnitude each of the \texttt{p} attributes contributes to every direction of the \texttt{d}-dimensional projection space. Consider a projection down to 2D. The basis defining this projection can be visually displayed as a unit circle with \texttt{p} line segments steming from the origin as shown in figure \ref{fig:basis}.
 
-Building on pairs of variables, an arbitrary \texttt{p} variables can be projected down to 2 dimensions. This seems unintuitive at first, but we have already discussed some trivial cases with scatterplot matrices. Consider figure \ref{fig:basisExample} again. The first 3 cases plot pairs variables, while the third direction extends directly beyond the XY plane. These are trivial projections of 3- down to 2- dimensions, where the 3rd variable has no contribution with a row of zeros in the basis. The three-quarter perspective is more interesting as more than one variable contributes to each direction. The resulting plot is said to be a \emph{linear projection} when the basis is produced with an affine transformation, that is, any transformation in which all parallel lines remain parallel. One crucial aspect of linear projections is that they are interoperable back to the original attributes; any observation identified in any linear projection can be mapped back to its variable values. Recently, some non-linear projection techniques such as
-self-organizing maps (Kohonen 1990) and t-distributed stochastic neighbor embedding (Maaten and Hinton 2008) have received a substantial following. However, due to their non-linear transformation observations cannot be mapped back to the original attribute-space and interpretation becomes opaque. For this reason, non-linear transformations are precluded from the exploration of data- or parameter-spaces.
+\begin{figure}[h]
 
-Principal component analysis (PCA; Pearson 1901) is one common way of identifying projections to consider. In PCA the new components are formed from a linear combination of the original attributes. The new components must be orthogonal to all previous components and ordered by descending variation explained. A pair of these new components are then viewed as an XY scatterplot. This has the added benefit of viewing the most variation in as few dimensions as possible. The scree plot/test (Cattell 1966) can be used on the components to quickly zero in on a space that has the intrinsic dimensionality of the data. This is a common data processing step once the number of attributes becomes sizable (larger than 10 or so).
+{\centering \includegraphics[width=0.6\linewidth,]{./figures/basis} 
+
+}
+
+\caption{Illustration of a basis projecting 6 attributes down to 2 dimensions. The black line segments indicate the magnitude and direction a variable contributes to the projection.}\label{fig:basis}
+\end{figure}
+
+There are many methods that idenitfy one or more projections of interest. For instance scatterplot matrices (Chambers et al. 1983) can be used to rapidly valid univariate supports and distributions. Principal component analysism (PCA; Pearson 1901) with the use of biplots highlight full sample variation. Linear discriminant analysis (Fisher 1936) and penalized discriminant analysis (Hastie, Buja, and Tibshirani 1995) can be used to idenfify projection with cluster separation. These are great techniques and all applicable for numeric data with many attributes, however, they have two notable features: they show only 1 or several \emph{discrete} projections and they do not allow for an analyst to steer or control.
 
 \hypertarget{from-discrete-to-continuous}{%
 \subsection{From discrete to continuous}\label{from-discrete-to-continuous}}
 
 The above methods have suggested a \emph{discrete} number of linear projections to look at. At the same time, the stool example illustrates that looking at intermediate views improves understanding. A \emph{continuous} animation of the object being rotated would improve this understanding even further. This is analogous to the idea of a data visualization \emph{tour}(Asimov 1985; Buja and Asimov 1986). A tour produces a relatively high number of linear projections and views them in quick succession, typically as an animation. When the bases have a relatively small change in the contributions the projections are much closer. Single points and features can be tracked and follow from projection to projection allowing for a better understanding of the local structure.
 
-One key feature of tours is the selection of the path animated.
-Asimov originally purposed a \emph{grand} tour. In the grand tour, several target planes are identified somewhat close to the starting basis. Many interim planes are found between target planes via geodesic interpolation. Figure \ref{fig:grandFrames} illustrates a simplification of this process. A \emph{little} tour (Wickham et al. 2011) starts on a basis with only 2 variables contributing and trades the contribution one variable for another single variable. This effectively animates between the planes displayed in a scatterplot matrix. A \emph{local} tour explores a dense area of the possible projections around the initiated basis. It walks a short distance away before returning to the starting basis and selecting a new random frame very nearby.
+The path that a tour animates is a cruital feature. There are various types of tours, many of which select an arbitrary or function-driven path. All of the discrete techniques also highlight a specific feature. For EDA it is desirable to give the analyst the ability to choose the direction to explore. To explore higher dimensional spaces visually, we need \emph{human-in-the-loop} (Karwowski 2006) tools. (Cook and Buja 1997) introduces the idea of the \emph{manual} tour. In a manual tour, an individual variable is selected and its contribution to the projection basis is then controlled. This allows analysts to choose the direction of exploration.
+
+Figure \ref{fig:manipSp} illustrates a manipulation space. the basis we viewed before is shown in blue and unselected variables in grey on a horizontal plane. while the manipulation space extends above it in red. The contribution that V1 has on the blue projection plane can be controlled as though a hand might manipulate the end of the red line segment. The other variables would perform a constrained rotation, maintain orthagonality of the space.
 
 \begin{figure}[h]
 
-{\centering \includegraphics[width=0.8\linewidth,]{figures/buja05fig} 
+{\centering \includegraphics[width=0.6\linewidth,]{./figures/manipSp} 
 
 }
 
-\caption{Simlified illustration of a grand tour target and interim frames  (Buja et al. 2005)}\label{fig:grandFrames}
+\caption{Visualization of a manipulation space. The projection plane is horizontal shown in blue and grey. The manipulation direction extends orthogonal to this. Variable 1 is selected as the manipulation variable is contribution on the projection plane is controled by it's position in the manipulation space. If move the other variables perfrom an orthogonally-constrained rotation.}\label{fig:manipSp}
 \end{figure}
 
-The \emph{guided} tour (Cook, Buja, and Cabrera 1993) makes use of projection pursuit (Kruskal 1969, 1972) to identify a path. Here a selected index function is selected. Starting from the initial basis several nearby bases are checked to see if they perform better on the index function. If so, this new basis is moved and nearby bases are checked again in an iterative process. If the closest bases do not perform better, bases slightly further away are checked as in simulated annealing (Kirkpatrick, Gelatt, and Vecchi 1983). If no better basis is identified within the selected stopping criterium, the algorithm stops.
+The discrete methods above identity discrete bases that highlight some feature. The above tours can help convey more continuity of structure through many small changes in the basis. For EDA it is desirable to give the analyst the ability to choose the direction to explore.
 
-The discrete methods above identity bases that highlight some feature. The above tours can help understand the structure leading to and from certain projections. To explore higher dimensional spaces visually, we need \emph{human-in-the-loop} (Karwowski 2006) tools. We need to be able to choose and direct the change to a basis. (Cook and Buja 1997) introduces the idea of the \emph{manual} tour. In a manual tour, an individual variable is selected and its contribution to the projection basis is then controlled. The manual tour can play a predefined manual path or be used interactively, where the user defines each subsequent step while viewing the current projection. The later, human-in-loop method we define as \emph{User-Controlled Steering} (UCS) specifically as the interactive application of the manual tour.
+\hypertarget{steering-2-d-projections}{%
+\subsection{Steering 2-D projections}\label{steering-2-d-projections}}
+
+The manual tour can play a predefined manual path or be used interactively, where the user defines each subsequent step while viewing the current projection. The later, human-in-the-loop method we define as \emph{User-Controlled Steering} (UCS) specifically as the interactive, human-in-the-loop application of the manual tour.
+
+User-control manipulation around identified projections of interest theoretically allows for a better understanding of the variables contributing to the structure. However, the level of abstraction and the sheer number of basis permutations is formidable. The idea that UCS will provide digestible improvements to the understanding of structure should be validated.
 
 \hypertarget{research-objectives}{%
 \subsection{Research objectives}\label{research-objectives}}
 
-Data and models are typically high-dimensional, with many variables and parameters. Developing new methods to visualize high dimensions has been a pursuit of statisticians, computer scientists and visualization researchers for decades. As technology evolves examining, extending, and assessing current techniques, in new environments, for new data challenges, is an important endeavor. The primary Research Objectives (RO) can then be summarized as the following.
+Data and models are typically high-dimensional, with many variables and parameters. Developing new methods to visualize high dimensions has been a pursuit of statisticians, computer scientists and visualization researchers for decades. Their continues to be tension and back-and-forth on automated- and manual- analysis. Hardware advances allow for more realistic virtual-, augmented-, and mixed- environments with ever increasing computing power. The degree of analyst choice and interaction with display dimension should be explored. The primary research objectives (RO) can then be summarized as the following.
 
-Overall objective: \textbf{Can a geodesic interpolator be used to help analysts understand linear projections of data, and explore the sensitivity of structure in the projection to the variables contributing to the projection? }\\
+Overall objective: \textbf{Can a geodesic interpolator be used to help analysts understand linear projections of data, and explore the sensitivity of structure in the projection to the variables contributing to the projection? }
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
-\tightlist
 \item
-  \textbf{How do we define a geodesic interpolator be used to add and remove variables smoothly from a 2D linear projection of data? }\\
+  \textbf{How do we define a geodesic interpolator be used to add and remove variables smoothly from a 2D linear projection of data?}\\
   An algorithm for the manual tour is discussed in Cook and Buja (1997). The algorithm will be adapted to create the geodesic interpolator. Input will be a single projection, a full \(p\)-dimensional data matrix, and a choice of variable to control. The implementation will be in R.
-\end{enumerate}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{1}
-\tightlist
 \item
-  \textbf{Do analysts understand the relationship between variables and structure in a 2D linear projection better when the geodesic interpolator is available? }\\
-  Current practice for high-dimensional data is to make a single low-dimensional representation, with a method such as principal component analysis (PCA). Often just the first two principal components are shown, which is equivalent to a 2D projection. This technique is also called a biplot. Another more rarely used technique is a tour, which shows a movie of 2D projections. It can be used to get an overview of the structure in the multivariate space, but it is difficult to assess the importance of variables to particularly interesting low-dimensional structure. A human subjects study will be designed and conducted to assess the learning about importance of variables, from each of these techniques.
-\end{enumerate}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{2}
+  \textbf{Do analysts understand the relationship between variables and structure in a 2D linear projection better when the geodesic interpolator is available?}\\
+  Current practice for high-dimensional data is to make a single low-dimensional representation, with a method such as principal component analysis (PCA). Often just the first two principal components are shown, which is equivalent to a 2D projection. This technique is also called a biplot. Another more rarely used technique is a tour, which shows an animation of 2D projections. It can be used to get an overview of the structure in the multivariate space, but it is difficult to assess the importance of variables to particularly interesting low-dimensional structure. A human subject study has be designed and conducted to assess the learning about importance of variables, from each of these techniques.
 \item
   \textbf{Can we define a geodesic interpolator for 3D projections, so that the technology can be implemented in modern virtual reality environments?}\\
   The cutting edge of visualisation research today is in virtual environments, as technology has advanced to make this accessible to the masses. It is interesting to explore how analysis with 3D graphics operates in comparison with 2D graphics. Building a geodesic interpolator for 3D projections extends the technology from 2D to 3D, and will allow us to compare the benefits or not, of the new environment for analysing with multivariate data.
 \item
   \textbf{Does 3D provide advantages over 2D, when exploring low-dimensional projections, for understanding structure in high-dimensional data? }\\
-  Gracia et al. (2016) compares analyst tasks between 2- and 3-D scatterplots. They find modest accuracy and error improvements for distance perception and outlier identification in favor of 3D at the cost of a relatively small increase in task time. Nelson, Cook, and Cruz-Neira (1998) similarly compare a 2D scatterplot projection and the 3D scatterplot manipulation space (of the same projection). They find a slight advantage in the sphere test and a large advantage in the cluster test in favor of the 3D manipulation space. A human subjects experiment will be conducted to assess the sensitivity analysis techniques in a 2D vs 3D environment.
+  Gracia et al. (2016) compares analyst tasks between 2- and 3-D scatterplots. They find modest accuracy and error improvements for distance perception and outlier identification in favor of 3D at the cost of a relatively small increase in task time. Nelson, Cook, and Cruz-Neira (1998) similarly compare a 2D projection and its 3D manipulation space. They find a slight advantage in the sphere test and a large advantage in the cluster test in favor of the 3D manipulation space. A human subjects experiment will be conducted to assess the sensitivity analysis techniques in a 2D vs 3D environment.
 \end{enumerate}
 
 \hypertarget{methodology}{%
@@ -268,15 +258,6 @@ We list out an abbreviated summary of the experimental design in the subsections
 \subsubsection{Groups}\label{sec:groups}}
 
 Each participant will be randomly split into one of three even groups. The group controls the order of the factors that the participant was evaluated in for a latin square of the 3 factors. For instance, the order of the first group was PCA, grand, manual. Group level only impacts the order the factors are displayed while task, block, and simulation order will remain the same.
-
-\begin{figure}[h]
-
-{\centering \includegraphics[width=0.8\linewidth,]{./figures/experimental_design} 
-
-}
-
-\caption{Experimental design setup. Participants are assigned to one of 3 even groups controlling the factor order. Within each factor, users perform 3 difficulty blocks of task 1 and then of task 2 before proceeding to the next factor. Simulations are used in a fixed order (while factor order changes). Simulations for the first block difficulty are unique samples drawn from the same distribution. Similarly, the second and third block difficulties are drawn from increasing complex distributions.}\label{fig:design}
-\end{figure}
 
 \begin{figure}[h]
 
@@ -428,9 +409,6 @@ Asimov, Daniel. 1985. ``The Grand Tour: A Tool for Viewing Multidimensional Data
 \leavevmode\hypertarget{ref-buja_grand_1986}{}%
 Buja, Andreas, and Daniel Asimov. 1986. ``Grand Tour Methods: An Outline.'' In \emph{Proceedings of the Seventeenth Symposium on the Interface of Computer Sciences and Statistics on Computer Science and Statistics}, 63--67. New York, NY, USA: Elsevier North-Holland, Inc. \url{http://dl.acm.org/citation.cfm?id=26036.26046}.
 
-\leavevmode\hypertarget{ref-cattell_scree_1966}{}%
-Cattell, Raymond B. 1966. ``The Scree Test for the Number of Factors.'' \emph{Multivariate Behavioral Research} 1 (2): 245--76.
-
 \leavevmode\hypertarget{ref-chambers_graphical_1983}{}%
 Chambers, J. M., W. S. Cleveland, B. Kleiner, and P. A. Tukey. 1983. ``Graphical Methods for Data Analysis.''
 
@@ -439,9 +417,6 @@ Chang, Winston, Joe Cheng, J. J. Allaire, Yihui Xie, and Jonathan McPherson. 201
 
 \leavevmode\hypertarget{ref-cook_manual_1997}{}%
 Cook, Dianne, and Andreas Buja. 1997. ``Manual Controls for High-Dimensional Data Projections.'' \emph{Journal of Computational and Graphical Statistics} 6 (4): 464--80. \url{https://doi.org/10.2307/1390747}.
-
-\leavevmode\hypertarget{ref-cook_projection_1993}{}%
-Cook, Dianne, Andreas Buja, and Javier Cabrera. 1993. ``Projection Pursuit Indexes Based on Orthonormal Function Expansions.'' \emph{Journal of Computational and Graphical Statistics} 2 (3): 225--50. \url{https://doi.org/10.1080/10618600.1993.10474610}.
 
 \leavevmode\hypertarget{ref-fisher_use_1936}{}%
 Fisher, Ronald A. 1936. ``The Use of Multiple Measurements in Taxonomic Problems.'' \emph{Annals of Eugenics} 7 (2): 179--88. \url{https://doi.org/10.1111/j.1469-1809.1936.tb02137.x}.
@@ -454,21 +429,6 @@ Hastie, Trevor, Andreas Buja, and Robert Tibshirani. 1995. ``Penalized Discrimin
 
 \leavevmode\hypertarget{ref-karwowski_international_2006}{}%
 Karwowski, Waldemar. 2006. \emph{International Encyclopedia of Ergonomics and Human Factors, -3 Volume Set}. CRC Press.
-
-\leavevmode\hypertarget{ref-kirkpatrick_optimization_1983}{}%
-Kirkpatrick, Scott, C. Daniel Gelatt, and Mario P. Vecchi. 1983. ``Optimization by Simulated Annealing.'' \emph{Science} 220 (4598): 671--80. \url{https://doi.org/10.1126/science.220.4598.671}.
-
-\leavevmode\hypertarget{ref-kohonen_self-organizing_1990}{}%
-Kohonen, Teuvo. 1990. ``The Self-Organizing Map.'' \emph{Proceedings of the IEEE} 78 (9): 1464--80.
-
-\leavevmode\hypertarget{ref-kruskal_toward_1969}{}%
-Kruskal, Joseph B. 1969. ``Toward a Practical Method Which Helps Uncover the Structure of a Set of Multivariate Observations by Finding the Linear Transformation Which Optimizes a New `Index of Condensation'.'' In \emph{Statistical Computation}, edited by Roy C. Milton and John A. Nelder, 427--40. Academic Press. \url{https://doi.org/10.1016/B978-0-12-498150-8.50024-0}.
-
-\leavevmode\hypertarget{ref-kruskal_linear_1972}{}%
----------. 1972. ``Linear Transformation of Multivariate Data to Reveal Clustering.'' \emph{Multidimensional Scaling: Theory and Applications in the Behavioral Sciences} 1: 181--91.
-
-\leavevmode\hypertarget{ref-maaten_visualizing_2008}{}%
-Maaten, Laurens van der, and Geoffrey Hinton. 2008. ``Visualizing Data Using T-SNE.'' \emph{Journal of Machine Learning Research} 9 (Nov): 2579--2605.
 
 \leavevmode\hypertarget{ref-matejka_same_2017}{}%
 Matejka, Justin, and George Fitzmaurice. 2017. ``Same Stats, Different Graphs: Generating Datasets with Varied Appearance and Identical Statistics Through Simulated Annealing.'' In \emph{Proceedings of the 2017 CHI Conference on Human Factors in Computing Systems - CHI '17}, 1290--4. Denver, Colorado, USA: ACM Press. \url{https://doi.org/10.1145/3025453.3025912}.
@@ -491,14 +451,10 @@ Spyrison, Nicholas S., and Dianne Cook. 2019. \emph{Spinifex: Manual Tours, Manu
 \leavevmode\hypertarget{ref-tukey_exploratory_1977}{}%
 Tukey, John W. 1977. \emph{Exploratory Data Analysis}. Vol. 32. Pearson.
 
-\leavevmode\hypertarget{ref-wickham_tourr:_2011}{}%
-Wickham, Hadley, Dianne Cook, Heike Hofmann, and Andreas Buja. 2011. ``Tourr: An R Package for Exploring Multivariate Data with Projections.'' \emph{Journal of Statistical Software} 40 (2). \url{https://doi.org/10.18637/jss.v040.i02}.
-
 \leavevmode\hypertarget{ref-xie_bookdown:_2016}{}%
 Xie, Yihui. 2016. \emph{Bookdown: Authoring Books and Technical Documents with R Markdown}. Boca Raton, Florida: Chapman; Hall/CRC. \url{https://github.com/rstudio/bookdown}.
 
 \leavevmode\hypertarget{ref-xie_r_2018}{}%
 Xie, Yihui, J. J. Allaire, and Garrett Grolemund. 2018. \emph{R Markdown: The Definitive Guide}. Boca Raton, Florida: Chapman; Hall/CRC. \url{https://bookdown.org/yihui/rmarkdown}.
-
 
 \end{document}
