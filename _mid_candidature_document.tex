@@ -88,8 +88,8 @@
 
 %\begin{titlepage}
 \begin{center}
-\huge{\textbf{Interactive visualization of high-dimensional data via
-continuous low-dimensional projections}}\\
+\huge{\textbf{The effect of user interaction on the perseption of structural 
+sensitivity  in low-dimensional projections accross display dimension}}\\
 \vspace*{1\baselineskip}
 \Large{\textbf{Mid-candidature review --- 25 Feburuary, 2020}}\\
 %\vspace*{1\baselineskip}
@@ -149,14 +149,12 @@ Assoc. Prof. Bernhard Jenny\\
 
 The term exploratory data analysis was coined by Tukey (1977), who leaves it as an intentionally broad term that encompasses the initial summarization and visualization of a data set. This is a critical first step of checking for realistic values and validating model assumptions. It may be tempting to review a series of summary statistics to check model assumptions. However, there are known datasets where the same summary statistics miss glaringly obvious visual patterns (Anscombe 1973; Matejka and Fitzmaurice 2017). It is strikingly simple to look at the wrong, or incomplete set of statistics needed to validate assumptions. Data visualization is fast, versatile, and robust relative to the alternative of numeric statistical summarization. Data visualization does and must remain a primary component of data analysis and model validation.
 
-Consider tabular data containing many attributes (I will use attribute and variable as synonymous). Visualization of this ubiquitous type of dataset is key to its understanding and exploration. Visualization of spaces in more than 3 dimensions quickly becomes problematic. We will discuss the use of linear projections to mitigate this obstacle. The motivation for this research is two-fold: expand the dimensionality support and improve the understanding from such visualizations.
+Consider tabular data containing many attributes (I will use attribute and variable as synonymous). Ploting 2 attributes makes an XY scatterplot. To explore a 3rd variable extend it in the z-axis orthogonal to the XY plane. Further increasing the dimensionallity quickly becomes non-trivial. Yet, we know that vizualizing data is crutial to exploration of that space. More options should be made available to the analysts toolkit for exploring high dimensional spaces.
 
 \hypertarget{current-state-of-the-field}{%
 \subsection{Current state of the field}\label{current-state-of-the-field}}
 
-Consider plotting 2 variables as an XY scatterplot. To add a 3rd variable append the z-axis orthogonal (right angle to) the XY plane. Increasing dimensionality furth is not so trivial solved. To resolve this, we will introduce the basis vector and linear projections before traditional \emph{discreate} method, more recent \emph{continuous} methods and then discuss user control
-
-Mathematically, a `basis' is an orthonormal set of \texttt{d} element vectors, where each element vector is a linear combination of \texttt{p} elements in vector-space. That is to say, a basis defines the direction and magnitude each of the \texttt{p} attributes contributes to every direction of the \texttt{d}-dimensional projection space. Consider a projection down to 2D. The basis defining this projection can be visually displayed as a unit circle with \texttt{p} line segments stemming from the origin as shown in figure \ref{fig:basis}.
+Linear projections are commonly used to mitigate the difficult of exploring such large data-spaces. A linear projection is linnear transformation of the vector space. This transformation is defined by a `basis'. A basis is an orthonormal set of \texttt{d} element vectors, where each element vector is a linear combination of \texttt{p} elements in vector-space. That is to say, a basis defines the direction and magnitude each of the \texttt{p} attributes contributes to every direction of the \texttt{d}-dimensional projection space. Consider a 2D projection-space (\texttt{d\ =\ 2}). The basis defining this projection can be visually displayed as a unit circle with \texttt{p} line segments stemming from the origin as shown in figure \ref{fig:basis}.
 
 \begin{figure}[h]
 
@@ -167,12 +165,12 @@ Mathematically, a `basis' is an orthonormal set of \texttt{d} element vectors, w
 \caption{Illustration of a basis projecting 6 attributes down to 2 dimensions. The black line segments indicate the magnitude and direction a variable contributes to the projection.}\label{fig:basis}
 \end{figure}
 
-Many methods identify one or more projections of interest. For instance, scatterplot matrices (Chambers et al. 1983) can be used to rapidly valid univariate supports and distributions. Principal component analysis (PCA; Pearson 1901) and biplots (Gabriel 1971) highlight full sample variation. Linear discriminant analysis (Fisher 1936) and penalized discriminant analysis (Hastie, Buja, and Tibshirani 1995) can be used to identify projection with cluster separation. These are great techniques and all applicants for numeric data with many attributes, however, they have two notable features: they show only 1 or several \emph{discrete} projections and they do not allow for an analyst to steer or control.
+Many classical methods identify one or more projections of interest. For instance, scatterplot matrices (Chambers et al. 1983) can be used to rapidly valid univariate supports and distributions. Principal component analysis (PCA; Pearson 1901) and biplots (Gabriel 1971) highlight full sample variation. Linear discriminant analysis (Fisher 1936) and penalized discriminant analysis (Hastie, Buja, and Tibshirani 1995) can be used to identify projection with cluster separation. These are great techniques and all applicants for numeric data with many attributes, however, they have two notable features: they show only 1 or several \emph{discrete} projections and they do not allow for an analyst to steer or control.
 
 \hypertarget{from-discrete-to-continuous}{%
 \subsection{From discrete to continuous}\label{from-discrete-to-continuous}}
 
-The above methods have suggested a \emph{discrete} number of linear projections to look at. At the same time, the stool example illustrates that looking at intermediate views improves understanding. A \emph{continuous} animation of the object being rotated would improve this understanding even further. This is analogous to the idea of a data visualization \emph{tour}(Asimov 1985; Buja and Asimov 1986). A tour produces a relatively high number of linear projections and views them in quick succession, typically as an animation. When the bases have a relatively small change in the contributions the projections are much closer. Single points and features can be tracked and follow from projection to projection allowing for a better understanding of the local structure.
+The above methods have suggested a \emph{discrete} number of linear projections to look at. At the same time, the stool example illustrates that looking at intermediate views improves understanding. A \emph{continuous} animation of the object being rotated would improve this understanding even further. This is analogous to the idea of a data visualization \emph{tour}(Asimov 1985; Buja and Asimov 1986). A tour produces a relatively high number of linear projections and typically displays them in quick succession as an animation. When the bases have a relatively small change in the contributions the projections are much closer. Single points and features can be tracked and follow from projection to projection allowing for a better understanding of the local structure.
 
 The path that a tour animates is a crucial feature. There are various types of tours, many of which select an arbitrary or function-driven path. All of the discrete techniques also highlight a specific feature. For EDA it is desirable to give the analyst the ability to choose the direction to explore. To explore higher dimensional spaces visually, we need \emph{human-in-the-loop} (Karwowski 2006) tools. (Cook and Buja 1997) introduces the idea of the \emph{manual} tour. In a manual tour, an individual variable is selected and its contribution to the projection basis is then controlled. This allows analysts to choose the direction of exploration.
 
