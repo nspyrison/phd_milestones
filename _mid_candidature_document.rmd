@@ -11,7 +11,7 @@ output:
       #toc_depth: 2
       ### also needed for fig cross references:
       fig_caption: yes
-bibliography: thesisrefs.bib
+bibliography: ns_bibliography.bib
 fontsize: 11
 urlcolor: blue
 ### LaTeX preamble
@@ -173,9 +173,6 @@ New functionality has been added to the development branch, specifically around 
 
 ## Experimental study {#sec:expStudy}
 
-<!-- Design completed, pilot testing underway, experiment to be rolled out in the coming weeks. -->
-<!-- [include in supplementary material] -->
-
 The prominent appeal of the manual tour is that it allows users to control the contributions of individual variables. In theory, this should enable the finer exploration of features of interest. The hypothesis we will study is _Does the finer control afforded by the manual tour improve the ability of the analyst to understand the importance of variables contributing to the structure?_
 
 We list out an abbreviated summary of the experimental design in the subsections below. A more detailed draft of the working paper is included as an appendix. 
@@ -214,13 +211,22 @@ The second task is focused on the hypothesis of the study, it asks participants 
 
 Participants will be randomly assigned to 1 of 3 even groups. Each group has a  different factor order containing all factors. Both tasks will be performed in the same order. Each task will have 3 repetitions performed on new simulations that were drawn from 3 parameterizations in increasing difficulty. Each participant will go through the simulations in the same order, while their factor order will vary. Fixing block difficulty order while varying factors should mitigate potential learning bias.
 
-### Pilot study results
+### Software design
 
-__Tasks 1 and task 2 aggreageted to take levl:__
+### User Interface 
 
-```{r v3pilot, echo=FALSE, out.width = "100%", out.extra = '', fig.cap = "Proposed research timeline."}
-knitr::include_graphics("figures/v3pilot.png")
+The user interface was kept the same whenever possible, but the control inputs did change slightly to accommodate the differences between factors. For eaxmple PCA has 2 radio button inputs selecting principal components to display on the x- and y-axes. The manual tour had the same axes selection, with the addition of a drop-down bar selecting manipulation variable and slider controling it's magnetude. Figure \@ref(fig:basis) shows the interface for the manual tour during task evaluation.
+
+```{r appManualFactpr, echo=FALSE, out.width = "80%", out.extra = '', fig.cap = "Interface for the manual tour factor in the evaluation section."}
+knitr::include_graphics("./figures/appManualFactor.png")
 ```
+
+### Pilot studies
+
+There have been 3 small iteration of pilot studies. The first 2 iteration identified many small behavioural, wording changes, interactions to log. The latest pilot shows similar results between the PCA and manual factors suggesting that the simulations may be too simple to gain any improvement with the additional capibility of being able to change variable contribution. New simulations will be drawn before continuing to the next round of pilot studies.
+
+Another common remark from pilot participants was the expression of concern that they aren't familiar enough with the factors to give valid results. Verbal and writen wording have been modifided to stress the that factors are being assesed adn not the participant performance and reafirmation that they are representative of the sample population.  
+
 
 # Next steps
 
@@ -230,7 +236,16 @@ In order to perform the 2D manual tour, two angle parameters must be identified 
 
 A 3D manual tour then must define 3 angle parameters that define the rotation of the 4D manipulation space. Let $\theta$ now be a set of 2 angles, $\{\theta_{xy}, \theta_z\}$ that defines the position of the manip variable in the (3D) projection plane and $\phi$ in the angle it extends into the manipulation direction.
 
-Special care must be taken defining the the The 4D rotation matrix must be solved, again with appliation of Rodrigues' rotation formula [@rodrigues_lois_1840]. 
+Special care must be taken defining the axis of rotation from the 3D projection into the 4D manipulation space. In particular, the signs will need attention not to be lost esspecially of tirgonometric function only support or range a half of a rotation. Once this task is done the 4D rotation matrix must be solved, again with appliation of Rodrigues' rotation formula [@rodrigues_lois_1840].
+
+
+## User application of a 3D manual tour
+
+In RO #2, a `shiny` application was delevoped and used to explore the effect of user interaction for understanding variable contributions to structure in linear projections. It did so but exploring the differences in perfromance between 2D biplot of principal components, a 2D grand tour, and a 2D manual tour. 
+
+Another R package, `shinyaframe`, {@murphy_shinyaframe_2017} that enables the use of Mozilla's `aframe` VR product to be consumed in `shiny` applications. The section titled 'Method 2: “A-Frame and R (Shiny, Ggplot2”)' by @hadjar_webvr_2018 is an example of application with the relavent packages and hardware for display and interaction in stereoscopic virtual reality. This may allow for more rapid advancment in implementation, however the extent and extendability of interaction remain unknown.
+
+Alternatively, development and application in the game engine Unity would allow for all types of interactions but would likely result in a longer development period. 
 
 
 # Proposed thesis structure
@@ -241,7 +256,7 @@ Special care must be taken defining the the The 4D rotation matrix must be solve
 - Literature review -- 80%
 - Manual tour and user-controlled steering -- 90%
 - Experimental study -- 60%
-- The extension of the manual tour to 3D -- 5%
+- The extension of the manual tour to 3D -- 0%
 - Conclusion and future plans -- 0%
 
 __Proposed research timeline__
@@ -281,16 +296,13 @@ knitr::include_graphics("figures/phd_timeline.PNG")
 
 __Conferences:__\
 \
-CHI 2021: May 8-13, 2021 Yokohama, Japan\
-submission: Thursday Sep. 10, 2020\
-<!-- (+ 1wk for full) -->
-https://chi2021.acm.org/ \
-\
-IEEE VAST - VAST 2020: 25-30 October 2020 Salt Lake City, Utah, USA\
+IEEE VAST 2020: 25-30 October 2020 Salt Lake City, Utah, USA\
 submission: Saturday, March 21, 2020\
 <!-- (+ 10 days for full) VAST - Empirical Study\ -->
 http://ieeevis.org/year/2020/info/call-participation/vast-paper-types
-
+\
+IEEE VAST 2020: 25-30 October 2020 Salt Lake City, Utah, USA\
+submission: Saturday, March 21, 2020\
 
 # Acknowledgements {#sec:acknowledgements}
 

@@ -10,29 +10,36 @@ tasks <- tribble(
   "2018-04-01", "2019-06-01", "1) 2D UCS",  "1) 2D UCS",
   "2018-04-01", "2019-02-01", "1) 2D UCS",  "1) application",
   "2018-12-01", "2019-06-01", "1) 2D UCS",  "1) paper (The R journal)",
+  "2019-11-01", "2019-12-01", "1) 2D UCS",  "1) paper edits",
   "2019-01-01", "2019-03-01", "Milestones", "Candidature confirmation",
   
-  "2019-03-01", "2020-04-01", "2) UCS vs alts", "2) UCS vs alternatives",
-  "2019-03-01", "2020-02-01", "2) UCS vs alts", "2) application",
-  "2020-01-01", "2020-04-01", "2) UCS vs alts", "2) study&paper (IEEE VAST)", # submission: Saturday, March 21, 2020
+  "2019-03-01", "2020-04-01", "2) 2D UCS vs alts", "2) 2D UCS vs alternatives",
+  "2019-03-01", "2020-02-01", "2) 2D UCS vs alts", "2) app development",
+  "2020-01-01", "2020-04-01", "2) 2D UCS vs alts", "2) study&paper (VAST 2020)", # submission: Saturday, March 21, 2020
   "2020-02-01", "2020-03-01", "Milestones",     "Mid candidature review",
   
   "2020-01-01", "2020-10-01", "3) 3D UCS", "3) 3D UCS",
   "2020-01-01", "2020-04-01", "3) 3D UCS", "3) theory",
   "2020-03-01", "2020-09-01", "3) 3D UCS", "3) application",
-  "2020-08-01", "2020-10-01", "3) 3D UCS", "3) paper (CHI)", # submission: Thursday Sep. 10,
+  "2020-08-01", "2020-10-01", "3) 3D UCS", "3) paper (VAST 2021?)", # submission: Thursday Sep. 10,
+  
+  "2020-08-01", "2021-05-01", "4) 3D UCS vs alts", "3) 3D UCS vs alternatives",
+  "2020-08-01", "2020-11-01", "4) 3D UCS vs alts", "3) app development",
+  "2020-10-01", "2021-04-01", "4) 3D UCS vs alts", "3) study & paper",
+  "2021-03-01", "2021-05-01", "4) 3D UCS vs alts", "3) paper ", # submission: Thursday Sep. 10,
   
   "2021-02-01", "2021-03-01", "Milestones", "pre-submission seminar",
-  "2020-10-01", "2021-05-01", "Milestones", "thesis composition"
+  "2021-01-01", "2021-08-01", "Milestones", "thesis composition"
 )
 ### Conferences:
-# CHI 2021: May 8-13, 2021 Yokohama, Japan
-# submission: Thursday Sep. 10, 2020 (+ 1wk for full)
-# https://chi2021.acm.org/
-# 
 # IEEE VIS - VAST 2020: 25-30 October 2020 Salt Lake City, Utah, USA
 # submission: Saturday, March 21, 2020 (+ 10 days for full) VAST - Empirical Study
 # http://ieeevis.org/year/2020/info/call-participation/vast-paper-types
+#
+# CHI 2021: May 8-13, 2021 Yokohama, Japan
+# submission: Thursday Sep. 10, 2020 (+ 1wk for full)
+# https://chi2021.acm.org/
+
 
 # Convert data to long for ggplot
 tasks.long <- tasks %>%
@@ -77,8 +84,8 @@ timeline <- ggplot(tasks.long, aes(x=Task, y=task.date, colour=Project)) +
   theme(axis.text.x = element_text(size = 12),
         axis.text.y = element_text(size = 12),
         legend.text = element_text(size = 12))
-
-ggsave("./figures/phd_timeline.PNG", timeline, width = 9, height = 5)
+timeline
+#ggsave("./figures/phd_timeline.PNG", timeline, width = 9, height = 5)
 
 
 # ## Program requirements
