@@ -84,12 +84,12 @@ knitr::opts_chunk$set(fig.align = "center",
 <!-- Visuals are important for EDA -->
 The term exploratory data analysis was coined by @tukey_exploratory_1977, who leaves it as an intentionally broad term that encompasses the initial summarization and visualization of a data set. This is a critical first step of checking for realistic values and validating model assumptions. It may be tempting to review a series of summary statistics to check model assumptions. However, there are known datasets where the same summary statistics miss glaringly obvious visual patterns [@anscombe_graphs_1973; @matejka_same_2017]. It is strikingly simple to look at the wrong, or incomplete set of statistics needed to validate assumptions. Data visualization is fast, versatile, and robust relative to the alternative of numeric statistical summarization. Data visualization does and must remain a primary component of data analysis and model validation.
 
-Consider tabular data containing many attributes (I will use attribute and variable as synonymous). Ploting 2 attributes makes an XY scatterplot. To explore a 3rd variable extend it in the z-axis orthogonal to the XY plane. Further increasing the dimensionallity quickly becomes non-trivial. Yet, we know that vizualizing data is crutial to exploration of that space. More options should be made available to the analysts toolkit for exploring high dimensional spaces.
+Consider tabular data containing many attributes (I will use attribute and variable as synonymous). Plotting 2 attributes makes an XY scatterplot. To explore a 3rd variable extend it in the z-axis orthogonal to the XY plane. Further increasing the dimensionality quickly becomes non-trivial. Yet, we know that visualizing data is crucial to the exploration of that space. More options should be made available to the analysts' toolkit for exploring high dimensional spaces.
 
 ## Current state of the field
 
 <!-- Adding plotting dimensions -->
-Linear projections are commonly used to mitigate the difficult of exploring such large data-spaces. A linear projection is linnear transformation of the vector space. This transformation is defined by a 'basis'. A basis is an orthonormal set of `d` element vectors, where each element vector is a linear combination of `p` elements in vector-space. That is to say, a basis defines the direction and magnitude each of the `p` attributes contributes to every direction of the `d`-dimensional projection space. Consider a 2D projection-space (`d = 2`). The basis defining this projection can be visually displayed as a unit circle with `p` line segments stemming from the origin as shown in figure \@ref(fig:basis).
+Linear projections are commonly used to mitigate the difficulty of exploring such large data-spaces. A linear projection is the linear transformation of the vector space. This transformation is defined by a 'basis'. A basis is an orthonormal set of `d` element vectors, where each element vector is a linear combination of `p` elements in vector-space. That is to say, a basis defines the direction and magnitude each of the `p` attributes contributes to every direction of the `d`-dimensional projection space. Consider a 2D projection-space (`d = 2`). The basis defining this projection can be visually displayed as a unit circle with `p` line segments stemming from the origin as shown in figure \@ref(fig:basis).
 
 ```{r basis, echo = FALSE, out.width = "60%",                          fig.cap = "Illustration of a basis projecting 6 attributes down to 2 dimensions. The black line segments indicate the magnitude and direction a variable contributes to the projection."}
 knitr::include_graphics("./figures/basis.png")
@@ -103,7 +103,7 @@ Many classical methods identify one or more projections of interest. For instanc
 <!-- Grand Tour -->
 The above methods have suggested a _discrete_ number of linear projections to look at. At the same time, the stool example illustrates that looking at intermediate views improves understanding. A _continuous_ animation of the object being rotated would improve this understanding even further. This is analogous to the idea of a data visualization _tour_[@asimov_grand_1985; @buja_grand_1986]. A tour produces a relatively high number of linear projections and typically displays them in quick succession as an animation. When the bases have a relatively small change in the contributions the projections are much closer. Single points and features can be tracked and followed from projection to projection allowing for a better understanding of the local structure.
 
-The intermidiate bases between two bases much be calculated with some care. For instance, a basis for the midpoint between two other is not the mean of each respective elements, as the result would not be orthonormal. Instead, the interpolation of intermidate bases must be on 'surface' the possible orthonormal bases. A _geodesic_ curve is the the "straight line" on the surface that contain the shortest path between the two bases. This is why airplanes appear have a curved flight path when seen on a 2D representation of the Earth. Bases that lie on this path can be identified through the use of _geodsic interpolation_
+The intermediate bases between two bases much are calculated with some care. For instance, a basis for the midpoint between two other is not the mean of each respective element, as the result would not be orthonormal. Instead, the interpolation of intermediate bases must be on 'surface' the possible orthonormal bases. A _geodesic_ curve is the "straight line" on the surface that contains the shortest path between the two bases. This is why airplanes appear to have a curved flight path when seen on a 2D representation of the Earth. Bases that lie on this path can be identified through the use of _geodsic interpolation_
 
 <!-- knowledge gap -->
 The path that a tour animates is a crucial feature. There are various types of tours, many of which select an arbitrary or function-driven path. All of the discrete techniques also highlight a specific feature. For EDA it is desirable to give the analyst the ability to choose the direction to explore. To explore higher dimensional spaces visually, we need _human-in-the-loop_ [@karwowski_international_2006] tools. [@cook_manual_1997] introduces the idea of the _manual_ tour. In a manual tour, an individual variable is selected and its contribution to the projection basis is then controlled. This allows analysts to choose the direction of exploration.
@@ -114,14 +114,16 @@ Figure \@ref(fig:manipSp) illustrates a manipulation space. the basis we viewed 
 knitr::include_graphics("./figures/manipSp.png")
 ```
 
+Relatively small changes in the projection basis allow for features to be tracked from frame to frame. The manual tour allows for the control of a selected variable. In culmination, this should allow an analyst to explore the sensitivity of structure in the projection relative to the variables contributing to the projection. 
+
 <!-- knowledge gap -->
-The discrete methods above identity discrete bases that highlight some feature. The above tours can help convey more continuity of structure through many small changes in the basis. For EDA it is desirable to give the analyst the ability to choose the direction to explore.  
+The discrete methods above, identify discrete bases that highlight some feature. The above tours can help convey more continuity of data through many small changes in the basis. For EDA it is desirable to give the analyst the ability to choose the direction to explore. 
 
 ## Controlling 2D projections
 
 The manual tour can play a predefined manual path or be used interactively, where the user defines each subsequent step while viewing the current projection. The later, human-in-the-loop method we define as _User-Controlled Steering_ (UCS) specifically as the interactive, human-in-the-loop application of the manual tour.
 
-User-control manipulation around identified projections of interest theoretically allows for a better understanding of the variables contributing to the structure. However, the level of abstraction and the sheer number of basis permutations is formidable. The idea that UCS will provide digestible improvements to the understanding of structure should be validated.
+However, the level of abstraction from projecting variable-space and the sheer number of input permutations is formidable. The expertise or time required to explore such structural changes may prove to be a significant barrier to use. The idea that UCS will provide digestible improvements to the understanding of structure should be validated.
 
 
 ## Research objectives
@@ -131,7 +133,8 @@ Data and models are typically high-dimensional, with many variables and paramete
 Overall objective: **Can geodesic interpolator with user interaction help analysts understand linear projections of data, and explore the sensitivity of structure in the projection to the variables contributing to the projection? **
 
 1. **How do we define user interaction for a geodesic interpolator to add and remove variables smoothly from a 2D linear projection of data?**\
-An algorithm for the manual tour is discussed in @cook_manual_1997. The algorithm will be adapted to create the geodesic interpolator. Input will be a single projection, a full $p$-dimensional data matrix, and a choice of variable to control. 
+An algorithm for the manual tour is discussed in @cook_manual_1997. The algorithm will be adapted to create the geodesic interpolator. Input will be a single initialization projection, a $p$-dimensional data matrix, as well as, choice-, magnitude- and direction-, of a variable to control.
+ 
 
 2. **Do analysts understand the relationship between variables and structure in a 2D linear projection better when the geodesic interpolator is available?**\
 Current practice for high-dimensional data is to make a single low-dimensional representation, with a method such as principal component analysis (PCA). Often just the first two principal components are shown, which is equivalent to a 2D projection. This technique is also called a biplot. Another more rarely used technique is a tour, which shows an animation of 2D projections. It can be used to get an overview of the structure in the multivariate space, but it is difficult to assess the importance of variables to a particularly interesting low-dimensional structure. A human subject study has been designed and conducted to assess the learning about the importance of variables, from each of these techniques. 
@@ -146,9 +149,10 @@ The cutting edge of visualization research today is in virtual environments, as 
 ## Methodology
 
 This research is interdisciplinary; touring was developed by statisticians to explore physics data. Modern advances in hardware from information technology allow for 3D rending in higher quality and immersion than previously possible. 
-<!-- The original motivation for the grand tour was for use on particle physics [@fisherkeller_prim-9:_1974]. Likewise, applications in high energy physics identified [@cook_dynamical_2018]. -->
 
-The research corresponding with RO #1 entails _algorithm design_ following and further clarifying the work done in @cook_manual_1997. In the application of the manual tour, we clarified the creation of the rotation matrix. The key to the matrix is to specify the 2 axes of rotation for the manipulation space and apply Rodrigues' rotation formula [@rodrigues_lois_1840]. In the application, attention was given to both pre-compiled tour and human-in-the-loop UCS. We provide an open-source version of the manual tour in the R package, `spinifex`, which has since been published on CRAN. This forms the foundation for future work in the remaining objectives.
+The research corresponding with RO #1 entails _algorithm design_ following and further clarifying the work done in @cook_manual_1997. Adaptations of the algorithm include defining the axis of rotation for manipulation orthogonal to the projection plane. This allowed us to then apply Rodrigues' rotation formula [@rodrigues_lois_1840] to prove the rotation matrix to be used in 2D. We also provide initialization of the in- and out- of plane angles of rotation which clarifies understanding and application of the manual tour.
+
+In the application, attention was given to both pre-compiled tour and human-in-the-loop UCS. We provide an open-source version of the manual tour in the R package, `spinifex`, which has since been published on CRAN. This forms the foundation for future work in the remaining objectives. In the related paper we additionally apply the algorithm on particle physics data.
 
 For RO #2 is a controlled _experimental study_ to explore the efficacy of interactive UCS compared with the benchmarks factors of PCA and the grand tour. This is designed as a within-participant study where each participant performs all factors. the study is balanced by assigning participants into one of 3 groups where the factor order is controlled by a Latin square while simulation order remains the same. The details are discussed in finer detail in section (#sec:expStudy), below.
 
@@ -158,11 +162,11 @@ The research for RO #3 involves _algorithm design_ extending the current 2D manu
 
 # Progress since confirmation
 
-During the candidature confirmation review (27 March 2019) we discussed exploratory data analysis, visualization of high dimensional spaces, covered the literature for tours and 3D rendering for information perception. We concluded with a process for a manual tour that allows for user-controlled steering. The appending the document was a mostly complete R package and respective paper providing an open-source application as well as clarifying the rotation matrix that was outlined in @cook_manual_1997.
+During the candidature confirmation review (27 March 2019) we discussed exploratory data analysis, visualization of high dimensional spaces, covered the literature for tours and 3D rendering for information perception. We concluded with the progress for appending the algorithm for the manual tour (RO # 1), software application in R, and its use on particle physics data.
 
 ## Publication
 
-The paper has since been accepted in the R Journal and it currently undergoing editorial review. This will be published in the first issue of 2020 and available at [journal.r-project.org](https://journal.r-project.org/).
+The paper showcasing the revied algorithm, software, and use case, has since been accepted in the R Journal and it currently undergoing editorial review. This will be published in the first issue of 2020 and will be made available at [journal.r-project.org](https://journal.r-project.org/).
 <!-- Is there a pre-print version to cite? -->
 
 ## Software
@@ -215,7 +219,7 @@ Participants will be randomly assigned to 1 of 3 even groups. Each group has a  
 
 ### User Interface 
 
-The user interface was kept the same whenever possible, but the control inputs did change slightly to accommodate the differences between factors. For eaxmple PCA has 2 radio button inputs selecting principal components to display on the x- and y-axes. The manual tour had the same axes selection, with the addition of a drop-down bar selecting manipulation variable and slider controling it's magnetude. Figure \@ref(fig:basis) shows the interface for the manual tour during task evaluation.
+The user interface was kept the same whenever possible, but the control inputs did change slightly to accommodate the differences between factors. For example, PCA has 2 radio button inputs selecting principal components to display on the x- and y-axes. The manual tour had the same axes selection, with the addition of a drop-down bar selecting manipulation variable and slider controlling its magnitude. Figure \@ref(fig:basis) shows the interface for the manual tour during task evaluation.
 
 ```{r appManualFactpr, echo=FALSE, out.width = "80%", out.extra = '', fig.cap = "Interface for the manual tour factor in the evaluation section."}
 knitr::include_graphics("./figures/appManualFactor.png")
@@ -223,27 +227,27 @@ knitr::include_graphics("./figures/appManualFactor.png")
 
 ### Pilot studies
 
-There have been 3 small iteration of pilot studies. The first 2 iteration identified many small behavioural, wording changes, interactions to log. The latest pilot shows similar results between the PCA and manual factors suggesting that the simulations may be too simple to gain any improvement with the additional capibility of being able to change variable contribution. New simulations will be drawn before continuing to the next round of pilot studies.
+There have been 3 small iterations of pilot studies. The first 2 iterations identified many small behavioral, wording changes, interactions to log. The latest pilot shows similar results between the PCA and manual factors suggesting that the simulations may be too simple to gain any improvement with the additional capability of being able to change variable contribution. New simulations will be drawn before continuing to the next round of pilot studies.
 
-Another common remark from pilot participants was the expression of concern that they aren't familiar enough with the factors to give valid results. Verbal and writen wording have been modifided to stress the that factors are being assesed adn not the participant performance and reafirmation that they are representative of the sample population.  
+Another common remark from pilot participants was the expression of concern that they aren't familiar enough with the factors to give valid results. Verbal and written wording have been modified to stress that factors are being assessed and not the participant's performance and reaffirmation that they are representative of the sample population.  
 
 
 # Next steps
 
 ## Extending manual tour to 3D
 
-In order to perform the 2D manual tour, two angle parameters must be identified to perform a rotation of the 3D manipulation space. The angle $\theta$ indicates the angle on the projection plane between the manipulation variable and the `x-axis`. While $\phi$ is the angle that the variable extends into the manipulation space above the projection plane.
+To perform the 2D manual tour, two angle parameters must be identified to perform a rotation of the 3D manipulation space. The angle $\theta$ indicates the angle on the projection plane between the manipulation variable and the `x-axis`. While $\phi$ is the angle that the variable extends into the manipulation space above the projection plane.
 
 A 3D manual tour then must define 3 angle parameters that define the rotation of the 4D manipulation space. Let $\theta$ now be a set of 2 angles, $\{\theta_{xy}, \theta_z\}$ that defines the position of the manip variable in the (3D) projection plane and $\phi$ in the angle it extends into the manipulation direction.
 
-Special care must be taken defining the axis of rotation from the 3D projection into the 4D manipulation space. In particular, the signs will need attention not to be lost esspecially of tirgonometric function only support or range a half of a rotation. Once this task is done the 4D rotation matrix must be solved, again with appliation of Rodrigues' rotation formula [@rodrigues_lois_1840].
+Special care must be taken defining the axis of rotation from the 3D projection into the 4D manipulation space. In particular, the signs will need attention not to be lost especially of trigonometric functions that only support half a rotation. Once this task is done the 4D rotation matrix must be solved, again with the application of Rodrigues' rotation formula [@rodrigues_lois_1840].
 
 
 ## User application of a 3D manual tour
 
-In RO #2, a `shiny` application was delevoped and used to explore the effect of user interaction for understanding variable contributions to structure in linear projections. It did so but exploring the differences in perfromance between 2D biplot of principal components, a 2D grand tour, and a 2D manual tour. 
+In RO #2, a `shiny` application was developed and used to explore the effect of user interaction for understanding variable contributions to structure in linear projections. It did so but exploring the differences in performance between 2D biplot of principal components, a 2D grand tour, and a 2D manual tour. 
 
-Another R package, `shinyaframe`, {@murphy_shinyaframe_2017} that enables the use of Mozilla's `aframe` VR product to be consumed in `shiny` applications. The section titled 'Method 2: “A-Frame and R (Shiny, Ggplot2”)' by @hadjar_webvr_2018 is an example of application with the relavent packages and hardware for display and interaction in stereoscopic virtual reality. This may allow for more rapid advancment in implementation, however the extent and extendability of interaction remain unknown.
+Another R package, `shinyaframe`, {@murphy_shinyaframe_2017} that enables the use of Mozilla's `aframe` VR product to be consumed in `shiny` applications. The section titled 'Method 2: “A-Frame and R (Shiny, Ggplot2”)' by @hadjar_webvr_2018 is an example of an application with the relevant packages and hardware for display and interaction in stereoscopic virtual reality. This may allow for more rapid advancement in implementation, however, the extent and extendability of interaction remain unknown.
 
 Alternatively, development and application in the game engine Unity would allow for all types of interactions but would likely result in a longer development period. 
 
