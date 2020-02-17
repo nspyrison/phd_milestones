@@ -1,60 +1,37 @@
-% Options for packages loaded elsewhere
-\PassOptionsToPackage{unicode}{hyperref}
-\PassOptionsToPackage{hyphens}{url}
-\PassOptionsToPackage{dvipsnames,svgnames*,x11names*}{xcolor}
-%
-\documentclass[
-  11,
-]{article}
+\documentclass[11,]{article}
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
-  \usepackage{textcomp} % provide euro and other symbols
-\else % if luatex or xetex
-  \usepackage{unicode-math}
-  \defaultfontfeatures{Scale=MatchLowercase}
-  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
 \fi
-% Use upquote if available, for straight quotes in verbatim environments
+% use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-\IfFileExists{microtype.sty}{% use microtype if available
-  \usepackage[]{microtype}
-  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
-\makeatletter
-\@ifundefined{KOMAClassName}{% if non-KOMA class
-  \IfFileExists{parskip.sty}{%
-    \usepackage{parskip}
-  }{% else
-    \setlength{\parindent}{0pt}
-    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
-}{% if KOMA class
-  \KOMAoptions{parskip=half}}
-\makeatother
-\usepackage{xcolor}
-\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
-\hypersetup{
-  colorlinks=true,
-  linkcolor=Maroon,
-  filecolor=Maroon,
-  citecolor=Blue,
-  urlcolor=blue,
-  pdfcreator={LaTeX via pandoc}}
-\urlstyle{same} % disable monospaced font for URLs
 \usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\PassOptionsToPackage{usenames,dvipsnames}{color} % color is loaded by hyperref
+\hypersetup{unicode=true,
+            colorlinks=true,
+            linkcolor=Maroon,
+            citecolor=Blue,
+            urlcolor=blue,
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
 \usepackage{longtable,booktabs}
-% Correct order of tables after \paragraph or \subparagraph
-\usepackage{etoolbox}
-\makeatletter
-\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
-\makeatother
-% Allow footnotes in longtable head/foot
-\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
-\makesavenoteenv{longtable}
 \usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -64,20 +41,53 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-% Set default figure placement to htbp
-\makeatletter
-\def\fps@figure{htbp}
-\makeatother
-\setlength{\emergencystretch}{3em} % prevent overfull lines
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{5}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{}
+    \pretitle{\vspace{\droptitle}}
+  \posttitle{}
+    \author{}
+    \preauthor{}\postauthor{}
+    \date{}
+    \predate{}\postdate{}
+  
 \usepackage{setspace}
 \usepackage{hyperref}
 \usepackage{graphicx}
-
-\author{}
-\date{\vspace{-2.5em}}
 
 \begin{document}
 
@@ -136,7 +146,7 @@ Assoc. Prof. Bernhard Jenny\\
 \hypersetup{linkcolor = blue}
 
 {
-\hypersetup{linkcolor=}
+\hypersetup{linkcolor=black}
 \setcounter{tocdepth}{2}
 \tableofcontents
 }
@@ -152,23 +162,23 @@ Data and models are typically \textbf{high-dimensional}, with many variables, an
 
 Linear projections are commonly used to reduce the dimensionality. A \textbf{linear projection} is the linear transformation of the \(p\)-dimensional space into a low-(\(d-\))dimensional space, by matrix multiplication of the data with an orthonormal \(p\times d\) basis. An orthonormal basis has columns that are orthogonal to each other, and of length 1.
 
-Good linear projections are often found with an automated procedure, like principal component analysis (PCA; Pearson 1901) or projection pursuit (Kruskal (1969)). These reduce the dimensionality and reveal something interesting about the data. Figure \ref{FIXME:XXX} shows a \(d=2\) dimensional projection of \(6D\) data, revealing clustering of labelled groups. The basis that produced this projection is
+Good linear projections are often found with an automated procedure, like principal component analysis (PCA; Pearson 1901) or projection pursuit (Kruskal (1969)). These reduce the dimensionality and reveal something interesting about the data. Figure \ref{fig:basis} shows a \(d=2\) dimensional projection of \(6D\) data, revealing clustering of labelled groups. The basis that produced this projection is
 
 \begin{equation*}
 \left[ \begin{array}{rr}
- 0.394 &  0.075 \\
- 0.108 &  0.209 \\
- 0.176 &  0.328 \\
- 0.454 & -0.007 \\
- 0.412 & -0.112 \\
- 0.085 &  0.316 \\
- 0.151 &  0.210 \\
- 0.596 & -0.182 \\
- 0.018 &  0.341 \\
- 0.149 &  0.144 \\
--0.087 &  0.510 \\
- 0.069 &  0.371 \\
--0.058 &  0.339 \\
+ 0.39 &  0.08 \\
+ 0.11 &  0.21 \\
+ 0.18 &  0.33 \\
+ 0.45 & -0.01 \\
+ 0.41 & -0.11 \\
+ 0.09 &  0.32 \\
+ 0.15 &  0.21 \\
+ 0.60 & -0.18 \\
+ 0.02 &  0.34 \\
+ 0.15 &  0.14 \\
+-0.09 &  0.51 \\
+ 0.07 &  0.37 \\
+-0.06 &  0.34 \\
 \end{array} \right]
 \end{equation*}
 
@@ -187,9 +197,9 @@ Projection + Data (one variable rotated out, with no effect to structure)
 
 Projection + Data (one variable rotated out, with structure lost)
 
-Figure \ref{FIXME:XXX} shows how \textbf{sensitivity of structure} in a projection can depend on variables contributing to the projection. When variable XXX is rotated out, there is no change to the structure, clusters are still visible. This says that the structure \emph{is NOT sensitive} to variable XXX. When variable XXX is rotated out, there is change to the structure, clusters are less visible. This says that the structure \emph{is sensitive} to variable XXX.
+Figure \ref{fig:basisStructure} shows how \textbf{sensitivity of structure} in a projection can depend on variables contributing to the projection. When variable Phenols is rotated out, there is no change to the structure, clusters are still visible. This says that the structure \emph{is NOT sensitive} to variable Phenols When variable Alcalinity is rotated out, there is change to the structure, clusters are less visible. This says that the structure \emph{is sensitive} to variable Alcalinity
 
-Exploring the sensitivity of structure in a projection to the contributions of particular variables requires \textbf{geodsic interpolation} to remove the variable from (or into) the projection plane. Geodesic interpolation is effectively a rotation, it maintains orthonormality of all new data projections, and any intermediate projections. Geodesic interpolation is used in tour methods (FIXME: REF), which show (automated) movies of low-dmensional projections of high-dimensional spaces. The \texttt{tourr} package (Wickham et al. 2011) in R provides a range of automated tours.
+Exploring the sensitivity of structure in a projection to the contributions of particular variables requires \textbf{geodsic interpolation} to remove the variable from (or into) the projection plane. Geodesic interpolation is effectively a rotation, it maintains orthonormality of all new data projections, and any intermediate projections. Geodesic interpolation is used in tour methods (FIXME: REF), including the \textbf{grand tour} which shows (automated) movies of low-dmensional projections of high-dimensional spaces. The \texttt{tourr} package (Wickham et al. 2011) in R provides a range of automated tours.
 
 Sensitivity analysis is ideally achieved with \textbf{user-controlled steering} where the human controls the rotation of a variable into and out of a projection. This will enable various intermediate states to be shown to better understand the effect of single variables.
 
@@ -216,7 +226,7 @@ which is divided into these more focused objectives:
 \tightlist
 \item
   \textbf{How do we define user interaction for a geodesic interpolator to add and remove variables smoothly from a 2D linear projection of data?}\\
-  Cook and Buja (1997) described an algorithm for manually controlling a tour (\(p\)-D into 2D), to rotate a variable into and out of a 2D projection. This algorithm provides the start to a human controlled geodesic interpolator. It will be adapted so that the user has more control of the interpolation. The user will be able to set the range of motion from full (-1 to 1) to partial (\(\alpha, \beta\)), to allow the user to intercept the rotation at any step, and to output to a device that allows the user to reproduce motions and animate or rock the rotation backwards and forwards. These fine-tuned controls will provide a better tool for sensitivity analysis.
+  Cook and Buja (1997) described an algorithm for manually controlling a tour (\(p\)-D into 2D), to rotate a variable into and out of a 2D projection. This algorithm provides the start to a human controlled geodesic interpolator (GI). It will be adapted so that the user has more control of the interpolation. The user will be able to set the range of motion from full (-1 to 1) to partial (\(\alpha, \beta\)), to allow the user to intercept the rotation at any step, and to output to a device that allows the user to reproduce motions and animate or rock the rotation backwards and forwards. These fine-tuned controls will provide a better tool for sensitivity analysis.
 \end{enumerate}
 
 \begin{enumerate}
@@ -227,7 +237,7 @@ which is divided into these more focused objectives:
   Current practice for high-dimensional data is to make a single low-dimensional representation, with a method such as principal component analysis (PCA). Often just the first two principal components are shown, which is equivalent to a 2D projection. This technique is also called a biplot. Another more rarely used technique is a tour, which shows an animation of 2D projections. It can be used to get an overview of the structure in the multivariate space, but it is difficult to assess the importance of variables to a particularly interesting low-dimensional structure. A human subject study has been designed and conducted to assess the learning about the importance of variables, from each of these techniques.
 \item
   \textbf{Can we define a geodesic interpolator for 3D projections, so that the technology can be implemented in modern virtual reality environments?}\\
-  The cutting edge of visualization research today is in virtual environments, as technology has advanced to make this accessible to the masses. It is interesting to explore how analysis with 3D graphics operates in comparison with 2D graphics. Building a geodesic interpolator for 3D projections extends the technology from 2D to 3D, and will allow us to compare the benefits or not, of the new environment for analyzing with multivariate data.
+  The cutting edge of visualization research today is in virtual environments, as technology has advanced to make this accessible to the masses. It is interesting to explore how analysis with 3D graphics operates in comparison with 2D graphics. Building a GI for 3D projections extends the technology from 2D to 3D, and will allow us to compare the benefits or not, of the new environment for analyzing with multivariate data.
 \item
   \textbf{Does 3D provide advantages over 2D, when exploring low-dimensional projections, for understanding structure in high-dimensional data? }\\
   Gracia et al. (2016) compares analyst tasks between 2- and 3-D scatterplots. They find modest accuracy and error improvements for distance perception and outlier identification in favor of 3D at the cost of a relatively small increase in task time. Nelson, Cook, and Cruz-Neira (1998) similarly compare a 2D projection and its 3D manipulation space. They find a slight advantage in the sphere test and a large advantage in the cluster test in favor of the 3D manipulation space. A human subjects experiment will be conducted to assess the sensitivity analysis techniques in a 2D vs 3D environment.
@@ -251,29 +261,48 @@ The research for RO \#3 involves \emph{algorithm design} extending the current 2
 
 During the candidature confirmation review (27 March 2019) we discussed exploratory data analysis, visualization of high dimensional spaces, covered the literature for tours and 3D rendering for information perception. We concluded with the progress for appending the algorithm for the manual tour (RO \# 1), software application in R, and its use on particle physics data.
 
-\hypertarget{publication}{%
-\subsection{Publication}\label{publication}}
+\hypertarget{published-work}{%
+\subsection{Published work}\label{published-work}}
 
-The paper showcasing the revied algorithm, software, and use case, has since been accepted in the R Journal and it currently undergoing editorial review. This will be published in the first issue of 2020 and will be made available at \href{https://journal.r-project.org/}{journal.r-project.org}.
+\hypertarget{refereed-journal-article}{%
+\subsubsection{Refereed journal article}\label{refereed-journal-article}}
+
+The paper describing the new GI algorithm, the software implementation, and an application, has been published in the R Journal and will appear in the next issue. It is currently available at \href{https://journal.r-project.org/}{journal.r-project.org}.
 
 \hypertarget{software}{%
-\subsection{Software}\label{software}}
+\subsubsection{Software}\label{software}}
 
-The R package, \texttt{spinifex\ (v0.1.0)} (Spyrison and Cook 2019), has been approved and hosted for public use on the Comprehensive R Archival Network, CRAN (cran.r-project.org/web/packages/spinifex/)(\url{https://cran.r-project.org/web/packages/spinifex/index.html}).
-
-New functionality has been added to the development branch, specifically around the interactive use. A user application is developed with \texttt{shiny}(Chang et al. 2018). It allows users to explore their data without the need for coding familiarity. It features interactive or precompiled manual touring. It also contains a gallery for flagging bases which can then further be reviewed or saved as .gif and .png files.
+The R package, \texttt{spinifex\ (v0.1.0)} (Spyrison and Cook 2019), has been accepted on the Comprehensive R Archival Network, CRAN (cran.r-project.org/web/packages/spinifex/)(\url{https://cran.r-project.org/web/packages/spinifex/index.html}). A shiny interface was added, which allows analysts to run the GI through a graphical user interface. This will also be used as the experimental apparatus for the experiment to check the effectiveness of the new method.
 
 \hypertarget{sec:expStudy}{%
 \subsection{Experimental study}\label{sec:expStudy}}
 
-The prominent appeal of the manual tour is that it allows users to control the contributions of individual variables. In theory, this should enable the finer exploration of features of interest. The hypothesis we will study is \emph{Does the finer control afforded by the manual tour improve the ability of the analyst to understand the importance of variables contributing to the structure?}
+This study is designed to test the effectiveness of the new GI against current practices: biplot and the grand tour. The design of the experiment is almost finished, and follows these elements. A draft of the working paper is attached with this report.
 
-We list out an abbreviated summary of the experimental design in the subsections below. A more detailed draft of the working paper is included as an appendix.
+\hypertarget{sec:factors}{%
+\subsubsection{Factors}\label{sec:factors}}
+
+There are three primary factors: principal component analysis (PCA), a grand tour (GT), GI.
+
+\hypertarget{data-structure}{%
+\subsubsection{Data structure}\label{data-structure}}
+
+Only one type of data structure will be examined, clusters in multiple dimensions. Data is simulated from a mixture of multivariate normal distributions, with varying cluster means and covariances. Multiple sets of data are simulated, so that each subject will see each data only once. They will see different simulated data from the same model, with the different techniques. Different levels of difficulty are induced by number of variables, number of clusters, and stronger correlation between variables counfounded with clustering. To determine the level of difficulty, distances between clusters means was calculated, and the order of importance of variables was determined by examining the contributions of variables to linear discriminants (Fisher 1936).
+
+\hypertarget{sec:tasks}{%
+\subsubsection{Tasks}\label{sec:tasks}}
+
+Participants will perform two tasks, for each factor: identify the number of clusters present in uncoloured data, to check that they understand cluster structure, and secondly, to identify any/all variables that were very important and somewhat important for distinguishing a given cluster from the others, along with reporting the confidence in their answer.
+
+\hypertarget{graphics}{%
+\subsubsection{Graphics}\label{graphics}}
+
+The primary display used is a scatterplot. The basis axes projection was also illustrated to the left of the plot. They are shown in a unit circle and show the magnitude and direction each variable contributes to the projection. This is a slight variation in the biplot that will enable users to better read the axes.
 
 \hypertarget{sec:groups}{%
 \subsubsection{Groups}\label{sec:groups}}
 
-Each participant will be randomly split into one of three even groups. The group controls the order of the factors that the participant was evaluated in for a latin square of the 3 factors. For instance, the order of the first group was PCA, grand, manual. Group level only impacts the order the factors are displayed while task, block, and simulation order will remain the same.
+Each participant will be randomly to one of three groups, setting the order in which the factors are shown. For example, the first group will see PCA, grand tour, and then the GI. Figure \ref{fig:designExample} illustrates the flow of subjects through the experiment.
 
 \begin{figure}[h]
 
@@ -284,31 +313,17 @@ Each participant will be randomly split into one of three even groups. The group
 \caption{Example case. Person 'A' is assigned to group 2, where they will use factor 2 (grand tour) for the first period. They perform 3 block difficulties of task 1 on simulations of increasing difficulty. Then 3 block difficulties of task 2 on unique simulations sampled from the same distributions of increasing difficulty. After this, they proceed to period 2, where they are use factor 3 (manual tour) to perform 3 block difficulties of each task. Lastly, in the third period, they use factor 1 (PCA) to perform the tasks.}\label{fig:designExample}
 \end{figure}
 
-\hypertarget{sec:factors}{%
-\subsubsection{Factors}\label{sec:factors}}
-
-We will explore performance across three factors. The first factor is Principal Component Analysis (PCA). The second factor is an animated walk of interpolation frames between target bases, called a \emph{grand} tour. The third factor allows for the manual control of the individual variable's contribution to the projection, performing a \emph{manual} tour.
-
-All factors are shown as a scatterplot. The basis axes projection was also illustrated to the left of the plot. They are shown in a unit circle and show the magnitude and direction each variable contributes to the projection.
-
-The user interface was kept the same whenever possible, but the control inputs do change slightly to accommodate the differences between factors. The inputs for PCA select a pair of principal components to display on the x- and y-axes. The manual tour had the same axes selection, with the addition of a drop-down bar and slider control selecting the manipulation variable and magnitude. The grand tour comes precompiled as an animation of a 15 second showing 90 frames at 6 frames per second. The user can control the location or play/pause the animation at will.
-
-\hypertarget{sec:tasks}{%
-\subsubsection{Tasks}\label{sec:tasks}}
-
-Within each factor, participants will perform 2 tasks. The first task asks participants to identify the number of clusters present in unsupervised data. This task served as a standard for assessing the general aptitude for this sort of high dimensional analysis as it was simpler. In application, linear discriminant analysis (Fisher 1936) or penalized discriminant analysis (Hastie, Buja, and Tibshirani 1995) are better suited for classifying such unsupervised data.
-
-The second task is focused on the hypothesis of the study, it asks participants to identify any/all variables that were very important and somewhat important for distinguishing a given cluster from the others. For instance, which variables are very- and somewhat- important for distinguishing clusters `A' and `B'.
-
 \hypertarget{sec:blocks}{%
 \subsubsection{Block difficulty}\label{sec:blocks}}
 
-Participants will be randomly assigned to 1 of 3 even groups. Each group has a different factor order containing all factors. Both tasks will be performed in the same order. Each task will have 3 repetitions performed on new simulations that were drawn from 3 parameterizations in increasing difficulty. Each participant will go through the simulations in the same order, while their factor order will vary. Fixing block difficulty order while varying factors should mitigate potential learning bias.
+Each participant will do three replications for each factor, one easy, one medium and one difficult.
 
-\hypertarget{experimental-apperatus}{%
-\subsubsection{experimental apperatus}\label{experimental-apperatus}}
+\hypertarget{experimental-apparatus}{%
+\subsubsection{Experimental apparatus}\label{experimental-apparatus}}
 
-The user interface was kept the same whenever possible, but the control inputs did change slightly to accommodate the differences between factors. For example, PCA has 2 radio button inputs selecting principal components to display on the x- and y-axes. The manual tour had the same axes selection, with the addition of a drop-down bar selecting manipulation variable and slider controlling its magnitude. Figure \ref{fig:basis} shows the interface for the manual tour during task evaluation.
+A web interface was developed for the experiment. Figure XXX shows the interface for factor 1 (PCA) where the subject is asked how many clusters are present. Figure \ref{fig:basis} shows the interface for factor 3 (GI) where the subject is asked about the impoetance of the variables.
+
+The user interface was consistent across factors, with some slightly differences as required by the different methodology. For example, PCA has 2 radio button inputs selecting principal components to display on the x- and y-axes. The GI had the same axes selection, with the addition of a drop-down bar to select the variable to be controlled and a slider controlling its magnitude.
 
 \begin{figure}[h]
 
@@ -319,18 +334,20 @@ The user interface was kept the same whenever possible, but the control inputs d
 \caption{Interface for the manual tour factor in the evaluation section.}\label{fig:appManualFactor}
 \end{figure}
 
+Subjects are given two minutes to complete each task, with a timer on the web app indicating time remaining, and their answers are stored in a local file. Demographic information is collected after all tasks are completed, though the web app.
+
+Each subject has an unlimited training time, encouraged to be about 10 minutes, where they watch a video of instructions, and explore the user interfaces.
+
 \hypertarget{pilot-studies}{%
 \subsubsection{Pilot studies}\label{pilot-studies}}
 
-There have been 3 small iterations of pilot studies. The first 2 iterations identified many small behavioral, wording changes, interactions to log. The latest pilot shows similar results between the PCA and manual factors suggesting that the simulations may be too simple to gain any improvement with the additional capability of being able to change variable contribution. New simulations will be drawn before continuing to the next round of pilot studies.
-
-Another common remark from pilot participants was the expression of concern that they aren't familiar enough with the factors to give valid results. Verbal and written wording have been modified to stress that factors are being assessed and not the participant's performance and reaffirmation that they are representative of the sample population.
+Several pilot studies have been conducted, with 4 different people. Each has resulted in improvements to the interface. The data simulation may need to be modified to provide soome clearer distinctions between factors.
 
 \hypertarget{next-steps}{%
 \section{Next steps}\label{next-steps}}
 
-\hypertarget{extending-manual-tour-to-3d}{%
-\subsection{Extending manual tour to 3D}\label{extending-manual-tour-to-3d}}
+\hypertarget{extending-gi-to-3d}{%
+\subsection{Extending GI to 3D}\label{extending-gi-to-3d}}
 
 To perform the 2D manual tour, two angle parameters must be identified to perform a rotation of the 3D manipulation space. The angle \(\theta\) indicates the angle on the projection plane between the manipulation variable and the \texttt{x-axis}. While \(\phi\) is the angle that the variable extends into the manipulation space above the projection plane.
 
@@ -338,8 +355,8 @@ A 3D manual tour then must define 3 angle parameters that define the rotation of
 
 Special care must be taken defining the axis of rotation from the 3D projection into the 4D manipulation space. In particular, the signs will need attention not to be lost especially of trigonometric functions that only support half a rotation. Once this task is done the 4D rotation matrix must be solved, again with the application of Rodrigues' rotation formula (Rodrigues 1840).
 
-\hypertarget{user-application-of-a-3d-manual-tour}{%
-\subsection{User application of a 3D manual tour}\label{user-application-of-a-3d-manual-tour}}
+\hypertarget{implementation-of-the-3d-gi}{%
+\subsection{Implementation of the 3D GI}\label{implementation-of-the-3d-gi}}
 
 In RO \#2, a \texttt{shiny} application was developed and used to explore the effect of user interaction for understanding variable contributions to structure in linear projections. It did so but exploring the differences in performance between 2D biplot of principal components, a 2D grand tour, and a 2D manual tour.
 
@@ -353,7 +370,7 @@ Alternatively, development and application in the game engine Unity would allow 
 \hypertarget{thesis-structure}{%
 \subsection{Thesis structure}\label{thesis-structure}}
 
-Subjective estimation of completion of first draft of thesis chapters:
+This is my assessment of the completion of the thesis research thus far:
 
 \begin{itemize}
 \tightlist
@@ -461,9 +478,6 @@ For version control, transparency, and reproducibility, the source files are mad
 \leavevmode\hypertarget{ref-anscombe_graphs_1973}{}%
 Anscombe, F. J. 1973. ``Graphs in Statistical Analysis.'' \emph{The American Statistician} 27 (1): 17--21. \url{https://doi.org/10.2307/2682899}.
 
-\leavevmode\hypertarget{ref-chang_shiny:_2018}{}%
-Chang, Winston, Joe Cheng, J. J. Allaire, Yihui Xie, and Jonathan McPherson. 2018. \emph{Shiny: Web Application Framework for R}. \url{https://CRAN.R-project.org/package=shiny}.
-
 \leavevmode\hypertarget{ref-cook_manual_1997}{}%
 Cook, Dianne, and Andreas Buja. 1997. ``Manual Controls for High-Dimensional Data Projections.'' \emph{Journal of Computational and Graphical Statistics} 6 (4): 464--80. \url{https://doi.org/10.2307/1390747}.
 
@@ -475,9 +489,6 @@ Gracia, Antonio, Santiago González, Víctor Robles, Ernestina Menasalvas, and T
 
 \leavevmode\hypertarget{ref-hadjar_webvr_2018}{}%
 Hadjar, Hayet, Abdelkrim Meziane, Rachid Gherbi, Insaf Setitra, and Noureddine Aouaa. 2018. ``WebVR Based Interactive Visualization of Open Health Data.'' In \emph{Proceedings of the 2nd International Conference on Web Studies}, 56--63.
-
-\leavevmode\hypertarget{ref-hastie_penalized_1995}{}%
-Hastie, Trevor, Andreas Buja, and Robert Tibshirani. 1995. ``Penalized Discriminant Analysis.'' \emph{The Annals of Statistics}, 73--102.
 
 \leavevmode\hypertarget{ref-kruskal_toward_1969}{}%
 Kruskal, Joseph B. 1969. ``Toward a Practical Method Which Helps Uncover the Structure of a Set of Multivariate Observations by Finding the Linear Transformation Which Optimizes a New `Index of Condensation'.'' In \emph{Statistical Computation}, edited by Roy C. Milton and John A. Nelder, 427--40. Academic Press. \url{https://doi.org/10.1016/B978-0-12-498150-8.50024-0}.
@@ -511,5 +522,6 @@ Wickham, Hadley, Dianne Cook, Heike Hofmann, and Andreas Buja. 2011. ``Tourr: An
 
 \leavevmode\hypertarget{ref-xie_r_2018}{}%
 Xie, Yihui, J. J. Allaire, and Garrett Grolemund. 2018. \emph{R Markdown: The Definitive Guide}. Boca Raton, Florida: Chapman; Hall/CRC. \url{https://bookdown.org/yihui/rmarkdown}.
+
 
 \end{document}
