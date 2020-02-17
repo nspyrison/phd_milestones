@@ -17,47 +17,44 @@ w_proj <- data.frame(tourr::rescale(w_dat %*% w_msp[, 1:2]))
 (out1 <- view_basis(w_bas, lab = colnames(w_dat)) +
   geom_point(data = w_proj,
              mapping = aes(x = X1 + .75, y = X2 - .5, color = w_cat),
-             pch = as.integer(w_cat) + 15, size = 2))
+             pch = as.integer(w_cat) + 15, size = 2)) +
+  theme(panel.border = element_rect(colour = "black", fill = NA))
 ggsave("./figures/basisWINE.png", out1, width = 6, height = 3, units = "in")
 
 # SAVE TO: basis.png
 #TODO: + legened?
 
 ###### Now make the basis structure figure.
-
-(out2a <- spinifex::oblique_frame(w_bas, data = w_dat, manip_var = 1, col = w_cat, pch = w_cat) + 
-  labs(title = "A) Holes index pursuit                   B) Removed 'Phenols'                     C) Removed 'Alcalinity'"))
-#oblique_frame(w_bas, data = w_dat, col = w_cat, pch = w_cat, manip_col = "grey50")
-
-### Remove "Phenols"; little change
-colnames(w_dat)[6]
-mv_sp <- w_bas[6,]
+### Remove "Color"; little change
+my_manip_var <- 10
+colnames(w_dat)[my_manip_var]
+mv_sp <- w_bas[my_manip_var,]
 my_phi <- acos(sqrt(mv_sp[1]^2 + mv_sp[2]^2))
 my_theta <- atan(mv_sp[2] / mv_sp[1]) # Radial
 
-(out2b <- spinifex::oblique_frame(basis = w_bas, data = w_dat, manip_var = 6, 
+(out2a <- spinifex::oblique_frame(basis = w_bas, data = w_dat, manip_var = my_manip_var, 
                         phi = pi/2 + my_phi, theta = my_theta,
                         col = w_cat, pch = w_cat) + 
-  labs(title = ))
+  labs(title = "A) Removed 'Color'                            B) Removed 'Hue'"))
 
 
-### Renove "Alcalinity"; large change
-colnames(w_dat)[4]
-mv_sp <- w_bas[4,]
+### Renove "Hue"; large change
+my_manip_var <- 11
+colnames(w_dat)[my_manip_var]
+mv_sp <- w_bas[my_manip_var,]
 my_phi <- acos(sqrt(mv_sp[1]^2 + mv_sp[2]^2))
 my_theta <- atan(mv_sp[2] / mv_sp[1]) # Radial
 
 
+##TODO: Phi ~ pi/2 * sign(mv_sp[2]) * my_phi
+(out2b <- spinifex::oblique_frame(basis = w_bas, data = w_dat, manip_var = my_manip_var, 
+                        phi = pi/2 - my_phi, theta = my_theta,
+                        col = w_cat, pch = w_cat))
+gridExtra::grid.arrange(out2a, out2b, nrow = 1)
+out2 <- gridExtra::arrangeGrob(out2a, out2b, nrow = 1)
 
-(out2c <- spinifex::oblique_frame(basis = w_bas, data = w_dat, manip_var = 4, 
-                        phi = pi/2 + my_phi, theta = my_theta,
-                        col = w_cat, pch = w_cat) + 
-  labs(title = ""))
-gridExtra::grid.arrange(out2a, out2b, out2c, nrow = 1)
-out2 <- gridExtra::arrangeGrob(out2a, out2b, out2c, nrow = 1)
 
-
-ggsave("./figures/basisStructureWINE.png", out2, width = 8, height = 8/3, units = "in")
+ggsave("./figures/basisStructureWINE.png", out2, width = 6, height = 3, units = "in")
 
 
 
