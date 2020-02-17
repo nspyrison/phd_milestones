@@ -1,37 +1,60 @@
-\documentclass[11,]{article}
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames*,x11names*}{xcolor}
+%
+\documentclass[
+  11,
+]{article}
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
-\usepackage{fixltx2e} % provides \textsubscript
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
-\else % if luatex or xelatex
-  \ifxetex
-    \usepackage{mathspec}
-  \else
-    \usepackage{fontspec}
-  \fi
-  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
 \fi
-% use upquote if available, for straight quotes in verbatim environments
+% Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-% use microtype if available
-\IfFileExists{microtype.sty}{%
-\usepackage{microtype}
-\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=Maroon,
+  filecolor=Maroon,
+  citecolor=Blue,
+  urlcolor=blue,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
 \usepackage[margin=1in]{geometry}
-\usepackage{hyperref}
-\PassOptionsToPackage{usenames,dvipsnames}{color} % color is loaded by hyperref
-\hypersetup{unicode=true,
-            colorlinks=true,
-            linkcolor=Maroon,
-            citecolor=Blue,
-            urlcolor=blue,
-            breaklinks=true}
-\urlstyle{same}  % don't use monospace font for urls
 \usepackage{longtable,booktabs}
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
 \usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -41,53 +64,20 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-\IfFileExists{parskip.sty}{%
-\usepackage{parskip}
-}{% else
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{6pt plus 2pt minus 1pt}
-}
-\setlength{\emergencystretch}{3em}  % prevent overfull lines
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{5}
-% Redefines (sub)paragraphs to behave more like sections
-\ifx\paragraph\undefined\else
-\let\oldparagraph\paragraph
-\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
-\fi
-\ifx\subparagraph\undefined\else
-\let\oldsubparagraph\subparagraph
-\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
-\fi
-
-%%% Use protect on footnotes to avoid problems with footnotes in titles
-\let\rmarkdownfootnote\footnote%
-\def\footnote{\protect\rmarkdownfootnote}
-
-%%% Change title format to be more compact
-\usepackage{titling}
-
-% Create subtitle command for use in maketitle
-\providecommand{\subtitle}[1]{
-  \posttitle{
-    \begin{center}\large#1\end{center}
-    }
-}
-
-\setlength{\droptitle}{-2em}
-
-  \title{}
-    \pretitle{\vspace{\droptitle}}
-  \posttitle{}
-    \author{}
-    \preauthor{}\postauthor{}
-    \date{}
-    \predate{}\postdate{}
-  
 \usepackage{setspace}
 \usepackage{hyperref}
 \usepackage{graphicx}
+
+\author{}
+\date{\vspace{-2.5em}}
 
 \begin{document}
 
@@ -146,7 +136,7 @@ Assoc. Prof. Bernhard Jenny\\
 \hypersetup{linkcolor = blue}
 
 {
-\hypersetup{linkcolor=black}
+\hypersetup{linkcolor=}
 \setcounter{tocdepth}{2}
 \tableofcontents
 }
@@ -160,7 +150,7 @@ The term exploratory data analysis (EDA) was coined by Tukey (1977), who leaves 
 
 Data and models are typically \textbf{high-dimensional}, with many variables, and possibly many model parameters. Conventionally, \(n\) is used for the number of sample observations, and \(p\) is used for the number of variables. Developing new methods to visualize high dimensions has been a pursuit of statisticians, computer scientists and visualization researchers for decades. While automated analysis is the norm, there remains some benefit of user interaction to help the analyst understand results, and determine the importance of components in a model. An interplay between automated and human-centered control is useful. As technology changes, new approaches to user interaction emerge, and exploring these technologies provides a challenge to researchers.
 
-Linear projections are commonly used to reduce the dimensionality. A \textbf{linear projection} is the linear transformation of the \(p\)-dimensional space into a low-(\(d-\))dimensional space, by matrix multiplication of the data with an orthonormal \(p\times d\) basis. An orthonormal basis has columns that are orthogonal to each other, and of length 1.
+Linear projections are commonly used to reduce the dimensionality. A \textbf{linear projection} is the linear transformation of the \(p\)-dimensional space into a low-(\(d-\))dimensional space, by matrix multiplication of the data with an orthonormal \(p\times d\) basis. An orthonormal basis has columns that are orthogonal to each other and of length 1.
 
 Good linear projections are often found with an automated procedure, like principal component analysis (PCA; Pearson 1901) or projection pursuit (Kruskal (1969)). These reduce the dimensionality and reveal something interesting about the data. Figure \ref{fig:basis} shows a \(d=2\) dimensional projection of \(6D\) data, revealing clustering of labelled groups. The basis that produced this projection is
 
@@ -184,33 +174,27 @@ Good linear projections are often found with an automated procedure, like princi
 
 \begin{figure}[h]
 
-{\centering \includegraphics[width=1\linewidth,]{./figures/basisWINE} 
+{\centering \includegraphics[width=1\linewidth,]{./figures/basis} 
 
 }
 
 \caption{FIXME CAP NEEDED.}\label{fig:basis}
 \end{figure}
 
-Projection + Data (original)
-
-Projection + Data (one variable rotated out, with no effect to structure)
-
-Projection + Data (one variable rotated out, with structure lost)
-
-Figure \ref{fig:basisStructure} shows how \textbf{sensitivity of structure} in a projection can depend on variables contributing to the projection. When variable Phenols is rotated out, there is no change to the structure, clusters are still visible. This says that the structure \emph{is NOT sensitive} to variable Phenols When variable Alcalinity is rotated out, there is change to the structure, clusters are less visible. This says that the structure \emph{is sensitive} to variable Alcalinity
-
-Exploring the sensitivity of structure in a projection to the contributions of particular variables requires \textbf{geodsic interpolation} to remove the variable from (or into) the projection plane. Geodesic interpolation is effectively a rotation, it maintains orthonormality of all new data projections, and any intermediate projections. Geodesic interpolation is used in tour methods (FIXME: REF), including the \textbf{grand tour} which shows (automated) movies of low-dmensional projections of high-dimensional spaces. The \texttt{tourr} package (Wickham et al. 2011) in R provides a range of automated tours.
-
-Sensitivity analysis is ideally achieved with \textbf{user-controlled steering} where the human controls the rotation of a variable into and out of a projection. This will enable various intermediate states to be shown to better understand the effect of single variables.
+Figure \ref{fig:basisStructure} shows how \textbf{sensitivity of structure} in a projection can depend on variables contributing to the projection. When variable Phenols is rotated out, there is no change to the structure, clusters are still visible. This says that the structure \emph{is NOT sensitive} to variable `tars2'. When variable `aede2' is rotated out, there is a change to the structure, clusters are less visible. This says that the structure \emph{is sensitive} to variable `aede2'.
 
 \begin{figure}[h]
 
-{\centering \includegraphics[width=1\linewidth,]{./figures/basisStructureWINE} 
+{\centering \includegraphics[width=1\linewidth,]{./figures/basisStructure} 
 
 }
 
 \caption{FIXME: CAP NEEDED.}\label{fig:basisStructure}
 \end{figure}
+
+Exploring the sensitivity of structure in a projection to the contributions of particular variables requires \textbf{geodesic interpolation} to remove the variable from (or into) the projection plane. Geodesic interpolation is effectively a rotation, it maintains orthonormality of all new data projections and any intermediate projections. Geodesic interpolation is used in tour methods (FIXME: REF), including the \textbf{grand tour} which shows (automated) movies of low-dimensional projections of high-dimensional spaces. The \texttt{tourr} package (Wickham et al. 2011) in R provides a range of automated tours.
+
+Sensitivity analysis is ideally achieved with \textbf{user-controlled steering} where the human controls the rotation of a variable into and out of a projection. This will enable various intermediate states to be shown to better understand the effect of single variables.
 
 \hypertarget{research-objectives}{%
 \subsection{Research objectives}\label{research-objectives}}
@@ -226,7 +210,7 @@ which is divided into these more focused objectives:
 \tightlist
 \item
   \textbf{How do we define user interaction for a geodesic interpolator to add and remove variables smoothly from a 2D linear projection of data?}\\
-  Cook and Buja (1997) described an algorithm for manually controlling a tour (\(p\)-D into 2D), to rotate a variable into and out of a 2D projection. This algorithm provides the start to a human controlled geodesic interpolator (GI). It will be adapted so that the user has more control of the interpolation. The user will be able to set the range of motion from full (-1 to 1) to partial (\(\alpha, \beta\)), to allow the user to intercept the rotation at any step, and to output to a device that allows the user to reproduce motions and animate or rock the rotation backwards and forwards. These fine-tuned controls will provide a better tool for sensitivity analysis.
+  Cook and Buja (1997) described an algorithm for manually controlling a tour (\(p\)-D into 2D), to rotate a variable into and out of a 2D projection. This algorithm provides the start to a human-controlled geodesic interpolator (GI). It must be adapted so that the user has more control of the interpolation. The user will be able to set the range of motion from full {[}-1 to 1{]}, to allow the user to intercept the rotation at any step, and to output to a device that allows the user to reproduce motions and animate or rock the rotation backward and forwards. These fine-tuned controls will provide a better tool for sensitivity analysis.
 \end{enumerate}
 
 \begin{enumerate}
@@ -234,32 +218,32 @@ which is divided into these more focused objectives:
 \setcounter{enumi}{1}
 \item
   \textbf{Do analysts understand the relationship between variables and structure in a 2D linear projection better when the geodesic interpolator is available?}\\
-  Current practice for high-dimensional data is to make a single low-dimensional representation, with a method such as principal component analysis (PCA). Often just the first two principal components are shown, which is equivalent to a 2D projection. This technique is also called a biplot. Another more rarely used technique is a tour, which shows an animation of 2D projections. It can be used to get an overview of the structure in the multivariate space, but it is difficult to assess the importance of variables to a particularly interesting low-dimensional structure. A human subject study has been designed and conducted to assess the learning about the importance of variables, from each of these techniques.
+  Current practice for high-dimensional data is to make a single low-dimensional representation, with a method such as principal component analysis. Often just the first two principal components are shown, which is equivalent to a 2D projection. This technique is also called a biplot(Gabriel 1971). Another more rarely used technique is a tour, which shows an animation of 2D projections. It can be used to get an overview of the structure in the multivariate space, but it is difficult to assess the importance of variables to a particularly interesting low-dimensional structure.
 \item
   \textbf{Can we define a geodesic interpolator for 3D projections, so that the technology can be implemented in modern virtual reality environments?}\\
-  The cutting edge of visualization research today is in virtual environments, as technology has advanced to make this accessible to the masses. It is interesting to explore how analysis with 3D graphics operates in comparison with 2D graphics. Building a GI for 3D projections extends the technology from 2D to 3D, and will allow us to compare the benefits or not, of the new environment for analyzing with multivariate data.
+  The cutting edge of visualization research today is in virtual environments, as technology has advanced to make this accessible to the masses. It is interesting to explore how analysis with 3D graphics operates in comparison with 2D graphics. The existing algorithms should be extended to 3D projections.
 \item
-  \textbf{Does 3D provide advantages over 2D, when exploring low-dimensional projections, for understanding structure in high-dimensional data? }\\
-  Gracia et al. (2016) compares analyst tasks between 2- and 3-D scatterplots. They find modest accuracy and error improvements for distance perception and outlier identification in favor of 3D at the cost of a relatively small increase in task time. Nelson, Cook, and Cruz-Neira (1998) similarly compare a 2D projection and its 3D manipulation space. They find a slight advantage in the sphere test and a large advantage in the cluster test in favor of the 3D manipulation space. A human subjects experiment will be conducted to assess the sensitivity analysis techniques in a 2D vs 3D environment.
+  \textbf{Does 3D provide advantages over 2D, when exploring geodesic interpolated low-dimensional projections, for understanding structure in high-dimensional data? }\\
+  Gracia et al. (2016) compares analyst tasks between 2- and 3-D scatterplots. They find modest accuracy and error improvements for distance perception and outlier identification in favor of 3D at the cost of a relatively small increase in task time. Nelson, Cook, and Cruz-Neira (1998) similarly compare a 2D projection and its 3D manipulation space. They find a slight advantage in the sphere test and a large advantage in the cluster test in favor of the 3D manipulation space. Research should be done to see if analogous results hold for
 \end{enumerate}
 
 \hypertarget{methodology}{%
 \subsection{Methodology}\label{methodology}}
 
-This research is interdisciplinary; touring was developed by statisticians to explore physics data. Modern advances in hardware from information technology allow for 3D rending in higher quality and immersion than previously possible.
+The research corresponding with RO \#1 entails \emph{algorithm design} adapting the algorithm from Cook and Buja (1997). This allows for interactive control of 2D projections and serves as a foundation from the remaining work to follow.
 
-The research corresponding with RO \#1 entails \emph{algorithm design} following and further clarifying the work done in Cook and Buja (1997). Adaptations of the algorithm include defining the axis of rotation for manipulation orthogonal to the projection plane. This allowed us to then apply Rodrigues' rotation formula (Rodrigues 1840) to prove the rotation matrix to be used in 2D. We also provide initialization of the in- and out- of plane angles of rotation which clarifies understanding and application of the manual tour.
-
-In the application, attention was given to both pre-compiled tour and human-in-the-loop UCS. We provide an open-source version of the manual tour in the R package, \texttt{spinifex}, which has since been published on CRAN. This forms the foundation for future work in the remaining objectives. In the related paper we additionally apply the algorithm on particle physics data.
-
-For RO \#2 is a controlled \emph{experimental study} to explore the efficacy of interactive UCS compared with the benchmarks factors of PCA and the grand tour. This is designed as a within-participant study where each participant performs all factors. the study is balanced by assigning participants into one of 3 groups where the factor order is controlled by a Latin square while simulation order remains the same. The details are discussed in finer detail in section (\#sec:expStudy), below.
+To address RO \#2, a controlled \emph{experimental study} will explore the efficacy of interactive control compared with the benchmarks factors of PCA and the grand tour. This is designed as a within-participant study where each participant performs all factors. the study is balanced by assigning participants into one of 3 groups where the factor order is controlled by a Latin square while simulation order remains the same. The details are discussed in finer detail in section (\#sec:expStudy), below.
 
 The research for RO \#3 involves \emph{algorithm design} extending the current 2D manual tour into a 3D project. For a 2D projection, the axes basis is rotated through a 3D `manipulation space'. In a 3D projection, such a space requires 4 dimensions. Theoretically, after the addition of a new angle of rotation, the rotation matrix must be extended to accommodate a new dimension and angle parameter. This also means that analysts have another parameter to define, further increasing their already sizable input-volume.
+
+Another \emph{experimental study} will be conducted to answer RO \#4. The novel 3D interactive tours should be contrasted with 3D grand tours, `triplots', (a scatterplot of 3 principal components), in stereoscopic 3D. Additionally, it may also prove valuable to compare against the 3D manipulation space related to a 2D manual tour.
 
 \hypertarget{progress-since-confirmation}{%
 \section{Progress since confirmation}\label{progress-since-confirmation}}
 
-During the candidature confirmation review (27 March 2019) we discussed exploratory data analysis, visualization of high dimensional spaces, covered the literature for tours and 3D rendering for information perception. We concluded with the progress for appending the algorithm for the manual tour (RO \# 1), software application in R, and its use on particle physics data.
+During the candidature confirmation review (27 March 2019) we discussed exploratory data analysis, visualization of high dimensional spaces, covered the literature for tours and 3D rendering for information perception. We concluded with the progress for appending the algorithm for the manual tour (RO \#1), software application in R, and its use on particle physics data.
+
+The Adaptations of the algorithm include defining the axis of rotation for manipulation orthogonal to the projection plane. This allowed us to then apply Rodrigues' rotation formula (Rodrigues 1840) to prove the rotation matrix to be used in 2D. We also provide initialization of the in- and out- of plane angles of rotation which clarifies understanding and application of the manual tour.
 
 \hypertarget{published-work}{%
 \subsection{Published work}\label{published-work}}
@@ -267,32 +251,32 @@ During the candidature confirmation review (27 March 2019) we discussed explorat
 \hypertarget{refereed-journal-article}{%
 \subsubsection{Refereed journal article}\label{refereed-journal-article}}
 
-The paper describing the new GI algorithm, the software implementation, and an application, has been published in the R Journal and will appear in the next issue. It is currently available at \href{https://journal.r-project.org/}{journal.r-project.org}.
+The paper describing the new GI algorithm, the software implementation, and an application, has been published in the R Journal and will appear in the next issue. It is currently available at \href{https://journal.r-project.org/}{journal.r-project.org}. The last version is attached as appendix A.
 
 \hypertarget{software}{%
 \subsubsection{Software}\label{software}}
 
-The R package, \texttt{spinifex\ (v0.1.0)} (Spyrison and Cook 2019), has been accepted on the Comprehensive R Archival Network, CRAN (cran.r-project.org/web/packages/spinifex/)(\url{https://cran.r-project.org/web/packages/spinifex/index.html}). A shiny interface was added, which allows analysts to run the GI through a graphical user interface. This will also be used as the experimental apparatus for the experiment to check the effectiveness of the new method.
+The R package, \texttt{spinifex\ (v0.1.0)} (Spyrison and Cook 2019), has been accepted on the Comprehensive R Archival Network, CRAN (cran.r-project.org/web/packages/spinifex/)(\url{https://cran.r-project.org/web/packages/spinifex/index.html}). A \texttt{shiny} interface was added, which allows analysts to run the GI through a graphical user interface. This will also be used as the experimental apparatus for the experiment to check the effectiveness of the new method.
 
 \hypertarget{sec:expStudy}{%
 \subsection{Experimental study}\label{sec:expStudy}}
 
-This study is designed to test the effectiveness of the new GI against current practices: biplot and the grand tour. The design of the experiment is almost finished, and follows these elements. A draft of the working paper is attached with this report.
+This study is designed to test the effectiveness of the new GI against current practices: biplot and the grand tour (RO \#2). The design of the experiment is almost finished and follows these elements. A draft of the working paper is attached to this report as appendix B.
 
 \hypertarget{sec:factors}{%
 \subsubsection{Factors}\label{sec:factors}}
 
-There are three primary factors: principal component analysis (PCA), a grand tour (GT), GI.
+There are three primary factors: principal component analysis (PCA), grand tour, GI.
 
 \hypertarget{data-structure}{%
 \subsubsection{Data structure}\label{data-structure}}
 
-Only one type of data structure will be examined, clusters in multiple dimensions. Data is simulated from a mixture of multivariate normal distributions, with varying cluster means and covariances. Multiple sets of data are simulated, so that each subject will see each data only once. They will see different simulated data from the same model, with the different techniques. Different levels of difficulty are induced by number of variables, number of clusters, and stronger correlation between variables counfounded with clustering. To determine the level of difficulty, distances between clusters means was calculated, and the order of importance of variables was determined by examining the contributions of variables to linear discriminants (Fisher 1936).
+Only one type of data structure will be examined, clusters in multiple dimensions. Data is simulated from a mixture of multivariate normal distributions, with varying cluster means and covariances. Multiple sets of data are simulated so that each subject will see each data only once. They will see different simulated data from the same model, with different techniques. Different levels of difficulty are induced by several variables, the number of clusters and a stronger correlation between variables confounded with clustering. To determine the level of difficulty, distances between clusters means were calculated, and the order of importance of variables was determined by examining the contributions of variables to linear discriminants (Fisher 1936).
 
 \hypertarget{sec:tasks}{%
 \subsubsection{Tasks}\label{sec:tasks}}
 
-Participants will perform two tasks, for each factor: identify the number of clusters present in uncoloured data, to check that they understand cluster structure, and secondly, to identify any/all variables that were very important and somewhat important for distinguishing a given cluster from the others, along with reporting the confidence in their answer.
+Participants will perform two tasks, for each factor: identify the number of clusters present in uncolored data, to check that they understand cluster structure, and secondly, to identify any/all variables that were very important and somewhat important for distinguishing a given cluster from the others, along with reporting the confidence in their answer.
 
 \hypertarget{graphics}{%
 \subsubsection{Graphics}\label{graphics}}
@@ -302,11 +286,11 @@ The primary display used is a scatterplot. The basis axes projection was also il
 \hypertarget{sec:groups}{%
 \subsubsection{Groups}\label{sec:groups}}
 
-Each participant will be randomly to one of three groups, setting the order in which the factors are shown. For example, the first group will see PCA, grand tour, and then the GI. Figure \ref{fig:designExample} illustrates the flow of subjects through the experiment.
+Each participant will be randomly assigned to one of three groups, setting the order in which the factors are shown. For example, the first group will see PCA, grand tour, and then the GI. Figure \ref{fig:designExample} illustrates the flow of subjects through the experiment.
 
 \begin{figure}[h]
 
-{\centering \includegraphics[width=0.8\linewidth,]{./figures/experimental_design_personA} 
+{\centering \includegraphics[width=1\linewidth,]{./figures/experimental_design_personA} 
 
 }
 
@@ -321,17 +305,17 @@ Each participant will do three replications for each factor, one easy, one mediu
 \hypertarget{experimental-apparatus}{%
 \subsubsection{Experimental apparatus}\label{experimental-apparatus}}
 
-A web interface was developed for the experiment. Figure XXX shows the interface for factor 1 (PCA) where the subject is asked how many clusters are present. Figure \ref{fig:basis} shows the interface for factor 3 (GI) where the subject is asked about the impoetance of the variables.
+A web interface was developed for the experiment. Figure \ref{fig:appInterface}, panel A shows the interface for factor 1 (PCA) where the subject is asked how many clusters are present. Figure \ref{fig:appInterface} shows the interface for factor 3 (GI) where the subject is asked about the importance of the variables.
 
-The user interface was consistent across factors, with some slightly differences as required by the different methodology. For example, PCA has 2 radio button inputs selecting principal components to display on the x- and y-axes. The GI had the same axes selection, with the addition of a drop-down bar to select the variable to be controlled and a slider controlling its magnitude.
+The user interface was consistent across factors, with some slight differences as required by the different methodologies. For example, PCA has 2 radio button inputs selecting principal components to display on the x- and y-axes. The GI had the same axes selection, with the addition of a drop-down bar to select the variable to be controlled and a slider controlling its magnitude.
 
 \begin{figure}[h]
 
-{\centering \includegraphics[width=0.8\linewidth,]{./figures/appManualFactor} 
+{\centering \includegraphics[width=1\linewidth,]{./figures/appInterface} 
 
 }
 
-\caption{Interface for the manual tour factor in the evaluation section.}\label{fig:appManualFactor}
+\caption{Interface for the manual tour factor in the evaluation section.}\label{fig:appInterface}
 \end{figure}
 
 Subjects are given two minutes to complete each task, with a timer on the web app indicating time remaining, and their answers are stored in a local file. Demographic information is collected after all tasks are completed, though the web app.
@@ -341,24 +325,29 @@ Each subject has an unlimited training time, encouraged to be about 10 minutes, 
 \hypertarget{pilot-studies}{%
 \subsubsection{Pilot studies}\label{pilot-studies}}
 
-Several pilot studies have been conducted, with 4 different people. Each has resulted in improvements to the interface. The data simulation may need to be modified to provide soome clearer distinctions between factors.
+Several pilot studies have been conducted, with 4 different people. Each has resulted in improvements to the interface. The data simulation may need to be modified to provide some clearer distinctions between factors.
 
 \hypertarget{next-steps}{%
 \section{Next steps}\label{next-steps}}
 
+\hypertarget{gi-2d-pilot-and-study}{%
+\subsection{GI 2D pilot and study}\label{gi-2d-pilot-and-study}}
+
+To bring RO \#2 to a close, simulations and grand tour paths need to be updated with new rounds of block difficultly. Then the needs to be conducted and paper needs to be completed. The draft is attached as appendix B
+
 \hypertarget{extending-gi-to-3d}{%
 \subsection{Extending GI to 3D}\label{extending-gi-to-3d}}
 
-To perform the 2D manual tour, two angle parameters must be identified to perform a rotation of the 3D manipulation space. The angle \(\theta\) indicates the angle on the projection plane between the manipulation variable and the \texttt{x-axis}. While \(\phi\) is the angle that the variable extends into the manipulation space above the projection plane.
+To address RO \# 3 To perform the 2D manual tour, two angle parameters must be identified to perform a rotation of the 3D manipulation space. The angle \(\theta\) indicates the angle on the projection plane between the manipulation variable and the \texttt{x-axis}. While \(\phi\) is the angle that the variable extends into the manipulation space above the projection plane.
 
 A 3D manual tour then must define 3 angle parameters that define the rotation of the 4D manipulation space. Let \(\theta\) now be a set of 2 angles, \(\{\theta_{xy}, \theta_z\}\) that defines the position of the manip variable in the (3D) projection plane and \(\phi\) in the angle it extends into the manipulation direction.
 
 Special care must be taken defining the axis of rotation from the 3D projection into the 4D manipulation space. In particular, the signs will need attention not to be lost especially of trigonometric functions that only support half a rotation. Once this task is done the 4D rotation matrix must be solved, again with the application of Rodrigues' rotation formula (Rodrigues 1840).
 
-\hypertarget{implementation-of-the-3d-gi}{%
-\subsection{Implementation of the 3D GI}\label{implementation-of-the-3d-gi}}
+\hypertarget{implementation-and-study-the-3d-gi}{%
+\subsection{Implementation and study the 3D GI}\label{implementation-and-study-the-3d-gi}}
 
-In RO \#2, a \texttt{shiny} application was developed and used to explore the effect of user interaction for understanding variable contributions to structure in linear projections. It did so but exploring the differences in performance between 2D biplot of principal components, a 2D grand tour, and a 2D manual tour.
+In RO \#2, a \texttt{shiny} application was developed and used to explore the effect of user interaction for understanding variable contributions to structure in linear projections. It will do so by exploring the differences in performance between 2D biplot of principal components, a 2D grand tour, and a 2D manual tour via experimental study. Similarly, a study should explore the 3D variants to answer RO \#4
 
 Another R package, \texttt{shinyaframe}, \{Murphy (2017)\} that enables the use of Mozilla's \texttt{aframe} VR product to be consumed in \texttt{shiny} applications. The section titled `Method 2: ``A-Frame and R (Shiny, Ggplot2'')' by Hadjar et al. (2018) is an example of an application with the relevant packages and hardware for display and interaction in stereoscopic virtual reality. This may allow for more rapid advancement in implementation, however, the extent and extendability of interaction remain unknown.
 
@@ -379,16 +368,18 @@ This is my assessment of the completion of the thesis research thus far:
 \item
   Literature review -- 80\%
 \item
-  Manual tour and user-controlled steering -- 90\%
+  (RO \#1) Manual tour and user-controlled steering -- 90\%
 \item
-  Experimental study -- 60\%
+  (RO \#2) Experimental study -- 60\%
 \item
-  The extension of the manual tour to 3D -- 0\%
+  (RO \#3) The extension of the manual tour to 3D -- 0\%
+\item
+  (RO \#4) Experimental study II -- 0\%
 \item
   Conclusion and future plans -- 0\%
 \end{itemize}
 
-Figure \ref{fig:timeline} illustrates the purposed timeline for of this research.
+Figure \ref{fig:timeline} illustrates the purposed timeline for this research.
 
 \begin{figure}[h]
 
@@ -460,7 +451,7 @@ Figure \ref{fig:timeline} illustrates the purposed timeline for of this research
 IEEE VAST 2020: 25-30 October 2020 Salt Lake City, Utah, USA\\
 submission: Saturday, March 21, 2020\\
 \url{http://ieeevis.org/year/2020/info/call-participation/vast-paper-types}~\\
-IEEE VAST 2020: 25-30 October 2020 Salt Lake City, Utah, USA\\
+IEEE VAST 2021: October/November 2021, New Orleans, Louisiana, USA\\
 submission: Saturday, March 21, 2020\\
 
 \hypertarget{sec:acknowledgements}{%
@@ -483,6 +474,9 @@ Cook, Dianne, and Andreas Buja. 1997. ``Manual Controls for High-Dimensional Dat
 
 \leavevmode\hypertarget{ref-fisher_use_1936}{}%
 Fisher, Ronald A. 1936. ``The Use of Multiple Measurements in Taxonomic Problems.'' \emph{Annals of Eugenics} 7 (2): 179--88. \url{https://doi.org/10.1111/j.1469-1809.1936.tb02137.x}.
+
+\leavevmode\hypertarget{ref-gabriel_biplot_1971}{}%
+Gabriel, Karl Ruben. 1971. ``The Biplot Graphic Display of Matrices with Application to Principal Component Analysis.'' \emph{Biometrika} 58 (3): 453--67.
 
 \leavevmode\hypertarget{ref-gracia_new_2016}{}%
 Gracia, Antonio, Santiago González, Víctor Robles, Ernestina Menasalvas, and Tatiana von Landesberger. 2016. ``New Insights into the Suitability of the Third Dimension for Visualizing Multivariate/Multidimensional Data: A Study Based on Loss of Quality Quantification.'' \emph{Information Visualization} 15 (1): 3--30. \url{https://doi.org/10.1177/1473871614556393}.
@@ -522,6 +516,5 @@ Wickham, Hadley, Dianne Cook, Heike Hofmann, and Andreas Buja. 2011. ``Tourr: An
 
 \leavevmode\hypertarget{ref-xie_r_2018}{}%
 Xie, Yihui, J. J. Allaire, and Garrett Grolemund. 2018. \emph{R Markdown: The Definitive Guide}. Boca Raton, Florida: Chapman; Hall/CRC. \url{https://bookdown.org/yihui/rmarkdown}.
-
 
 \end{document}
