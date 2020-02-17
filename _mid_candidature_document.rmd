@@ -99,37 +99,23 @@ Linear projections are commonly used to reduce the dimensionality. A **linear pr
 <!-- This transformation is defined by a 'basis'. A basis is an orthonormal set of `d` element vectors, where each element vector is a linear combination of `p` elements in vector-space. That is to say, a basis defines the direction and magnitude each of the `p` attributes contributes to every direction of the `d`-dimensional projection space. Consider a 2D projection-space (`d = 2`). The basis defining this projection can be visually displayed as a unit circle with `p` line segments stemming from the origin as shown in figure \@ref(fig:basis).-->
 
 <!-- what do we learn from a linear projection -->
-Good linear projections are often found with an automated procedure, like principal component analysis [PCA; @pearson_liii._1901] or projection pursuit (@kruskal_toward_1969). These reduce the dimensionality and reveal something interesting about the data. Figure \ref{FIXME:XXX} shows a $d=2$ dimensional projection of $6D$ data, revealing clustering of labelled groups. The basis that produced this projection is 
-
-<!--  [1,]  0.39428  0.075844 -->
-<!--  [2,]  0.10865  0.209938 -->
-<!--  [3,]  0.17610  0.328622 -->
-<!--  [4,]  0.45434 -0.007852 -->
-<!--  [5,]  0.41295 -0.112694 -->
-<!--  [6,]  0.08576  0.316601 -->
-<!--  [7,]  0.15149  0.210671 -->
-<!--  [8,]  0.59660 -0.182590 -->
-<!--  [9,]  0.01852  0.341373 -->
-<!-- [10,]  0.14950  0.144789 -->
-<!-- [11,] -0.08701  0.510752 -->
-<!-- [12,]  0.06950  0.371095 -->
-<!-- [13,] -0.05867  0.339682 -->
+Good linear projections are often found with an automated procedure, like principal component analysis [PCA; @pearson_liii._1901] or projection pursuit (@kruskal_toward_1969). These reduce the dimensionality and reveal something interesting about the data. Figure \@ref(fig:basis) shows a $d=2$ dimensional projection of $6D$ data, revealing clustering of labelled groups. The basis that produced this projection is 
 
 \begin{equation*}
 \left[ \begin{array}{rr}
- 0.394 &  0.075 \\
- 0.108 &  0.209 \\
- 0.176 &  0.328 \\
- 0.454 & -0.007 \\
- 0.412 & -0.112 \\
- 0.085 &  0.316 \\
- 0.151 &  0.210 \\
- 0.596 & -0.182 \\
- 0.018 &  0.341 \\
- 0.149 &  0.144 \\
--0.087 &  0.510 \\
- 0.069 &  0.371 \\
--0.058 &  0.339 \\
+ 0.39 &  0.08 \\
+ 0.11 &  0.21 \\
+ 0.18 &  0.33 \\
+ 0.45 & -0.01 \\
+ 0.41 & -0.11 \\
+ 0.09 &  0.32 \\
+ 0.15 &  0.21 \\
+ 0.60 & -0.18 \\
+ 0.02 &  0.34 \\
+ 0.15 &  0.14 \\
+-0.09 &  0.51 \\
+ 0.07 &  0.37 \\
+-0.06 &  0.34 \\
 \end{array} \right]
 \end{equation*}
 
@@ -142,7 +128,7 @@ Projection + Data (one variable rotated out, with no effect to structure)
 
 Projection + Data (one variable rotated out, with structure lost)
 
-Figure \ref{FIXME:XXX} shows how **sensitivity of structure** in a projection can depend on variables contributing to the projection. When variable XXX is rotated out, there is no change to the structure, clusters are still visible. This says that the structure *is NOT sensitive* to variable XXX. When variable XXX is rotated out, there is change to the structure, clusters are less visible. This says that the structure *is sensitive* to variable XXX. 
+Figure \@ref(fig:basisStructure) shows how **sensitivity of structure** in a projection can depend on variables contributing to the projection. When variable Phenols is rotated out, there is no change to the structure, clusters are still visible. This says that the structure *is NOT sensitive* to variable Phenols When variable Alcalinity is rotated out, there is change to the structure, clusters are less visible. This says that the structure *is sensitive* to variable Alcalinity 
 
 Exploring the sensitivity of structure in a projection to the contributions of particular variables requires **geodsic interpolation** to remove the variable from (or into) the projection plane. Geodesic interpolation is effectively a rotation, it maintains orthonormality of all new data projections, and any intermediate projections. Geodesic interpolation is used in tour methods (FIXME: REF), which show (automated) movies of low-dmensional projections of high-dimensional spaces. The `tourr` package [@wickham_tourr:_2011] in R provides a range of automated tours. 
 
