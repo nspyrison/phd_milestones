@@ -1,37 +1,60 @@
-\documentclass[11,]{article}
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames*,x11names*}{xcolor}
+%
+\documentclass[
+  11,
+]{article}
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
-\usepackage{fixltx2e} % provides \textsubscript
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
-\else % if luatex or xelatex
-  \ifxetex
-    \usepackage{mathspec}
-  \else
-    \usepackage{fontspec}
-  \fi
-  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
 \fi
-% use upquote if available, for straight quotes in verbatim environments
+% Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-% use microtype if available
-\IfFileExists{microtype.sty}{%
-\usepackage{microtype}
-\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=Maroon,
+  filecolor=Maroon,
+  citecolor=Blue,
+  urlcolor=blue,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
 \usepackage[margin=1in]{geometry}
-\usepackage{hyperref}
-\PassOptionsToPackage{usenames,dvipsnames}{color} % color is loaded by hyperref
-\hypersetup{unicode=true,
-            colorlinks=true,
-            linkcolor=Maroon,
-            citecolor=Blue,
-            urlcolor=blue,
-            breaklinks=true}
-\urlstyle{same}  % don't use monospace font for urls
 \usepackage{longtable,booktabs}
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
 \usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -41,53 +64,20 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-\IfFileExists{parskip.sty}{%
-\usepackage{parskip}
-}{% else
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{6pt plus 2pt minus 1pt}
-}
-\setlength{\emergencystretch}{3em}  % prevent overfull lines
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{5}
-% Redefines (sub)paragraphs to behave more like sections
-\ifx\paragraph\undefined\else
-\let\oldparagraph\paragraph
-\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
-\fi
-\ifx\subparagraph\undefined\else
-\let\oldsubparagraph\subparagraph
-\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
-\fi
-
-%%% Use protect on footnotes to avoid problems with footnotes in titles
-\let\rmarkdownfootnote\footnote%
-\def\footnote{\protect\rmarkdownfootnote}
-
-%%% Change title format to be more compact
-\usepackage{titling}
-
-% Create subtitle command for use in maketitle
-\providecommand{\subtitle}[1]{
-  \posttitle{
-    \begin{center}\large#1\end{center}
-    }
-}
-
-\setlength{\droptitle}{-2em}
-
-  \title{}
-    \pretitle{\vspace{\droptitle}}
-  \posttitle{}
-    \author{}
-    \preauthor{}\postauthor{}
-    \date{}
-    \predate{}\postdate{}
-  
 \usepackage{setspace}
 \usepackage{hyperref}
 \usepackage{graphicx}
+
+\author{}
+\date{\vspace{-2.5em}}
 
 \begin{document}
 
@@ -100,7 +90,7 @@
 \begin{center}
 \huge{\textbf{New Tools to Interactively Explore Sensitivity of Structure in Low-dimensional Projections of Data}}\\
 \vspace*{1\baselineskip}
-\Large{\textbf{Mid-candidature review --- 25 Feburuary, 2020}}\\
+\Large{\textbf{Mid-candidature review --- 25 February, 2020}}\\
 %\vspace*{1\baselineskip}
 \LARGE{Nicholas Spyrison, B.Sc}\\
 \vspace*{1\baselineskip}
@@ -146,7 +136,7 @@ Assoc. Prof. Bernhard Jenny\\
 \hypersetup{linkcolor = blue}
 
 {
-\hypersetup{linkcolor=black}
+\hypersetup{linkcolor=}
 \setcounter{tocdepth}{2}
 \tableofcontents
 }
@@ -162,20 +152,34 @@ Data and models are typically \textbf{high-dimensional}, with many variables, an
 
 Linear projections are commonly used to reduce the dimensionality. A \textbf{linear projection} is the linear transformation of the \(p\)-dimensional space into a low-(\(d-\))dimensional space, by matrix multiplication of the data with an orthonormal \(p\times d\) basis. An orthonormal basis has columns that are orthogonal to each other, and of length 1.
 
-Good linear projections are often found with an automated procedure, like principal component analysis (FIXME: REF) or projection pursuit (FIXME:REF). These reduce the dimensionality and reveal something interesting about the data. Figure \ref{FIXME:XXX} shows a \(d=2\) dimensional projection of \(6D\) data, revealing clustering of labelled groups. The basis that produced this projection is
+Good linear projections are often found with an automated procedure, like principal component analysis (PCA; Pearson 1901) or projection pursuit (Kruskal (1969)). These reduce the dimensionality and reveal something interesting about the data. Figure \ref{FIXME:XXX} shows a \(d=2\) dimensional projection of \(6D\) data, revealing clustering of labelled groups. The basis that produced this projection is
 
 \begin{equation*}
 \left[ \begin{array}{rr}
-00 & 00 \\
-00 & 00 \\
-00 & 00 \\
-00 & 00 \\
-00 & 00 \\
-00 & 00 \\
+ 0.394 &  0.075 \\
+ 0.108 &  0.209 \\
+ 0.176 &  0.328 \\
+ 0.454 & -0.007 \\
+ 0.412 & -0.112 \\
+ 0.085 &  0.316 \\
+ 0.151 &  0.210 \\
+ 0.596 & -0.182 \\
+ 0.018 &  0.341 \\
+ 0.149 &  0.144 \\
+-0.087 &  0.510 \\
+ 0.069 &  0.371 \\
+-0.058 &  0.339 \\
 \end{array} \right]
 \end{equation*}
 
-FIGURE HERE
+\begin{figure}[h]
+
+{\centering \includegraphics[width=1\linewidth,]{./figures/basisWINE} 
+
+}
+
+\caption{FIXME CAP NEEDED.}\label{fig:basis}
+\end{figure}
 
 Projection + Data (original)
 
@@ -185,9 +189,18 @@ Projection + Data (one variable rotated out, with structure lost)
 
 Figure \ref{FIXME:XXX} shows how \textbf{sensitivity of structure} in a projection can depend on variables contributing to the projection. When variable XXX is rotated out, there is no change to the structure, clusters are still visible. This says that the structure \emph{is NOT sensitive} to variable XXX. When variable XXX is rotated out, there is change to the structure, clusters are less visible. This says that the structure \emph{is sensitive} to variable XXX.
 
-Exploring the sensitivity of structure in a projection to the contributions of particular variables requires \textbf{geodsic interpolation} to remove the variable from (or into) the projection plane. Geodesic interpolation is effectively a rotation, it maintains orthonormality of all new data projections, and any intermediate projections. Geodesic interpolation is used in tour methods (FIXME: REF), which show (automated) movies of low-dmensional projections of high-dimensional spaces. The tourr package (FIXME: REF) in R provides a range of automated tours.
+Exploring the sensitivity of structure in a projection to the contributions of particular variables requires \textbf{geodsic interpolation} to remove the variable from (or into) the projection plane. Geodesic interpolation is effectively a rotation, it maintains orthonormality of all new data projections, and any intermediate projections. Geodesic interpolation is used in tour methods (FIXME: REF), which show (automated) movies of low-dmensional projections of high-dimensional spaces. The \texttt{tourr} package (Wickham et al. 2011) in R provides a range of automated tours.
 
 Sensitivity analysis is ideally achieved with \textbf{user-controlled steering} where the human controls the rotation of a variable into and out of a projection. This will enable various intermediate states to be shown to better understand the effect of single variables.
+
+\begin{figure}[h]
+
+{\centering \includegraphics[width=1\linewidth,]{./figures/basisStructureWINE} 
+
+}
+
+\caption{FIXME: CAP NEEDED.}\label{fig:basisStructure}
+\end{figure}
 
 \hypertarget{research-objectives}{%
 \subsection{Research objectives}\label{research-objectives}}
@@ -292,11 +305,8 @@ The second task is focused on the hypothesis of the study, it asks participants 
 
 Participants will be randomly assigned to 1 of 3 even groups. Each group has a different factor order containing all factors. Both tasks will be performed in the same order. Each task will have 3 repetitions performed on new simulations that were drawn from 3 parameterizations in increasing difficulty. Each participant will go through the simulations in the same order, while their factor order will vary. Fixing block difficulty order while varying factors should mitigate potential learning bias.
 
-\hypertarget{software-design}{%
-\subsubsection{Software design}\label{software-design}}
-
-\hypertarget{user-interface}{%
-\subsubsection{User Interface}\label{user-interface}}
+\hypertarget{experimental-apperatus}{%
+\subsubsection{experimental apperatus}\label{experimental-apperatus}}
 
 The user interface was kept the same whenever possible, but the control inputs did change slightly to accommodate the differences between factors. For example, PCA has 2 radio button inputs selecting principal components to display on the x- and y-axes. The manual tour had the same axes selection, with the addition of a drop-down bar selecting manipulation variable and slider controlling its magnitude. Figure \ref{fig:basis} shows the interface for the manual tour during task evaluation.
 
@@ -306,7 +316,7 @@ The user interface was kept the same whenever possible, but the control inputs d
 
 }
 
-\caption{Interface for the manual tour factor in the evaluation section.}\label{fig:appManualFactpr}
+\caption{Interface for the manual tour factor in the evaluation section.}\label{fig:appManualFactor}
 \end{figure}
 
 \hypertarget{pilot-studies}{%
@@ -343,6 +353,8 @@ Alternatively, development and application in the game engine Unity would allow 
 \hypertarget{thesis-structure}{%
 \subsection{Thesis structure}\label{thesis-structure}}
 
+Subjective estimation of completion of first draft of thesis chapters:
+
 \begin{itemize}
 \tightlist
 \item
@@ -359,7 +371,7 @@ Alternatively, development and application in the game engine Unity would allow 
   Conclusion and future plans -- 0\%
 \end{itemize}
 
-\textbf{Proposed research timeline}
+Figure \ref{fig:timeline} illustrates the purposed timeline for of this research.
 
 \begin{figure}[h]
 
@@ -467,6 +479,9 @@ Hadjar, Hayet, Abdelkrim Meziane, Rachid Gherbi, Insaf Setitra, and Noureddine A
 \leavevmode\hypertarget{ref-hastie_penalized_1995}{}%
 Hastie, Trevor, Andreas Buja, and Robert Tibshirani. 1995. ``Penalized Discriminant Analysis.'' \emph{The Annals of Statistics}, 73--102.
 
+\leavevmode\hypertarget{ref-kruskal_toward_1969}{}%
+Kruskal, Joseph B. 1969. ``Toward a Practical Method Which Helps Uncover the Structure of a Set of Multivariate Observations by Finding the Linear Transformation Which Optimizes a New `Index of Condensation'.'' In \emph{Statistical Computation}, edited by Roy C. Milton and John A. Nelder, 427--40. Academic Press. \url{https://doi.org/10.1016/B978-0-12-498150-8.50024-0}.
+
 \leavevmode\hypertarget{ref-matejka_same_2017}{}%
 Matejka, Justin, and George Fitzmaurice. 2017. ``Same Stats, Different Graphs: Generating Datasets with Varied Appearance and Identical Statistics Through Simulated Annealing.'' In \emph{Proceedings of the 2017 CHI Conference on Human Factors in Computing Systems - CHI '17}, 1290--4. Denver, Colorado, USA: ACM Press. \url{https://doi.org/10.1145/3025453.3025912}.
 
@@ -475,6 +490,9 @@ Murphy, William. 2017. \emph{Shinyaframe: 'WebVR' Data Visualizations with 'RStu
 
 \leavevmode\hypertarget{ref-nelson_xgobi_1998}{}%
 Nelson, Laura, Dianne Cook, and Carolina Cruz-Neira. 1998. ``XGobi Vs the C2: Results of an Experiment Comparing Data Visualization in a 3-d Immer- Sive Virtual Reality Environment with a 2-d Workstation Display.'' \emph{Computational Statistics} 14 (1): 39--52.
+
+\leavevmode\hypertarget{ref-pearson_liii._1901}{}%
+Pearson, Karl. 1901. ``LIII. On Lines and Planes of Closest Fit to Systems of Points in Space.'' \emph{The London, Edinburgh, and Dublin Philosophical Magazine and Journal of Science} 2 (11): 559--72.
 
 \leavevmode\hypertarget{ref-r_core_team_r:_2019}{}%
 R Core Team. 2019. \emph{R: A Language and Environment for Statistical Computing}. Vienna, Austria: R Foundation for Statistical Computing. \url{https://www.R-project.org/}.
@@ -488,8 +506,10 @@ Spyrison, Nicholas S., and Dianne Cook. 2019. \emph{Spinifex: Manual Tours, Manu
 \leavevmode\hypertarget{ref-tukey_exploratory_1977}{}%
 Tukey, John W. 1977. \emph{Exploratory Data Analysis}. Vol. 32. Pearson.
 
+\leavevmode\hypertarget{ref-wickham_tourr:_2011}{}%
+Wickham, Hadley, Dianne Cook, Heike Hofmann, and Andreas Buja. 2011. ``Tourr: An R Package for Exploring Multivariate Data with Projections.'' \emph{Journal of Statistical Software} 40 (2). \url{https://doi.org/10.18637/jss.v040.i02}.
+
 \leavevmode\hypertarget{ref-xie_r_2018}{}%
 Xie, Yihui, J. J. Allaire, and Garrett Grolemund. 2018. \emph{R Markdown: The Definitive Guide}. Boca Raton, Florida: Chapman; Hall/CRC. \url{https://bookdown.org/yihui/rmarkdown}.
-
 
 \end{document}

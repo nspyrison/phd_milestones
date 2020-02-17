@@ -99,21 +99,43 @@ Linear projections are commonly used to reduce the dimensionality. A **linear pr
 <!-- This transformation is defined by a 'basis'. A basis is an orthonormal set of `d` element vectors, where each element vector is a linear combination of `p` elements in vector-space. That is to say, a basis defines the direction and magnitude each of the `p` attributes contributes to every direction of the `d`-dimensional projection space. Consider a 2D projection-space (`d = 2`). The basis defining this projection can be visually displayed as a unit circle with `p` line segments stemming from the origin as shown in figure \@ref(fig:basis).-->
 
 <!-- what do we learn from a linear projection -->
-Good linear projections are often found with an automated procedure, like principal component analysis (FIXME: REF) or projection pursuit (FIXME:REF). These reduce the dimensionality and reveal something interesting about the data. Figure \ref{FIXME:XXX} shows a $d=2$ dimensional projection of $6D$ data, revealing clustering of labelled groups. The basis that produced this projection is 
+Good linear projections are often found with an automated procedure, like principal component analysis [PCA; @pearson_liii._1901] or projection pursuit (@kruskal_toward_1969). These reduce the dimensionality and reveal something interesting about the data. Figure \ref{FIXME:XXX} shows a $d=2$ dimensional projection of $6D$ data, revealing clustering of labelled groups. The basis that produced this projection is 
+
+<!--  [1,]  0.39428  0.075844 -->
+<!--  [2,]  0.10865  0.209938 -->
+<!--  [3,]  0.17610  0.328622 -->
+<!--  [4,]  0.45434 -0.007852 -->
+<!--  [5,]  0.41295 -0.112694 -->
+<!--  [6,]  0.08576  0.316601 -->
+<!--  [7,]  0.15149  0.210671 -->
+<!--  [8,]  0.59660 -0.182590 -->
+<!--  [9,]  0.01852  0.341373 -->
+<!-- [10,]  0.14950  0.144789 -->
+<!-- [11,] -0.08701  0.510752 -->
+<!-- [12,]  0.06950  0.371095 -->
+<!-- [13,] -0.05867  0.339682 -->
 
 \begin{equation*}
 \left[ \begin{array}{rr}
-00 & 00 \\
-00 & 00 \\
-00 & 00 \\
-00 & 00 \\
-00 & 00 \\
-00 & 00 \\
+ 0.394 &  0.075 \\
+ 0.108 &  0.209 \\
+ 0.176 &  0.328 \\
+ 0.454 & -0.007 \\
+ 0.412 & -0.112 \\
+ 0.085 &  0.316 \\
+ 0.151 &  0.210 \\
+ 0.596 & -0.182 \\
+ 0.018 &  0.341 \\
+ 0.149 &  0.144 \\
+-0.087 &  0.510 \\
+ 0.069 &  0.371 \\
+-0.058 &  0.339 \\
 \end{array} \right]
 \end{equation*}
 
-FIGURE HERE
-
+```{r basis, echo = FALSE, out.width = "100%",                               fig.cap = "FIXME CAP NEEDED."}
+knitr::include_graphics("./figures/basisWINE.png")
+```
 Projection + Data (original)
 
 Projection + Data (one variable rotated out, with no effect to structure)
@@ -122,28 +144,20 @@ Projection + Data (one variable rotated out, with structure lost)
 
 Figure \ref{FIXME:XXX} shows how **sensitivity of structure** in a projection can depend on variables contributing to the projection. When variable XXX is rotated out, there is no change to the structure, clusters are still visible. This says that the structure *is NOT sensitive* to variable XXX. When variable XXX is rotated out, there is change to the structure, clusters are less visible. This says that the structure *is sensitive* to variable XXX. 
 
-Exploring the sensitivity of structure in a projection to the contributions of particular variables requires **geodsic interpolation** to remove the variable from (or into) the projection plane. Geodesic interpolation is effectively a rotation, it maintains orthonormality of all new data projections, and any intermediate projections. Geodesic interpolation is used in tour methods (FIXME: REF), which show (automated) movies of low-dmensional projections of high-dimensional spaces. The tourr package (FIXME: REF) in R provides a range of automated tours. 
+Exploring the sensitivity of structure in a projection to the contributions of particular variables requires **geodsic interpolation** to remove the variable from (or into) the projection plane. Geodesic interpolation is effectively a rotation, it maintains orthonormality of all new data projections, and any intermediate projections. Geodesic interpolation is used in tour methods (FIXME: REF), which show (automated) movies of low-dmensional projections of high-dimensional spaces. The `tourr` package [@wickham_tourr:_2011] in R provides a range of automated tours. 
 
 Sensitivity analysis is ideally achieved with **user-controlled steering** where the human controls the rotation of a variable into and out of a projection. This will enable various intermediate states to be shown to better understand the effect of single variables. 
 
-<!--### High-dimensional data
 
-### Linear projection
-
-### Geodesic interpolator
-
-### User-controlled steering
--->
-
-<!-- ## Current state of the field
+```{r basisStructure, echo = FALSE, out.width = "100%",                             fig.cap = "FIXME: CAP NEEDED."}
+knitr::include_graphics("./figures/basisStructureWINE.png")
+```
 
 <!-- Adding plotting dimensions 
 Linear projections are commonly used to mitigate the difficulty of exploring such large data-spaces. A linear projection is the linear transformation of the vector space. This transformation is defined by a 'basis'. A basis is an orthonormal set of `d` element vectors, where each element vector is a linear combination of `p` elements in vector-space. That is to say, a basis defines the direction and magnitude each of the `p` attributes contributes to every direction of the `d`-dimensional projection space. Consider a 2D projection-space (`d = 2`). The basis defining this projection can be visually displayed as a unit circle with `p` line segments stemming from the origin as shown in figure \@ref(fig:basis).
 -->
 
-```{r basis, echo = FALSE, out.width = "60%",                          fig.cap = "Illustration of a basis projecting 6 attributes down to 2 dimensions. The black line segments indicate the magnitude and direction a variable contributes to the projection.", fig.show='hide'}
-knitr::include_graphics("./figures/basis.png")
-```
+
 
 <!--Many classical methods identify one or more projections of interest. For instance, scatterplot matrices [@chambers_graphical_1983] can be used to rapidly valid univariate supports and distributions. Principal component analysis [PCA; @pearson_liii._1901] and biplots [@gabriel_biplot_1971] highlight full sample variation. Linear discriminant analysis [@fisher_use_1936] and penalized discriminant analysis [@hastie_penalized_1995] can be used to identify projection with cluster separation. These are great techniques and all applicants for numeric data with many attributes, however, they have two notable features: they show only 1 or several _discrete_ projections and they do not allow for an analyst to steer or control.
 
@@ -160,9 +174,6 @@ The path that a tour animates is a crucial feature. There are various types of t
 
 Figure \@ref(fig:manipSp) illustrates a manipulation space. the basis we viewed before is shown in blue and unselected variables in grey on a horizontal plane. while the manipulation space extends above it in red. The contribution that V1 has on the blue projection plane can be controlled as though a hand might manipulate the end of the red line segment. The other variables would perform a constrained rotation, maintain orthogonality of the space.-->
 
-```{r manipSp, echo = FALSE, out.width = "60%",                             fig.cap = "Visualization of a manipulation space. The projection plane extends horizontally in blue and grey. The manipulation direction in red extends orthogonal to this. Variable 1 is selected as the manipulation variable. Its contribution to the projection plane (blue) is controlled by its position in the manipulation space (red). If the red segment is manipulated all variable change due to orthogonally-constrained rotation.", fig.show='hide'}
-knitr::include_graphics("./figures/manipSp.png")
-```
 
 <!-- Relatively small changes in the projection basis allow for features to be tracked from frame to frame. The manual tour allows for the control of a selected variable. In culmination, this should allow an analyst to explore the sensitivity of structure in the projection relative to the variables contributing to the projection. 
 
@@ -269,13 +280,11 @@ The second task is focused on the hypothesis of the study, it asks participants 
 
 Participants will be randomly assigned to 1 of 3 even groups. Each group has a  different factor order containing all factors. Both tasks will be performed in the same order. Each task will have 3 repetitions performed on new simulations that were drawn from 3 parameterizations in increasing difficulty. Each participant will go through the simulations in the same order, while their factor order will vary. Fixing block difficulty order while varying factors should mitigate potential learning bias.
 
-### Software design
-
-### User Interface 
+### experimental apperatus
 
 The user interface was kept the same whenever possible, but the control inputs did change slightly to accommodate the differences between factors. For example, PCA has 2 radio button inputs selecting principal components to display on the x- and y-axes. The manual tour had the same axes selection, with the addition of a drop-down bar selecting manipulation variable and slider controlling its magnitude. Figure \@ref(fig:basis) shows the interface for the manual tour during task evaluation.
 
-```{r appManualFactpr, echo=FALSE, out.width = "80%", out.extra = '', fig.cap = "Interface for the manual tour factor in the evaluation section."}
+```{r appManualFactor, echo=FALSE, out.width = "80%", out.extra = '', fig.cap = "Interface for the manual tour factor in the evaluation section."}
 knitr::include_graphics("./figures/appManualFactor.png")
 ```
 
@@ -310,6 +319,8 @@ Alternatively, development and application in the game engine Unity would allow 
 
 ## Thesis structure
 
+Subjective estimation of completion of first draft of thesis chapters:
+
 - Introduction -- 60%
 - Literature review -- 80%
 - Manual tour and user-controlled steering -- 90%
@@ -317,7 +328,7 @@ Alternatively, development and application in the game engine Unity would allow 
 - The extension of the manual tour to 3D -- 0%
 - Conclusion and future plans -- 0%
 
-__Proposed research timeline__
+Figure \@ref(fig:timeline) illustrates the purposed timeline for of this research.
 
 ```{r timeline, echo=FALSE, out.width = "100%", out.extra = '', fig.cap = "Proposed research timeline."}
 knitr::include_graphics("figures/phd_timeline.PNG")
