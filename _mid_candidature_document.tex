@@ -1,37 +1,60 @@
-\documentclass[11,]{article}
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames*,x11names*}{xcolor}
+%
+\documentclass[
+  11,
+]{article}
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
-\usepackage{fixltx2e} % provides \textsubscript
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
-\else % if luatex or xelatex
-  \ifxetex
-    \usepackage{mathspec}
-  \else
-    \usepackage{fontspec}
-  \fi
-  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
 \fi
-% use upquote if available, for straight quotes in verbatim environments
+% Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-% use microtype if available
-\IfFileExists{microtype.sty}{%
-\usepackage{microtype}
-\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=Maroon,
+  filecolor=Maroon,
+  citecolor=Blue,
+  urlcolor=blue,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
 \usepackage[margin=1in]{geometry}
-\usepackage{hyperref}
-\PassOptionsToPackage{usenames,dvipsnames}{color} % color is loaded by hyperref
-\hypersetup{unicode=true,
-            colorlinks=true,
-            linkcolor=Maroon,
-            citecolor=Blue,
-            urlcolor=blue,
-            breaklinks=true}
-\urlstyle{same}  % don't use monospace font for urls
 \usepackage{longtable,booktabs}
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
 \usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -41,53 +64,20 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-\IfFileExists{parskip.sty}{%
-\usepackage{parskip}
-}{% else
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{6pt plus 2pt minus 1pt}
-}
-\setlength{\emergencystretch}{3em}  % prevent overfull lines
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{5}
-% Redefines (sub)paragraphs to behave more like sections
-\ifx\paragraph\undefined\else
-\let\oldparagraph\paragraph
-\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
-\fi
-\ifx\subparagraph\undefined\else
-\let\oldsubparagraph\subparagraph
-\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
-\fi
-
-%%% Use protect on footnotes to avoid problems with footnotes in titles
-\let\rmarkdownfootnote\footnote%
-\def\footnote{\protect\rmarkdownfootnote}
-
-%%% Change title format to be more compact
-\usepackage{titling}
-
-% Create subtitle command for use in maketitle
-\providecommand{\subtitle}[1]{
-  \posttitle{
-    \begin{center}\large#1\end{center}
-    }
-}
-
-\setlength{\droptitle}{-2em}
-
-  \title{}
-    \pretitle{\vspace{\droptitle}}
-  \posttitle{}
-    \author{}
-    \preauthor{}\postauthor{}
-    \date{}
-    \predate{}\postdate{}
-  
 \usepackage{setspace}
 \usepackage{hyperref}
 \usepackage{graphicx}
+
+\author{}
+\date{\vspace{-2.5em}}
 
 \begin{document}
 
@@ -146,7 +136,7 @@ Assoc. Prof. Bernhard Jenny\\
 \hypersetup{linkcolor = blue}
 
 {
-\hypersetup{linkcolor=black}
+\hypersetup{linkcolor=}
 \setcounter{tocdepth}{2}
 \tableofcontents
 }
@@ -166,19 +156,12 @@ Good linear projections are often found with an automated procedure, like princi
 
 \begin{equation*}
 \left[ \begin{array}{rr}
- 0.39 &  0.08 \\
- 0.11 &  0.21 \\
- 0.18 &  0.33 \\
- 0.45 & -0.01 \\
- 0.41 & -0.11 \\
- 0.09 &  0.32 \\
- 0.15 &  0.21 \\
- 0.60 & -0.18 \\
- 0.02 &  0.34 \\
- 0.15 &  0.14 \\
--0.09 &  0.51 \\
- 0.07 &  0.37 \\
--0.06 &  0.34 \\
+  0.70 & -0.50 \\
+ -0.27 & -0.52 \\
+  0.28 & -0.14 \\
+  0.26 &  0.63 \\
+  0.08 & -0.16 \\
+  0.54 &  0.18 \\
 \end{array} \right]
 \end{equation*}
 
@@ -188,10 +171,10 @@ Good linear projections are often found with an automated procedure, like princi
 
 }
 
-\caption{FIXME CAP NEEDED.}\label{fig:basis}
+\caption{Axes vectors of the basis and resulting projection of the data. Data is assigned color and shape by cluster.}\label{fig:basis}
 \end{figure}
 
-Figure \ref{fig:basisStructure} shows how \textbf{sensitivity of structure} in a projection can depend on variables contributing to the projection. When variable Phenols is rotated out, there is no change to the structure, clusters are still visible. This says that the structure \emph{is NOT sensitive} to variable `tars2'. When variable `aede2' is rotated out, there is a change to the structure, clusters are less visible. This says that the structure \emph{is sensitive} to variable `aede2'.
+Figure \ref{fig:basisStructure} shows how \textbf{sensitivity of structure} in a projection can depend on variables contributing to the projection. When variable `tr1' is rotated out, there is a change to the structure, clusters are less visible. This says that the structure \emph{is sensitive} to variable `tr1'. When variable `tr2' is rotated out, there is no change to the structure, clusters are still visible. This says that the structure \emph{is NOT sensitive} to variable `tr2'.
 
 \begin{figure}[h]
 
@@ -199,10 +182,10 @@ Figure \ref{fig:basisStructure} shows how \textbf{sensitivity of structure} in a
 
 }
 
-\caption{FIXME: CAP NEEDED.}\label{fig:basisStructure}
+\caption{Illustration of sensitivity of cluster structure in the projection as a function of variable contributions. In pane A) the variable 'tr1' is removed and cluster in purple dimonds in no longer seperated; 'tr1' is a sensitive to cluster structure. In pane B) 'tr2' is removed and cluster are still distinguied. the variable 'tr' is not sensitive to clustering.}\label{fig:basisStructure}
 \end{figure}
 
-Exploring the sensitivity of structure in a projection to the contributions of particular variables requires \textbf{geodesic interpolation} to remove the variable from (or into) the projection plane. Geodesic interpolation is effectively a rotation, it maintains orthonormality of all new data projections and any intermediate projections. Geodesic interpolation is used in tour methods (FIXME: REF), including the \textbf{grand tour} which shows (automated) movies of low-dimensional projections of high-dimensional spaces. The \texttt{tourr} package (Wickham et al. 2011) in R provides a range of automated tours.
+Exploring the sensitivity of structure in a projection to the contributions of particular variables requires \textbf{geodesic interpolation} to remove the variable from (or into) the projection plane. Geodesic interpolation is effectively a rotation, it maintains orthonormality of all new data projections and any intermediate projections. Geodesic interpolation is used in tour methods (cook\_grand\_2008; Asimov and Buja 1994), including the \textbf{grand tour} which shows (automated) movies of low-dimensional projections of high-dimensional spaces. The \texttt{tourr} package (Wickham et al. 2011) in R provides a range of automated tours.
 
 Sensitivity analysis is ideally achieved with \textbf{user-controlled steering} where the human controls the rotation of a variable into and out of a projection. This will enable various intermediate states to be shown to better understand the effect of single variables.
 
@@ -217,15 +200,9 @@ which is divided into these more focused objectives:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
-\tightlist
 \item
   \textbf{How do we define user interaction for a geodesic interpolator to add and remove variables smoothly from a 2D linear projection of data?}\\
   Cook and Buja (1997) described an algorithm for manually controlling a tour (\(p\)-D into 2D), to rotate a variable into and out of a 2D projection. This algorithm provides the start to a human-controlled geodesic interpolator (GI). It must be adapted so that the user has more control of the interpolation. The user will be able to set the range of motion from full {[}-1 to 1{]}, to allow the user to intercept the rotation at any step, and to output to a device that allows the user to reproduce motions and animate or rock the rotation backward and forwards. These fine-tuned controls will provide a better tool for sensitivity analysis.
-\end{enumerate}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{1}
 \item
   \textbf{Do analysts understand the relationship between variables and structure in a 2D linear projection better when the geodesic interpolator is available?}\\
   Current practice for high-dimensional data is to make a single low-dimensional representation, with a method such as principal component analysis. Often just the first two principal components are shown, which is equivalent to a 2D projection. This technique is also called a biplot(Gabriel 1971). Another more rarely used technique is a tour, which shows an animation of 2D projections. It can be used to get an overview of the structure in the multivariate space, but it is difficult to assess the importance of variables to a particularly interesting low-dimensional structure.
@@ -233,7 +210,7 @@ which is divided into these more focused objectives:
   \textbf{Can we define a geodesic interpolator for 3D projections, so that the technology can be implemented in modern virtual reality environments?}\\
   The cutting edge of visualization research today is in virtual environments, as technology has advanced to make this accessible to the masses. It is interesting to explore how analysis with 3D graphics operates in comparison with 2D graphics. The existing algorithms should be extended to 3D projections.
 \item
-  \textbf{Does 3D provide advantages over 2D, when exploring geodesic interpolated low-dimensional projections, for understanding structure in high-dimensional data? }\\
+  \textbf{Does 3D provide advantages over 2D, when exploring geodesic interpolated low-dimensional projections, for understanding structure in high-dimensional data?}\\
   Gracia et al. (2016) compares analyst tasks between 2- and 3-D scatterplots. They find modest accuracy and error improvements for distance perception and outlier identification in favor of 3D at the cost of a relatively small increase in task time. Nelson, Cook, and Cruz-Neira (1998) similarly compare a 2D projection and its 3D manipulation space. They find a slight advantage in the sphere test and a large advantage in the cluster test in favor of the 3D manipulation space. Research should be done to see if analogous results hold for
 \end{enumerate}
 
@@ -479,6 +456,9 @@ For version control, transparency, and reproducibility, the source files are mad
 \leavevmode\hypertarget{ref-anscombe_graphs_1973}{}%
 Anscombe, F. J. 1973. ``Graphs in Statistical Analysis.'' \emph{The American Statistician} 27 (1): 17--21. \url{https://doi.org/10.2307/2682899}.
 
+\leavevmode\hypertarget{ref-asimov_grand_1994}{}%
+Asimov, Daniel A., and Andreas Buja. 1994. ``Grand Tour via Geodesic Interpolation of 2-Frames.'' In \emph{Visual Data Exploration and Analysis}, 2178:145--53. International Society for Optics; Photonics. \url{https://doi.org/10.1117/12.172065}.
+
 \leavevmode\hypertarget{ref-cook_manual_1997}{}%
 Cook, Dianne, and Andreas Buja. 1997. ``Manual Controls for High-Dimensional Data Projections.'' \emph{Journal of Computational and Graphical Statistics} 6 (4): 464--80. \url{https://doi.org/10.2307/1390747}.
 
@@ -526,6 +506,5 @@ Wickham, Hadley, Dianne Cook, Heike Hofmann, and Andreas Buja. 2011. ``Tourr: An
 
 \leavevmode\hypertarget{ref-xie_r_2018}{}%
 Xie, Yihui, J. J. Allaire, and Garrett Grolemund. 2018. \emph{R Markdown: The Definitive Guide}. Boca Raton, Florida: Chapman; Hall/CRC. \url{https://bookdown.org/yihui/rmarkdown}.
-
 
 \end{document}

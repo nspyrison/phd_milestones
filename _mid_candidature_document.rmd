@@ -26,6 +26,11 @@ header-includes:
 ### For appendix, use `staplR`. 
 # Appendix A: spinifex paper
 # Appendix B: spinifex experiment paper
+if (F){
+  library('staplr')
+  staple_pdf(input_directory = file.path("."), 
+             output_filepath = file.path("./figures/Full_pdf.pdf"))
+}
 
 ### Keep it simple! No R code in .rmd, use a seprate .r script if need be.
 library(knitr) 
@@ -87,88 +92,36 @@ The term exploratory data analysis (EDA) was coined by @tukey_exploratory_1977, 
 <!-- high-dimensional challenge -->
 Data and models are typically **high-dimensional**, with many variables, and possibly many model parameters. Conventionally, $n$ is used for the number of sample observations, and $p$ is used for the number of variables. Developing new methods to visualize high dimensions has been a pursuit of statisticians, computer scientists and visualization researchers for decades. While automated analysis is the norm, there remains some benefit of user interaction to help the analyst understand results, and determine the importance of components in a model. An interplay between automated and human-centered control is useful. As technology changes, new approaches to user interaction emerge, and exploring these technologies provides a challenge to researchers.
 
-<!-- There continues to be tension and back-and-forth on automated- and manual- analysis. Hardware advances allow for more realistic virtual-, augmented-, and mixed- environments with ever-increasing computing power. The degree of analyst choice and interaction with the display dimension should be explored.-->
-
-
-<!-- Visual methods are needed for high-d data -->
-<!-- Consider tabular data containing many attributes (I will use attribute and variable as synonymous). Plotting 2 attributes makes an XY scatterplot. To explore a 3rd variable extend it in the z-axis orthogonal to the XY plane. Further increasing the dimensionality quickly becomes non-trivial. Yet, we know that visualizing data is crucial to the exploration of that space. More options should be made available to the analysts' toolkit for exploring high dimensional spaces.-->
-
 <!-- Adding plotting dimensions -->
 Linear projections are commonly used to reduce the dimensionality. A **linear projection** is the linear transformation of the $p$-dimensional space into a low-($d-$)dimensional space, by matrix multiplication of the data with an orthonormal $p\times d$ basis. An orthonormal basis has columns that are orthogonal to each other and of length 1. 
-
-<!-- This transformation is defined by a 'basis'. A basis is an orthonormal set of `d` element vectors, where each element vector is a linear combination of `p` elements in vector-space. That is to say, a basis defines the direction and magnitude each of the `p` attributes contributes to every direction of the `d`-dimensional projection space. Consider a 2D projection-space (`d = 2`). The basis defining this projection can be visually displayed as a unit circle with `p` line segments stemming from the origin as shown in figure \@ref(fig:basis).-->
 
 <!-- what do we learn from a linear projection -->
 Good linear projections are often found with an automated procedure, like principal component analysis [PCA; @pearson_liii._1901] or projection pursuit (@kruskal_toward_1969). These reduce the dimensionality and reveal something interesting about the data. Figure \@ref(fig:basis) shows a $d=2$ dimensional projection of $6D$ data, revealing clustering of labelled groups. The basis that produced this projection is 
 
 \begin{equation*}
 \left[ \begin{array}{rr}
- 0.39 &  0.08 \\
- 0.11 &  0.21 \\
- 0.18 &  0.33 \\
- 0.45 & -0.01 \\
- 0.41 & -0.11 \\
- 0.09 &  0.32 \\
- 0.15 &  0.21 \\
- 0.60 & -0.18 \\
- 0.02 &  0.34 \\
- 0.15 &  0.14 \\
--0.09 &  0.51 \\
- 0.07 &  0.37 \\
--0.06 &  0.34 \\
+  0.70 & -0.50 \\
+ -0.27 & -0.52 \\
+  0.28 & -0.14 \\
+  0.26 &  0.63 \\
+  0.08 & -0.16 \\
+  0.54 &  0.18 \\
 \end{array} \right]
 \end{equation*}
 
-```{r basis, echo = FALSE, out.width = "100%",                               fig.cap = "FIXME CAP NEEDED."}
+```{r basis, echo = FALSE, out.width = "100%",                               fig.cap = "Axes vectors of the basis and resulting projection of the data. Data is assigned color and shape by cluster."}
 knitr::include_graphics("./figures/basis.png")
 ```
 
-Figure \@ref(fig:basisStructure) shows how **sensitivity of structure** in a projection can depend on variables contributing to the projection. When variable Phenols is rotated out, there is no change to the structure, clusters are still visible. This says that the structure *is NOT sensitive* to variable 'tars2'. When variable 'aede2' is rotated out, there is a change to the structure, clusters are less visible. This says that the structure *is sensitive* to variable 'aede2'. 
+Figure \@ref(fig:basisStructure) shows how **sensitivity of structure** in a projection can depend on variables contributing to the projection. When variable 'tr1' is rotated out, there is a change to the structure, clusters are less visible. This says that the structure *is sensitive* to variable 'tr1'. When variable 'tr2' is rotated out, there is no change to the structure, clusters are still visible. This says that the structure *is NOT sensitive* to variable 'tr2'.
 
-```{r basisStructure, echo = FALSE, out.width = "100%",                             fig.cap = "FIXME: CAP NEEDED."}
+```{r basisStructure, echo = FALSE, out.width = "100%",                             fig.cap = "Illustration of sensitivity of cluster structure in the projection as a function of variable contributions. In pane A) the variable 'tr1' is removed and cluster in purple dimonds in no longer seperated; 'tr1' is a sensitive to cluster structure. In pane B) 'tr2' is removed and cluster are still distinguied. the variable 'tr' is not sensitive to clustering."}
 knitr::include_graphics("./figures/basisStructure.png")
 ```
 
-Exploring the sensitivity of structure in a projection to the contributions of particular variables requires **geodesic interpolation** to remove the variable from (or into) the projection plane. Geodesic interpolation is effectively a rotation, it maintains orthonormality of all new data projections and any intermediate projections. Geodesic interpolation is used in tour methods (FIXME: REF), including the **grand tour** which shows (automated) movies of low-dimensional projections of high-dimensional spaces. The `tourr` package [@wickham_tourr:_2011] in R provides a range of automated tours. 
+Exploring the sensitivity of structure in a projection to the contributions of particular variables requires **geodesic interpolation** to remove the variable from (or into) the projection plane. Geodesic interpolation is effectively a rotation, it maintains orthonormality of all new data projections and any intermediate projections. Geodesic interpolation is used in tour methods [cook_grand_2008; @asimov_grand_1994], including the **grand tour** which shows (automated) movies of low-dimensional projections of high-dimensional spaces. The `tourr` package [@wickham_tourr:_2011] in R provides a range of automated tours. 
 
 Sensitivity analysis is ideally achieved with **user-controlled steering** where the human controls the rotation of a variable into and out of a projection. This will enable various intermediate states to be shown to better understand the effect of single variables. 
-
-
-
-
-<!-- Adding plotting dimensions 
-Linear projections are commonly used to mitigate the difficulty of exploring such large data-spaces. A linear projection is the linear transformation of the vector space. This transformation is defined by a 'basis'. A basis is an orthonormal set of `d` element vectors, where each element vector is a linear combination of `p` elements in vector-space. That is to say, a basis defines the direction and magnitude each of the `p` attributes contributes to every direction of the `d`-dimensional projection space. Consider a 2D projection-space (`d = 2`). The basis defining this projection can be visually displayed as a unit circle with `p` line segments stemming from the origin as shown in figure \@ref(fig:basis).
--->
-
-
-
-<!--Many classical methods identify one or more projections of interest. For instance, scatterplot matrices [@chambers_graphical_1983] can be used to rapidly valid univariate supports and distributions. Principal component analysis [PCA; @pearson_liii._1901] and biplots [@gabriel_biplot_1971] highlight full sample variation. Linear discriminant analysis [@fisher_use_1936] and penalized discriminant analysis [@hastie_penalized_1995] can be used to identify projection with cluster separation. These are great techniques and all applicants for numeric data with many attributes, however, they have two notable features: they show only 1 or several _discrete_ projections and they do not allow for an analyst to steer or control.
-
-
-## From discrete to continuous-->
-
-<!-- Grand Tour 
-The above methods have suggested a _discrete_ number of linear projections to look at. At the same time, the stool example illustrates that looking at intermediate views improves understanding. A _continuous_ animation of the object being rotated would improve this understanding even further. This is analogous to the idea of a data visualization _tour_[@asimov_grand_1985; @buja_grand_1986]. A tour produces a relatively high number of linear projections and typically displays them in quick succession as an animation. When the bases have a relatively small change in the contributions the projections are much closer. Single points and features can be tracked and followed from projection to projection allowing for a better understanding of the local structure.
-
-The intermediate bases between two bases much are calculated with some care. For instance, a basis for the midpoint between two other is not the mean of each respective element, as the result would not be orthonormal. Instead, the interpolation of intermediate bases must be on 'surface' the possible orthonormal bases. A _geodesic_ curve is the "straight line" on the surface that contains the shortest path between the two bases. This is why airplanes appear to have a curved flight path when seen on a 2D representation of the Earth. Bases that lie on this path can be identified through the use of _geodsic interpolation_-->
-
-<!-- knowledge gap 
-The path that a tour animates is a crucial feature. There are various types of tours, many of which select an arbitrary or function-driven path. All of the discrete techniques also highlight a specific feature. For EDA it is desirable to give the analyst the ability to choose the direction to explore. To explore higher dimensional spaces visually, we need _human-in-the-loop_ [@karwowski_international_2006] tools. [@cook_manual_1997] introduces the idea of the _manual_ tour. In a manual tour, an individual variable is selected and its contribution to the projection basis is then controlled. This allows analysts to choose the direction of exploration.
-
-Figure \@ref(fig:manipSp) illustrates a manipulation space. the basis we viewed before is shown in blue and unselected variables in grey on a horizontal plane. while the manipulation space extends above it in red. The contribution that V1 has on the blue projection plane can be controlled as though a hand might manipulate the end of the red line segment. The other variables would perform a constrained rotation, maintain orthogonality of the space.-->
-
-
-<!-- Relatively small changes in the projection basis allow for features to be tracked from frame to frame. The manual tour allows for the control of a selected variable. In culmination, this should allow an analyst to explore the sensitivity of structure in the projection relative to the variables contributing to the projection. 
-
-
-The discrete methods above, identify discrete bases that highlight some feature. The above tours can help convey more continuity of data through many small changes in the basis. For EDA it is desirable to give the analyst the ability to choose the direction to explore. 
-
-## Controlling 2D projections
-
-The manual tour can play a predefined manual path or be used interactively, where the user defines each subsequent step while viewing the current projection. The later, human-in-the-loop method we define as _User-Controlled Steering_ (UCS) specifically as the interactive, human-in-the-loop application of the manual tour.
-
-However, the level of abstraction from projecting variable-space and the sheer number of input permutations is formidable. The expertise or time required to explore such structural changes may prove to be a significant barrier to use. The idea that UCS will provide digestible improvements to the understanding of structure should be validated.-->
-
 
 
 ## Research objectives
@@ -182,19 +135,14 @@ which is divided into these more focused objectives:
 1. **How do we define user interaction for a geodesic interpolator to add and remove variables smoothly from a 2D linear projection of data?**\
 @cook_manual_1997 described an algorithm for manually controlling a tour ($p$-D into 2D), to rotate a variable into and out of a 2D projection. This algorithm provides the start to a human-controlled geodesic interpolator (GI). It must be adapted so that the user has more control of the interpolation. The user will be able to set the range of motion from full [-1 to 1], to allow the user to intercept the rotation at any step, and to output to a device that allows the user to reproduce motions and animate or rock the rotation backward and forwards. These fine-tuned controls will provide a better tool for sensitivity analysis.
 
-<!--The algorithm will be adapted to create the geodesic interpolator. Input will be a single initialization projection, a $p$-dimensional data matrix, as well as, choice-, magnitude- and direction-, of a variable to control.-->
- 
-
 2. **Do analysts understand the relationship between variables and structure in a 2D linear projection better when the geodesic interpolator is available?**\
 Current practice for high-dimensional data is to make a single low-dimensional representation, with a method such as principal component analysis. Often just the first two principal components are shown, which is equivalent to a 2D projection. This technique is also called a biplot[@gabriel_biplot_1971]. Another more rarely used technique is a tour, which shows an animation of 2D projections. It can be used to get an overview of the structure in the multivariate space, but it is difficult to assess the importance of variables to a particularly interesting low-dimensional structure. 
-<!-- A human subject study has been designed and conducted to assess the learning about the importance of variables, from each of these techniques. -->
 
-3. **Can we define a geodesic interpolator for 3D projections, so that the technology can be implemented in modern virtual reality environments?<!-- How can the manual tour be extended to 3D?-->**\
+3. **Can we define a geodesic interpolator for 3D projections, so that the technology can be implemented in modern virtual reality environments?**\
 The cutting edge of visualization research today is in virtual environments, as technology has advanced to make this accessible to the masses. It is interesting to explore how analysis with 3D graphics operates in comparison with 2D graphics. The existing algorithms should be extended to 3D projections. 
 
-4. **Does 3D provide advantages over 2D, when exploring geodesic interpolated low-dimensional projections, for understanding structure in high-dimensional data? <!-- manual tours provide benefits over alternatives?-->**\
-@gracia_new_2016 compares analyst tasks between 2- and 3-D scatterplots. They find modest accuracy and error improvements for distance perception and outlier identification in favor of 3D at the cost of a relatively small increase in task time. @nelson_xgobi_1998 similarly compare a 2D projection and its 3D  manipulation space. They find a slight advantage in the sphere test and a large advantage in the cluster test in favor of the 3D manipulation space. Research should be done to see if analogous results hold for 
-<!-- A human subjects experiment will be conducted to assess the sensitivity analysis techniques in a 2D vs 3D environment. -->
+4. **Does 3D provide advantages over 2D, when exploring geodesic interpolated low-dimensional projections, for understanding structure in high-dimensional data?**\
+@gracia_new_2016 compares analyst tasks between 2- and 3-D scatterplots. They find modest accuracy and error improvements for distance perception and outlier identification in favor of 3D at the cost of a relatively small increase in task time. @nelson_xgobi_1998 similarly compare a 2D projection and its 3D  manipulation space. They find a slight advantage in the sphere test and a large advantage in the cluster test in favor of the 3D manipulation space. Research should be done to see if analogous results hold for
 
 
 ## Methodology
@@ -206,6 +154,7 @@ To address RO #2, a controlled _experimental study_ will explore the efficacy of
 The research for RO #3 involves _algorithm design_ extending the current 2D manual tour into a 3D project. For a 2D projection, the axes basis is rotated through a 3D 'manipulation space'. In a 3D projection, such a space requires 4 dimensions. Theoretically, after the addition of a new angle of rotation, the rotation matrix must be extended to accommodate a new dimension and angle parameter. This also means that analysts have another parameter to define, further increasing their already sizable input-volume. 
 
 Another _experimental study_ will be conducted to answer RO #4. The novel 3D interactive tours should be contrasted with 3D grand tours, 'triplots', (a scatterplot of 3 principal components), in stereoscopic 3D. Additionally, it may also prove valuable to compare against the 3D manipulation space related to a 2D manual tour.
+
 
 # Progress since confirmation
 
@@ -228,12 +177,11 @@ The R package, `spinifex (v0.1.0)` [@spyrison_spinifex_2019], has been accepted 
 
 ## Experimental study {#sec:expStudy}
 
-This study is designed to test the effectiveness of the new GI against current practices: biplot and the grand tour (RO #2). The design of the experiment is almost finished and follows these elements. A draft of the working paper is attached to this report as appendix B. 
+This study is designed to test the effectiveness of the new GI against current practices: biplot and the grand tour (RO #2). The design of the experiment is almost finished and follows these elements. A draft of the working paper is attached to this report as appendix B.
 
 
 ### Factors {#sec:factors}
 
-<!-- factors: PCA, grand, manual -->
 There are three primary factors: principal component analysis (PCA), grand tour, GI.
 
 ### Data structure
@@ -253,7 +201,7 @@ The primary display used is a scatterplot. The basis axes projection was also il
 
 ### Groups {#sec:groups}
 
-Each participant will be randomly assigned to one of three groups, setting the order in which the factors are shown. For example, the first group will see PCA, grand tour, and then the GI. Figure \ref{fig:designExample} illustrates the flow of subjects through the experiment. 
+Each participant will be randomly assigned to one of three groups, setting the order in which the factors are shown. For example, the first group will see PCA, grand tour, and then the GI. Figure \ref{fig:designExample} illustrates the flow of subjects through the experiment.
 
 ```{r designExample, echo = F, out.width = '100%',                             fig.cap = "Example case. Person 'A' is assigned to group 2, where they will use factor 2 (grand tour) for the first period. They perform 3 block difficulties of task 1 on simulations of increasing difficulty. Then 3 block difficulties of task 2 on unique simulations sampled from the same distributions of increasing difficulty. After this, they proceed to period 2, where they are use factor 3 (manual tour) to perform 3 block difficulties of each task. Lastly, in the third period, they use factor 1 (PCA) to perform the tasks."}
 knitr::include_graphics("./figures/experimental_design_personA.PNG")
@@ -288,6 +236,7 @@ Several pilot studies have been conducted, with 4 different people. Each has res
 ## GI 2D pilot and study 
 
 To bring RO #2 to a close, simulations and grand tour paths need to be updated with new rounds of block difficultly. Then the needs to be conducted and paper needs to be completed. The draft is attached as appendix B
+
 
 ## Extending GI to 3D
 
@@ -327,6 +276,7 @@ Figure \@ref(fig:timeline) illustrates the purposed timeline for this research.
 knitr::include_graphics("figures/phd_timeline.PNG")
 ```
 
+
 ## Program requirements
 <!-- http://www.monash.edu/pubs/2018handbooks/aos/information-technology-phd-program/ -->
 
@@ -346,7 +296,7 @@ knitr::include_graphics("figures/phd_timeline.PNG")
     - Faculty Induction: **Completed** 
     <!-- marked completed, online class "08/05/2019 @ 09:45 for 3hr 15min" -->
     <!-- previously: **Content unavailable** (01/04/2019: "Currently being updated and will be visible in this section soon") -->
-    
+
 
 # Potential issues for panel to consider
 
@@ -365,6 +315,7 @@ http://ieeevis.org/year/2020/info/call-participation/vast-paper-types
 \
 IEEE VAST 2021: October/November 2021, New Orleans, Louisiana, USA\
 submission: Saturday, March 21, 2020\
+
 
 # Acknowledgements {#sec:acknowledgements}
 
