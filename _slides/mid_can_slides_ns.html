@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Dynamic visualization of high-dimensional data via low-dimension projections and sectioning across 2D and 3D display devices</title>
+    <title>New Tools to Interactively Explore the Sensitivity of Structure in Low-dimensional Projections of Data</title>
     <meta charset="utf-8" />
-    <meta name="author" content="  Nicholas Spyrison   Monash University, Faculty of Information Technology    Supervisors: Prof. Kimbal Marriott,  Prof. Dianne Cook,  Prof. German Valencia" />
+    <meta name="author" content="  Nicholas Spyrison   Monash University, Faculty of Information Technology    Supervisors: Prof. Kimbal Marriott,  Prof. Dianne Cook," />
     <link href="mid_can_slides_ns_files/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link rel="stylesheet" href="data_viz_theme.css" type="text/css" />
   </head>
@@ -11,9 +11,9 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Dynamic visualization of high-dimensional data via low-dimension projections and sectioning across 2D and 3D display devices
-### <br> Nicholas Spyrison <br> Monash University, Faculty of Information Technology <br><br> Supervisors: Prof. Kimbal Marriott,<br> Prof. Dianne Cook,<br> Prof. German Valencia
-### Candidature Confirmation <br> 27 March 2019 <br><br> <em>Slides – <a href="https://github.com/nspyrison/confirmation_talk">github.com/nspyrison/confirmation_talk</a></em>
+# New Tools to Interactively Explore the Sensitivity of Structure in Low-dimensional Projections of Data
+### <br> Nicholas Spyrison <br> Monash University, Faculty of Information Technology <br><br> Supervisors: Prof. Kimbal Marriott,<br> Prof. Dianne Cook,<br>
+### Candidature Confirmation <br> 25 February 2020 <br><br> <em>Slides – <a href="https://github.com/nspyrison/mid_candidature/_slides/">github.com/nspyrison/mid_candidature/_slides/</a></em>
 
 ---
 
@@ -21,80 +21,77 @@ class: center, middle, inverse, title-slide
 
 ## Motivation
 
-Exploratory data analysis is important and ubiquitous, and it is important to keep visual interpretation: 
+- *Exploratory data analysis (EDA)* is important and ubiquitous.
+- 2D EDA: vizualization is more robust and thorogh than statistical summarization alone.
+- Vizualization of high dimension space, `\(p &gt; 3\)` is non-trivial.
+- We need more options in the analysts' toolbelt.
 
-![](./slide_figures/AllDinosAnimatedSmaller.gif)
+&lt;img src="./slide_figures/AllDinosAnimatedSmaller.gif" width="80%" height="80%" style="display: block; margin: auto;" /&gt;
 
 Datasaurus dozen; same means, standard deviations, and correlations, *(Matejka &amp; Fitzmaurice, 2017)*
 
----
+&lt;!-- --- --&gt;
 
-## Context: data analysis workflow
+&lt;!-- ## Context: data analysis workflow --&gt;
 
-&lt;img src="./slide_figures/data_analysis_workflow.png" width="80%" height="80%" style="display: block; margin: auto;" /&gt;
-*Wickham &amp; Grolemund, 2016*
+&lt;!-- ```{r, echo = F, out.width = '80%', out.height = '80%'} --&gt;
+&lt;!-- knitr::include_graphics("./slide_figures/data_analysis_workflow.png") --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- *Wickham &amp; Grolemund, 2016* --&gt;
 
-- Visualization is a key aspect of data analysis workflow loop
-- Reproducible from programmatic scripts (&amp; reduced human error)
-- Transparent research hosted publicly on [github](https://github.com/nspyrison).
+&lt;!-- - Visualization is a key aspect of data analysis workflow loop --&gt;
+&lt;!-- - Reproducible from programmatic scripts (&amp; reduced human error) --&gt;
+&lt;!-- - Transparent research hosted publicly on [github](https://github.com/nspyrison). --&gt;
 
 ---
 
 ## Visualizing multivariate spaces
 
-- Visualization  multivariate space is complex; dimension reduction
-- Static projections do not portray all of the variation in the data
-- Dynamic rotations do convey more variation and more accurate structure
+Vizualization of high dimension space, `\(p &gt; 3\)` is non-trivial:
+- Reduce dimension with model or feature production, _parameter space_
+- Linear projection of data through an _orthogonal basis_
+    - vectors are at right angles
+    - Length of each vector is 1
+- Non-linear projection of data
+    - _not interoperable_ back to variable space.
 
-**Shadow puppet analogy (linear projection from 3- to 2D):**
+**Linear projection, shadow analogy:**
 
-![Shadow puppet analogy](./slide_figures/shadow_puppet.png)
-
----
-
-## Dynamic linear projections, tours   
-
-**Available on CRAN,** `tourr` R package, *(Wickham et al. 2011)*
-
-- Random choice - *grand tour* random forest walk in `\(p\)`-space *(Asimov 1985)*
-- Data-driven - *guided tour* projection pursuit, optimize an objective function on the projection *(Hurley &amp; Buja 1990)*
-- Many other geometric displays, this talk uses scatterplots
-
---
-
-.pull-left[
-.center[grand tour (random):]
-&lt;img src="./slide_figures/flea_grand.gif" width="70%" height="70%" style="display: block; margin: auto;" /&gt;
-]
-
---
-
-.pull-right[
-.center[guided tour - optimizing holes index:]
-&lt;img src="./slide_figures/flea_holes.gif" width="70%" height="70%" style="display: block; margin: auto;" /&gt;
-]
+&lt;img src="./slide_figures/shadow_puppet.png" width="70%" height="70%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-## Visualization dimension: 3D and immersive 3D 
+## Linear projections
 
-Data visualization has lagged behind in adopting 3D and immersive technologies, despite promising finds
+- Classically - identify one or more linear projections highlighting some feature.
+- *Tour*,  - animating many frames or relatively small changes to to the basis.
+    - Tour path: the changes/path of the basis
+    - *(Cook &amp; Buja, 1997)* suggest a method to control the contribution a single variable contributes to the projection.
+    
+This leads to the overarch research objective.
 
-.pull-left[
-&lt;img src="./slide_figures/nelson98fig.PNG" width="90%" height="90%" style="display: block; margin: auto;" /&gt;
+---
 
-*(Nelson et al. 1998)*
-- tours: head-tracked VR vs standard monitor
-- better cluster and shape identification, slower brushing
-]
+## Scope of data
 
-.pull-right[
-3D visuals generally convey more information with more speed, but  manipulation is slower when compared with orthogonal 2D, though 3D with 2D gives the best perception *[Lee 1986, Wickens 1994, Tory 2006]*
+&lt;img src="./slide_figures/tmunzner_vad16.PNG" width="80%" height="80%" style="display: block; margin: auto;" /&gt;
+*(Munzner, 2014)*
 
-Embedded multivariate data in immersive 3D report improved accuracy and faster response time, but a slower manipulation speed and less comfort *[Gracia 2016, Wagner 2018, Nelson 1998]*
+__Multivariate tabular__
+    - Can be feature- or parameter- decomposition of non-standard formats. 
 
-Modern VR equipment has improved quality, attracted wider audiences, and reduced the costs of VR, it is timely to research dynamic projections in VR
-]
+&lt;!-- -- --&gt;
+
+&lt;!-- __Useful in EDA, independant with sector__ --&gt;
+
+&lt;!-- ```{r, echo = F, out.width = '80%', out.height = '80%'} --&gt;
+&lt;!-- knitr::include_graphics("./slide_figures/data_analysis_workflow.png") --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- *Wickham &amp; Grolemund, 2016* --&gt;
+
+&lt;!-- - Visualization is a key aspect of data analysis workflow loop --&gt;
+&lt;!-- - Reproducible from programmatic scripts (&amp; reduced human error) --&gt;
+&lt;!-- - Transparent research hosted publicly on [github](https://github.com/nspyrison). --&gt;
 
 ---
 
@@ -181,6 +178,29 @@ Design space:
 - Task type: structure, UCS, clustering, dimensionality
 - Measures: accuracy, speed, confidence, preference, demographic information, VR and data visualization experience
 ]
+
+---
+
+## Visualization dimension: 3D and immersive 3D 
+
+Data visualization has lagged behind in adopting 3D and immersive technologies, despite promising finds
+
+.pull-left[
+&lt;img src="./slide_figures/nelson98fig.PNG" width="90%" height="90%" style="display: block; margin: auto;" /&gt;
+
+*(Nelson et al. 1998)*
+- tours: head-tracked VR vs standard monitor
+- better cluster and shape identification, slower brushing
+]
+
+.pull-right[
+3D visuals generally convey more information with more speed, but  manipulation is slower when compared with orthogonal 2D, though 3D with 2D gives the best perception *[Lee 1986, Wickens 1994, Tory 2006]*
+
+Embedded multivariate data in immersive 3D report improved accuracy and faster response time, but a slower manipulation speed and less comfort *[Gracia 2016, Wagner 2018, Nelson 1998]*
+
+Modern VR equipment has improved quality, attracted wider audiences, and reduced the costs of VR, it is timely to research dynamic projections in VR
+]
+
 
 ---
 
