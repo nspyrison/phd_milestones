@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Dynamic visualization of high-dimensional data via low-dimension projections and sectioning across 2D and 3D display devices</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="  Nicholas Spyrison   Monash University, Faculty of Information Technology    Supervisors: Prof. Kimbal Marriott,  Prof. Dianne Cook,  Prof. German Valencia" />
+    <link href="mid_can_slides_ns_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="data_viz_theme.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Dynamic visualization of high-dimensional data via low-dimension projections and sectioning across 2D and 3D display devices
+### <br> Nicholas Spyrison <br> Monash University, Faculty of Information Technology <br><br> Supervisors: Prof. Kimbal Marriott,<br> Prof. Dianne Cook,<br> Prof. German Valencia
+### Candidature Confirmation <br> 27 March 2019 <br><br> <em>Slides – <a href="https://github.com/nspyrison/confirmation_talk">github.com/nspyrison/confirmation_talk</a></em>
+
+---
+
+
+
+## Motivation
+
+Exploratory data analysis is important and ubiquitous, and it is important to keep visual interpretation: 
+
+![](./slide_figures/AllDinosAnimatedSmaller.gif)
+
+Datasaurus dozen; same means, standard deviations, and correlations, *(Matejka &amp; Fitzmaurice, 2017)*
+
+---
+
+## Context: data analysis workflow
+
+&lt;img src="./slide_figures/data_analysis_workflow.png" width="80%" height="80%" style="display: block; margin: auto;" /&gt;
+*Wickham &amp; Grolemund, 2016*
+
+- Visualization is a key aspect of data analysis workflow loop
+- Reproducible from programmatic scripts (&amp; reduced human error)
+- Transparent research hosted publicly on [github](https://github.com/nspyrison).
+
+---
+
+## Visualizing multivariate spaces
+
+- Visualization  multivariate space is complex; dimension reduction
+- Static projections do not portray all of the variation in the data
+- Dynamic rotations do convey more variation and more accurate structure
+
+**Shadow puppet analogy (linear projection from 3- to 2D):**
+
+![Shadow puppet analogy](./slide_figures/shadow_puppet.png)
+
+---
+
+## Dynamic linear projections, tours   
+
+**Available on CRAN,** `tourr` R package, *(Wickham et al. 2011)*
+
+- Random choice - *grand tour* random forest walk in `\(p\)`-space *(Asimov 1985)*
+- Data-driven - *guided tour* projection pursuit, optimize an objective function on the projection *(Hurley &amp; Buja 1990)*
+- Many other geometric displays, this talk uses scatterplots
+
+--
+
+.pull-left[
+.center[grand tour (random):]
+&lt;img src="./slide_figures/flea_grand.gif" width="70%" height="70%" style="display: block; margin: auto;" /&gt;
+]
+
+--
+
+.pull-right[
+.center[guided tour - optimizing holes index:]
+&lt;img src="./slide_figures/flea_holes.gif" width="70%" height="70%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+## Visualization dimension: 3D and immersive 3D 
+
+Data visualization has lagged behind in adopting 3D and immersive technologies, despite promising finds
+
+.pull-left[
+&lt;img src="./slide_figures/nelson98fig.PNG" width="90%" height="90%" style="display: block; margin: auto;" /&gt;
+
+*(Nelson et al. 1998)*
+- tours: head-tracked VR vs standard monitor
+- better cluster and shape identification, slower brushing
+]
+
+.pull-right[
+3D visuals generally convey more information with more speed, but  manipulation is slower when compared with orthogonal 2D, though 3D with 2D gives the best perception *[Lee 1986, Wickens 1994, Tory 2006]*
+
+Embedded multivariate data in immersive 3D report improved accuracy and faster response time, but a slower manipulation speed and less comfort *[Gracia 2016, Wagner 2018, Nelson 1998]*
+
+Modern VR equipment has improved quality, attracted wider audiences, and reduced the costs of VR, it is timely to research dynamic projections in VR
+]
+
+---
+
+## Research objectives
+&lt;hr&gt;&lt;br&gt;
+
+### 1) How can user-controlled steering (UCS) be generalized to work within graphic-specific environments for 2D projections?
+### 2) Does 2D UCS tours provide benefits over alternatives?
+### 3) How do we extend UCS to 3D?
+### 4) Does UCS in 3D displays provide benefits over 2D displays?
+
+
+---
+
+## RO 2) What benefits does UCS provide over alternatives?
+
+**Future work, method: performance comparison assessed across benchmark datasets**
+
+- Principal Component Analysis (PCA) 
+    - A linear transformation that produces linear combinations of the variables in descending order of variation explained
+- Multi-Dimensional Scaling (MDS)
+    - Non-linear dimension reduction that compares the pairwise distance between observations
+- T-distributed Stochastic Neighbor Embedding (tSNE)
+    - Non-linear transformation preserves local proximity and reduces relative entropy
+- User-controlled steering (USC), manual tour
+    - Dynamic linear projections controlling the contribution of a selected variable
+
+Measures: variation, variable transparency, clustering, structure
+
+Design space: data sets, techniques, and measures of comparison
+
+---
+
+## RO 3) How do we extend UCS to 3D?
+
+**Future work, method: algorithm design**
+
+Extend the UCS algorithm to 3D projections and integrate with Immersive Analytics Tool Kit, `IATK`, *(Cordeil 2019)* for a common user interface across display devices.
+
+- Extend manipulation spaces to 4D, for variable manipulation on 3D scatterplots 
+- multi-dimensional function surfaces
+
+.pull-left[
+&lt;img src="./slide_figures/f_mt.gif" width="70%" height="70%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+&lt;img src="./slide_figures/RO3MockUp2.PNG" width="80%" height="80%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+## RO 3) How do we extend UCS to 3D? (&amp; function surfaces)
+
+**Future work, method: algorithm design**
+
+- multi-dimensional function surfaces
+
+.pull-left[
+&lt;img src="./slide_figures/f_mt.gif" width="70%" height="70%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+&lt;img src="./slide_figures/rgl_surface.PNG" width="80%" height="80%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+## RO 4) Does UCS in 3D displays provide benefits over 2D displays?
+
+**Future work, method: usability study**
+
+.pull-left[
+lineup design *(Hofmann et al. 2012)*
+- Visual variant of statistical p-test
+- Pick the real data against data generated from the null hypothesis
+- Quantitative comparison across display type
+
+]
+
+.pull-right[
+Design space:
+- Display type: 2D monitor, 3D monitor, head-mount, physical immersion
+- Task type: structure, UCS, clustering, dimensionality
+- Measures: accuracy, speed, confidence, preference, demographic information, VR and data visualization experience
+]
+
+---
+
+## Contributions
+&lt;hr&gt;&lt;br&gt;
+
+### 1) A modified UCS algorithm and new implementation applied to contemporary high energy physics and astrophysics applications in 2D animation frameworks.
+### 2) A performance comparison of static and interactive UCS projection techniques assessed on benchmark data sets from the recent literature.
+### 3) A new algorithm for UCS in 3D. With new applications to multi-dimensional function visualization in 3D.
+### 4) Quantitative understanding of the relative benefits of UCS across 2- and 3D display devices.
+
+---
+
+### Research timeline
+
+&lt;img src="../figures/phd_timeline.PNG" width="3600" style="display: block; margin: auto;" /&gt;
+
+---
+class: center, middle
+
+## Acknowledgments
+
+Slides created in R using rmarkdown and xaringan
+
+Slides available -- [github.com/nspyrison/mid_candidature/_slides]( https://github.com/nspyrison/mid_candidature/_slides)
+
+.large[Questions?]
+&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+
+.left[
+*R Core Team, 2018*
+
+*Xie et al. 2018*
+
+*Xie, 2018*
+]
+
+---
+
+## References (1/3)
+
+*In order of appearance:*
+
+Matejka, J., &amp; Fitzmaurice, G. (2017). Same Stats, Different Graphs: Generating Datasets with Varied Appearance and Identical Statistics through Simulated Annealing. In Proceedings of the 2017 CHI Conference on Human Factors in Computing Systems  - CHI ’17 (pp. 1290–1294). Denver, Colorado, USA: ACM Press. https://doi.org/10.1145/3025453.3025912
+
+Wickham, H., &amp; Grolemund, G. (2016). R for Data Science: Import, Tidy, Transform, Visualize, and Model Data. O’Reilly Media, Inc.
+
+Wickham, H., Cook, D., Hofmann, H., &amp; Buja, A. (2011). tourr : An R Package for Exploring Multivariate Data with Projections. Journal of Statistical Software, 40(2). https://doi.org/10.18637/jss.v040.i02
+
+Asimov, D. (1985). The Grand Tour: a Tool for Viewing Multidimensional Data. SIAM Journal on Scientific and Statistical Computing, 6(1), 128–143.
+
+Hurley, C., &amp; Buja, A. (1990). Analyzing High-Dimensional Data with Motion Graphics. SIAM Journal on Scientific and Statistical Computing, 11(6), 1193–1211. https://doi.org/10.1137/0911068
+
+Nelson, L., Cook, D., &amp; Cruz-Neira, C. (1998). XGobi vs the C2: Results of an Experiment Comparing Data Visualization in a 3-D Immersive Virtual Reality Environment with a 2-D Workstation Display. Computational Statistics, 14(1), 39–52.
+
+---
+
+## References (2/3)
+
+Lee, J. M., MacLachlan, J., &amp; Wallace, W. A. (1986). The Effects of 3D Imagery on Managerial Data Interpretation. MIS Quarterly, 257–269.
+
+Wickens, C. D., Merwin, D. H., &amp; Lin, E. L. (1994). Implications of Graphics Enhancements for the Visualization of Scientific Data: Dimensional Integrality, Stereopsis, Motion, and Mesh. Human Factors, 36(1), 44–61.
+
+Tory, M., Kirkpatrick, A. E., Atkins, M. S., &amp; Moller, T. (2006). Visualization Task Performance with 2D, 3D, and Combination Displays. IEEE Transactions on Visualization and Computer Graphics, 12(1), 2–13.
+
+Gracia, A., González, S., Robles, V., Menasalvas, E., &amp; von Landesberger, T. (2016). New Insights into the Suitability of the Third Dimension for Visualizing Multivariate/Multidimensional Data: A Study Based on Loss of Quality Quantification. Information Visualization, 15(1), 3–30. https://doi.org/10.1177/1473871614556393
+
+Wagner Filho, J., Rey, M., Freitas, C., &amp; Nedel, L. (2018). Immersive Visualization of Abstract Information: An Evaluation on Dimensionally-Reduced Data Scatterplots.
+
+Cook, D., &amp; Buja, A. (1997). Manual Controls for High-Dimensional Data Projections. Journal of Computational and Graphical Statistics, 6(4), 464–480. https://doi.org/10.2307/1390747
+
+---
+
+## References (3/3)
+
+Wang, B.-T., Hobbs, T. J., Doyle, S., Gao, J., Hou, T.-J., Nadolsky, P. M., &amp; Olness, F. I. (2018). Visualizing the sensitivity of hadronic experiments to nucleon structure. ArXiv Preprint ArXiv:1803.02777.
+
+Cook, D., Laa, U., &amp; Valencia, G. (2018). Dynamical projections for the visualization of PDFSense data. Eur. Phys. J. C, 78(9), 742.
+
+Cordeil, M. (2019). Immersive Analytics Toolkit (Version IATK 1.0 (Mala) Unity 2017). Retrieved from https://github.com/MaximeCordeil/IATK (Original work published 2017)
+
+Hofmann, H., Follett, L., Majumder, M., &amp; Cook, D. (2012). Graphical tests for power comparison of competing designs. IEEE Transactions on Visualization and Computer Graphics, 18(12), 2441–2448.
+
+R Core Team. (2018). R: A Language and Environment for Statistical Computing. Vienna, Austria: R Foundation for Statistical Computing. Retrieved from https://www.R-project.org/
+
+Xie, Y., Allaire, J. J., &amp; Grolemund, G. (2018). R Markdown: The Definitive Guide. Boca Raton, Florida: Chapman and Hall/CRC. Retrieved from https://bookdown.org/yihui/rmarkdown
+
+Xie, Y. (2018). xaringan: Presentation Ninja. Retrieved from https://CRAN.R-project.org/package=xaringan
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
