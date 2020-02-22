@@ -22,8 +22,8 @@ class: center, middle, inverse, title-slide
 ## Motivation
 
 - *Exploratory data analysis (EDA)* is important and ubiquitous
-- 2D EDA: vizualization is more robust and thorogh than statistical summarization alone
-- Vizualization of high dimension space, `\(p &gt; 3\)` is non-trivial
+- 2D EDA: visualization is more robust and thorough than statistical summarization alone
+- Visualization of high dimension space, `\(p &gt; 3\)` is non-trivial
 - We need more options in the analysts' toolbelt
 
 &lt;img src="./slide_figures/AllDinosAnimatedSmaller.gif" width="80%" height="80%" style="display: block; margin: auto;" /&gt;
@@ -35,7 +35,7 @@ Datasaurus dozen; same means, standard deviations, and correlations, *(Matejka &
 
 ## Visualizing multivariate spaces
 
-Vizualization of high dimension space, `\(p &gt; 3\)` is non-trivial:
+Visualization of high dimension space, `\(p &gt; 3\)` is non-trivial:
 - Reduce dimension with model or feature production, _parameter space_
 - Linear projection of data through an _orthogonal basis_
     - Vectors are at right angles
@@ -81,7 +81,7 @@ __Can geodesic interpolator (GI) with user interaction help analysts understand 
 
 #### 1) How do we define user interaction for a geodesic interpolator to add and remove variables smoothly from a 2D linear projection of data? (interactive 2D GI)
 #### 2) Do analysts understand the relationship between variables and structure in a 2D linear projection better when the geodesic interpolator is available? (2D GI structure study)
-#### 3) Can we define a geodesic interpolator for 3D projections, so that the technology can be implemented in modern virtual reality environments? (interactive 3D GI)
+#### 3) Can we define a geodesic interpolator for 3D projections so that the technology can be implemented in modern virtual reality environments? (interactive 3D GI)
 #### 4) Does 3D provide advantages over 2D for understanding structure in high-dimensional data when exploring projections from a geodesic interpolator? (3D GI structure study)
 
 
@@ -89,7 +89,7 @@ __Can geodesic interpolator (GI) with user interaction help analysts understand 
 
 ## Methodology
 
-Methodology of the the research addressing each research objective...
+Methodology of the research addressing each research objective...
 
 #### RO #1, _algorithim design_ adapt and apply manual interaction (interactive 2D GI)
 #### RO #2: _experimental study_ comparing the efficacy of 2D GI (2D GI structure study)
@@ -107,34 +107,36 @@ _progress since confirmation_
 Paper: 
 - R Journal (accepted, to be published in next issue)
 - Adaptation:
-    - Define the axes of roation
-    - Prove the rotation matrix with applicaiton of rodrigues' formula *(rodrigues, 1840)*
-    - Include initialization of angles, (in- and out- of projection plane), and clarify application
+    - Define the axes of rotation
+    - Prove the rotation matrix with the application of Rodrigues' formula *(Rodrigues, 1840)*
+    - Include initialization of angles, (in- and out- of projection plane), and clarify for application
 - Application to particle physics data
 - Appendix A of the milestone document
 
 Software: `spinifex` R package
 - Available on [CRAN](https://cran.r-project.org/web/packages/spinifex/index.html)
 - Implements of adapted interactive
-- Extending graphics option of `tourr`objects
+- Extending the graphics option of `tourr` objects
 - Forms the foundation for the remainder of the Research Objectives
 
 
 ---
 
 
-## 2D GI structure study (addressign RO #2)
+## 2D GI structure study (addressing RO #2)
 
 _Designed, currently being piloted_
 
 Experimental study:
 - Factors: principal component analysis (PCA), grand tour (grand), and 2D GI
-- Within participant study
+- Within-participant study
 - Implemented via `shiny` application
 - Draft of paper included as appendix B of the milestone document
 
 &lt;br&gt;&lt;br&gt;
 Will discuss this in more detail shortly
+
+## ___TODO: EXTEND HERE___--------------------
 
 ---
 
@@ -147,11 +149,11 @@ _Future work_
 Analogously, 3D GI rotates a 3D basis in a 4D manipulation space about 2 in-plane angles and an out-plane angle.
 
 - Define the 3 axes of rotation
-- Solve for the rotation matrix by application of Rodregues' formula
+- Solve for the rotation matrix by application of Rodrigues' formula
 
 ---
 
-## 3D GI structure study (addressign RO #4)
+## 3D GI structure study (addressing RO #4)
 
 _Future work_
 
@@ -159,72 +161,18 @@ Option 1: implement using `shinyaframe` and append to the `shiny` application ad
 - pro: faster implementation and reuse of previous experimental study application
 - con: unknown extent and extendability of user interaction
 
-Option 2: implement in `Unity` and implement new application for experimental study
-- pro: unimpeated extendability of user interaction 
+Option 2: implement in `Unity` and implement a new application for experimental study
+- pro: unimpeded extendability of user interaction 
 - con: slower implementation and slower and more rework of application
 
 &lt;br&gt;&lt;br&gt;
 Option 1 seem preferable at the moment
 
----
-
-## ___CONTINUE HERE___ ------------------------
-## Visualization dimension: 3D and immersive 3D 
-
-Data visualization has lagged behind in adopting 3D and immersive technologies, despite promising finds
-
-.pull-left[
-&lt;img src="./slide_figures/nelson98fig.PNG" width="90%" height="90%" style="display: block; margin: auto;" /&gt;
-
-*(Nelson et al. 1998)*
-- tours: head-tracked VR vs standard monitor
-- better cluster and shape identification, slower brushing
-]
-
-.pull-right[
-3D visuals generally convey more information with more speed, but  manipulation is slower when compared with orthogonal 2D, though 3D with 2D gives the best perception *[Lee 1986, Wickens 1994, Tory 2006]*
-
-Embedded multivariate data in immersive 3D report improved accuracy and faster response time, but a slower manipulation speed and less comfort *[Gracia 2016, Wagner 2018, Nelson 1998]*
-
-Modern VR equipment has improved quality, attracted wider audiences, and reduced the costs of VR, it is timely to research dynamic projections in VR
-]
-
-
----
-
-## Contributions
-&lt;hr&gt;&lt;br&gt;
-
-### 1) A modified UCS algorithm and new implementation applied to contemporary high energy physics and astrophysics applications in 2D animation frameworks.
-### 2) A performance comparison of static and interactive UCS projection techniques assessed on benchmark data sets from the recent literature.
-### 3) A new algorithm for UCS in 3D. With new applications to multi-dimensional function visualization in 3D.
-### 4) Quantitative understanding of the relative benefits of UCS across 2- and 3D display devices.
 
 ---
 
 ## Research timeline
 
-[1] ".."
- [1] "_mid_can_notes.docx"            "_mid_candidature_document.log" 
- [3] "_mid_candidature_document.pdf"  "_mid_candidature_document.rmd" 
- [5] "_mid_candidature_document.tex"  "_mid_canidature_document.log"  
- [7] "_slides"                        "_title&amp;abstract.docx"          
- [9] "appA_Rjournal.pdf"              "appB_ExpStudy.pdf"             
-[11] "data_viz_theme.css"             "figures"                       
-[13] "flea_tr1_starting_basis.png"    "mid_canidature.Rproj"          
-[15] "MyDev_16-05-2019.PNG"           "ns_bibliography.bib"           
-[17] "README.md"                      "test.rmd"                      
-[19] "title.sty"                      "WES_Enrolment_summary.pdf"     
-[21] "xConfirmation_pres_ns.pdf"      "xConfirmation_revision.pdf"    
-[23] "xxConfirmation_submission1.pdf" "zExample.rmd"                  
-[1] "../figures"
- [1] "app_interface_figure.docx"       "appInterface.png"               
- [3] "appManualFactor.png"             "basis&amp;structure.R"              
- [5] "basis.png"                       "basis_tars2removed.png"         
- [7] "basisStructure.png"              "benched"                        
- [9] "crest.jpg"                       "experimental_design_personA.png"
-[11] "phd_timeline.PNG"                "timeline.r"                     
-[13] "v3pilot.png"                    
 &lt;img src="./slide_figures/phd_timeline.PNG" width="3600" style="display: block; margin: auto;" /&gt;
 
 ---
@@ -239,10 +187,42 @@ Di and Kim for their suggestions and guidance.
 
 Slides created in R using rmarkdown and xaringan *(R Core Team, 2019; Xie et al. 2018; Xie, 2018)*
 
-Slides available -- [github.com/nspyrison/mid_candidature/_slides]( https://github.com/nspyrison/mid_candidature/_slides)
+Slides available -- [github.com/nspyrison/mid_candidature/_slides](https://github.com/nspyrison/mid_candidature/_slides)
 &lt;br&gt;&lt;br&gt;
 
 ### Questions?
+
+
+---
+
+# Thesis Writing
+
+This is my assessment of the completion of the thesis writing thus far:
+
+- Introduction – 60%
+- Literature review – 80%
+- (RO #1) 2D GI – 90%
+- (RO #2) 2D GI Experimental study – 40%
+- (RO #3) 3D GI – 0%
+- (RO #4) 3D GI Experimental study – 0%
+- Conclusion and future plans – 0%
+
+---
+
+# Program requirments
+
+WES Academic record
+– FIT 5144: 2019 S1+2, _In progress_, extended to the pre-submission seminar with the unit
+coordinator for the usual 2 opportunities to complete
+    - Hours: 147&gt;120 hours _Tracked_, missing the following requirments (12 hr total)
+        - __Needed__: CYR 2 (A &amp; B) – 2x 3hr
+        - __Needed__: Faculty of IT Workshop 1 and 3 on Ethical Research and Publishing – 2x 3hr
+- FIT 5113: 2018 S2, __exemption__
+- FIT 6021: 2018 S2, __completed with distinction__
+-myDevelopment - IT: Monash Doctoral Program - compulsory modules
+    - Monash graduate research student induction: __completed__
+    - Research integrity - Choose the Option most relevant: __completed__
+    - Faculty induction: __completed__
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
