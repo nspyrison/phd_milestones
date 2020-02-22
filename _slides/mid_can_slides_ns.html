@@ -21,27 +21,15 @@ class: center, middle, inverse, title-slide
 
 ## Motivation
 
-- *Exploratory data analysis (EDA)* is important and ubiquitous.
-- 2D EDA: vizualization is more robust and thorogh than statistical summarization alone.
-- Vizualization of high dimension space, `\(p &gt; 3\)` is non-trivial.
-- We need more options in the analysts' toolbelt.
+- *Exploratory data analysis (EDA)* is important and ubiquitous
+- 2D EDA: vizualization is more robust and thorogh than statistical summarization alone
+- Vizualization of high dimension space, `\(p &gt; 3\)` is non-trivial
+- We need more options in the analysts' toolbelt
 
 &lt;img src="./slide_figures/AllDinosAnimatedSmaller.gif" width="80%" height="80%" style="display: block; margin: auto;" /&gt;
 
 Datasaurus dozen; same means, standard deviations, and correlations, *(Matejka &amp; Fitzmaurice, 2017)*
 
-&lt;!-- --- --&gt;
-
-&lt;!-- ## Context: data analysis workflow --&gt;
-
-&lt;!-- ```{r, echo = F, out.width = '80%', out.height = '80%'} --&gt;
-&lt;!-- knitr::include_graphics("./slide_figures/data_analysis_workflow.png") --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- *Wickham &amp; Grolemund, 2016* --&gt;
-
-&lt;!-- - Visualization is a key aspect of data analysis workflow loop --&gt;
-&lt;!-- - Reproducible from programmatic scripts (&amp; reduced human error) --&gt;
-&lt;!-- - Transparent research hosted publicly on [github](https://github.com/nspyrison). --&gt;
 
 ---
 
@@ -50,25 +38,15 @@ Datasaurus dozen; same means, standard deviations, and correlations, *(Matejka &
 Vizualization of high dimension space, `\(p &gt; 3\)` is non-trivial:
 - Reduce dimension with model or feature production, _parameter space_
 - Linear projection of data through an _orthogonal basis_
-    - vectors are at right angles
+    - Vectors are at right angles
     - Length of each vector is 1
 - Non-linear projection of data
-    - _not interoperable_ back to variable space.
+    - _not interoperable_ back to variable space
 
 **Linear projection, shadow analogy:**
 
 &lt;img src="./slide_figures/shadow_puppet.png" width="70%" height="70%" style="display: block; margin: auto;" /&gt;
 
----
-
-## Linear projections
-
-- Classically - identify one or more linear projections highlighting some feature.
-- *Tour*,  - animating many frames or relatively small changes to to the basis.
-    - Tour path: the changes/path of the basis
-    - *(Cook &amp; Buja, 1997)* suggest a method to control the contribution a single variable contributes to the projection.
-    
-This leads to the overarch research objective.
 
 ---
 
@@ -78,109 +56,119 @@ This leads to the overarch research objective.
 *(Munzner, 2014)*
 
 __Multivariate tabular__
-    - Can be feature- or parameter- decomposition of non-standard formats. 
+    - Can be feature- or parameter- decomposition of non-standard formats
 
-&lt;!-- -- --&gt;
 
-&lt;!-- __Useful in EDA, independant with sector__ --&gt;
+---
 
-&lt;!-- ```{r, echo = F, out.width = '80%', out.height = '80%'} --&gt;
-&lt;!-- knitr::include_graphics("./slide_figures/data_analysis_workflow.png") --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- *Wickham &amp; Grolemund, 2016* --&gt;
+## Linear projections
 
-&lt;!-- - Visualization is a key aspect of data analysis workflow loop --&gt;
-&lt;!-- - Reproducible from programmatic scripts (&amp; reduced human error) --&gt;
-&lt;!-- - Transparent research hosted publicly on [github](https://github.com/nspyrison). --&gt;
+- Classically identify one or more linear projections highlighting some feature
+- *Tour*, animation of many frames or relatively small changes to the basis
+    - Tour path: the changes/path of the basis
+    - *(Cook &amp; Buja, 1997)* suggest a method to control the contribution a single variable contributes to the projection basis
+    
+This leads to the overarching research objective
+
 
 ---
 
 ## Research objectives
-&lt;hr&gt;&lt;br&gt;
+&lt;br&gt;
 
-### 1) How can user-controlled steering (UCS) be generalized to work within graphic-specific environments for 2D projections?
-### 2) Does 2D UCS tours provide benefits over alternatives?
-### 3) How do we extend UCS to 3D?
-### 4) Does UCS in 3D displays provide benefits over 2D displays?
+__Can geodesic interpolator (GI) with user interaction help analysts understand linear projections of data, and explore the sensitivity of structure in the projection to the variables contributing to the projection?__
+&lt;br&gt;&lt;br&gt;
+
+#### 1) How do we define user interaction for a geodesic interpolator to add and remove variables smoothly from a 2D linear projection of data? (interactive 2D GI)
+#### 2) Do analysts understand the relationship between variables and structure in a 2D linear projection better when the geodesic interpolator is available? (2D GI structure study)
+#### 3) Can we define a geodesic interpolator for 3D projections, so that the technology can be implemented in modern virtual reality environments? (interactive 3D GI)
+#### 4) Does 3D provide advantages over 2D for understanding structure in high-dimensional data when exploring projections from a geodesic interpolator? (3D GI structure study)
+
+
+---
+
+## Methodology
+
+Methodology of the the research addressing each research objective...
+
+#### RO #1, _algorithim design_ adapt and apply manual interaction (interactive 2D GI)
+#### RO #2: _experimental study_ comparing the efficacy of 2D GI (2D GI structure study)
+#### RO #3, _algorithim design_ extend and apply theroy to 3D (interactive 3D GI)
+#### RO #4: _experimental study_ comparing the efficacy of 3D GI (3D GI structure study)
+
+---
+
+## Interactive 2D GI (addressing RO #1)
+
+Build on user-controlled manipulation of a selected variable *(Cook &amp; Buja, 1997)*
+
+_progress since confirmation_
+
+Paper: 
+- R Journal (accepted, to be published in next issue)
+- Adaptation:
+    - Define the axes of roation
+    - Prove the rotation matrix with applicaiton of rodrigues' formula *(rodrigues, 1840)*
+    - Include initialization of angles, (in- and out- of projection plane), and clarify application
+- Application to particle physics data
+- Appendix A of the milestone document
+
+Software: `spinifex` R package
+- Available on [CRAN](https://cran.r-project.org/web/packages/spinifex/index.html)
+- Implements of adapted interactive
+- Extending graphics option of `tourr`objects
+- Forms the foundation for the remainder of the Research Objectives
 
 
 ---
 
-## RO 2) What benefits does UCS provide over alternatives?
 
-**Future work, method: performance comparison assessed across benchmark datasets**
+## 2D GI structure study (addressign RO #2)
 
-- Principal Component Analysis (PCA) 
-    - A linear transformation that produces linear combinations of the variables in descending order of variation explained
-- Multi-Dimensional Scaling (MDS)
-    - Non-linear dimension reduction that compares the pairwise distance between observations
-- T-distributed Stochastic Neighbor Embedding (tSNE)
-    - Non-linear transformation preserves local proximity and reduces relative entropy
-- User-controlled steering (USC), manual tour
-    - Dynamic linear projections controlling the contribution of a selected variable
+_Designed, currently being piloted_
 
-Measures: variation, variable transparency, clustering, structure
+Experimental study:
+- Factors: principal component analysis (PCA), grand tour (grand), and 2D GI
+- Within participant study
+- Implemented via `shiny` application
+- Draft of paper included as appendix B of the milestone document
 
-Design space: data sets, techniques, and measures of comparison
+&lt;br&gt;&lt;br&gt;
+Will discuss this in more detail shortly
 
 ---
 
-## RO 3) How do we extend UCS to 3D?
+## Interactive 3D GI (addressing RO #3)
 
-**Future work, method: algorithm design**
+_Future work_
 
-Extend the UCS algorithm to 3D projections and integrate with Immersive Analytics Tool Kit, `IATK`, *(Cordeil 2019)* for a common user interface across display devices.
+2D GI rotates a 2D basis in a 3D manipulation space about an in-plane angle and an out-of-plane angle.
 
-- Extend manipulation spaces to 4D, for variable manipulation on 3D scatterplots 
-- multi-dimensional function surfaces
+Analogously, 3D GI rotates a 3D basis in a 4D manipulation space about 2 in-plane angles and an out-plane angle.
 
-.pull-left[
-&lt;img src="./slide_figures/f_mt.gif" width="70%" height="70%" style="display: block; margin: auto;" /&gt;
-]
-
-.pull-right[
-&lt;img src="./slide_figures/RO3MockUp2.PNG" width="80%" height="80%" style="display: block; margin: auto;" /&gt;
-]
+- Define the 3 axes of rotation
+- Solve for the rotation matrix by application of Rodregues' formula
 
 ---
 
-## RO 3) How do we extend UCS to 3D? (&amp; function surfaces)
+## 3D GI structure study (addressign RO #4)
 
-**Future work, method: algorithm design**
+_Future work_
 
-- multi-dimensional function surfaces
+Option 1: implement using `shinyaframe` and append to the `shiny` application addressing RO #2
+- pro: faster implementation and reuse of previous experimental study application
+- con: unknown extent and extendability of user interaction
 
-.pull-left[
-&lt;img src="./slide_figures/f_mt.gif" width="70%" height="70%" style="display: block; margin: auto;" /&gt;
-]
+Option 2: implement in `Unity` and implement new application for experimental study
+- pro: unimpeated extendability of user interaction 
+- con: slower implementation and slower and more rework of application
 
-.pull-right[
-&lt;img src="./slide_figures/rgl_surface.PNG" width="80%" height="80%" style="display: block; margin: auto;" /&gt;
-]
-
----
-
-## RO 4) Does UCS in 3D displays provide benefits over 2D displays?
-
-**Future work, method: usability study**
-
-.pull-left[
-lineup design *(Hofmann et al. 2012)*
-- Visual variant of statistical p-test
-- Pick the real data against data generated from the null hypothesis
-- Quantitative comparison across display type
-
-]
-
-.pull-right[
-Design space:
-- Display type: 2D monitor, 3D monitor, head-mount, physical immersion
-- Task type: structure, UCS, clustering, dimensionality
-- Measures: accuracy, speed, confidence, preference, demographic information, VR and data visualization experience
-]
+&lt;br&gt;&lt;br&gt;
+Option 1 seem preferable at the moment
 
 ---
 
+## ___CONTINUE HERE___ ------------------------
 ## Visualization dimension: 3D and immersive 3D 
 
 Data visualization has lagged behind in adopting 3D and immersive technologies, despite promising finds
@@ -214,81 +202,47 @@ Modern VR equipment has improved quality, attracted wider audiences, and reduced
 
 ---
 
-### Research timeline
+## Research timeline
 
-&lt;img src="../figures/phd_timeline.PNG" width="3600" style="display: block; margin: auto;" /&gt;
+[1] ".."
+ [1] "_mid_can_notes.docx"            "_mid_candidature_document.log" 
+ [3] "_mid_candidature_document.pdf"  "_mid_candidature_document.rmd" 
+ [5] "_mid_candidature_document.tex"  "_mid_canidature_document.log"  
+ [7] "_slides"                        "_title&amp;abstract.docx"          
+ [9] "appA_Rjournal.pdf"              "appB_ExpStudy.pdf"             
+[11] "data_viz_theme.css"             "figures"                       
+[13] "flea_tr1_starting_basis.png"    "mid_canidature.Rproj"          
+[15] "MyDev_16-05-2019.PNG"           "ns_bibliography.bib"           
+[17] "README.md"                      "test.rmd"                      
+[19] "title.sty"                      "WES_Enrolment_summary.pdf"     
+[21] "xConfirmation_pres_ns.pdf"      "xConfirmation_revision.pdf"    
+[23] "xxConfirmation_submission1.pdf" "zExample.rmd"                  
+[1] "../figures"
+ [1] "app_interface_figure.docx"       "appInterface.png"               
+ [3] "appManualFactor.png"             "basis&amp;structure.R"              
+ [5] "basis.png"                       "basis_tars2removed.png"         
+ [7] "basisStructure.png"              "benched"                        
+ [9] "crest.jpg"                       "experimental_design_personA.png"
+[11] "phd_timeline.PNG"                "timeline.r"                     
+[13] "v3pilot.png"                    
+&lt;img src="./slide_figures/phd_timeline.PNG" width="3600" style="display: block; margin: auto;" /&gt;
 
 ---
 class: center, middle
 
+## Thanks
+
+Di and Kim for their suggestions and guidance.
+&lt;br&gt;&lt;br&gt;
+
 ## Acknowledgments
 
-Slides created in R using rmarkdown and xaringan
+Slides created in R using rmarkdown and xaringan *(R Core Team, 2019; Xie et al. 2018; Xie, 2018)*
 
 Slides available -- [github.com/nspyrison/mid_candidature/_slides]( https://github.com/nspyrison/mid_candidature/_slides)
+&lt;br&gt;&lt;br&gt;
 
-.large[Questions?]
-&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
-
-.left[
-*R Core Team, 2018*
-
-*Xie et al. 2018*
-
-*Xie, 2018*
-]
-
----
-
-## References (1/3)
-
-*In order of appearance:*
-
-Matejka, J., &amp; Fitzmaurice, G. (2017). Same Stats, Different Graphs: Generating Datasets with Varied Appearance and Identical Statistics through Simulated Annealing. In Proceedings of the 2017 CHI Conference on Human Factors in Computing Systems  - CHI ’17 (pp. 1290–1294). Denver, Colorado, USA: ACM Press. https://doi.org/10.1145/3025453.3025912
-
-Wickham, H., &amp; Grolemund, G. (2016). R for Data Science: Import, Tidy, Transform, Visualize, and Model Data. O’Reilly Media, Inc.
-
-Wickham, H., Cook, D., Hofmann, H., &amp; Buja, A. (2011). tourr : An R Package for Exploring Multivariate Data with Projections. Journal of Statistical Software, 40(2). https://doi.org/10.18637/jss.v040.i02
-
-Asimov, D. (1985). The Grand Tour: a Tool for Viewing Multidimensional Data. SIAM Journal on Scientific and Statistical Computing, 6(1), 128–143.
-
-Hurley, C., &amp; Buja, A. (1990). Analyzing High-Dimensional Data with Motion Graphics. SIAM Journal on Scientific and Statistical Computing, 11(6), 1193–1211. https://doi.org/10.1137/0911068
-
-Nelson, L., Cook, D., &amp; Cruz-Neira, C. (1998). XGobi vs the C2: Results of an Experiment Comparing Data Visualization in a 3-D Immersive Virtual Reality Environment with a 2-D Workstation Display. Computational Statistics, 14(1), 39–52.
-
----
-
-## References (2/3)
-
-Lee, J. M., MacLachlan, J., &amp; Wallace, W. A. (1986). The Effects of 3D Imagery on Managerial Data Interpretation. MIS Quarterly, 257–269.
-
-Wickens, C. D., Merwin, D. H., &amp; Lin, E. L. (1994). Implications of Graphics Enhancements for the Visualization of Scientific Data: Dimensional Integrality, Stereopsis, Motion, and Mesh. Human Factors, 36(1), 44–61.
-
-Tory, M., Kirkpatrick, A. E., Atkins, M. S., &amp; Moller, T. (2006). Visualization Task Performance with 2D, 3D, and Combination Displays. IEEE Transactions on Visualization and Computer Graphics, 12(1), 2–13.
-
-Gracia, A., González, S., Robles, V., Menasalvas, E., &amp; von Landesberger, T. (2016). New Insights into the Suitability of the Third Dimension for Visualizing Multivariate/Multidimensional Data: A Study Based on Loss of Quality Quantification. Information Visualization, 15(1), 3–30. https://doi.org/10.1177/1473871614556393
-
-Wagner Filho, J., Rey, M., Freitas, C., &amp; Nedel, L. (2018). Immersive Visualization of Abstract Information: An Evaluation on Dimensionally-Reduced Data Scatterplots.
-
-Cook, D., &amp; Buja, A. (1997). Manual Controls for High-Dimensional Data Projections. Journal of Computational and Graphical Statistics, 6(4), 464–480. https://doi.org/10.2307/1390747
-
----
-
-## References (3/3)
-
-Wang, B.-T., Hobbs, T. J., Doyle, S., Gao, J., Hou, T.-J., Nadolsky, P. M., &amp; Olness, F. I. (2018). Visualizing the sensitivity of hadronic experiments to nucleon structure. ArXiv Preprint ArXiv:1803.02777.
-
-Cook, D., Laa, U., &amp; Valencia, G. (2018). Dynamical projections for the visualization of PDFSense data. Eur. Phys. J. C, 78(9), 742.
-
-Cordeil, M. (2019). Immersive Analytics Toolkit (Version IATK 1.0 (Mala) Unity 2017). Retrieved from https://github.com/MaximeCordeil/IATK (Original work published 2017)
-
-Hofmann, H., Follett, L., Majumder, M., &amp; Cook, D. (2012). Graphical tests for power comparison of competing designs. IEEE Transactions on Visualization and Computer Graphics, 18(12), 2441–2448.
-
-R Core Team. (2018). R: A Language and Environment for Statistical Computing. Vienna, Austria: R Foundation for Statistical Computing. Retrieved from https://www.R-project.org/
-
-Xie, Y., Allaire, J. J., &amp; Grolemund, G. (2018). R Markdown: The Definitive Guide. Boca Raton, Florida: Chapman and Hall/CRC. Retrieved from https://bookdown.org/yihui/rmarkdown
-
-Xie, Y. (2018). xaringan: Presentation Ninja. Retrieved from https://CRAN.R-project.org/package=xaringan
+### Questions?
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

@@ -86,7 +86,7 @@ timeline <- ggplot(tasks.long, aes(x=Task, y=task.date, colour=Project)) +
         legend.text = element_text(size = 12))
 timeline
 #ggsave("./figures/phd_timeline.PNG", timeline, width = 9, height = 5)
-
+#ggsave("./_slides/slide_figures/phd_timeline.PNG", timeline, width = 9, height = 5)
 
 # ## Program requirements
 # <!-- http://www.monash.edu/pubs/2018handbooks/aos/information-technology-phd-program/ -->
