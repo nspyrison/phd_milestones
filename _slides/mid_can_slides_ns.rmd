@@ -137,21 +137,73 @@ Software: `spinifex` R package
 
 ---
 
-
-## 2D GI structure study (addressing RO #2)
+## 2D GI structure study (addressing RO #2) (pg 1/5)
 
 _Designed, currently being piloted_
 
 Experimental study:
+- Hypothesis: _Does the finer control afforded by the manual tour improve the ability of the analyst to understand the importance of variables contributing to the structure?_
 - Factors: principal component analysis (PCA), grand tour (grand), and 2D GI
-- Within-participant study
+- Within-participant study; all participants will perform all factors
 - Implemented via `shiny` application
 - Draft of paper included as appendix B of the milestone document
 
-<br><br>
-Will discuss this in more detail shortly
+---
 
-## ___TODO: EXTEND HERE___--------------------
+## 2D GI structure study (addressing RO #2) -- Design (pg 2/5)
+
+<!-- - Participant is assigned to one of 3 _groups_ controling factor order -->
+<!-- - Within each _factor_ there are 2 _tasks_ -->
+<!--     - Task 1) identify the number of clusters in the dat -->
+<!--     - Task 2) rate the importance of all variables for distinguishing between 2 clusters -->
+<!-- - Each task is performed on simulations of 3 blocks of increasing difficulty -->
+<!-- - Proceed to the next factor and performs tasks again -->
+
+```{r, echo = F, out.width = '100%', out.height = '100%'}
+knitr::include_graphics("./slide_figures/experimental_design_personA.png")
+```
+
+---
+
+## 2D GI structure study (addressing RO #2) -- Evaluation interface for (pg 3/5)
+
+
+```{r, echo = F, out.width = '100%', out.height = '100%'}
+knitr::include_graphics("./slide_figures/appInterface_GI.png")
+```
+
+---
+
+## 2D GI structure study (addressing RO #2) -- Measures and response (pg 4/5)
+
+- Log file capturing every action
+- During evaluation:
+    - response, time, number and type of interaction
+- Post study survey:
+    - demographics: age, sex, education, Enlish primarly language, visualization and multivariate familiarity
+    - per factor (9 point Likert): familiarity, ease, confidence, and likability
+
+
+---
+
+## 2D GI structure study (addressing RO #2) -- Status (pg 5/5)
+
+Completed:
+
+- Design
+- Application implementation
+- Paper draft
+
+In progress:
+
+- Pilot studies
+- Fine tuning block difficulty
+
+Next steps:
+
+- Run the study, planning on $n = 24$
+- Analysis
+- Finish and submit paper
 
 ---
 
@@ -181,7 +233,7 @@ Option 2: implement in `Unity` and implement a new application for experimental 
 - con: slower implementation and slower and more rework of application
 
 <br><br>
-Option 1 seem preferable at the moment
+Option 1 seems preferable at the moment
 
 
 ---
