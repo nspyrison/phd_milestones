@@ -1,10 +1,10 @@
 ---
 title: "New Tools to Interactively Explore the Sensitivity of Structure in Low-dimensional Projections of Data"
 author: "<br> Nicholas Spyrison <br> Monash University, Faculty of Information Technology <br><br> Supervisors: Prof. Kimbal Marriott,<br> Prof. Dianne Cook,<br>"
-date: "Candidature Confirmation <br> 25 February 2020 <br><br> *Slides -- [github.com/nspyrison/mid_candidature/_slides/](https://github.com/nspyrison/mid_candidature/_slides/)*"
+date: "Mid candidature review <br> 25 February 2020 <br><br> *Slides -- [github.com/nspyrison/mid_candidature/_slides/](https://github.com/nspyrison/mid_candidature/_slides/)*"
 output:
   xaringan::moon_reader:
-    css: ["default"] #, "xaringan-themer.css"
+    css: ["default", "xaringan-themer.css"] #
     self_contained: false
     nature:
       ratio: '16:9'
@@ -33,33 +33,13 @@ library(kableExtra)
 - *Exploratory data analysis (EDA)* is important and ubiquitous
 - 2D EDA: visualization is more robust and thorough than statistical summarization alone
 - Visualization of high dimension space, $p > 3$ is non-trivial
-- We need more options in the analysts' toolbelt
+- _Need more options in the analysts' toolbelt to explore high-dimension spaces!_
 
 ```{r, echo = F, out.width = '80%', out.height = '80%'}
 knitr::include_graphics("./slide_figures/AllDinosAnimatedSmaller.gif")
 ```
 
-Datasaurus dozen; same means, standard deviations, and correlations, *(Matejka & Fitzmaurice, 2017)*
-
-
----
-
-## Visualizing multivariate spaces
-
-Visualization of high dimension space, $p > 3$ is non-trivial:
-- Reduce dimension with model or feature production, _parameter space_
-- Linear projection of data through an _orthogonal basis_
-    - Vectors are at right angles
-    - Length of each vector is 1
-- Non-linear projection of data
-    - _not interoperable_ back to variable space
-
-**Linear projection, shadow analogy:**
-
-```{r, echo = F, out.height = '70%', out.width = '70%'}
-knitr::include_graphics("./slide_figures/shadow_puppet.png")
-```
-
+Datasaurus dozen; same means, standard deviations, and correlations *(Matejka & Fitzmaurice, 2017)*
 
 ---
 
@@ -70,38 +50,36 @@ knitr::include_graphics("./slide_figures/tmunzner_vad16.PNG")
 ```
 *(Munzner, 2014)*
 
-__Multivariate tabular__
-    
-- Can be feature- or parameter- decomposition of non-standard formats
+__Multivariate tabular,__ $n$ observations of $p$ attributes
 
+- Can be feature- or parameter- decomposition of non-standard formats
 
 ---
 
 ## Linear projections
 
-- Simple dimension reduction technique that can highlight interesting features
-
-- Analytical procedures using linear projections:
+- Simple dimension reduction, highlight interesting features
+- Analytical procedures:
     - Principal component analysis (PCA)
     - Linear discriminant analysis
     - Multiple regression
-    
-- Visual procedures utilizing linear projection:
+- Visual procedures:
     - *Tour*, animation of many frames or relatively small changes to the basis
-    - Types of tours: grand, guided, little, local, manual (most available in `tourr` R package)
-    - *(Cook & Buja, 1997)* provide a method to control the contribution of a single variable in a projection
+    - Types: grand, guided, little, local, manual (most available in `tourr` R package)
+    - Method to control the contribution of a single variable *(Cook & Buja, 1997)*
 
-
-
+**Shadow analogy:**
+```{r, echo = F, out.width = '60%'}
+knitr::include_graphics("./slide_figures/shadow_puppet.png")
+```
 
 ---
 
 ## Basis
 
-A linear projection is specified by its basis, which is the combination of variables that map to dimension space.
-
-- Must be orthonormal: all dimensions at right angles and of length 1
-
+Linear projection are specified by their basis
+- Each column is a linear combinations the original variables 
+- _Orthonormal_: all columns at right angles and of length 1
 
 ```{r, echo = F, out.width = '75%'}
 knitr::include_graphics("./slide_figures/basis.png")
@@ -111,9 +89,9 @@ knitr::include_graphics("./slide_figures/basis.png")
 
 ## Geodesic interpolator (GI)
 
-_Geodesic interpolation_ is the selection of intermediate frames along the shortest path that is orthonormality restricted.
+Process selecting intermediate bases along the shortest path of orthonormal bases.
 
-- used in other tour methods including the grand tour _(Asimov, 1985)_
+- Used in other tour methods including the grand tour _(Asimov, 1985)_
 
 ```{r, echo = F, out.width = '60%'}
 knitr::include_graphics("./slide_figures/buja05fig.PNG")
@@ -125,7 +103,7 @@ _(Buja et al., 2005)_
 ## Sensitivity of structure in a projection
 
 - Some variables are more sensitive to the structure within a projection
-- Illustrated through GI, changing the contribution of an individual variable
+- Illustrated by controling variable contributions:
 
 ```{r, echo = F, out.width = '85%'}
 knitr::include_graphics("./slide_figures/basisStructure.png")
@@ -135,32 +113,28 @@ knitr::include_graphics("./slide_figures/basisStructure.png")
 
 ## Research objectives
 
-__Can geodesic interpolator with user interaction help analysts understand linear projections of data, and explore the sensitivity of structure in the projection to the variables contributing to the projection?__
+__Can user-guided geodesic interpolation help analysts understand linear projections of data and explore the sensitivity of structure in the projection to the variables contributing to the projection?__
 <br>
 
 - 1) How do we define user interaction for a geodesic interpolator to add and remove variables smoothly from a 2D linear projection of data? 
     - _Algorithm design_ adapt and apply manual interaction (interactive 2D GI)
-    
-- 2) Do analysts understand the relationship between variables and structure in a 2D linear projection better when the geodesic interpolator is available? 
+- 2) Do analysts understand the relationship between variables and structure in a 2D linear projection better when the interactive geodesic interpolator is available? 
     - _Experimental study_ comparing the efficacy of 2D GI (2D GI structure study)
-    
 - 3) Can we define a geodesic interpolator for 3D projections so that the technology can be implemented in modern virtual reality environments? 
     - _Algorithm design_ extend and apply theory to 3D (interactive 3D GI)
-    
-- 4) Does 3D provide advantages over 2D for understanding structure in high-dimensional data when exploring projections from a geodesic interpolator? (3D GI structure study)
+- 4) Does geodesic interpolation in 3D provide advantages over 2D for understanding structure in linear projections? (3D GI structure study)
     - _Experimental study_ comparing the efficacy of 3D GI (3D GI structure study)
 
 ---
 
 ## Progress since confirmation -- interactive 2D GI (RO #1)
 
-
 Paper: 
 - R Journal (accepted, to be published in next issue)
-- Adaptation :
+- Adaptation:
     - Define the axes of rotation
-    - Prove the rotation matrix with the application of Rodrigues' formula *(Rodrigues, 1840)*
-    - Include initialization of angles, (in- and out- of projection plane), and clarify for application
+    - Proof for the rotation matrix with the application of Rodrigues' formula *(Rodrigues, 1840)*
+    - Initialization of angle parameters to clarify the understanding and implementation
 - Application to particle physics data
 - Appendix A of the milestone document
 
@@ -171,28 +145,23 @@ Software: `spinifex` R package, available on [CRAN](https://cran.r-project.org/w
 ## Work in progress -- 2D GI usability study (RO #2)
 
 Experimental study:
-- Hypothesis: _Does the finer control afforded by the manual tour improve the ability of the analyst to understand the importance of variables contributing to the structure?_
+- Hypothesis: _Does the finer control afforded by GI improve the ability of the analyst to understand the importance of variables contributing to the structure?_
 - Factors: principal component analysis, grand tour (grand), and 2D GI
 - Within-participant study; all participants will perform all factors
 - Implemented via `shiny` application
 - Draft of paper included as appendix B of the milestone document
 
-_Designed, ethics approval, currently being piloted_
-
 ---
 
 ## Work in progress -- design
-
-_2D GI usability study (RO #2)_
 
 ```{r, echo = F, out.width = '100%'}
 knitr::include_graphics("./slide_figures/experimental_design_personA.png")
 ```
 
 ---
-## Work in progress -- introduction & training
 
-_2D GI usability study (RO #2)_
+## Work in progress -- introduction & training
 
 ```{r, echo = F, out.width = '100%'}
 knitr::include_graphics("./slide_figures/appTraining1.PNG")
@@ -202,8 +171,6 @@ knitr::include_graphics("./slide_figures/appTraining1.PNG")
 
 ## Work in progress -- task training
 
-_2D GI usability study (RO #2)_
-
 ```{r, echo = F, out.width = '100%'}
 knitr::include_graphics("./slide_figures/appTraining2.PNG")
 ```
@@ -212,9 +179,7 @@ knitr::include_graphics("./slide_figures/appTraining2.PNG")
 
 ## Work in progress -- evaluation interface, PCA
 
-<!-- _2D GI usability study (RO #2)_ -->
-
-```{r, echo = F, out.width = '70%'}
+```{r, echo = F, out.width = '78%'}
 knitr::include_graphics("./slide_figures/appPca.png")
 ```
 
@@ -222,9 +187,8 @@ knitr::include_graphics("./slide_figures/appPca.png")
 
 ## Work in progress -- evaluation interface, GI
 
-<!-- _2D GI usability study (RO #2)_ -->
 
-```{r, echo = F, out.width = '90%'}
+```{r, echo = F, out.width = '92%'}
 knitr::include_graphics("./slide_figures/appManual.png")
 ```
 
@@ -232,17 +196,13 @@ knitr::include_graphics("./slide_figures/appManual.png")
 
 ## Work in progress -- evaluation interface, grand
 
-<!-- _2D GI usability study (RO #2)_ -->
-
-```{r, echo = F, out.width = '80%'}
+```{r, echo = F, out.width = '85%'}
 knitr::include_graphics("./slide_figures/appGrand.png")
 ```
 
 ---
 
 ## Work in progress -- follow up survey
-
-<!-- _2D GI usability study (RO #2)_ -->
 
 ```{r, echo = F, out.width = '100%', out.height = '100%'}
 knitr::include_graphics("./slide_figures/appSurvey.png")
@@ -286,14 +246,13 @@ knitr::include_graphics("./slide_figures/phd_timeline.PNG")
 
 ## Future work -- Interactive 3D GI (RO #3)
 
-__
+2D GI: rotates a 2D basis in a 3D manipulation space with 2 angle parameters.
 
-2D GI rotates a 2D basis in a 3D manipulation space about an in-plane angle and an out-of-plane angle.
-
-Analogously, 3D GI rotates a 3D basis in a 4D manipulation space about 2 in-"plane" angles and an out-plane angle.
+Analogously, 3D GI rotates a 3D basis in a 4D manipulation space with 3 angle parameters.
 
 - Define the 3 axes of rotation
 - Solve for the rotation matrix by application of Rodrigues' formula
+- Attention to sign changes (4D and trig functions supporting half a rotation)
 
 ---
 
@@ -308,8 +267,8 @@ Option 2: implement in `Unity` and implement a new application for experimental 
 - Pro: unimpeded extendibility of user interaction 
 - Con: slower implementation and slower and more rework of application
 
-<br><br>
-Option 1 seems preferable at the moment
+<br>
+Option 1 seems preferable
 
 ---
 class: center, middle
@@ -333,14 +292,14 @@ Slides available -- [github.com/nspyrison/mid_candidature/_slides](https://githu
 ## Appendix -- Program requirements
 
 WES Academic record
-– FIT 5144: 2019 S1+2, _In progress_, extended to the pre-submission seminar with the unit
-coordinator for the usual 2 opportunities to complete
-    - Hours: 147>120 hours _Tracked_, missing the following requirements (12 hr total)
+- FIT 5144: 2019 S1+2, __In progress__, extended to the pre-submission seminar with the unit
+coordinator for the usual 2 year duration
+    - Hours: 147 of 120 hours _Tracked_, missing the following requirements (12 hr total)
         - __Needed__: CYR 2 (A & B) – 2x 3hr
         - __Needed__: Faculty of IT Workshop 1 and 3 on Ethical Research and Publishing – 2x 3hr
-- FIT 5113: 2018 S2, __exemption__
-- FIT 6021: 2018 S2, __completed with distinction__
+- FIT 5113: 2018 S2, `exemption`
+- FIT 6021: 2018 S2, `completed with distinction`
 -myDevelopment - IT: Monash Doctoral Program - compulsory modules
-    - Monash graduate research student induction: __completed__
-    - Research integrity - Choose the Option most relevant: __completed__
-    - Faculty induction: __completed__
+    - Monash graduate research student induction: `completed`
+    - Research integrity - Choose the Option most relevant: `completed`
+    - Faculty induction: `completed`

@@ -33,10 +33,7 @@ h1, h2, h3 {
 }
 .remark-slide-content {
   background-color: #002b36;
-  font-size: 20px;
-  
-  
-  
+  font-size: 24px;                   //THIS LINE CHANGES NORMAL FONT SIZE.
   padding: 1em 4em 1em 4em;
 }
 .remark-slide-content h1 {
@@ -52,13 +49,11 @@ h1, h2, h3 {
   font-family: Droid Mono, 'Lucida Console', Monaco, monospace;
 }
 .remark-code {
-  font-size: 0.9em;
+  font-size: .9em;
 }
 .remark-inline-code {
   font-size: 1em;
   color: #6c71c4;
-  
-  
 }
 .remark-slide-number {
   color: #586e75;
@@ -71,7 +66,6 @@ a, a > code {
   text-decoration: none;
 }
 .footnote {
-  
   position: absolute;
   bottom: 3em;
   padding-right: 4em;
@@ -83,7 +77,6 @@ a, a > code {
 .inverse {
   background-color: #fdf6e3;
   color: #002b36;
-  
 }
 .inverse h1, .inverse h2, .inverse h3 {
   color: #002b36;
@@ -93,9 +86,6 @@ a, a > code {
 }
 .title-slide {
   background-color: #fdf6e3;
-  
-  
-  
 }
 .title-slide .remark-slide-number {
   display: none;
