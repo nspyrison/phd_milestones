@@ -4,7 +4,7 @@ author: "<br> Nicholas Spyrison <br> Monash University, Faculty of Information T
 date: "Candidature Confirmation <br> 25 February 2020 <br><br> *Slides -- [github.com/nspyrison/mid_candidature/_slides/](https://github.com/nspyrison/mid_candidature/_slides/)*"
 output:
   xaringan::moon_reader:
-    css: ["default", "xaringan-themer.css"]
+    css: ["default"] #, "xaringan-themer.css"
     self_contained: false
     nature:
       ratio: '16:9'
@@ -80,27 +80,56 @@ __Multivariate tabular__
 ## Linear projections
 
 - Simple dimension reduction technique that can highlight interesting features
+
 - Analytical procedures using linear projections:
     - Principal component analysis (PCA)
     - Linear discriminant analysis
     - Multiple regression
+    
 - Visual procedures utilizing linear projection:
     - *Tour*, animation of many frames or relatively small changes to the basis
     - Types of tours: grand, guided, little, local, manual (most available in `tourr` R package)
     - *(Cook & Buja, 1997)* provide a method to control the contribution of a single variable in a projection
 
-<br><br>
-__This leads to the overarching research objective.__
+
 
 
 ---
 
-## Basis, Geodesic interpolation,  structural sensitivity
+## Basis
 
-<!-- TODO: GI Definition here -->
+A linear projection is specified by its basis, which is the combination of variables that map to dimension space.
+
+- Must be orthonormal: all dimensions at right angles and of length 1
 
 
-- GI ...
+```{r, echo = F, out.width = '75%'}
+knitr::include_graphics("./slide_figures/basis.png")
+```
+
+---
+
+## Geodesic interpolator (GI)
+
+_Geodesic interpolation_ is the selection of intermediate frames along the shortest path that is orthonormality restricted.
+
+- used in other tour methods including the grand tour _(Asimov, 1985)_
+
+```{r, echo = F, out.width = '60%'}
+knitr::include_graphics("./slide_figures/buja05fig.PNG")
+```
+_(Buja et al., 2005)_
+
+---
+
+## Sensitivity of structure in a projection
+
+- Some variables are more sensitive to the structure within a projection
+- Illustrated through GI, changing the contribution of an individual variable
+
+```{r, echo = F, out.width = '85%'}
+knitr::include_graphics("./slide_figures/basisStructure.png")
+```
 
 ---
 
@@ -123,12 +152,12 @@ __Can geodesic interpolator with user interaction help analysts understand linea
 
 ---
 
-## Progress since confirmation -- Interactive 2D GI (RO #1)
+## Progress since confirmation -- interactive 2D GI (RO #1)
 
 
 Paper: 
 - R Journal (accepted, to be published in next issue)
-- Adaptation:
+- Adaptation :
     - Define the axes of rotation
     - Prove the rotation matrix with the application of Rodrigues' formula *(Rodrigues, 1840)*
     - Include initialization of angles, (in- and out- of projection plane), and clarify for application
@@ -161,7 +190,7 @@ knitr::include_graphics("./slide_figures/experimental_design_personA.png")
 ```
 
 ---
-## Work in progress -- introduction, video, interface training
+## Work in progress -- introduction & training
 
 _2D GI usability study (RO #2)_
 
@@ -226,11 +255,10 @@ knitr::include_graphics("./slide_figures/appSurvey.png")
 - Logfile capturing every action
 - During evaluation:
     - Response, time, number and type of interaction
-- Post evaluation survey:
-    - Demographics: age, sex, education, English primary language, visualization, and multivariate familiarity
-    - By factor, 9-point Likert-type scale: familiarity, ease, confidence, and likability
-    
-<!-- TODO: Include ans_tbl structure here? -->
+
+```{r, echo = F, out.width = '70%'}
+knitr::include_graphics("./slide_figures/exampleResponse.png")
+```
 
 ---
 
@@ -256,9 +284,9 @@ knitr::include_graphics("./slide_figures/phd_timeline.PNG")
 
 ---
 
-## Future work -- RO #3
+## Future work -- Interactive 3D GI (RO #3)
 
-_Interactive 3D GI_
+__
 
 2D GI rotates a 2D basis in a 3D manipulation space about an in-plane angle and an out-of-plane angle.
 
@@ -269,9 +297,7 @@ Analogously, 3D GI rotates a 3D basis in a 4D manipulation space about 2 in-"pla
 
 ---
 
-## Future work -- RO #4
-
-_3D GI usability study_
+## Future work -- 3D GI usability study (RO #4)
 
 Option 1: implement using `shinyaframe` and append to the `shiny` application addressing RO #2
 - Pro: faster implementation and reuse of previous experimental study application
@@ -290,7 +316,7 @@ class: center, middle
 
 ## Thanks
 
-Di and Kim for their suggestions and guidance.
+To Di and Kim for their suggestions and guidance.
 <br><br>
 
 ## Acknowledgments
