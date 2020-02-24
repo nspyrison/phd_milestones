@@ -95,7 +95,7 @@ __This leads to the overarching research objective.__
 
 ---
 
-## Definitions
+## Basis, Geodesic interpolation,  structural sensitivity
 
 <!-- TODO: GI Definition here -->
 

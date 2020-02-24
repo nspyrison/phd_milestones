@@ -4,8 +4,8 @@
     <title>New Tools to Interactively Explore the Sensitivity of Structure in Low-dimensional Projections of Data</title>
     <meta charset="utf-8" />
     <meta name="author" content="  Nicholas Spyrison   Monash University, Faculty of Information Technology    Supervisors: Prof. Kimbal Marriott,  Prof. Dianne Cook," />
-    <link href="mid_can_slides_ns_files/remark-css-0.0.1/default.css" rel="stylesheet" />
-    <link rel="stylesheet" href="data_viz_theme.css" type="text/css" />
+    <link href="index_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -52,57 +52,64 @@ Visualization of high dimension space, `\(p &gt; 3\)` is non-trivial:
 
 ## Scope of data
 
-&lt;img src="./slide_figures/tmunzner_vad16.PNG" width="80%" height="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="./slide_figures/tmunzner_vad16.PNG" width="90%" style="display: block; margin: auto;" /&gt;
 *(Munzner, 2014)*
 
 __Multivariate tabular__
-    - Can be feature- or parameter- decomposition of non-standard formats
+    
+- Can be feature- or parameter- decomposition of non-standard formats
 
 
 ---
 
 ## Linear projections
 
-- Classically identify one or more linear projections highlighting some feature
-- *Tour*, animation of many frames or relatively small changes to the basis
-    - Tour path: the changes/path of the basis
-    - *(Cook &amp; Buja, 1997)* suggest a method to control the contribution a single variable contributes to the projection basis
-    
-This leads to the overarching research objective
+- Simple dimension reduction technique that can highlight interesting features
+- Analytical procedures using linear projections:
+    - Principal component analysis (PCA)
+    - Linear discriminant analysis
+    - Multiple regression
+- Visual procedures utilizing linear projection:
+    - *Tour*, animation of many frames or relatively small changes to the basis
+    - Types of tours: grand, guided, little, local, manual (most available in `tourr` R package)
+    - *(Cook &amp; Buja, 1997)* provide a method to control the contribution of a single variable in a projection
 
+&lt;br&gt;&lt;br&gt;
+__This leads to the overarching research objective.__
+
+
+---
+
+## Basis, Geodesic interpolation,  structural sensitivity
+
+&lt;!-- TODO: GI Definition here --&gt;
+
+
+- GI ...
 
 ---
 
 ## Research objectives
+
+__Can geodesic interpolator with user interaction help analysts understand linear projections of data, and explore the sensitivity of structure in the projection to the variables contributing to the projection?__
 &lt;br&gt;
 
-__Can geodesic interpolator (GI) with user interaction help analysts understand linear projections of data, and explore the sensitivity of structure in the projection to the variables contributing to the projection?__
-&lt;br&gt;&lt;br&gt;
-
-#### 1) How do we define user interaction for a geodesic interpolator to add and remove variables smoothly from a 2D linear projection of data? (interactive 2D GI)
-#### 2) Do analysts understand the relationship between variables and structure in a 2D linear projection better when the geodesic interpolator is available? (2D GI structure study)
-#### 3) Can we define a geodesic interpolator for 3D projections so that the technology can be implemented in modern virtual reality environments? (interactive 3D GI)
-#### 4) Does 3D provide advantages over 2D for understanding structure in high-dimensional data when exploring projections from a geodesic interpolator? (3D GI structure study)
-
-
----
-
-## Methodology
-
-Methodology of the research addressing each research objective...
-
-#### RO #1, _algorithim design_ adapt and apply manual interaction (interactive 2D GI)
-#### RO #2: _experimental study_ comparing the efficacy of 2D GI (2D GI structure study)
-#### RO #3, _algorithim design_ extend and apply theroy to 3D (interactive 3D GI)
-#### RO #4: _experimental study_ comparing the efficacy of 3D GI (3D GI structure study)
+- 1) How do we define user interaction for a geodesic interpolator to add and remove variables smoothly from a 2D linear projection of data? 
+    - _Algorithm design_ adapt and apply manual interaction (interactive 2D GI)
+    
+- 2) Do analysts understand the relationship between variables and structure in a 2D linear projection better when the geodesic interpolator is available? 
+    - _Experimental study_ comparing the efficacy of 2D GI (2D GI structure study)
+    
+- 3) Can we define a geodesic interpolator for 3D projections so that the technology can be implemented in modern virtual reality environments? 
+    - _Algorithm design_ extend and apply theory to 3D (interactive 3D GI)
+    
+- 4) Does 3D provide advantages over 2D for understanding structure in high-dimensional data when exploring projections from a geodesic interpolator? (3D GI structure study)
+    - _Experimental study_ comparing the efficacy of 3D GI (3D GI structure study)
 
 ---
 
-## Interactive 2D GI (addressing RO #1)
+## Progress since confirmation -- Interactive 2D GI (RO #1)
 
-Build on user-controlled manipulation of a selected variable *(Cook &amp; Buja, 1997)*
-
-_progress since confirmation_
 
 Paper: 
 - R Journal (accepted, to be published in next issue)
@@ -113,115 +120,139 @@ Paper:
 - Application to particle physics data
 - Appendix A of the milestone document
 
-Software: `spinifex` R package
-- Available on [CRAN](https://cran.r-project.org/web/packages/spinifex/index.html)
-- Implements of adapted interactive
-- Extending the graphics option of `tourr` objects
-- Forms the foundation for the remainder of the Research Objectives
-
+Software: `spinifex` R package, available on [CRAN](https://cran.r-project.org/web/packages/spinifex/index.html)
 
 ---
 
-## 2D GI structure study (addressing RO #2) (pg 1/5)
-
-_Designed, currently being piloted_
+## Work in progress -- 2D GI usability study (RO #2)
 
 Experimental study:
 - Hypothesis: _Does the finer control afforded by the manual tour improve the ability of the analyst to understand the importance of variables contributing to the structure?_
-- Factors: principal component analysis (PCA), grand tour (grand), and 2D GI
+- Factors: principal component analysis, grand tour (grand), and 2D GI
 - Within-participant study; all participants will perform all factors
 - Implemented via `shiny` application
 - Draft of paper included as appendix B of the milestone document
 
----
-
-## 2D GI structure study (addressing RO #2) -- Design (pg 2/5)
-
-&lt;!-- - Participant is assigned to one of 3 _groups_ controling factor order --&gt;
-&lt;!-- - Within each _factor_ there are 2 _tasks_ --&gt;
-&lt;!--     - Task 1) identify the number of clusters in the dat --&gt;
-&lt;!--     - Task 2) rate the importance of all variables for distinguishing between 2 clusters --&gt;
-&lt;!-- - Each task is performed on simulations of 3 blocks of increasing difficulty --&gt;
-&lt;!-- - Proceed to the next factor and performs tasks again --&gt;
-
-&lt;img src="./slide_figures/experimental_design_personA.png" width="100%" height="100%" style="display: block; margin: auto;" /&gt;
+_Designed, ethics approval, currently being piloted_
 
 ---
 
-## 2D GI structure study (addressing RO #2) -- Evaluation interface for (pg 3/5)
+## Work in progress -- design
 
+_2D GI usability study (RO #2)_
 
-&lt;img src="./slide_figures/appInterface_GI.png" width="100%" height="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="./slide_figures/experimental_design_personA.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+## Work in progress -- introduction, video, interface training
+
+_2D GI usability study (RO #2)_
+
+&lt;img src="./slide_figures/appTraining1.PNG" width="100%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-## 2D GI structure study (addressing RO #2) -- Measures and response (pg 4/5)
+## Work in progress -- task training
 
-- Log file capturing every action
+_2D GI usability study (RO #2)_
+
+&lt;img src="./slide_figures/appTraining2.PNG" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Work in progress -- evaluation interface, PCA
+
+&lt;!-- _2D GI usability study (RO #2)_ --&gt;
+
+&lt;img src="./slide_figures/appPca.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Work in progress -- evaluation interface, GI
+
+&lt;!-- _2D GI usability study (RO #2)_ --&gt;
+
+&lt;img src="./slide_figures/appManual.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Work in progress -- evaluation interface, grand
+
+&lt;!-- _2D GI usability study (RO #2)_ --&gt;
+
+&lt;img src="./slide_figures/appGrand.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Work in progress -- follow up survey
+
+&lt;!-- _2D GI usability study (RO #2)_ --&gt;
+
+&lt;img src="./slide_figures/appSurvey.png" width="100%" height="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Measures and response -- 2D GI usability study
+
+- Logfile capturing every action
 - During evaluation:
-    - response, time, number and type of interaction
-- Post study survey:
-    - demographics: age, sex, education, Enlish primarly language, visualization and multivariate familiarity
-    - per factor (9 point Likert): familiarity, ease, confidence, and likability
-
-
----
-
-## 2D GI structure study (addressing RO #2) -- Status (pg 5/5)
-
-Completed:
-
-- Design
-- Application implementation
-- Paper draft
-
-In progress:
-
-- Pilot studies
-- Fine tuning block difficulty
-
-Next steps:
-
-- Run the study, planning on `\(n = 24\)`
-- Analysis
-- Finish and submit paper
+    - Response, time, number and type of interaction
+- Post evaluation survey:
+    - Demographics: age, sex, education, English primary language, visualization, and multivariate familiarity
+    - By factor, 9-point Likert-type scale: familiarity, ease, confidence, and likability
+    
+&lt;!-- TODO: Include ans_tbl structure here? --&gt;
 
 ---
 
-## Interactive 3D GI (addressing RO #3)
+## Thesis drafting
 
-_Future work_
+This is my assessment of the completion of the thesis drafting thus far:
+
+- Introduction – 60%
+- Literature review – 80%
+- (RO #1) 2D GI – 90%
+- (RO #2) 2D GI Experimental study – 40%
+- (RO #3) 3D GI – 0%
+- (RO #4) 3D GI Experimental study – 0%
+- Conclusion and future plans – 0%
+
+---
+
+## Research timeline
+
+&lt;img src="./slide_figures/phd_timeline.PNG" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Future work -- RO #3
+
+_Interactive 3D GI_
 
 2D GI rotates a 2D basis in a 3D manipulation space about an in-plane angle and an out-of-plane angle.
 
-Analogously, 3D GI rotates a 3D basis in a 4D manipulation space about 2 in-plane angles and an out-plane angle.
+Analogously, 3D GI rotates a 3D basis in a 4D manipulation space about 2 in-"plane" angles and an out-plane angle.
 
 - Define the 3 axes of rotation
 - Solve for the rotation matrix by application of Rodrigues' formula
 
 ---
 
-## 3D GI structure study (addressing RO #4)
+## Future work -- RO #4
 
-_Future work_
+_3D GI usability study_
 
 Option 1: implement using `shinyaframe` and append to the `shiny` application addressing RO #2
-- pro: faster implementation and reuse of previous experimental study application
-- con: unknown extent and extendability of user interaction
+- Pro: faster implementation and reuse of previous experimental study application
+- Con: unknown extent and extendibility of user interaction
+- Proof of concept; _Hadjar et al. (2018)_ user interaction changing axes on a 3D scatterplot 
 
 Option 2: implement in `Unity` and implement a new application for experimental study
-- pro: unimpeded extendability of user interaction 
-- con: slower implementation and slower and more rework of application
+- Pro: unimpeded extendibility of user interaction 
+- Con: slower implementation and slower and more rework of application
 
 &lt;br&gt;&lt;br&gt;
 Option 1 seems preferable at the moment
-
-
----
-
-## Research timeline
-
-&lt;img src="./slide_figures/phd_timeline.PNG" width="3600" style="display: block; margin: auto;" /&gt;
 
 ---
 class: center, middle
@@ -240,29 +271,14 @@ Slides available -- [github.com/nspyrison/mid_candidature/_slides](https://githu
 
 ### Questions?
 
-
 ---
 
-# Thesis Writing
-
-This is my assessment of the completion of the thesis writing thus far:
-
-- Introduction – 60%
-- Literature review – 80%
-- (RO #1) 2D GI – 90%
-- (RO #2) 2D GI Experimental study – 40%
-- (RO #3) 3D GI – 0%
-- (RO #4) 3D GI Experimental study – 0%
-- Conclusion and future plans – 0%
-
----
-
-# Program requirments
+## Appendix -- Program requirements
 
 WES Academic record
 – FIT 5144: 2019 S1+2, _In progress_, extended to the pre-submission seminar with the unit
 coordinator for the usual 2 opportunities to complete
-    - Hours: 147&gt;120 hours _Tracked_, missing the following requirments (12 hr total)
+    - Hours: 147&gt;120 hours _Tracked_, missing the following requirements (12 hr total)
         - __Needed__: CYR 2 (A &amp; B) – 2x 3hr
         - __Needed__: Faculty of IT Workshop 1 and 3 on Ethical Research and Publishing – 2x 3hr
 - FIT 5113: 2018 S2, __exemption__
