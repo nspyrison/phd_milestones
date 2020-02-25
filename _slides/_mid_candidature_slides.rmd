@@ -4,7 +4,15 @@ author: "<br> Nicholas Spyrison <br> Monash University, Faculty of Information T
 date: "Mid candidature review <br> 25 February 2020 <br><br> *Slides -- [github.com/nspyrison/mid_candidature/_slides/](https://github.com/nspyrison/mid_candidature/_slides/)*"
 output:
   xaringan::moon_reader:
-    css: ["default", "xaringan-themer.css"] #
+    css: [default, "assets/xaringan-themer.css"] #ninjutsu] 
+      # - ninjutsu 
+      # #- "assets/animate.css"
+      # - "assets/monash-logo.css"
+      # - "assets/monash-brand.css"
+      # - "assets/monash-fonts.css"
+      # - "assets/styles.css" # small improvements
+      # - "assets/custom.css" # add your own CSS here!
+      #- "assets/xaringan-themer.css"] #
     self_contained: false
     nature:
       ratio: '16:9'
@@ -139,6 +147,7 @@ Paper:
 
 Software: `spinifex` R package, available on [CRAN](https://cran.r-project.org/web/packages/spinifex/index.html)
 ]
+
 ---
 
 ## Work in progress -- 2D GI usability study (RO #2)
@@ -151,6 +160,7 @@ Experimental study:
 - Implemented via `shiny` application
 - Draft of paper included as appendix B of the milestone document
 ]
+
 ---
 
 ## Work in progress -- design
