@@ -26,20 +26,18 @@ class: center, middle, inverse, title-slide
 - Visualization of high dimension space, `\(p &gt; 3\)` is non-trivial
 - _Need more options in the analysts' toolbelt to explore high-dimension spaces!_
 
-&lt;img src="./slide_figures/AllDinosAnimatedSmaller.gif" width="80%" height="80%" style="display: block; margin: auto;" /&gt;
-
+&lt;img src="./slide_figures/AllDinosAnimatedSmaller.gif" width="75%" style="display: block; margin: auto;" /&gt;
 Datasaurus dozen; same means, standard deviations, and correlations *(Matejka &amp; Fitzmaurice, 2017)*
 
 ---
 
 ## Scope of data
 
+__Multivariate tabular,__ `\(n\)` observations of `\(p\)` attributes
+- Can be feature- or parameter- decomposition of non-standard formats
+
 &lt;img src="./slide_figures/tmunzner_vad16.PNG" width="90%" style="display: block; margin: auto;" /&gt;
 *(Munzner, 2014)*
-
-__Multivariate tabular,__ `\(n\)` observations of `\(p\)` attributes
-
-- Can be feature- or parameter- decomposition of non-standard formats
 
 ---
 
@@ -51,22 +49,22 @@ __Multivariate tabular,__ `\(n\)` observations of `\(p\)` attributes
     - Linear discriminant analysis
     - Multiple regression
 - Visual procedures:
-    - *Tour*, animation of many frames or relatively small changes to the basis
+    - *Tour*, animation of many frames that are close
     - Types: grand, guided, little, local, manual (most available in `tourr` R package)
     - Method to control the contribution of a single variable *(Cook &amp; Buja, 1997)*
 
 **Shadow analogy:**
-&lt;img src="./slide_figures/shadow_puppet.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="./slide_figures/shadow_puppet.png" width="65%" style="display: block; margin: auto;" /&gt;
 
 ---
 
 ## Basis
 
-Linear projection are specified by their basis
+Linear projections are specified by their basis.
 - Each column is a linear combinations the original variables 
 - _Orthonormal_: all columns at right angles and of length 1
 
-&lt;img src="./slide_figures/basis.png" width="75%" style="display: block; margin: auto;" /&gt;
+&lt;img src="./slide_figures/basis.png" width="82%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -76,7 +74,7 @@ Process selecting intermediate bases along the shortest path of orthonormal base
 
 - Used in other tour methods including the grand tour _(Asimov, 1985)_
 
-&lt;img src="./slide_figures/buja05fig.PNG" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="./slide_figures/buja05fig.PNG" width="62%" style="display: block; margin: auto;" /&gt;
 _(Buja et al., 2005)_
 
 ---
@@ -86,7 +84,7 @@ _(Buja et al., 2005)_
 - Some variables are more sensitive to the structure within a projection
 - Illustrated by controling variable contributions:
 
-&lt;img src="./slide_figures/basisStructure.png" width="85%" style="display: block; margin: auto;" /&gt;
+&lt;img src="./slide_figures/basisStructure.png" width="87%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -98,18 +96,19 @@ __Can user-guided geodesic interpolation help analysts understand linear project
 - 1) How do we define user interaction for a geodesic interpolator to add and remove variables smoothly from a 2D linear projection of data? 
     - _Algorithm design_ adapt and apply manual interaction (interactive 2D GI)
 - 2) Do analysts understand the relationship between variables and structure in a 2D linear projection better when the interactive geodesic interpolator is available? 
-    - _Experimental study_ comparing the efficacy of 2D GI (2D GI structure study)
+    - _Experimental study_ comparing the efficacy of 2D GI (2D GI usability study)
 - 3) Can we define a geodesic interpolator for 3D projections so that the technology can be implemented in modern virtual reality environments? 
     - _Algorithm design_ extend and apply theory to 3D (interactive 3D GI)
-- 4) Does geodesic interpolation in 3D provide advantages over 2D for understanding structure in linear projections? (3D GI structure study)
-    - _Experimental study_ comparing the efficacy of 3D GI (3D GI structure study)
+- 4) Does geodesic interpolation in 3D provide advantages over 2D for understanding structure in linear projections? (3D GI usability study)
+    - _Experimental study_ comparing the efficacy of 3D GI (3D GI usability study)
 
 ---
 
 ## Progress since confirmation -- interactive 2D GI (RO #1)
 
+.large[
 Paper: 
-- R Journal (accepted, to be published in next issue)
+- R Journal (_accepted_, to be published in next issue)
 - Adaptation:
     - Define the axes of rotation
     - Proof for the rotation matrix with the application of Rodrigues' formula *(Rodrigues, 1840)*
@@ -118,18 +117,19 @@ Paper:
 - Appendix A of the milestone document
 
 Software: `spinifex` R package, available on [CRAN](https://cran.r-project.org/web/packages/spinifex/index.html)
-
+]
 ---
 
 ## Work in progress -- 2D GI usability study (RO #2)
 
+.larger[ 
 Experimental study:
 - Hypothesis: _Does the finer control afforded by GI improve the ability of the analyst to understand the importance of variables contributing to the structure?_
 - Factors: principal component analysis, grand tour (grand), and 2D GI
 - Within-participant study; all participants will perform all factors
 - Implemented via `shiny` application
 - Draft of paper included as appendix B of the milestone document
-
+]
 ---
 
 ## Work in progress -- design
@@ -159,13 +159,13 @@ Experimental study:
 ## Work in progress -- evaluation interface, GI
 
 
-&lt;img src="./slide_figures/appManual.png" width="92%" style="display: block; margin: auto;" /&gt;
+&lt;img src="./slide_figures/appManual.png" width="94%" style="display: block; margin: auto;" /&gt;
 
 ---
 
 ## Work in progress -- evaluation interface, grand
 
-&lt;img src="./slide_figures/appGrand.png" width="85%" style="display: block; margin: auto;" /&gt;
+&lt;img src="./slide_figures/appGrand.png" width="86%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -179,14 +179,15 @@ Experimental study:
 
 - Logfile capturing every action
 - During evaluation:
-    - Response, time, number and type of interaction
+    - Response, time, number, and type of interaction
 
-&lt;img src="./slide_figures/exampleResponse.png" width="70%" style="display: block; margin: auto;" /&gt;
+&lt;img src="./slide_figures/exampleResponse.png" width="75%" style="display: block; margin: auto;" /&gt;
 
 ---
 
 ## Thesis drafting
 
+.larger[
 This is my assessment of the completion of the thesis drafting thus far:
 
 - Introduction – 60%
@@ -196,29 +197,33 @@ This is my assessment of the completion of the thesis drafting thus far:
 - (RO #3) 3D GI – 0%
 - (RO #4) 3D GI Experimental study – 0%
 - Conclusion and future plans – 0%
+]
 
 ---
 
 ## Research timeline
 
-&lt;img src="./slide_figures/phd_timeline.PNG" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="./slide_figures/phd_timeline.PNG" width="92%" style="display: block; margin: auto;" /&gt;
 
 ---
 
 ## Future work -- Interactive 3D GI (RO #3)
 
-2D GI: rotates a 2D basis in a 3D manipulation space with 2 angle parameters.
+.larger[
+2D GI rotates a 2D basis in a 3D manipulation space with 2 angle parameters.
 
 Analogously, 3D GI rotates a 3D basis in a 4D manipulation space with 3 angle parameters.
 
 - Define the 3 axes of rotation
 - Solve for the rotation matrix by application of Rodrigues' formula
 - Attention to sign changes (4D and trig functions supporting half a rotation)
+]
 
 ---
 
 ## Future work -- 3D GI usability study (RO #4)
 
+.large[
 Option 1: implement using `shinyaframe` and append to the `shiny` application addressing RO #2
 - Pro: faster implementation and reuse of previous experimental study application
 - Con: unknown extent and extendibility of user interaction
@@ -227,13 +232,12 @@ Option 1: implement using `shinyaframe` and append to the `shiny` application ad
 Option 2: implement in `Unity` and implement a new application for experimental study
 - Pro: unimpeded extendibility of user interaction 
 - Con: slower implementation and slower and more rework of application
-
-&lt;br&gt;
-Option 1 seems preferable
+]
 
 ---
 class: center, middle
 
+.large[
 ## Thanks
 
 To Di and Kim for their suggestions and guidance.
@@ -247,6 +251,7 @@ Slides available -- [github.com/nspyrison/mid_candidature/_slides](https://githu
 &lt;br&gt;&lt;br&gt;
 
 ### Questions?
+]
 
 ---
 

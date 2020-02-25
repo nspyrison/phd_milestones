@@ -20,6 +20,11 @@
 @import url(https://fonts.googleapis.com/css?family=Josefin+Sans);
 @import url(https://fonts.googleapis.com/css?family=Droid+Mono);
 
+.larger  { font-size: 140% }
+.large   { font-size: 120% }
+.small   { font-size: 80%  }
+.smaller { font-size: 60%  }
+
 
 body {
   font-family: Montserrat, 'Palatino Linotype', 'Book Antiqua', Palatino, 'Microsoft YaHei', 'Songti SC', serif;
