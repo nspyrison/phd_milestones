@@ -204,7 +204,7 @@ The primary display used is a scatterplot. The basis axes projection was also il
 Each participant will be randomly assigned to one of three groups, setting the order in which the factors are shown. For example, the first group will see PCA, grand tour, and then the GI. Figure \ref{fig:designExample} illustrates the flow of subjects through the experiment.
 
 ```{r designExample, echo = F, out.width = '100%',                             fig.cap = "Example case. Person 'A' is assigned to group 2, where they will use factor 2 (grand tour) for the first period. They perform 3 block difficulties of task 1 on simulations of increasing difficulty. Then 3 block difficulties of task 2 on unique simulations sampled from the same distributions of increasing difficulty. After this, they proceed to period 2, where they are use factor 3 (GI) to perform 3 block difficulties of each task. Lastly, in the third period, they use factor 1 (PCA) to perform the tasks."}
-knitr::include_graphics("./figures/experimental_design_personA.PNG")
+knitr::include_graphics("./figures/experimental_design_personA.png")
 ```
 
 
@@ -274,7 +274,7 @@ This is my assessment of the completion of the thesis research thus far:
 Figure \@ref(fig:timeline) illustrates the purposed timeline for this research.
 
 ```{r timeline, echo=FALSE, out.width = "100%", out.extra = '', fig.cap = "Proposed research timeline."}
-knitr::include_graphics("figures/phd_timeline.PNG")
+knitr::include_graphics("figures/phd_timeline.png")
 ```
 
 

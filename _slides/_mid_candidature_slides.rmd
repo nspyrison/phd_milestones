@@ -4,15 +4,9 @@ author: "<br> Nicholas Spyrison <br> Monash University, Faculty of Information T
 date: "Mid candidature review <br> 25 February 2020 <br><br> *Slides -- [github.com/nspyrison/mid_candidature/_slides/](https://github.com/nspyrison/mid_candidature/_slides/)*"
 output:
   xaringan::moon_reader:
-    css: [default, "assets/xaringan-themer.css"] #ninjutsu] 
-      # - ninjutsu 
-      # #- "assets/animate.css"
-      # - "assets/monash-logo.css"
-      # - "assets/monash-brand.css"
-      # - "assets/monash-fonts.css"
-      # - "assets/styles.css" # small improvements
-      # - "assets/custom.css" # add your own CSS here!
-      #- "assets/xaringan-themer.css"] #
+    css: 
+      - "assets/custom.css"
+      - "assets/xaringan-themer.css"
     self_contained: false
     nature:
       ratio: '16:9'
@@ -56,7 +50,7 @@ __Multivariate tabular,__ $n$ observations of $p$ attributes
 - Can be feature- or parameter- decomposition of non-standard formats
 
 ```{r, echo = F, out.width = '90%'}
-knitr::include_graphics("./slide_figures/tmunzner_vad16.PNG")
+knitr::include_graphics("./slide_figures/tmunzner_vad16.png")
 ```
 *(Munzner, 2014)*
 
@@ -93,14 +87,14 @@ knitr::include_graphics("./slide_figures/basis.png")
 
 ---
 
-## Geodesic interpolator (GI)
+## Geodesic interpolation (GI)
 
-Process selecting intermediate bases along the shortest path of orthonormal bases.
+Selection of intermediate bases along the shortest path of orthonormal bases.
 
 - Used in other tour methods including the grand tour _(Asimov, 1985)_
 
 ```{r, echo = F, out.width = '62%'}
-knitr::include_graphics("./slide_figures/buja05fig.PNG")
+knitr::include_graphics("./slide_figures/buja05fig.png")
 ```
 _(Buja et al., 2005)_
 
@@ -152,14 +146,14 @@ Software: `spinifex` R package, available on [CRAN](https://cran.r-project.org/w
 
 ## Work in progress -- 2D GI usability study (RO #2)
 
-.larger[ 
+.large[.large[ 
 Experimental study:
 - Hypothesis: _Does the finer control afforded by GI improve the ability of the analyst to understand the importance of variables contributing to the structure?_
 - Factors: principal component analysis, grand tour (grand), and 2D GI
 - Within-participant study; all participants will perform all factors
 - Implemented via `shiny` application
 - Draft of paper included as appendix B of the milestone document
-]
+]]
 
 ---
 
@@ -174,7 +168,7 @@ knitr::include_graphics("./slide_figures/experimental_design_personA.png")
 ## Work in progress -- introduction & training
 
 ```{r, echo = F, out.width = '100%'}
-knitr::include_graphics("./slide_figures/appTraining1.PNG")
+knitr::include_graphics("./slide_figures/appTraining1.png")
 ```
 
 ---
@@ -182,7 +176,7 @@ knitr::include_graphics("./slide_figures/appTraining1.PNG")
 ## Work in progress -- task training
 
 ```{r, echo = F, out.width = '100%'}
-knitr::include_graphics("./slide_figures/appTraining2.PNG")
+knitr::include_graphics("./slide_figures/appTraining2.png")
 ```
 
 ---
@@ -234,7 +228,7 @@ knitr::include_graphics("./slide_figures/exampleResponse.png")
 
 ## Thesis drafting
 
-.larger[
+.large[.large[
 This is my assessment of the completion of the thesis drafting thus far:
 
 - Introduction – 60%
@@ -244,21 +238,21 @@ This is my assessment of the completion of the thesis drafting thus far:
 - (RO #3) 3D GI – 0%
 - (RO #4) 3D GI Experimental study – 0%
 - Conclusion and future plans – 0%
-]
+]]
 
 ---
 
 ## Research timeline
 
 ```{r timeline, echo = F, out.width = '92%'}
-knitr::include_graphics("./slide_figures/phd_timeline.PNG")
+knitr::include_graphics("./slide_figures/phd_timeline.png")
 ```
 
 ---
 
 ## Future work -- Interactive 3D GI (RO #3)
 
-.larger[
+.large[.large[
 2D GI rotates a 2D basis in a 3D manipulation space with 2 angle parameters.
 
 Analogously, 3D GI rotates a 3D basis in a 4D manipulation space with 3 angle parameters.
@@ -266,7 +260,7 @@ Analogously, 3D GI rotates a 3D basis in a 4D manipulation space with 3 angle pa
 - Define the 3 axes of rotation
 - Solve for the rotation matrix by application of Rodrigues' formula
 - Attention to sign changes (4D and trig functions supporting half a rotation)
-]
+]]
 
 ---
 
