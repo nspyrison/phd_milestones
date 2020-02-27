@@ -1,7 +1,7 @@
 ---
 title: "New Tools to Interactively Explore the Sensitivity of Structure in Low-dimensional Projections of Data"
 author: "<br> Nicholas Spyrison <br> Monash University, Faculty of Information Technology <br><br> Supervisors: Prof. Kimbal Marriott,<br> Prof. Dianne Cook,<br>"
-date: "Mid candidature review <br> 25 February 2020 <br><br> *Slides -- [github.com/nspyrison/mid_candidature/_slides/](https://github.com/nspyrison/mid_candidature/_slides/)*"
+date: "Mid candidature review <br> 25 February 2020 <br><br> _Slides -- [github.com/nspyrison/mid_candidature/_slides/](https://github.com/nspyrison/mid_candidature/_slides/)_"
 output:
   xaringan::moon_reader:
     css: 
@@ -15,14 +15,14 @@ output:
       countIncrementalSlides: false
 ---
 ```{r setup_pres, include = FALSE}
-knitr::opts_chunk$set(
-  eval      = TRUE,  # R code 
-  echo      = FALSE, # code text
-  include   = TRUE,  # plots
-  results   = 'asis', # text 'markup' 'asis' 'hold' 'hide'
-  message   = F, warning = F, error = F, cache = F, cache.lazy = F,
-  fig.align = "center",
-  collapse  = TRUE
+knitr::opts_chunk$set(eval      = TRUE,   # R code 
+                      echo      = FALSE,  # code text
+                      include   = TRUE,   # plots
+                      results   = 'asis', # text 'markup' 'asis' 'hold' 'hide'
+                      fig.align = "center",
+                      collapse  = TRUE,
+                      message   = F, warning = F, error = F, 
+                      cache     = F, cache.lazy = F,
 )
 
 library(magrittr)
@@ -32,7 +32,7 @@ library(kableExtra)
 
 ## Motivation
 
-- *Exploratory data analysis (EDA)* is important and ubiquitous
+- _Exploratory data analysis (EDA)_ is important and ubiquitous
 - 2D EDA: visualization is more robust and thorough than statistical summarization alone
 - Visualization of high dimension space, $p > 3$ is non-trivial
 - _Need more options in the analysts' toolbelt to explore high-dimension spaces!_
@@ -40,7 +40,7 @@ library(kableExtra)
 ```{r, echo = F, out.width = '75%'}
 knitr::include_graphics("./slide_figures/AllDinosAnimatedSmaller.gif")
 ```
-Datasaurus dozen; same means, standard deviations, and correlations *(Matejka & Fitzmaurice, 2017)*
+Datasaurus dozen; same means, standard deviations, and correlations _(Matejka & Fitzmaurice, 2017)_
 
 ---
 
@@ -52,7 +52,7 @@ __Multivariate tabular,__ $n$ observations of $p$ attributes
 ```{r, echo = F, out.width = '90%'}
 knitr::include_graphics("./slide_figures/tmunzner_vad16.png")
 ```
-*(Munzner, 2014)*
+_(Munzner, 2014)_
 
 ---
 
@@ -64,11 +64,11 @@ knitr::include_graphics("./slide_figures/tmunzner_vad16.png")
     - Linear discriminant analysis
     - Multiple regression
 - Visual procedures:
-    - *Tour*, animation of many frames that are close
+    - _Tour_, animation of many frames that are close
     - Types: grand, guided, little, local, manual (most available in `tourr` R package)
-    - Method to control the contribution of a single variable *(Cook & Buja, 1997)*
+    - Method to control the contribution of a single variable _(Cook & Buja, 1997)_
 
-**Shadow analogy:**
+__Shadow analogy:__
 ```{r, echo = F, out.width = '65%'}
 knitr::include_graphics("./slide_figures/shadow_puppet.png")
 ```
@@ -134,7 +134,7 @@ Paper:
 - R Journal (_accepted_, to be published in next issue)
 - Adaptation:
     - Define the axes of rotation
-    - Proof for the rotation matrix with the application of Rodrigues' formula *(Rodrigues, 1840)*
+    - Proof for the rotation matrix with the application of Rodrigues' formula _(Rodrigues, 1840)_
     - Initialization of angle parameters to clarify the understanding and implementation
 - Application to particle physics data
 - Appendix A of the milestone document
@@ -288,7 +288,7 @@ To Di and Kim for their suggestions and guidance.
 
 ## Acknowledgments
 
-Slides created in R using rmarkdown and xaringan *(R Core Team, 2019; Xie et al. 2018; Xie, 2018)*
+Slides created in R using rmarkdown and xaringan _(R Core Team, 2019; Xie et al. 2018; Xie, 2018)_
 
 Slides available -- [github.com/nspyrison/mid_candidature/_slides](https://github.com/nspyrison/mid_candidature/_slides)
 <br><br>

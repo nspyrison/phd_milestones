@@ -4,7 +4,6 @@ output:
     ### pdf_document2 changes how fig references work to /@ref() :
     bookdown::pdf_document2: 
       includes:
-        #in_header: preamble.sty ### Preamble covered in .yaml `header-includes:`
         before_body: title.sty
       keep_tex: yes
       number_sections: yes
@@ -19,34 +18,18 @@ header-includes:
  - \usepackage{setspace} ### for title page spacing
  - \usepackage{hyperref} ### for all sorts of linking
  - \usepackage{graphicx} ### to insert Monash crest
-
 ---
 
 ```{r include=FALSE, cache=FALSE}
-# ### For appendix, use `staplR`. 
-# # Appendix A: spinifex paper
-# # Appendix B: spinifex experiment paper
-# if (F){
-#   library('staplr')
-#   staple_pdf(input_directory = file.path("."), 
-#              output_filepath = file.path("./figures/Full_pdf.pdf"))
-# }
-
-### Keep it simple! No R code in .rmd, use a seprate .r script if need be.
+### I like to keep it simple and hard coded, with minimal R code called in
+###    kniting an .rmd and use a seprate .r script for saving off firgures.
 library(knitr) 
-knitr::opts_chunk$set(fig.align = "center",
-                      echo = F,
-                      fig.pos = "h", 
-                      # fig.pos="h" # "h"olds the figure postion reltive to local content
-                      out.extra = ''
-                      #message = FALSE,
-                      #warning = FALSE,
-                      #error = FALSE,
-                      #collapse = TRUE,
-                      #comment = "",
-                      #cache = F, 
-                      #cache.lazy = FALSE
-                      
+knitr::opts_chunk$set(fig.align  = "center",
+                      fig.pos    = "h", # "h"olds the figure postion reltive to local content
+                      out.extra  = '',  # Required for fig.pos = "h" to work
+                      echo       = FALSE,
+                      cache      = FALSE,
+                      cache.lazy = FALSE
 )
 
 # <!-- # cheatsheet {#sec:cheatsheet}-->
@@ -63,28 +46,10 @@ knitr::opts_chunk$set(fig.align = "center",
 
 ```
 
-<!-- Report length: 3,000 -  5,000 words ("6 - 10 pgs" of words) -->
-<!-- Proposed report  structure: -->
-<!-- # Introduction – Summary of the Research Project: -->
-<!-- ## Motivation/current state of the field and an identification of a gap in knowledge -->
-<!-- ## Research Objective -->
-<!-- ## Methodology/method/data-collection & analysis -->
-<!-- # Progress since confirmation -->
-<!-- # Proposed Thesis Structure – including a table of the writing  status -->
-<!-- # Publications arising from the thesis – published or planned -->
-<!-- # Potential issues for the panel to consider -->
-<!-- ## Resources/funding requests -->
-<!-- ## Absence of student/supervisor -->
-<!-- ## Other issues. -->
-
-
-<!-- An abstract summarizes, usually in one paragraph of 300 words or less, the major aspects of the entire paper in a prescribed sequence that includes: 1) the overall purpose of the study and the research problem(s) you investigated; 2) the basic design of the study; 3) major findings or trends found as a result of your analysis; and, 4) a summary of your interpretations and conclusions. -->
-
-
 # Introduction {#sec:intro}
 
 ## Motivation 
-<!-- objectively, why research is important -->
+<!-- Explaining why research is important -->
 
 <!-- Visuals are important for EDA -->
 The term exploratory data analysis (EDA) was coined by @tukey_exploratory_1977, who leaves it as an intentionally broad term that encompasses the initial summarization and visualization of a data set. This is a critical first step of checking for realistic values and validating model assumptions. It may be tempting to review a series of summary statistics to check model assumptions. However, there are known datasets where the same summary statistics miss glaringly obvious visual patterns [@anscombe_graphs_1973; @matejka_same_2017]. It is strikingly simple to look at the wrong, or incomplete set of statistics needed to validate assumptions. Data visualization is fast, versatile, and robust relative to the alternative of numeric statistical summarization. Data visualization does and must remain a primary component of data analysis and model validation.
