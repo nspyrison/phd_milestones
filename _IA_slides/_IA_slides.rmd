@@ -1,0 +1,255 @@
+---
+title: "New Tools to Interactively Explore the Sensitivity of Structure in Low-dimensional Projections of Data"
+author: "<br> Nicholas Spyrison <br> Monash University, Faculty of Information Technology <br><br> Supervisors: Prof. Kimbal Marriott,<br> Prof. Dianne Cook<br>"
+date: "IA group meeting ~~Mid candidature review~~ <br> 26 March 2020 ~~25 February 2020~~ <br><br> _Slides -- [github.com/nspyrison/mid_candidature/_slides/](https://github.com/nspyrison/mid_candidature/_IA_slides/)_"
+output:
+  xaringan::moon_reader:
+    css: 
+      - "assets/custom.css"
+      - "assets/xaringan-themer.css"
+    self_contained: false
+    nature:
+      ratio: '16:9'
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(eval      = TRUE,   # R code 
+                      echo      = FALSE,  # code text
+                      include   = TRUE,   # plots
+                      results   = 'asis', # text 'markup' 'asis' 'hold' 'hide'
+                      fig.align = "center",
+                      collapse  = TRUE,
+                      message   = F, warning = F, error = F, 
+                      cache     = F, cache.lazy = F
+)
+library(knitr)
+library(kableExtra)
+library(magrittr)
+```
+
+## Motivation
+
+- _Exploratory data analysis (EDA)_ is important and ubiquitous
+- 2D EDA: visualization is more robust and thorough than statistical summarization alone
+- Visualization of high dimension space, $p > 3$ is non-trivial
+- _Need more options in the analysts' toolbelt to explore high-dimension spaces!_
+
+```{r, echo = F, out.width = '75%'}
+knitr::include_graphics("./slide_figures/AllDinosAnimatedSmaller.gif")
+```
+Datasaurus dozen; same means, standard deviations, and correlations _(Matejka & Fitzmaurice, 2017)_
+
+---
+
+## Scope of data
+
+__Multivariate tabular,__ $n$ observations of $p$ attributes
+- Can be feature- or parameter- decomposition of non-standard formats
+
+```{r, echo = F, out.width = '90%'}
+knitr::include_graphics("./slide_figures/tmunzner_vad16.png")
+```
+_(Munzner, 2014)_
+
+---
+
+## Linear projections
+
+- Simple dimension reduction, highlight interesting features
+- Analytical procedures:
+    - Principal component analysis (PCA)
+    - Linear discriminant analysis
+    - Multiple regression
+- Visual procedures:
+    - _Tour_, animation of many frames that are close
+    - Types: grand, guided, little, local, manual (most available in `tourr` R package)
+    - Method to control the contribution of a single variable _(Cook & Buja, 1997)_
+
+__Shadow analogy:__
+```{r, echo = F, out.width = '65%'}
+knitr::include_graphics("./slide_figures/shadow_puppet.png")
+```
+
+---
+
+## Basis
+
+Linear projections are specified by their basis.
+- Each column is a linear combinations the original variables 
+- _Orthonormal_: all columns at right angles and of length 1
+
+```{r, echo = F, out.width = '82%'}
+knitr::include_graphics("./slide_figures/basis.png")
+```
+
+---
+
+## Geodesic interpolation (GI)
+
+Selection of intermediate bases along the shortest path of orthonormal bases.
+
+- Used in other tour methods including the grand tour _(Asimov, 1985)_
+
+```{r, echo = F, out.width = '62%'}
+knitr::include_graphics("./slide_figures/buja05fig.png")
+```
+_(Buja et al., 2005)_
+
+---
+
+## Sensitivity of structure in a projection
+
+- Some variables are more sensitive to the structure within a projection
+- Illustrated by controling variable contributions:
+
+```{r, echo = F, out.width = '87%'}
+knitr::include_graphics("./slide_figures/basisStructure.png")
+```
+
+---
+
+## Work in progress -- 2D GI usability study (RO #2)
+
+.large[.large[ 
+Experimental study:
+- __Hypothesis:__ _Does the finer control afforded by GI improve the ability of the analyst to understand the importance of variables contributing to the structure?_
+- Factors: principal component analysis, grand tour (grand), and 2D GI
+- Within-participant study; all participants will perform all factors
+- Implemented via `shiny` application
+- Draft of paper included as appendix B of the milestone document
+]]
+
+---
+
+## Work in progress -- design
+
+```{r, echo = F, out.width = '100%'}
+knitr::include_graphics("./slide_figures/experimental_design_personA.png")
+```
+
+---
+
+## Work in progress -- introduction & training
+
+```{r, echo = F, out.width = '100%'}
+knitr::include_graphics("./slide_figures/appTraining1.png")
+```
+
+---
+
+## Work in progress -- task training
+
+__Repeated for each factor:__
+
+```{r, echo = F, out.width = '100%'}
+knitr::include_graphics("./slide_figures/appTraining2.png")
+```
+
+---
+
+## Work in progress -- evaluation interface, PCA
+
+```{r, echo = F, out.width = '78%'}
+knitr::include_graphics("./slide_figures/appPca.png")
+```
+
+---
+
+## Work in progress -- evaluation interface, GI
+
+
+```{r, echo = F, out.width = '94%'}
+knitr::include_graphics("./slide_figures/appManual.png")
+```
+
+---
+
+## Work in progress -- evaluation interface, grand
+
+```{r, echo = F, out.width = '86%'}
+knitr::include_graphics("./slide_figures/appGrand.png")
+```
+
+---
+
+## Work in progress -- follow up survey
+
+```{r, echo = F, out.width = '100%', out.height = '100%'}
+knitr::include_graphics("./slide_figures/appSurvey.png")
+```
+
+---
+
+## Measures and response -- 2D GI usability study
+
+- Logfile capturing every action
+- During evaluation:
+    - Response, time, number, and type of interaction
+
+```{r, echo = F, out.width = '75%'}
+knitr::include_graphics("./slide_figures/exampleResponse.png")
+```
+
+---
+
+## Future work -- Interactive 3D GI (RO #3)
+
+.large[.large[
+2D GI rotates a 2D basis in a 3D manipulation space with 2 angle parameters.
+
+Analogously, 3D GI rotates a 3D basis in a 4D manipulation space with 3 angle parameters.
+
+- Define the 3 axes of rotation
+- Solve for the rotation matrix by application of Rodrigues' formula
+- Attention to sign changes (4D and trig functions supporting half a rotation)
+]]
+
+---
+
+## Future work -- 3D GI usability study (RO #4)
+
+.large[
+Option 1: implement using `shinyaframe` and append to the `shiny` application addressing RO #2
+- Pro: faster implementation and reuse of previous implementation
+- Con: unknown extent and extendibility of user interaction
+- Proof of concept; _Hadjar et al. (2018)_ user interaction changing axes on a 3D scatterplot 
+
+Option 2: implement in `Unity` and implement a new application for experimental study
+- Pro: unimpeded extendibility of user interaction 
+- Con: slower implementation and slower and rework implementation
+]
+
+---
+
+## Live example (fingers crossed)
+
+Built off of `spinifex` (on CRAN, new version coming soon!)
+
+Analyst tool:
+
+```
+spinifex::run_app("devUnderConstruction")
+```
+
+---
+class: center, middle
+
+.large[
+## Thanks
+
+To Di and Kim for their suggestions and guidance.
+<br><br>
+
+## Acknowledgments
+
+Slides created in R using rmarkdown and xaringan _(R Core Team, 2019; Xie et al. 2018; Xie, 2018)_
+
+Slides available -- [github.com/nspyrison/mid_candidature/_IA_slides](https://github.com/nspyrison/mid_candidature/_slides)
+<br><br>
+
+### Questions?
+]
+
+
