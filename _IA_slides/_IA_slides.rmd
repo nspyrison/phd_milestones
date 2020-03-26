@@ -230,8 +230,13 @@ Built off of `spinifex` (on CRAN, new version coming soon!)
 Analyst tool:
 
 ```
+spinifex::run_app("intro")
+
+## Coming soon:
 spinifex::run_app("devUnderConstruction")
 ```
+
+- Run `spinifex_study` app?
 
 ---
 class: center, middle
