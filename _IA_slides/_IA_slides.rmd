@@ -1,7 +1,7 @@
 ---
 title: "New Tools to Interactively Explore the Sensitivity of Structure in Low-dimensional Projections of Data"
 author: "<br> Nicholas Spyrison <br> Monash University, Faculty of Information Technology <br><br> Supervisors: Prof. Kimbal Marriott,<br> Prof. Dianne Cook<br>"
-date: "IA group meeting ~~Mid candidature review~~ <br> 26 March 2020 ~~25 February 2020~~ <br><br> _Slides -- [github.com/nspyrison/mid_candidature/_slides/](https://github.com/nspyrison/mid_candidature/_IA_slides/)_"
+date: "IA group meeting ~~Mid candidature review~~ <br> 9 April 2020 ~~25 February 2020~~ <br><br> _Slides -- [github.com/nspyrison/mid_candidature/_slides/](https://github.com/nspyrison/mid_candidature/_IA_slides/)_"
 output:
   xaringan::moon_reader:
     css: 
