@@ -4,7 +4,7 @@ output:
     bookdown::pdf_document2: 
       includes:
         before_body: title.sty
-      keep_tex: yes
+      keep_tex: no
       number_sections: yes
       fig_caption: yes
 bibliography: ns_bibliography.bib
@@ -27,25 +27,24 @@ knitr::opts_chunk$set(
   cache      = FALSE,
   cache.lazy = FALSE
 )
+```
 
-# <!-- # cheat sheet {#sec:cheatsheet}-->
-# <!-- A bib reference [@wickham_visualizing_2015].  -->
-# <!-- A [Section intro](#sec:cheatsheet) reference, alternatively, section \ref{sec:intro} (with no @; \\ref{sec:intro}). -->
-# <!-- ```{r crest, echo=FALSE, out.height = "10%", out.width = "10%", fig.cap = "A caption for crest figure"} -->
-# <!-- knitr::include_graphics("figures/can_con/crest.jpg") -->
-# <!-- ``` -->
-# <!-- A figure \@ref(fig:crest) reference (with @; \\@ref(fig:crest). -->
-# ref:myFig-cap) Seprate fig cap
-# ```{r step2, echo=F, fig.cap = "(ref:myFig-cap)"}
-# # <!-- knitr::include_graphics("figures/can_con/crest.jpg") -->
-# ```
 
+# cheat sheet {#sec:cheatsheet}
+A bib reference [@wickham_visualizing_2015].
+A [Section intro](#sec:cheatsheet) reference, alternatively, section ef{sec:intro} (with no @; \\ref{sec:intro}).
+```{r crest, echo=FALSE, out.height = "10%", out.width = "10%", fig.cap = "A caption for crest figure"}
+knitr::include_graphics("./figures/crest.jpg")
+```
+A figure \@ref(fig:crest) reference (with @; \\@ref(fig:crest).
+ref:myFig-cap) Separate caption created above the R chunk
+```{r step2, echo=F, fig.cap = "(ref:myFig-cap)"}
+knitr::include_graphics("./figures/crest.jpg")
 ```
 
 # Introduction {#sec:intro}
 
 ## Motivation 
-<!-- Explaining why research is important -->
 
 <!-- Visuals are important for EDA -->
 The term exploratory data analysis (EDA) was coined by @tukey_exploratory_1977, who leaves it as an intentionally broad term that encompasses the initial summarization and visualization of a data set. This is a critical first step of checking for realistic values and validating model assumptions. It may be tempting to review a series of summary statistics to check model assumptions. However, there are known datasets where the same summary statistics miss glaringly obvious visual patterns [@anscombe_graphs_1973; @matejka_same_2017]. It is strikingly simple to look at the wrong, or incomplete set of statistics needed to validate assumptions. Data visualization is fast, versatile, and robust relative to the alternative of numeric statistical summarization. Data visualization does and must remain a primary component of data analysis and model validation.
@@ -82,7 +81,7 @@ knitr::include_graphics("./figures/basisStructure.png")
 
 Exploring the sensitivity of structure in a projection to the contributions of particular variables requires **geodesic interpolation** to remove the variable from (or into) the projection plane. Geodesic interpolation is effectively a rotation, it maintains orthonormality of all new data projections and any intermediate projections. Geodesic interpolation is used in tour methods [cook_grand_2008; @asimov_grand_1994], including the **grand tour** which shows (automated) movies of low-dimensional projections of high-dimensional spaces. The `tourr` package [@wickham_tourr:_2011] in R provides a range of automated tours. 
 
-Sensitivity analysis is ideally achieved with user-controlled steering where the human controls the rotation of a variable into and out of a projection. This will enable various intermediate states to be shown to better understand the effect of single variables. 
+Sensitivity analysis is ideally achieved with user-controlled steering where the human controls the rotation of a variable into and out of a projection. This will enable various intermediate states to be shown to better understand the effect of single variables.
 
 
 ## Research objectives
