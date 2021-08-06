@@ -16,7 +16,6 @@ header-includes:
  - \usepackage{hyperref} ### for all sorts of linking
  - \usepackage{graphicx} ### to insert Monash crest
 ---
-
 ```{r include=FALSE, cache=FALSE}
 library('knitr') 
 knitr::opts_chunk$set(
@@ -29,33 +28,79 @@ knitr::opts_chunk$set(
 )
 ```
 
-
-# cheat sheet {#sec:cheatsheet}
-A bib reference [@wickham_visualizing_2015].
-A [Section intro](#sec:cheatsheet) reference, alternatively, section ef{sec:intro} (with no @; \\ref{sec:intro}).
-```{r crest, echo=FALSE, out.height = "10%", out.width = "10%", fig.cap = "A caption for crest figure"}
-knitr::include_graphics("./figures/crest.jpg")
-```
-A figure \@ref(fig:crest) reference (with @; \\@ref(fig:crest).
-ref:myFig-cap) Separate caption created above the R chunk
-```{r step2, echo=F, fig.cap = "(ref:myFig-cap)"}
-knitr::include_graphics("./figures/crest.jpg")
-```
+<!-- # cheat sheet {#sec:cheatsheet} -->
+<!-- A bib reference [@wickham_visualizing_2015]. -->
+<!-- A [Section intro](#sec:cheatsheet) reference, alternatively, section ef{sec:intro} (with no @; \\ref{sec:intro}). -->
+<!-- ```{r crest, echo=FALSE, out.height = "10%", out.width = "10%", fig.cap = "A caption for crest figure"} -->
+<!-- knitr::include_graphics("./figures/crest.jpg") -->
+<!-- ``` -->
+<!-- A figure \@ref(fig:crest) reference (with @; \\@ref(fig:crest). -->
+<!-- ref:myFig-cap) Separate caption created above the R chunk -->
+<!-- ```{r step2, echo=F, fig.cap = "(ref:myFig-cap)"} -->
+<!-- knitr::include_graphics("./figures/crest.jpg") -->
+<!-- ``` -->
 
 # Introduction {#sec:intro}
 
-## Motivation 
+# Motivation
 
-<!-- Visuals are important for EDA -->
-The term exploratory data analysis (EDA) was coined by @tukey_exploratory_1977, who leaves it as an intentionally broad term that encompasses the initial summarization and visualization of a data set. This is a critical first step of checking for realistic values and validating model assumptions. It may be tempting to review a series of summary statistics to check model assumptions. However, there are known datasets where the same summary statistics miss glaringly obvious visual patterns [@anscombe_graphs_1973; @matejka_same_2017]. It is strikingly simple to look at the wrong, or incomplete set of statistics needed to validate assumptions. Data visualization is fast, versatile, and robust relative to the alternative of numeric statistical summarization. Data visualization does and must remain a primary component of data analysis and model validation.
+<!-- EDA, visuals are important, numeric summarization insufficent -->
+The term exploratory data analysis (EDA) was coined by @tukey_exploratory_1977, who leaves it as an intentionally broad term that encompasses the initial summarization and visualization of a data set, before a hypothesis to test has been formulated. This is a critical first step for understanding and becoming familiar with data and validating model assumptions. It may be tempting to review a series of summary statistics to check model assumptions. However, there are known datasets where the same summary statistics miss glaringly obvious visual patterns [@anscombe_graphs_1973; @matejka_same_2017]. It is strikingly simple to look at the wrong, or incomplete set of statistics needed to validate assumptions. Data visualization is crucially, _forces_ you to see details and peculiarities of the data which are either opaque to, or more nefariously, obscure the true values of numeric summarization. Data visualization does and must remain a primary component of data analysis and model validation.
 
-<!-- high-dimensional, terminology-->
-Data and models are typically **high-dimensional**, with many variables, and possibly many model parameters. Conventionally, $n$ is used for the number of sample observations, and $p$ is used for the number of variables. Developing new methods to visualize high dimensions has been a pursuit of statisticians, computer scientists and visualization researchers for decades. While automated analysis is the norm, there remains some benefit of user interaction to help the analyst understand results, and determine the importance of components in a model. An interplay between automated and human control is useful. As technology changes, new approaches to user interaction emerge, and exploring these technologies provides a challenge to researchers.
+<!-- Terminology, linear projections-->
+Data and models have continued to increase size, not only in the depth of their observations, but also with the number of variables and features use. Conventionally, we refer to the numeric data as $X$, an [$n \times p$] matrix, with $n$ number of observations, and $p$ numeric variables. Through out my dissertation we will be using __linear projections__ to project or embed this space into a lower, $d-$dimensional, space. This is achieved by post multiplying the data by an _orthonormal_ projection basis, $A$ an [$p \times d$] matrix, where each column-dimension of the projection space are mapped to a linear contribution of the original dimensions. The orthonormal restriction the basis is two-fold. Namely, The basis is orthagonal, with each column-dimension independent-of, or at 90$^{\circ}$, to all other columns. Secondly, that the each column-dimension is 'normal', with a norm or length equal to 1. The under-lying rational for this is to ensure the that projection space is Cartesian volume. 
 
-<!-- Adding plotting dimensions -->
-Linear projections are commonly used to reduce the dimensionality. A **linear projection** is the linear transformation of the $p$-dimensional space into a low-($d-$)dimensional space, by matrix multiplication of the data with an orthonormal $p\times d$ basis. An orthonormal basis has columns that are orthogonal to each other and of length 1. 
+#TODO: XXX
+Any space that deviates from this restriction is called a _non-linear_ projection/embedding.
 
-<!-- what do we learn from a linear projection -->
+#TODO: XXX
+Developing new methods to visualize high dimensions has been a pursuit of statisticians, computer scientists, and visualization researchers for decades.
+
+
+<!-- getting into interaction here -->
+While static documents are the norm, there remains some benefit of user interaction to help the analyst understand results, and determine the importance of components in a model. An interplay between automated and human control is useful. As technology changes, new approaches to user interaction emerge, and exploring these technologies provides a challenge to researchers.
+
+
+# Research objectives
+
+The overall question of interest is:
+
+**Can the geodesic interpolator with user interaction help analysts understand linear projections of data, and explore the sensitivity of structure in the projection to the variables contributing to the projection?**
+
+Which is divided into these more focused objectives:
+
+1. **How do we define user interaction for the geodesic interpolator to add and remove variables smoothly from a 2D linear projection of data?**\
+@cook_manual_1997 described an algorithm for manually controlling a tour ($p$-D into 2D), to rotate a variable into and out of a 2D projection. This algorithm provides the start to a human-controlled geodesic interpolator (GI). It must be adapted so that the user has more control of the interpolation. The user will be able to set the range of motion from full $[-1~to~1]$, to allow the user to intercept the rotation at any step, and to output to a device that allows the user to reproduce motions and animate or rock the rotation backward and forwards. These fine-tuned controls will provide a better tool for sensitivity analysis.
+
+2. **Do analysts understand the relationship between variables and structure in a 2D linear projection better when the geodesic interpolator is available?**\
+Current practice for high-dimensional data is to make a single low-dimensional representation, with a method such as principal component analysis. Often just the first two principal components are shown, which is equivalent to a 2D projection. This technique is also called a biplot[@gabriel_biplot_1971]. Another more rarely used technique is a tour, which shows an animation of 2D projections. It can be used to get an overview of the structure in the multivariate space, but it is difficult to assess the importance of variables to a particularly interesting low-dimensional structure. 
+
+3. **Can we use the geodesic interpolator in conjunction with agnostic non-linear models to improve their interprebility?**\
+#TODO:XXX
+
+
+# Methodology
+
+The research corresponding with RO #1 entails _algorithm design_ adapting the algorithm from @cook_manual_1997. This allows for interactive control of 2D projections and serves as a foundation from the remaining work to follow. 
+
+To address RO #2, a controlled _experimental study_ has explored the efficacy of interactive radial tour as compared with two benchmark methods: Pricipal Component Analysis (PCA, @pearson_liii._1901) and the grand tour[@asimov_grand_1985]. This was a within-participant user study where each participant experienced each of visual factors. Trials were balanced across 3 other experimental factors: _location_ of the signal, _shape_ of the cluster distributions, and _dimension_ the data. 
+
+#TODO:XXX
+The research for RO #3 involves _algorithm design_ extending the current 2D GI into a 3D projection. For a 2D projection, the axes basis is rotated through a 3D 'manipulation space'. In a 3D projection, such a space requires 4 dimensions. Theoretically, after the addition of a new angle of rotation, the rotation matrix must be extended to accommodate a new dimension and angle parameter. This also means that analysts have another parameter to define, further increasing their already sizable input-volume. 
+
+
+# Canidature progress
+
+In candidature confirmation review we discussed the implementation of the _geodesic interpolator_ with user interaction (RO #1) which resulted in the open-source R package, `spinifex` available on CRAN and its subsequent publication [@spyrison_spinifex_2019]. In min-candidature review we discussed the experimental design of the user study to substantiate the efficacy of this method as compared with PCA (discrete with user interaction), and the grand tour
+
+The $n=108$ participants each evaluated 6 trials each.
+
+During the min-candidature review (March 2020) we discussed exploratory data analysis, visualization of high dimensional spaces, and covered the literature for tours and 3D rendering for information perception. We concluded with appended the algorithm for interactive 2D GI (RO #1), its software application in R, and a use case on particle physics data.
+
+The adaptations of the algorithm included defining the axis of rotation for manipulation orthogonal to the projection plane. This allowed us to then apply Rodrigues' rotation formula [@rodrigues_lois_1840] to prove the rotation matrix to be used in 2D. We also provide initialization of the in- and out- of plane angles of rotation which clarifies understanding and application of GI.
+
+
+<!-- what we learn from a linear projection -->
 Good linear projections are often found with an automated procedure, like principal component analysis [PCA; @pearson_liii._1901] or projection pursuit (@kruskal_toward_1969). These reduce the dimensionality and reveal something interesting about the data. Figure \@ref(fig:basis) shows a $d = 2$ -dimensional projection of $6D$ data, revealing clustering of labelled groups. The basis that produced this projection is:
 
 \begin{equation*}
@@ -84,53 +129,15 @@ Exploring the sensitivity of structure in a projection to the contributions of p
 Sensitivity analysis is ideally achieved with user-controlled steering where the human controls the rotation of a variable into and out of a projection. This will enable various intermediate states to be shown to better understand the effect of single variables.
 
 
-## Research objectives
 
-The overall question of interest is:
+# Published work
 
-**Can geodesic interpolator with user interaction help analysts understand linear projections of data, and explore the sensitivity of structure in the projection to the variables contributing to the projection?**
-
-Which is divided into these more focused objectives:
-
-1. **How do we define user interaction for a geodesic interpolator to add and remove variables smoothly from a 2D linear projection of data?**\
-@cook_manual_1997 described an algorithm for manually controlling a tour ($p$-D into 2D), to rotate a variable into and out of a 2D projection. This algorithm provides the start to a human-controlled geodesic interpolator (GI). It must be adapted so that the user has more control of the interpolation. The user will be able to set the range of motion from full $[-1~to~1]$, to allow the user to intercept the rotation at any step, and to output to a device that allows the user to reproduce motions and animate or rock the rotation backward and forwards. These fine-tuned controls will provide a better tool for sensitivity analysis.
-
-2. **Do analysts understand the relationship between variables and structure in a 2D linear projection better when the geodesic interpolator is available?**\
-Current practice for high-dimensional data is to make a single low-dimensional representation, with a method such as principal component analysis. Often just the first two principal components are shown, which is equivalent to a 2D projection. This technique is also called a biplot[@gabriel_biplot_1971]. Another more rarely used technique is a tour, which shows an animation of 2D projections. It can be used to get an overview of the structure in the multivariate space, but it is difficult to assess the importance of variables to a particularly interesting low-dimensional structure. 
-
-3. **Can we define a geodesic interpolator for 3D projections, so that the technology can be implemented in modern virtual reality environments?**\
-The cutting edge of visualization research today is in virtual reality (VR) environments, as technology has advanced to make this accessible to the masses. It is interesting to explore how analysis with 3D graphics operates in comparison with 2D graphics. The existing algorithms should be extended to 3D projections. 
-
-4. **Does 3D provide advantages over 2D for understanding structure in high-dimensional data when exploring projections from a geodesic interpolator?**\
-@gracia_new_2016 compares analyst tasks between 2D scatterplots on a tradition monitor and 3D scatterplots in VR. They find modest accuracy and error improvements for distance perception and outlier identification in favor of 3D at the cost of a relatively small increase in task time. @nelson_xgobi_1998 similarly compares a 2D projection on a traditional monitor and its 3D  manipulation space in a VR. They find a slight advantage in the sphere test and a large advantage in the cluster test in favor of the 3D manipulation space in VR. Research should be done to see if analogous results hold for 3D projections using interactive GI.
-
-
-## Methodology
-
-The research corresponding with RO #1 entails _algorithm design_ adapting the algorithm from @cook_manual_1997. This allows for interactive control of 2D projections and serves as a foundation from the remaining work to follow. 
-
-To address RO #2, a controlled _experimental study_ will explore the efficacy of interactive control compared with the benchmarks factors of PCA and the grand tour. This is designed as a within-participant study where each participant performs all factors. the study is balanced by assigning participants into one of 3 groups where the factor order is controlled by a Latin square while simulation order remains the same. The details are discussed in finer detail in section \ref{sec:expStudy}, below.
-
-The research for RO #3 involves _algorithm design_ extending the current 2D GI into a 3D projection. For a 2D projection, the axes basis is rotated through a 3D 'manipulation space'. In a 3D projection, such a space requires 4 dimensions. Theoretically, after the addition of a new angle of rotation, the rotation matrix must be extended to accommodate a new dimension and angle parameter. This also means that analysts have another parameter to define, further increasing their already sizable input-volume. 
-
-Another _experimental study_ will be conducted to answer RO #4. The novel 3D interactive tours should be contrasted with 3D grand tours and  'triplots' (a scatterplot of 3 principal components) in stereoscopic 3D VR. Additionally, it may also prove valuable to compare against the 3D manipulation space related to 2D GI.
-
-
-# Progress since confirmation
-
-During the candidature confirmation review (27 March 2019) we discussed exploratory data analysis, visualization of high dimensional spaces, and covered the literature for tours and 3D rendering for information perception. We concluded with appended the algorithm for interactive 2D GI (RO #1), its software application in R, and a use case on particle physics data.
-
-The adaptations of the algorithm included defining the axis of rotation for manipulation orthogonal to the projection plane. This allowed us to then apply Rodrigues' rotation formula [@rodrigues_lois_1840] to prove the rotation matrix to be used in 2D. We also provide initialization of the in- and out- of plane angles of rotation which clarifies understanding and application of GI.
-
-
-## Published work
-
-### Refereed journal article 
+## Refereed journal article
 
 The paper describing the new GI algorithm, the software implementation, and an application, has been published in the R Journal and will appear in the next issue. It will available with the publication of the next R jorunal, at [journal.r-project.org](https://journal.r-project.org/). The latest version is attached as appendix A.
 
 
-### Software
+## Software
 
 The R package, `spinifex (v0.1.0)` [@spyrison_spinifex_2019], has been accepted on the Comprehensive R Archival Network, CRAN (cran.r-project.org/web/packages/spinifex/)(https://cran.r-project.org/web/packages/spinifex/index.html). A `shiny` interface was added, which allows analysts to run the GI through a graphical user interface. This will also be used as the experimental apparatus for the experiment to check the effectiveness of the new method.
 
