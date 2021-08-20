@@ -41,64 +41,80 @@ knitr::opts_chunk$set(
 <!-- ``` -->
 
 # Introduction {#sec:intro}
+<!-- WHAT TOPICS -->
+
+<!-- multivariate vis, tours -->
+The thesis of this work is central to multivariate data visualization. More specifically, we focus on the class of many linear projections viewed near-continuously through small changes to the projection basis known as data visualization _tours_ [@cook_grand_2008, @lee_review_2021].
+
+<!-- manual tour, RO 1 -->
+There are many variants of tours. We focus on one branch, _manual tours_ [ @cook_manual_1997, @spyrison_spinifex_2019], that allows for user interaction by selecting one variable and specifying how to change its contribution to the current projection. By controlling the contribution of a single variable, a user can explore its sensitivity to the structure of the projection and identify which variables are ultimately most important to the structure in question. The work addressing the first research objective clarified the rational for doing so and implements a free, open-source `R` package for applying the manual tour.
+
+<!-- manual tour, user study, RO2 -->
+Next, we substantiated the efficacy of manual tour as compared with discrete combinations of principal components [@pearson_liii._1901] and the _grand tour_[@asimov_grand_1985]. We do so with a $N=108$ within-participant user study, where all participants use each of these visual factors. This is performed over balanced trials across the other experimental factors: location, shape, and dimension of the data. This addresses the second research objective.
+
+<!-- XAI, SHAP values, and RO3 -->
+In our latest work, we want to see if we can apply the manual tour to aid the interpretability of complex, black-box models. One recent branch in explainable artificial intelligence (XAI, @adadi_peeking_2018, @arrieta_explainable_2020) is the use of local explanations or attribution of the variables for one observation of an agnostic black-box model. One local explanation is the SHAP values [@lundberg_unified_2017, EMA?]. We use these SHAP values as a 1D basis and perform manual tours to explore how the SHAP values behave differently for misclassified and class-corrupted observations against neighboring correctly classified observations. This work corresponds to the third research objective
+
+
+
 
 # Motivation
+<!-- WHY/IMPORTANCE OF THESE TOPICS -->
 
-<!-- EDA, visuals are important, numeric summarization insufficent -->
-The term exploratory data analysis (EDA) was coined by @tukey_exploratory_1977, who leaves it as an intentionally broad term that encompasses the initial summarization and visualization of a data set, before a hypothesis to test has been formulated. This is a critical first step for understanding and becoming familiar with data and validating model assumptions. It may be tempting to review a series of summary statistics to check model assumptions. However, there are known datasets where the same summary statistics miss glaringly obvious visual patterns [@anscombe_graphs_1973; @matejka_same_2017]. It is strikingly simple to look at the wrong, or incomplete set of statistics needed to validate assumptions. Data visualization is crucially, _forces_ you to see details and peculiarities of the data which are either opaque to, or more nefariously, obscure the true values of numeric summarization. Data visualization does and must remain a primary component of data analysis and model validation.
+<!-- EDA, visuals are important, numeric summarization insufficient -->
+The term exploratory data analysis (EDA) was coined by @tukey_exploratory_1977, who leaves it as an intentionally broad term that encompasses the initial summarization and visualization of a data set, before a hypothesis to test has been formulated. This is a critical first step for understanding and becoming familiar with data and validating model assumptions. It may be tempting to review a series of summary statistics to check model assumptions. However, there are known datasets where the same summary statistics miss glaringly obvious visual patterns [@anscombe_graphs_1973; @matejka_same_2017]. It is shocking easy to look at the wrong, or incomplete set of statistics needed to validate assumptions. Data visualization is crucial in EDA, it _forces_ you to see details and peculiarities of the data which are opaque to numeric summarization, or more nefariously, obscure their true values. Data visualization do and must remain a primary component of data analysis and model validation.
 
-<!-- Terminology, linear projections-->
-Data and models have continued to increase size, not only in the depth of their observations, but also with the number of variables and features use. Conventionally, we refer to the numeric data as $X$, an [$n \times p$] matrix, with $n$ number of observations, and $p$ numeric variables. Through out my dissertation we will be using __linear projections__ to project or embed this space into a lower, $d-$dimensional, space. This is achieved by post multiplying the data by an _orthonormal_ projection basis, $A$ an [$p \times d$] matrix, where each column-dimension of the projection space are mapped to a linear contribution of the original dimensions. The orthonormal restriction the basis is two-fold. Namely, The basis is orthagonal, with each column-dimension independent-of, or at 90$^{\circ}$, to all other columns. Secondly, that the each column-dimension is 'normal', with a norm or length equal to 1. The under-lying rational for this is to ensure the that projection space is Cartesian volume. 
+<!--interaction, wants citations -->
+##TODO:XXX citations
+While static documents are the norm, there are sizable benefits of user interaction. Interactive data visualization shift the locus of control back to the user, inviting them to explore and interact with the data, and offers a compact way to explore a wider range of dimensions, questions, and keep the curiosity and interest of the user.
 
-#TODO: XXX
-Any space that deviates from this restriction is called a _non-linear_ projection/embedding.
+<!-- Black box, interprebility vs accuracy -->
+With the emerging filed of XAI, the constant tension between interprability of a model and its predictive power is receiving more attention. Linear models are the champions of interprability with modest accuracy while increasing complex models improve accuracy but they can scarsly be interpreted even by experienced practitioners. One way to gain insight into a model is to focus on the local vicinity of one observation, and explain the variable weighting around that location, in an agnostic non-linear model. We call this observation level variable weights a _local explaination_[@biecek_explanatory_2021]. There are various such local explanation, many are tied to specific classes of models, while others are model-agnostic. LIME[@] and SHAP[@] are two such examples.
 
-#TODO: XXX
-Developing new methods to visualize high dimensions has been a pursuit of statisticians, computer scientists, and visualization researchers for decades.
-
-
-<!-- getting into interaction here -->
-While static documents are the norm, there remains some benefit of user interaction to help the analyst understand results, and determine the importance of components in a model. An interplay between automated and human control is useful. As technology changes, new approaches to user interaction emerge, and exploring these technologies provides a challenge to researchers.
+<!-- summary -->
+We know that data visualization is important in EDA and assumption validation. User interaction allows us to explore widely and quickly while allow us to explore ideas as they arise. These two elements were used to answer the first RO. Their efficacy was supported in response to the second RO. In this work we apply manual tour in tandum with SHAP local explanations to address the third RO.
 
 
 # Research objectives
+<!-- Hypothesis statement -->
 
 The overall question of interest is:
 
 **Can the geodesic interpolator with user interaction help analysts understand linear projections of data, and explore the sensitivity of structure in the projection to the variables contributing to the projection?**
 
-Which is divided into these more focused objectives:
+Which is further divided into these more specific objectives:
 
 1. **How do we define user interaction for the geodesic interpolator to add and remove variables smoothly from a 2D linear projection of data?**\
-@cook_manual_1997 described an algorithm for manually controlling a tour ($p$-D into 2D), to rotate a variable into and out of a 2D projection. This algorithm provides the start to a human-controlled geodesic interpolator (GI). It must be adapted so that the user has more control of the interpolation. The user will be able to set the range of motion from full $[-1~to~1]$, to allow the user to intercept the rotation at any step, and to output to a device that allows the user to reproduce motions and animate or rock the rotation backward and forwards. These fine-tuned controls will provide a better tool for sensitivity analysis.
+@cook_manual_1997 described an algorithm for manually controlling a tour ($p$-D into 2D), to rotate a variable into and out of a 2D projection. This algorithm provides the start to a human-controlled geodesic interpolator (GI). The work[@spyrison_spinifex_2020] adapted so that the user has more control of the interpolation. The user is able to set the range of motion from full $[-1, 1]$, to allow the user to intercept the rotation at any step, and to output to a device that allows the user to reproduce motions and animate or rock the rotation backward and forwards. These fine-tuned controls  provide a better tool for sensitivity analysis.
 
 2. **Do analysts understand the relationship between variables and structure in a 2D linear projection better when the geodesic interpolator is available?**\
-Current practice for high-dimensional data is to make a single low-dimensional representation, with a method such as principal component analysis. Often just the first two principal components are shown, which is equivalent to a 2D projection. This technique is also called a biplot[@gabriel_biplot_1971]. Another more rarely used technique is a tour, which shows an animation of 2D projections. It can be used to get an overview of the structure in the multivariate space, but it is difficult to assess the importance of variables to a particularly interesting low-dimensional structure. 
+We performed an $N=108$, within0participant user study comparing accruacy and time with the primary factor as type of data visualization. Each particiapnt performed 2 evaluations with either discrete PCA, grand tour, or radial manual tour. We find strong evidence that the radial tour increases accuracy. We also show the effects from the other experimental factors of location, shape data dimensionality, and the random effects from the data and that of the participants.
 
-3. **Can we use the geodesic interpolator in conjunction with agnostic non-linear models to improve their interprebility?**\
-#TODO:XXX
+3. **Can we use the geodesic interpolator in conjunction with the local explaination SHAP to improve the interprability of  black-box models?**\
+The tension from the trade off between accuracy and interprability of black-box models is rising. Below we use SHAP to extract local explanations from a random forest model and use those SHAP values as a projection basis to perform manual tours on. We add class-corrupted observations and explore how the model and shap values react.
+
 
 
 # Methodology
+<!-- HOW YOU WILL GO ABOUT EACH PROJECT -->
 
 The research corresponding with RO #1 entails _algorithm design_ adapting the algorithm from @cook_manual_1997. This allows for interactive control of 2D projections and serves as a foundation from the remaining work to follow. 
 
-To address RO #2, a controlled _experimental study_ has explored the efficacy of interactive radial tour as compared with two benchmark methods: Pricipal Component Analysis (PCA, @pearson_liii._1901) and the grand tour[@asimov_grand_1985]. This was a within-participant user study where each participant experienced each of visual factors. Trials were balanced across 3 other experimental factors: _location_ of the signal, _shape_ of the cluster distributions, and _dimension_ the data. 
+To address RO #2, a controlled _experimental study_ has explored the efficacy of interactive radial tour as compared with two benchmark methods: Principal Component Analysis (PCA, @pearson_liii._1901) and the grand tour[@asimov_grand_1985]. This was a within-participant user study where each participant experienced each of visual factors. Trials were balanced across 3 other experimental factors: _location_ of the signal, _shape_ of the cluster distributions, and _dimension_ the data.
 
-#TODO:XXX
-The research for RO #3 involves _algorithm design_ extending the current 2D GI into a 3D projection. For a 2D projection, the axes basis is rotated through a 3D 'manipulation space'. In a 3D projection, such a space requires 4 dimensions. Theoretically, after the addition of a new angle of rotation, the rotation matrix must be extended to accommodate a new dimension and angle parameter. This also means that analysts have another parameter to define, further increasing their already sizable input-volume. 
+##TODO:XXX
+The research for RO #3 involves _algorithm design_ extending the current 2D GI into a 3D projection. For a 2D projection, the axes basis is rotated through a 3D 'manipulation space'. In a 3D projection, such a space requires 4 dimensions. Theoretically, after the addition of a new angle of rotation, the rotation matrix must be extended to accommodate a new dimension and angle parameter. This also means that analysts have another parameter to define, further increasing their already sizable input-volume.
 
 
 # Canidature progress
 
-In candidature confirmation review we discussed the implementation of the _geodesic interpolator_ with user interaction (RO #1) which resulted in the open-source R package, `spinifex` available on CRAN and its subsequent publication [@spyrison_spinifex_2019]. In min-candidature review we discussed the experimental design of the user study to substantiate the efficacy of this method as compared with PCA (discrete with user interaction), and the grand tour
+In candidature confirmation review we discussed the implementation of the _geodesic interpolator_ with user interaction (RO #1) which resulted in the open-source R package, `spinifex` available on CRAN and its subsequent publication [@spyrison_spinifex_2020]. In min-candidature review we discussed the experimental design of the user study to substantiate the efficacy of this method as compared with PCA (discrete with user interaction), and the grand tour
 
 The $n=108$ participants each evaluated 6 trials each.
 
 During the min-candidature review (March 2020) we discussed exploratory data analysis, visualization of high dimensional spaces, and covered the literature for tours and 3D rendering for information perception. We concluded with appended the algorithm for interactive 2D GI (RO #1), its software application in R, and a use case on particle physics data.
 
 The adaptations of the algorithm included defining the axis of rotation for manipulation orthogonal to the projection plane. This allowed us to then apply Rodrigues' rotation formula [@rodrigues_lois_1840] to prove the rotation matrix to be used in 2D. We also provide initialization of the in- and out- of plane angles of rotation which clarifies understanding and application of GI.
-
 
 <!-- what we learn from a linear projection -->
 Good linear projections are often found with an automated procedure, like principal component analysis [PCA; @pearson_liii._1901] or projection pursuit (@kruskal_toward_1969). These reduce the dimensionality and reveal something interesting about the data. Figure \@ref(fig:basis) shows a $d = 2$ -dimensional projection of $6D$ data, revealing clustering of labelled groups. The basis that produced this projection is:
@@ -128,18 +144,6 @@ Exploring the sensitivity of structure in a projection to the contributions of p
 
 Sensitivity analysis is ideally achieved with user-controlled steering where the human controls the rotation of a variable into and out of a projection. This will enable various intermediate states to be shown to better understand the effect of single variables.
 
-
-
-# Published work
-
-## Refereed journal article
-
-The paper describing the new GI algorithm, the software implementation, and an application, has been published in the R Journal and will appear in the next issue. It will available with the publication of the next R jorunal, at [journal.r-project.org](https://journal.r-project.org/). The latest version is attached as appendix A.
-
-
-## Software
-
-The R package, `spinifex (v0.1.0)` [@spyrison_spinifex_2019], has been accepted on the Comprehensive R Archival Network, CRAN (cran.r-project.org/web/packages/spinifex/)(https://cran.r-project.org/web/packages/spinifex/index.html). A `shiny` interface was added, which allows analysts to run the GI through a graphical user interface. This will also be used as the experimental apparatus for the experiment to check the effectiveness of the new method.
 
 
 ## Experimental study {#sec:expStudy}
@@ -177,7 +181,7 @@ knitr::include_graphics("./figures/experimental_design_personA.png")
 
 ### Block difficulty {#sec:blocks}
 
-Each participant will do three replications for each factor, one easy, one medium and one difficult. 
+Each participant will do three replications for each factor, one easy, one medium and one difficult.
 
 ### Experimental apparatus
 
@@ -198,6 +202,11 @@ Each subject has an unlimited training time, encouraged to be about 10 minutes, 
 
 Several pilot studies have been conducted, with 4 different people. Each has resulted in improvements to the interface. The data simulation may need to be modified to provide some clearer distinctions between factors. 
 
+# Trees of Cheem 
+
+##TODO:XXX move details lower.
+This is a variable weighting in the vicinity of one observation, but we also which to keep the global distribution in mind.
+We provide a global context of the SHAP values, comparing the skew of the distribution. 
 
 # Next steps
 
@@ -267,4 +276,10 @@ This research was supported by an Australian Government Research Training Progra
 For version control, transparency, and reproducibility, the source files are made available at [github.com/nspyrison/phd_milestones](https://github.com/nspyrison/phd_milestones).
 
 
-# References 
+# References
+
+
+##TODO:XXX
+IT IS UNCLEAR IF WE EVEN WANT TO GO INTO THE TERMINOLOGY, If so, I think it wants to go lower, preceeding the work.
+<!-- Terminology, linear projections-->
+Data and models have continued to increase size, not only in the depth of their observations, but also with the number of variables and features use. Conventionally, we refer to the numeric data as $X$, an [$n \times p$] matrix, with $n$ number of observations, and $p$ numeric variables. Through out my dissertation we will be using __linear projections__ to project or embed this space into a lower, $d-$dimensional, space. This is achieved by post multiplying the data by an _orthonormal_ projection basis, $A$ an [$p \times d$] matrix, where each column-dimension of the projection space are mapped to a linear contribution of the original dimensions. The orthonormal restriction the basis is two-fold. Namely, The basis is orthagonal, with each column-dimension independent-of, or at 90$^{\circ}$, to all other columns. Secondly, that the each column-dimension is 'normal', with a norm or length equal to 1. The under-lying rational for this is to ensure the that projection space is Cartesian volume.
