@@ -72,7 +72,7 @@ While static documents are the norm, there are sizable benefits of user interact
 With the emerging filed of XAI, the constant tension between interprability of a model and its predictive power is receiving more attention. Linear models are the champions of interprability with modest accuracy while increasing complex models improve accuracy but they can scarsly be interpreted even by experienced practitioners. One way to gain insight into a model is to focus on the local vicinity of one observation, and explain the variable weighting around that location, in an agnostic non-linear model. We call this observation level variable weights a _local explaination_[@biecek_explanatory_2021]. There are various such local explanation, many are tied to specific classes of models, while others are model-agnostic. LIME[@] and SHAP[@] are two such examples.
 
 <!-- summary -->
-We know that data visualization is important in EDA and assumption validation. User interaction allows us to explore widely and quickly while allow us to explore ideas as they arise. These two elements were used to answer the first RO. Their efficacy was supported in response to the second RO. In this work we apply manual tour in tandum with SHAP local explanations to address the third RO.
+We know that data visualization is important in EDA and assumption validation. User interaction allows us to explore widely and quickly while allow us to explore ideas as they arise. These two elements were used to answer the first RO. Their efficacy was supported in response to the second RO. In this work we apply manual tour in tandem with SHAP local explanations to address the third RO.
 
 
 # Research objectives
@@ -103,148 +103,58 @@ The research corresponding with RO #1 entails _algorithm design_ adapting the al
 To address RO #2, a controlled _experimental study_ has explored the efficacy of interactive radial tour as compared with two benchmark methods: Principal Component Analysis (PCA, @pearson_liii._1901) and the grand tour[@asimov_grand_1985]. This was a within-participant user study where each participant experienced each of visual factors. Trials were balanced across 3 other experimental factors: _location_ of the signal, _shape_ of the cluster distributions, and _dimension_ the data.
 
 ##TODO:XXX
-The research for RO #3 involves _algorithm design_ extending the current 2D GI into a 3D projection. For a 2D projection, the axes basis is rotated through a 3D 'manipulation space'. In a 3D projection, such a space requires 4 dimensions. Theoretically, after the addition of a new angle of rotation, the rotation matrix must be extended to accommodate a new dimension and angle parameter. This also means that analysts have another parameter to define, further increasing their already sizable input-volume.
+The research for RO #3 involves _algorithm design_. We know that the SAHP value are a local explaination for one observation. This SHAP value will also serve as the 1D basis for the manual tour. While using SHAP as a projection basis is novel it is not partiularly insightful by itself. We provide tracking marks for the selected observation, a comparison neighbor as the basis changes. We also offer a view and quantitative analysis for the data and full SHAP matrix to keep the local view in context and measure how exteme the shap values are behaving.
 
 
 # Canidature progress
 
-In candidature confirmation review we discussed the implementation of the _geodesic interpolator_ with user interaction (RO #1) which resulted in the open-source R package, `spinifex` available on CRAN and its subsequent publication [@spyrison_spinifex_2020]. In min-candidature review we discussed the experimental design of the user study to substantiate the efficacy of this method as compared with PCA (discrete with user interaction), and the grand tour
+In candidature confirmation review we discussed the implementation of the _geodesic interpolator_ with user interaction (RO #1) which resulted in the open-source R package, `spinifex` available on CRAN and its subsequent publication [@spyrison_spinifex_2020]. 
 
-The $n=108$ participants each evaluated 6 trials each.
+In min-candidature review we discussed the experimental design of the user study to substantiate the efficacy of the radial tour as compared with PCA (discrete with user interaction), and the grand tour (continuous without user interaction). Below we briefly report our findings before discussing the work addressing RO#3.
 
-During the min-candidature review (March 2020) we discussed exploratory data analysis, visualization of high dimensional spaces, and covered the literature for tours and 3D rendering for information perception. We concluded with appended the algorithm for interactive 2D GI (RO #1), its software application in R, and a use case on particle physics data.
 
-The adaptations of the algorithm included defining the axis of rotation for manipulation orthogonal to the projection plane. This allowed us to then apply Rodrigues' rotation formula [@rodrigues_lois_1840] to prove the rotation matrix to be used in 2D. We also provide initialization of the in- and out- of plane angles of rotation which clarifies understanding and application of GI.
 
-<!-- what we learn from a linear projection -->
-Good linear projections are often found with an automated procedure, like principal component analysis [PCA; @pearson_liii._1901] or projection pursuit (@kruskal_toward_1969). These reduce the dimensionality and reveal something interesting about the data. Figure \@ref(fig:basis) shows a $d = 2$ -dimensional projection of $6D$ data, revealing clustering of labelled groups. The basis that produced this projection is:
-
-\begin{equation*}
-\left[ \begin{array}{rr}
-  0.70 & -0.50 \\
- -0.27 & -0.52 \\
-  0.28 & -0.14 \\
-  0.26 &  0.63 \\
-  0.08 & -0.16 \\
-  0.54 &  0.18 \\
-\end{array} \right]
-\end{equation*}
-
-```{r basis, echo = FALSE, out.width = "100%",                               fig.cap = "Axes vectors of the basis and resulting projection of the data. Data is assigned color and shape by cluster."}
-knitr::include_graphics("./figures/basis.png")
-```
-
-Figure \@ref(fig:basisStructure) shows how the **sensitivity of structure** in a projection can depend on variables contributing to the projection. When variable 'tr1' is rotated out, there is a change to the structure, clusters are less visible. This says that the structure *is sensitive* to variable 'tr1'. When variable 'tr2' is rotated out, there is no change to the structure, clusters are still visible. This says that the structure *is NOT sensitive* to variable 'tr2'.
-
-```{r basisStructure, echo = FALSE, out.width = "100%",                             fig.cap = "Illustration of sensitivity of cluster structure in the projection as a function of variable contributions. In pane A) the variable 'tr1' is removed and cluster in purple dimonds in no longer separated; 'tr1' is a sensitive to cluster structure. In pane B) 'tr2' is removed and cluster are still distinguished. the variable 'tr' is not sensitive to clustering."}
-knitr::include_graphics("./figures/basisStructure.png")
-```
-
-Exploring the sensitivity of structure in a projection to the contributions of particular variables requires **geodesic interpolation** to remove the variable from (or into) the projection plane. Geodesic interpolation is effectively a rotation, it maintains orthonormality of all new data projections and any intermediate projections. Geodesic interpolation is used in tour methods [cook_grand_2008; @asimov_grand_1994], including the **grand tour** which shows (automated) movies of low-dimensional projections of high-dimensional spaces. The `tourr` package [@wickham_tourr:_2011] in R provides a range of automated tours. 
-
-Sensitivity analysis is ideally achieved with user-controlled steering where the human controls the rotation of a variable into and out of a projection. This will enable various intermediate states to be shown to better understand the effect of single variables.
 
 
 
 ## Experimental study {#sec:expStudy}
 
-This study is designed to test the effectiveness of the new GI against current practices: biplot and the grand tour (RO #2). The design of the experiment is almost finished and follows these elements. A draft of the working paper is attached to this report as appendix B.
 
 
-### Factors {#sec:factors}
 
+<!-- ### Experimental factors {#sec:factors} -->
 There are three primary factors: principal component analysis biplots, grand tour, GI.
 
-### Data structure
+#### TODO:XXX Figure 1 from the paper here.
 
-Only one type of data structure will be examined, clusters in multiple dimensions. Data is simulated from a mixture of multivariate normal distributions, with varying cluster means and covariances. Multiple sets of data are simulated so that each subject will see each data only once. They will see different simulated data from the same model, with different techniques. Different levels of difficulty are induced by several variables, the number of clusters and a stronger correlation between variables confounded with clustering. To determine the level of difficulty, distances between clusters means were calculated, and the order of importance of variables were determined by examining the contributions of variables to linear discriminants [@fisher_use_1936]. 
 
-### Tasks {#sec:tasks}
-
+<!-- ### Tasks {#sec:tasks} -->
 Participants will perform two tasks, for each factor: identify the number of clusters present in uncolored data, to check that they understand cluster structure, and secondly, to identify any/all variables that were very important and somewhat important for distinguishing a given cluster from a second cluster, along with reporting the confidence in their answer.
 
 
-### Graphics
-
-<!-- Plot and axes -->
-The primary display used is a scatterplot. The basis axes projection was also illustrated to the left of the plot. They are shown in a unit circle and show the magnitude and direction each variable contributes to the projection. This is a slight variation in the biplot that will enable users to better read the axes.
 
 
-### Groups {#sec:groups}
+### Results
 
-Each participant will be randomly assigned to one of three groups, setting the order in which the factors are shown. For example, the first group will see PCA, grand tour, and then the GI. Figure \ref{fig:designExample} illustrates the flow of subjects through the experiment.
-
-```{r designExample, echo = F, out.width = '100%',                             fig.cap = "Example case. Person 'A' is assigned to group 2, where they will use factor 2 (grand tour) for the first period. They perform 3 block difficulties of task 1 on simulations of increasing difficulty. Then 3 block difficulties of task 2 on unique simulations sampled from the same distributions of increasing difficulty. After this, they proceed to period 2, where they are use factor 3 (GI) to perform 3 block difficulties of each task. Lastly, in the third period, they use factor 1 (PCA) to perform the tasks."}
-knitr::include_graphics("./figures/experimental_design_personA.png")
-```
-
-
-### Block difficulty {#sec:blocks}
-
-Each participant will do three replications for each factor, one easy, one medium and one difficult.
-
-### Experimental apparatus
-
-A web interface was developed for the experiment. Figure \@ref(fig:appInterface), panel 'A' shows the interface for factor 1 (PCA) where the subject is asked how many clusters are present. Figure \@ref(fig:appInterface) panel 'B' shows the interface for factor 3 (GI) where the subject is asked about the importance of the variables. 
-
-The user interface was consistent across factors, with some slight differences as required by the different methodologies. For example, PCA has 2 radio button inputs selecting principal components to display on the x- and y-axes. The GI had the same axes selection, with the addition of a drop-down bar to select the variable to be controlled and a slider controlling its magnitude. 
-
-```{r appInterface, echo=FALSE, out.width = "100%", out.extra = '', fig.cap = "Interface for the GI factor in the evaluation section."}
-knitr::include_graphics("./figures/appInterface.png")
-```
-
-Subjects are given 1 and 3 minutes respectively to complete each task, with a timer on the web app indicating time remaining, and their answers are stored in a local file. Demographic information is collected though the web app after all tasks are completed. 
-
-Each subject has an unlimited training time, encouraged to be about 10 minutes, where they watch a video of instructions, and explore the user interfaces. 
-
-
-### Pilot studies
-
-Several pilot studies have been conducted, with 4 different people. Each has resulted in improvements to the interface. The data simulation may need to be modified to provide some clearer distinctions between factors. 
-
-# Trees of Cheem 
+## Trees of Cheem
 
 ##TODO:XXX move details lower.
 This is a variable weighting in the vicinity of one observation, but we also which to keep the global distribution in mind.
-We provide a global context of the SHAP values, comparing the skew of the distribution. 
-
-# Next steps
-
-## GI 2D pilot and study 
-
-To bring RO #2 to a close, simulations and grand tour paths need to be updated with new rounds of block difficultly. Then the needs to be conducted and paper needs to be completed. The draft is attached as appendix B.
-
-
-## Extending GI to 3D
-
-To address RO # 3 To perform the 2D GI, two angle parameters must be identified to perform a rotation of the 3D manipulation space. The angle $\theta$ indicates the angle on the projection plane between the manipulation variable and the `x-axis`. While $\phi$ is the angle that the variable extends into the manipulation space above the projection plane.
-
-A 3D GI then must define 3 angle parameters that define the rotation of the 4D manipulation space. Let $\theta$ now be a set of 2 angles, $\{\theta_{xy}, \theta_z\}$ that defines the position of the manipipulation variable in the (3D) projection plane and $\phi$ in the angle it extends into the manipulation direction.
-
-Special care must be taken defining the axis of rotation from the 3D projection into the 4D manipulation space. In particular, the signs will need attention not to be lost especially of trigonometric functions that only support half a rotation. Once this task is done the 4D rotation matrix must be solved, again with the application of Rodrigues' rotation formula [@rodrigues_lois_1840].
-
-
-## Implementation and study the 3D GI
-
-In RO #2, a `shiny` application was developed and used to explore the effect of user interaction for understanding variable contributions to structure in linear projections. It will do so by exploring the differences in performance between 2D biplot of principal components, a 2D grand tour, and a 2D GI via experimental study. Similarly, a study should explore the 3D variants to answer RO #4
-
-The R package, `shinyaframe`, {@murphy_shinyaframe_2017} enables the use of Mozilla's `aframe` VR product to be consumed in `shiny` applications. The section titled 'Method 2: “A-Frame and R (Shiny, Ggplot2”)' by @hadjar_webvr_2018 is an example of an application with the relevant packages and hardware for display and interaction in stereoscopic virtual reality. Use of this package may allow for more rapid advancement in implementation, however, the extent and extendibility of interaction remains unknown.
-
-Alternatively, development and application in the game engine Unity would allow for all types of interactions but would likely result in a longer development period. 
+We provide a global context of the SHAP values, comparing the skew of the distribution.
 
 
 # Proposed thesis structure
 
-## Thesis structure
+- The coursework, Graduate Research 120 hour are complete and approved.
 
 This is my assessment of the completion of the thesis research thus far:
 
 - Introduction -- 60%
 - Literature review -- 80%
-- (RO #1) GI -- 90%
-- (RO #2) GI efficacy user study -- 80%
-- (RO #3) 3D GI  -- 30%
-- Conclusion and future plans -- 20%
+- (RO #1) GI \& manual tours -- 90%
+- (RO #2) manual tour efficacy user study -- 80%
+- (RO #3) manual tour applied to SHAP values  -- 60%
+- Conclusion and future plans -- 40%
 
 Figure \@ref(fig:timeline) illustrates the purposed timeline for this research.
 
@@ -253,20 +163,20 @@ knitr::include_graphics("figures/phd_timeline.png")
 ```
 
 
-## Program requirements
-<!-- http://www.monash.edu/pubs/2018handbooks/aos/information-technology-phd-program/ -->
+<!-- ## Program requirements -->
+<!-- <!-- http://www.monash.edu/pubs/2018handbooks/aos/information-technology-phd-program/ --> -->
 
-- WES Academic record
-    - FIT5144: 2019 S1+2, **Completed**, extended to the pre-submission seminar with the unit coordinator for the usual 2 opportunities to complete.
-        - Hours: 147>120 hours **Approved**
-        - **Completed** CYR 2 (A & B) -- 2x 3hr 
-        - **Completed** Faculty of IT Workshop 1 and 3 on Ethical Research and Publishing -- 2x 3hr
-    - FIT5113: 2018 S2, **Exemption**
-    - FIT6021: 2018 S2, **Completed** with distinction
-- myDevelopment - IT: Monash Doctoral Program - Compulsory Module
-    - Monash graduate research student induction: **Completed** 
-    - Research Integrity - Choose the Option most relevant: **Completed** 
-    - Faculty Induction: **Completed** 
+<!-- - WES Academic record -->
+<!--     - FIT5144: 2019 S1+2, **Completed**, extended to the pre-submission seminar with the unit coordinator for the usual 2 opportunities to complete. -->
+<!--         - Hours: 147>120 hours **Approved** -->
+<!--         - **Completed** CYR 2 (A & B) -- 2x 3hr  -->
+<!--         - **Completed** Faculty of IT Workshop 1 and 3 on Ethical Research and Publishing -- 2x 3hr -->
+<!--     - FIT5113: 2018 S2, **Exemption** -->
+<!--     - FIT6021: 2018 S2, **Completed** with distinction -->
+<!-- - myDevelopment - IT: Monash Doctoral Program - Compulsory Module -->
+<!--     - Monash graduate research student induction: **Completed**  -->
+<!--     - Research Integrity - Choose the Option most relevant: **Completed**  -->
+<!--     - Faculty Induction: **Completed**  -->
 
 
 # Acknowledgements {#sec:acknowledgements}
@@ -278,8 +188,35 @@ For version control, transparency, and reproducibility, the source files are mad
 
 # References
 
+<!-- #EVERYTHING BELOW IS UP FOR REMOVAL -->
+<!-- ##TODO:XXX -->
+<!-- IT IS UNCLEAR IF WE EVEN WANT TO GO INTO THE TERMINOLOGY, If so, I think it wants to go lower, preceeding the work. -->
+<!-- <!-- Terminology, linear projections--> -->
+<!-- Data and models have continued to increase size, not only in the depth of their observations, but also with the number of variables and features use. Conventionally, we refer to the numeric data as $X$, an [$n \times p$] matrix, with $n$ number of observations, and $p$ numeric variables. Through out my dissertation we will be using __linear projections__ to project or embed this space into a lower, $d-$dimensional, space. This is achieved by post multiplying the data by an _orthonormal_ projection basis, $A$ an [$p \times d$] matrix, where each column-dimension of the projection space are mapped to a linear contribution of the original dimensions. The orthonormal restriction the basis is two-fold. Namely, The basis is orthagonal, with each column-dimension independent-of, or at 90$^{\circ}$, to all other columns. Secondly, that the each column-dimension is 'normal', with a norm or length equal to 1. The under-lying rational for this is to ensure the that projection space is Cartesian volume. -->
 
-##TODO:XXX
-IT IS UNCLEAR IF WE EVEN WANT TO GO INTO THE TERMINOLOGY, If so, I think it wants to go lower, preceeding the work.
-<!-- Terminology, linear projections-->
-Data and models have continued to increase size, not only in the depth of their observations, but also with the number of variables and features use. Conventionally, we refer to the numeric data as $X$, an [$n \times p$] matrix, with $n$ number of observations, and $p$ numeric variables. Through out my dissertation we will be using __linear projections__ to project or embed this space into a lower, $d-$dimensional, space. This is achieved by post multiplying the data by an _orthonormal_ projection basis, $A$ an [$p \times d$] matrix, where each column-dimension of the projection space are mapped to a linear contribution of the original dimensions. The orthonormal restriction the basis is two-fold. Namely, The basis is orthagonal, with each column-dimension independent-of, or at 90$^{\circ}$, to all other columns. Secondly, that the each column-dimension is 'normal', with a norm or length equal to 1. The under-lying rational for this is to ensure the that projection space is Cartesian volume.
+
+
+<!-- \begin{equation*} -->
+<!-- \left[ \begin{array}{rr} -->
+<!--   0.70 & -0.50 \\ -->
+<!--  -0.27 & -0.52 \\ -->
+<!--   0.28 & -0.14 \\ -->
+<!--   0.26 &  0.63 \\ -->
+<!--   0.08 & -0.16 \\ -->
+<!--   0.54 &  0.18 \\ -->
+<!-- \end{array} \right] -->
+<!-- \end{equation*} -->
+
+<!-- ```{r basis, echo = FALSE, out.width = "100%",                               fig.cap = "Axes vectors of the basis and resulting projection of the data. Data is assigned color and shape by cluster."} -->
+<!-- knitr::include_graphics("./figures/basis.png") -->
+<!-- ``` -->
+
+<!-- Figure \@ref(fig:basisStructure) shows how the **sensitivity of structure** in a projection can depend on variables contributing to the projection. When variable 'tr1' is rotated out, there is a change to the structure, clusters are less visible. This says that the structure *is sensitive* to variable 'tr1'. When variable 'tr2' is rotated out, there is no change to the structure, clusters are still visible. This says that the structure *is NOT sensitive* to variable 'tr2'. -->
+
+<!-- ```{r basisStructure, echo = FALSE, out.width = "100%",                             fig.cap = "Illustration of sensitivity of cluster structure in the projection as a function of variable contributions. In pane A) the variable 'tr1' is removed and cluster in purple dimonds in no longer separated; 'tr1' is a sensitive to cluster structure. In pane B) 'tr2' is removed and cluster are still distinguished. the variable 'tr' is not sensitive to clustering."} -->
+<!-- knitr::include_graphics("./figures/basisStructure.png") -->
+<!-- ``` -->
+
+<!-- Exploring the sensitivity of structure in a projection to the contributions of particular variables requires **geodesic interpolation** to remove the variable from (or into) the projection plane. Geodesic interpolation is effectively a rotation, it maintains orthonormality of all new data projections and any intermediate projections. Geodesic interpolation is used in tour methods [cook_grand_2008; @asimov_grand_1994], including the **grand tour** which shows (automated) movies of low-dimensional projections of high-dimensional spaces. The `tourr` package [@wickham_tourr:_2011] in R provides a range of automated tours.  -->
+
+<!-- Sensitivity analysis is ideally achieved with user-controlled steering where the human controls the rotation of a variable into and out of a projection. This will enable various intermediate states to be shown to better understand the effect of single variables. -->
