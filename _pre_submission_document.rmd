@@ -47,7 +47,7 @@ knitr::opts_chunk$set(
 The thesis of this work is central to multivariate data visualization. More specifically, we focus on the class of many linear projections viewed near-continuously through small changes to the projection basis known as data visualization _tours_ [@cook_grand_2008, @lee_review_2021].
 
 <!-- manual tour, RO 1 -->
-There are many variants of tours. We focus on one branch, _manual tours_ [ @cook_manual_1997, @spyrison_spinifex_2019], that allows for user interaction by selecting one variable and specifying how to change its contribution to the current projection. By controlling the contribution of a single variable, a user can explore its sensitivity to the structure of the projection and identify which variables are ultimately most important to the structure in question. The work addressing the first research objective clarified the rational for doing so and implements a free, open-source `R` package for applying the manual tour.
+There are many variants of tours. We focus on one branch, _manual tours_ [ @cook_manual_1997, @spyrison_spinifex_2020], that allows for user interaction by selecting one variable and specifying how to change its contribution to the current projection. By controlling the contribution of a single variable, a user can explore its sensitivity to the structure of the projection and identify which variables are ultimately most important to the structure in question. The work addressing the first research objective clarified the rational for doing so and implements a free, open-source `R` package for applying the manual tour.
 
 <!-- manual tour, user study, RO2 -->
 Next, we substantiated the efficacy of manual tour as compared with discrete combinations of principal components [@pearson_liii._1901] and the _grand tour_[@asimov_grand_1985]. We do so with a $N=108$ within-participant user study, where all participants use each of these visual factors. This is performed over balanced trials across the other experimental factors: location, shape, and dimension of the data. This addresses the second research objective.
@@ -120,12 +120,18 @@ In min-candidature review we discussed the experimental design of the user study
 ## Experimental study {#sec:expStudy}
 
 
-
-
 <!-- ### Experimental factors {#sec:factors} -->
 There are three primary factors: principal component analysis biplots, grand tour, GI.
 
 #### TODO:XXX Figure 1 from the paper here.
+
+```{r studyResults, echo=FALSE, out.width = "49%", out.extra = '',fig.show='hold',fig.align='center', fig.cap = "TODO:XXX ADD caption"}
+# knitr::include_graphics("figures/spinifex_study_exp_factors.PNG")
+# knitr::include_graphics("figures/spinifex_study_task.PNG")
+# knitr::include_graphics("figures/spinifex_study_model.PNG")
+knitr::include_graphics(c("figures/spinifex_study_y1_results.PNG",
+                          "figures/spinifex_study_y2_results.PNG"))
+```
 
 
 <!-- ### Tasks {#sec:tasks} -->
@@ -138,9 +144,21 @@ Participants will perform two tasks, for each factor: identify the number of clu
 
 ## Trees of Cheem
 
-##TODO:XXX move details lower.
+
+### SHAP values and prediction explainations.
+
+####TODO:XXX
 This is a variable weighting in the vicinity of one observation, but we also which to keep the global distribution in mind.
 We provide a global context of the SHAP values, comparing the skew of the distribution.
+
+```{r cheemShapBd, echo=FALSE, out.width = "100%", out.extra = '',fig.show='hold',fig.align='center', fig.cap = "SHAP vlaues and prediction explainations of an offensive player (Messi, top) and a defensive player (van Dijk). SHAP values show change in weights at the location of each player. Break down profiles show one order sensitive explaination for the prediction of that observation."}
+knitr::include_graphics("figures/cheem_fifa_messi_dijk.pdf")
+```
+
+### Trees of cheem
+
+Global view
+
 
 
 # Proposed thesis structure
@@ -162,9 +180,8 @@ Figure \@ref(fig:timeline) illustrates the purposed timeline for this research.
 knitr::include_graphics("figures/phd_timeline.png")
 ```
 
-
 <!-- ## Program requirements -->
-<!-- <!-- http://www.monash.edu/pubs/2018handbooks/aos/information-technology-phd-program/ --> -->
+<!-- <!-- http://www.monash.edu/pubs/2018handbooks/aos/information-technology-phd-program/ --> 
 
 <!-- - WES Academic record -->
 <!--     - FIT5144: 2019 S1+2, **Completed**, extended to the pre-submission seminar with the unit coordinator for the usual 2 opportunities to complete. -->
@@ -178,10 +195,15 @@ knitr::include_graphics("figures/phd_timeline.png")
 <!--     - Research Integrity - Choose the Option most relevant: **Completed**  -->
 <!--     - Faculty Induction: **Completed**  -->
 
+# Other Contributions
+
+- “Is IEEE VIS *that* good?”, AltVis [@spyrison_is_2021]
+- A Review of the State-of-the-Art on tours Dynamic Visualization of High-dimensional Data [@lee_review_2021]
+- 1st place in 2020 Melbourne Data Marathon [@barrow_melbourne_2020]
 
 # Acknowledgements {#sec:acknowledgements}
 
-This research was supported by an Australian Government Research Training Program (RTP) Scholarship. This article was created in `R` [@r_core_team_r:_2020] and `rmarkdown` [@xie_r_2018]. 
+This research was supported by an Australian Government Research Training Program (RTP) Scholarship. This article was created in `R` [@r_core_team_r:_2020] and `rmarkdown` [@xie_r_2018].
 
 For version control, transparency, and reproducibility, the source files are made available at [github.com/nspyrison/phd_milestones](https://github.com/nspyrison/phd_milestones).
 
