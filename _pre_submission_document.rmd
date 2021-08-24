@@ -63,7 +63,8 @@ In our latest work, we want to see if we can apply the manual tour to aid the in
 The term exploratory data analysis (EDA) was coined by @tukey_exploratory_1977, who leaves it as an intentionally broad term that encompasses the initial summarization and visualization of a data set, before a hypothesis to test has been formulated. This is a critical first step for understanding and becoming familiar with data and validating model assumptions. It may be tempting to review a series of summary statistics to check model assumptions. However, there are known datasets where the same summary statistics miss glaringly obvious visual patterns [@anscombe_graphs_1973; @matejka_same_2017]. It is shocking easy to look at the wrong, or incomplete set of statistics needed to validate assumptions. Data visualization is crucial in EDA, it _forces_ you to see details and peculiarities of the data which are opaque to numeric summarization, or more nefariously, obscure their true values. Data visualization do and must remain a primary component of data analysis and model validation.
 
 <!--interaction, wants citations -->
-##TODO:XXX citations
+##TODO:XXX 
+<!-- citations for user interaction? hard to find wide, broad studies/support -->
 While static documents are the norm, there are sizable benefits of user interaction. Interactive data visualization shift the locus of control back to the user, inviting them to explore and interact with the data, and offers a compact way to explore a wider range of dimensions, questions, and keep the curiosity and interest of the user.
 
 <!-- Black box, interprebility vs accuracy -->
@@ -144,19 +145,23 @@ A more in depth description and discussion of this user study is attached as app
 
 ## Trees of Cheem
 
+For the third project the higher level goal is to use manual tours, that is, interactive, continuous linear projections in order to improve the interpreability of black-box models. There are different measures and degrees of specificity describe a model. Local explaination try to describe the linear variable weights in the vicinity of an observation, given the model. Below we use the local explaination, SHAP, as applied to a random forest models. This is in the interest mitigating the relatively long runtime of SHAP. For comparison the FIFA data we look at below is 5000 observations of 9 aggregate skill attributes, which takes 10 seconds to fit the random forest model and about 1230 seconds to extract all 5000 SHAP values.
 
 ### SHAP values and prediction explainations.
 
-####TODO:XXX
-This is a variable weighting in the vicinity of one observation, but we also which to keep the global distribution in mind.
-We provide a global context of the SHAP values, comparing the skew of the distribution.
+To illustrate SHAP we use a dataset of FIFA soccer player, a subset of 5000 player, observations of 42 wage and skill variables[@leone_fifa_2020]. Following the work in [@biecek_dalex_2018, @biecek_explanatory_2021] we can can extract SHAP values and also create a "break down" profile explaination of the observations prediction. Such an additive explaination has an asymmetry to the ordering of its variables. Let's take a look at the SHAP and break downs of a star offensive and defensive player
 
 ```{r cheemShapBd, echo=FALSE, out.width = "100%", fig.align='center', fig.cap = "SHAP vlaues and prediction explainations of an offensive player (Messi, top) and a defensive player (van Dijk). SHAP values show change in weights at the location of each player. Break down profiles show one order sensitive explaination for the prediction of that observation."}
 knitr::include_graphics("figures/cheem_fifa_messi_dijk.pdf")
 ```
-```{r cheemAppPenguins, echo=FALSE, out.width = "100%", fig.align='center', fig.cap = "TODO:XXX caption"}
+
+While this shows the differing of weights across 2 different fielders within the same model we have lost sense of the global distribution of the explanatory variables. We illustrate this with the smaller Palmer penguins data[@gorman_ecological_2014].We will extract all  observation's SHAP values. We now have the original $[n~\times~p]$ data, and wish to compare it with the distribution of SHAP matrix of the same dimensionality. We approximate their data with the first 2 principal components. We extract the with-in class Mahalonobis distance and put the QQ plots of these distances for a comparison of how sensitive the SHAP space is relative to the data space.
+
+```{r cheemAppPenguins, echo=FALSE, out.width = "100%", fig.align='center', fig.cap = "Screen capture from an interactive shiny application. Data and SHAP spaces (top and bottom respectively) of Palmer penguins by the first 2 principal components and quantile-quantile plots of their with-in class Mahalonobis distances (left and right respectively. A class-corrupted target observation '*' is shown in comparison with nearby real observation 'x'. These same two points are tracked in the proceeding tour."}
 knitr::include_graphics("figures/cheem_pca_qq_maha.PNG")
 ```
+#### TODO:XXX continue here.
+
 ```{r cheemAppPenguins2, echo=FALSE, out.width = "100%", fig.align='center', fig.cap = "TODO:XXX caption"}
 knitr::include_graphics("figures/cheem_cobs_manualtour.PNG")
 ```

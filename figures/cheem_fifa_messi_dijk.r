@@ -52,11 +52,15 @@ Y <- .raw$wage_eur ## unscaled wages in Euros, assumed 2020 valuation.
 
 ## Create same RF used downstream -----
 .is_y_disc <- FALSE ## regressing on continuous wages
+.hp_ntrees <- sqrt(nrow(X))
 .hp_mtry <- if(.is_y_disc == TRUE) sqrt(ncol(X)) else ncol(X) / 3L
 .hp_node <- if(.is_y_disc == TRUE) 1L else 5L
 .hp_node <- max(.hp_node, nrow(X) / 500L)
+
 rf_mod <- randomForest::randomForest(Y~., data = data.frame(Y, X),
-                                     mtry = .hp_mtry, nodesize = .hp_node)
+                                     mtry = .hp_mtry,
+                                     nodesize = .hp_node,
+                                     ntrees = .hp_ntrees)
 ## DALEX parts
 rf_expl <- DALEX::explain(model = rf_mod,
                           data  = X,
@@ -64,8 +68,8 @@ rf_expl <- DALEX::explain(model = rf_mod,
                           label = "Random Forest")
 messi <- X[1, ]
 ## Messi Shap
-shap_messi <- predict_parts(explainer       = rf_expl, 
-                            new_observation = messi, 
+shap_messi <- predict_parts(explainer       = rf_expl,
+                            new_observation = messi,
                             type            = "shap",
                             B               = 25L) 
 ## B is the number of random variable order perms to order the magnetude of, 25 is default
