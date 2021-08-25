@@ -63,7 +63,7 @@ In our latest work, we want to see if we can apply the manual tour to aid the in
 The term exploratory data analysis (EDA) was coined by @tukey_exploratory_1977, who leaves it as an intentionally broad term that encompasses the initial summarization and visualization of a data set, before a hypothesis to test has been formulated. This is a critical first step for understanding and becoming familiar with data and validating model assumptions. It may be tempting to review a series of summary statistics to check model assumptions. However, there are known datasets where the same summary statistics miss glaringly obvious visual patterns [@anscombe_graphs_1973; @matejka_same_2017]. It is shocking easy to look at the wrong, or incomplete set of statistics needed to validate assumptions. Data visualization is crucial in EDA, it _forces_ you to see details and peculiarities of the data which are opaque to numeric summarization, or more nefariously, obscure their true values. Data visualization do and must remain a primary component of data analysis and model validation.
 
 <!--interaction, wants citations -->
-##TODO:XXX 
+<!-- ##TODO:XXX  -->
 <!-- citations for user interaction? hard to find wide, broad studies/support -->
 While static documents are the norm, there are sizable benefits of user interaction. Interactive data visualization shift the locus of control back to the user, inviting them to explore and interact with the data, and offers a compact way to explore a wider range of dimensions, questions, and keep the curiosity and interest of the user.
 
@@ -104,9 +104,9 @@ To address RO #2, a controlled _experimental study_ has explored the efficacy of
 The research for RO #3 involves _algorithm design_. We know that the SAHP value are a local explaination for one observation. This SHAP value will also serve as the 1D basis for the manual tour. While using SHAP as a projection basis is novel it is not particularly insightful by itself. We provide tracking marks for the selected observation, a comparison neighbor as the basis changes. We also offer a view and quantitative analysis for the data and full SHAP matrix to keep the local view in context and measure how extreme the shap values are behaving.
 
 
-# Canidature progress
+# Work since mid-canidature review
 
-In candidature confirmation review we discussed the implementation of the _geodesic interpolator_ with user interaction (RO #1) which resulted in the open-source R package, `spinifex` available on CRAN and its subsequent publication [@spyrison_spinifex_2020]. 
+In candidature confirmation review we discussed the implementation of the _geodesic interpolator_ with user interaction (RO #1) which resulted in the open-source R package, `spinifex` available on CRAN and its subsequent publication [@spyrison_spinifex_2020].
 
 In min-candidature review we discussed the experimental design of the user study to substantiate the efficacy of the radial tour as compared with PCA (discrete with user interaction), and the grand tour (continuous without user interaction). Below we briefly report our findings before discussing the work addressing RO#3.
 
@@ -149,7 +149,7 @@ For the third project the higher level goal is to use manual tours, that is, int
 
 ### SHAP values and prediction explainations.
 
-To illustrate SHAP we use a dataset of FIFA soccer player, a subset of 5000 player, observations of 42 wage and skill variables[@leone_fifa_2020]. Following the work in [@biecek_dalex_2018, @biecek_explanatory_2021] we can can extract SHAP values and also create a "break down" profile explaination of the observations prediction. Such an additive explaination has an asymmetry to the ordering of its variables. Let's take a look at the SHAP and break downs of a star offensive and defensive player
+To illustrate SHAP we use a dataset of FIFA soccer player, a subset of 5000 player, observations of 42 wage and skill variables[@leone_fifa_2020]. Following the work in [@biecek_dalex_2018, @biecek_explanatory_2021] we can can extract SHAP values and also create a "break down" profile explaination of the observations prediction. Such an additive explaination has an asymmetry to the ordering of its variables. The figure below take a look at the SHAP and break downs of a star offensive and defensive player.
 
 ```{r cheemShapBd, echo=FALSE, out.width = "100%", fig.align='center', fig.cap = "SHAP vlaues and prediction explainations of an offensive player (Messi, top) and a defensive player (van Dijk). SHAP values show change in weights at the location of each player. Break down profiles show one order sensitive explaination for the prediction of that observation."}
 knitr::include_graphics("figures/cheem_fifa_messi_dijk.pdf")
@@ -157,18 +157,23 @@ knitr::include_graphics("figures/cheem_fifa_messi_dijk.pdf")
 
 While this shows the differing of weights across 2 different fielders within the same model we have lost sense of the global distribution of the explanatory variables. We illustrate this with the smaller Palmer penguins data[@gorman_ecological_2014].We will extract all  observation's SHAP values. We now have the original $[n~\times~p]$ data, and wish to compare it with the distribution of SHAP matrix of the same dimensionality. We approximate their data with the first 2 principal components. We extract the with-in class Mahalonobis distance and put the QQ plots of these distances for a comparison of how sensitive the SHAP space is relative to the data space.
 
-```{r cheemAppPenguins, echo=FALSE, out.width = "100%", fig.align='center', fig.cap = "Screen capture from an interactive shiny application. Data and SHAP spaces (top and bottom respectively) of Palmer penguins by the first 2 principal components and quantile-quantile plots of their with-in class Mahalonobis distances (left and right respectively. A class-corrupted target observation '*' is shown in comparison with nearby real observation 'x'. These same two points are tracked in the proceeding tour."}
+```{r cheemAppPenguins, echo=FALSE, out.width = "100%", fig.align='center', fig.cap = "Screen capture from an interactive shiny application. Data and SHAP spaces (top and bottom respectively) of Palmer penguins by the first 2 principal components and quantile-quantile plots of their with-in class Mahalonobis distances (left and right respectively. The points are colored and shaped according to their predicted class, misclassified points are identified with a red circle. A class-corrupted target observation '*' is shown in comparison with nearby real observation 'x'. These same two points are tracked in the proceeding tour."}
 knitr::include_graphics("figures/cheem_pca_qq_maha.PNG")
 ```
-#### TODO:XXX continue here.
 
-```{r cheemAppPenguins2, echo=FALSE, out.width = "100%", fig.align='center', fig.cap = "TODO:XXX caption"}
+Given the global view above we want to look at the local weightings of primary and comparison points (shown as '*/x' above and dashed/dotted lines below). In this case the primary observation is a class-corrupted observation while the comparison point is a correctly classified nearby point. The idea is to view just how sensitive SHAP values are to this sort of class-corruption attack.
+
+```{r cheemAppPenguins2, echo=FALSE, out.width = "100%", fig.align='center', fig.cap = "First frame of the radial tour. The SHAP values of the selected '*' from the preceeding figure given the variable weights of the 1D basis (grey/blue bars on top), the class distributions of the SHAP values are shown as parallel coordinate plots above each variable contribution. The class densities and rug values are shown on the bottom. A light grey light shows zero on the projection, with the dashed and dotted line correspond to the position of primary and comparison observations ('*/x' in the preceeding figure). The tour animates over small changes in the basis (top bars) as the variable with the largest contribution (weight) is rotated to have full contribution, zero contribution, and then back to the inital contribution."}
 knitr::include_graphics("figures/cheem_cobs_manualtour.PNG")
 ```
-### Trees of cheem
 
-Global view
+The application is quickly maturing and will be shown to experts for comment. This work is being written up to be submitted to the WHY-21 workshop, part of the NeurIPS 2021 Conference.
 
+### Discussion
+
+We have use radial tour to improve the interprability of black-box model, but exploring local explaination SHAP's sensitive to misclassified observations. It is important to note that this independent of the quality of the model or even the quality of the explanation. Indeed the very term explanation feels like a bit of a misnomer as it seems to imply reason or validity, rather I prefer to think of it as local weightings of the model. 
+
+Keeping in mind the real-world application is particularly important. Finding methods to better interpret black-box models is an important challenge as corporations and nation-states increasingly use complex models to classify and predict their customers and citizens. Being able to glean insight into a models weights and how they differ for misclassified observations is extremely important for building and challenging models as we attempt to build a just world of tomorrow.
 
 
 # Proposed thesis structure
@@ -219,36 +224,3 @@ For version control, transparency, and reproducibility, the source files are mad
 
 
 # References
-
-<!-- #EVERYTHING BELOW IS UP FOR REMOVAL -->
-<!-- ##TODO:XXX -->
-<!-- IT IS UNCLEAR IF WE EVEN WANT TO GO INTO THE TERMINOLOGY, If so, I think it wants to go lower, preceeding the work. -->
-<!-- <!-- Terminology, linear projections--> -->
-<!-- Data and models have continued to increase size, not only in the depth of their observations, but also with the number of variables and features use. Conventionally, we refer to the numeric data as $X$, an [$n \times p$] matrix, with $n$ number of observations, and $p$ numeric variables. Through out my dissertation we will be using __linear projections__ to project or embed this space into a lower, $d-$dimensional, space. This is achieved by post multiplying the data by an _orthonormal_ projection basis, $A$ an [$p \times d$] matrix, where each column-dimension of the projection space are mapped to a linear contribution of the original dimensions. The orthonormal restriction the basis is two-fold. Namely, The basis is orthagonal, with each column-dimension independent-of, or at 90$^{\circ}$, to all other columns. Secondly, that the each column-dimension is 'normal', with a norm or length equal to 1. The under-lying rational for this is to ensure the that projection space is Cartesian volume. -->
-
-
-
-<!-- \begin{equation*} -->
-<!-- \left[ \begin{array}{rr} -->
-<!--   0.70 & -0.50 \\ -->
-<!--  -0.27 & -0.52 \\ -->
-<!--   0.28 & -0.14 \\ -->
-<!--   0.26 &  0.63 \\ -->
-<!--   0.08 & -0.16 \\ -->
-<!--   0.54 &  0.18 \\ -->
-<!-- \end{array} \right] -->
-<!-- \end{equation*} -->
-
-<!-- ```{r basis, echo = FALSE, out.width = "100%",                               fig.cap = "Axes vectors of the basis and resulting projection of the data. Data is assigned color and shape by cluster."} -->
-<!-- knitr::include_graphics("./figures/basis.png") -->
-<!-- ``` -->
-
-<!-- Figure \@ref(fig:basisStructure) shows how the **sensitivity of structure** in a projection can depend on variables contributing to the projection. When variable 'tr1' is rotated out, there is a change to the structure, clusters are less visible. This says that the structure *is sensitive* to variable 'tr1'. When variable 'tr2' is rotated out, there is no change to the structure, clusters are still visible. This says that the structure *is NOT sensitive* to variable 'tr2'. -->
-
-<!-- ```{r basisStructure, echo = FALSE, out.width = "100%",                             fig.cap = "Illustration of sensitivity of cluster structure in the projection as a function of variable contributions. In pane A) the variable 'tr1' is removed and cluster in purple dimonds in no longer separated; 'tr1' is a sensitive to cluster structure. In pane B) 'tr2' is removed and cluster are still distinguished. the variable 'tr' is not sensitive to clustering."} -->
-<!-- knitr::include_graphics("./figures/basisStructure.png") -->
-<!-- ``` -->
-
-<!-- Exploring the sensitivity of structure in a projection to the contributions of particular variables requires **geodesic interpolation** to remove the variable from (or into) the projection plane. Geodesic interpolation is effectively a rotation, it maintains orthonormality of all new data projections and any intermediate projections. Geodesic interpolation is used in tour methods [cook_grand_2008; @asimov_grand_1994], including the **grand tour** which shows (automated) movies of low-dimensional projections of high-dimensional spaces. The `tourr` package [@wickham_tourr:_2011] in R provides a range of automated tours.  -->
-
-<!-- Sensitivity analysis is ideally achieved with user-controlled steering where the human controls the rotation of a variable into and out of a projection. This will enable various intermediate states to be shown to better understand the effect of single variables. -->
