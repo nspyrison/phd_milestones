@@ -186,7 +186,7 @@ This is my assessment of the completion of the thesis research thus far:
 - Literature review -- 80%
 - (RO #1) GI \& manual tours -- 90%
 - (RO #2) manual tour efficacy user study -- 80%
-- (RO #3) manual tour applied to SHAP values  -- 60%
+- (RO #3) manual tour interpretability, XAI -- 60%
 - Conclusion and future plans -- 40%
 
 Figure \@ref(fig:timeline) illustrates the purposed timeline for this research.
@@ -213,8 +213,14 @@ knitr::include_graphics("figures/phd_timeline.png")
 # Other Contributions
 
 - “Is IEEE VIS *that* good?”, AltVis [@spyrison_is_2021]
+- Student Volunteer, UseR2021 Online
 - A Review of the State-of-the-Art on tours Dynamic Visualization of High-dimensional Data [@lee_review_2021]
-- 1st place in 2020 Melbourne Data Marathon [@barrow_melbourne_2020]
+- 1st place in 2020 Melbourne Data Marathon [@barrow_melbourne_2020] <!-- Oct? 2020 -->
+- EBS PhD reading group, Introduction to linear & nonlinear dimension eduction, discussing: "Dimensionality Reduction: A Comparative
+Review. van der Maaten" 2020 <!-- August 2020 --> 
+- Student Volunteer, CHI Down Under 2020 Online
+- NUMBAT Workshop, Animating ggplot2 figures with gganimate, 2018 <!-- Oct 2018 --> 
+- Student Volunteer, UseR2018 Online
 
 # Acknowledgements {#sec:acknowledgements}
 

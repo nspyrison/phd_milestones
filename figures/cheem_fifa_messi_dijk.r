@@ -2,6 +2,24 @@ require("DALEX")
 require("dplyr")
 require("ggplot2")
 
+## Local func
+my_boxplot_df <- function(pred_parts, player_tag = "<tag unused>"){
+  ## Remade from: iBreakDown:::print.break_down_uncertainty
+  data.frame(
+    player = player_tag,
+    label = tapply(pred_parts$label, paste(pred_parts$label, pred_parts$variable, sep = ": "), unique, na.rm = TRUE),
+    variable = tapply(pred_parts$variable_name, paste(pred_parts$label, pred_parts$variable, sep = ": "), unique, na.rm = TRUE),
+    value = tapply(pred_parts$variable_value, paste(pred_parts$label, pred_parts$variable, sep = ": "), unique, na.rm = TRUE), ## oos variable value
+    ## Of the distribution of local attributions:
+    min    = tapply(pred_parts$contribution, paste(pred_parts$label, pred_parts$variable, sep = ": "), min, na.rm = TRUE),
+    q1     = tapply(pred_parts$contribution, paste(pred_parts$label, pred_parts$variable, sep = ": "), quantile, 0.25, na.rm = TRUE),
+    median = tapply(pred_parts$contribution, paste(pred_parts$label, pred_parts$variable, sep = ": "), median, na.rm = TRUE),
+    q3     = tapply(pred_parts$contribution, paste(pred_parts$label, pred_parts$variable, sep = ": "), quantile, 0.75, na.rm = TRUE),
+    max    = tapply(pred_parts$contribution, paste(pred_parts$label, pred_parts$variable, sep = ": "), max, na.rm = TRUE))
+}
+
+
+
 ### Create FIFA x ------
 .raw <- DALEX::fifa
 .dat_less_ys <- .raw %>%
@@ -23,10 +41,10 @@ if(F) ## View corrplot?
 dat <- .dat_less_ys %>%
   dplyr::mutate(
     .keep = "none",
-    bdy = (weight_kg+(height_cm/100L)^2L)/2L, ## bmi wasn't working well after 01 scaling.
+    bmi = (weight_kg+(height_cm/100L)^2L),
     age = age,
     react = movement_reactions,
-    atk = (attacking_finishing+skill_long_passing+attacking_volleys+
+    off = (attacking_finishing+skill_long_passing+attacking_volleys+
              power_long_shots+skill_curve+mentality_positioning+attacking_crossing+
              attacking_short_passing+skill_dribbling+skill_ball_control)/10L,
     def = (defending_sliding_tackle+mentality_interceptions+
@@ -64,48 +82,66 @@ rf_mod <- randomForest::randomForest(Y~., data = data.frame(Y, X),
 ## DALEX parts
 rf_expl <- DALEX::explain(model = rf_mod,
                           data  = X,
-                          y     = Y, 
+                          y     = Y,
                           label = "Random Forest")
+## Messi SHAP
 messi <- X[1, ]
-## Messi Shap
 shap_messi <- predict_parts(explainer       = rf_expl,
                             new_observation = messi,
                             type            = "shap",
-                            B               = 25L) 
-## B is the number of random variable order perms to order the magnetude of, 25 is default
-g1 <- plot(shap_messi) +
-  ggtitle("SHAP, L. Messi")
+                            B               = 25L)
+box_df_messi <- my_boxplot_df(shap_messi, "Messi")
+.lvl_ord <- box_df_messi$variable[order(box_df_messi$median, decreasing = TRUE)]
+
+## Virgil van Dijk SHAP
+dijk <- X[8, ]
+shap_dijk <- predict_parts(explainer       = rf_expl,
+                           new_observation = dijk,
+                           type            = "shap",
+                           B               = 25L,
+                           order = .lvl_ord)
+box_df_dijk <- my_boxplot_df(shap_dijk, "van Dijk")
+boxplot_df <- rbind(box_df_messi, box_df_dijk)
+boxplot_df$variable <- factor(boxplot_df$variable, levels = rev(.lvl_ord))
+boxplot_df$Player <- boxplot_df$player
+
+(g1 <- ggplot(boxplot_df, aes(x=variable, color=Player, fill=Player)) +
+  geom_boxplot(
+    aes(ymin=min, lower=q1, middle=median, upper=q3, ymax=max),
+    stat = "identity", alpha =.3) +
+    coord_flip() + 
+    theme_bw() + 
+    scale_color_brewer(palette = "Dark2") +
+    scale_fill_brewer(palette = "Dark2") +
+    labs("SHAP Values",
+         y = "SHAP value", x = "Variable") +
+    theme(legend.margin = margin(0,0,0,0),
+          legend.position = "top")
+  )
+
+
 ## Messi Breakdown
 bd_messi <- predict_parts(explainer       = rf_expl,
                           new_observation = messi,
                           type            = "break_down")
 g2 <- plot(bd_messi, max_features = 9) +
-  ggtitle("Break Down, L. Messi")
-## Virgil Van Dijk
-dijk <- X[8, ]
-shap_dijk <- predict_parts(explainer       = rf_expl, 
-                           new_observation = dijk, 
-                           type            = "shap",
-                           B               = 25L,
-                           order = c("react", "atk", "mvm", "acc",
-                                     "age", "def", "bdy", "pwr", "gk")) 
-## B is the number of random variable order perms to order the magnetude of, 25 is default
-g3 <- plot(shap_dijk) +
-  ggtitle("SHAP, V. van Dijk")
+  ggtitle("Break Down, Messi")
+
+# ## B is the number of random variable order perms to order the magnetude of, 25 is default
+# g3 <- plot(shap_dijk) +
+#   ggtitle("SHAP, V. van Dijk")
 ## Messi Breakdown
 bd_dijk <- predict_parts(explainer       = rf_expl,
                          new_observation = dijk,
-                         type            = "break_down",
-                         order = c("react", "atk", "mvm", "acc",
-                                   "age", "def", "bdy", "pwr", "gk"))
+                         type            = "break_down")
 g4 <- plot(bd_dijk, max_features = 9) +
-  ggtitle("Break Down, V. van Dijk",
+  ggtitle("Break Down, van Dijk",
           "Order of Messi's variables")
 
 ### Plot together
 require("patchwork")
-(g1 + g2) / (g3 + g4)
+pw = (g1) / (g2 / g4)
 
-## SAVE -----
-ggplot2::ggsave("./figures/cheem_fifa_messi_dijk.pdf", device = "pdf",
-                width = 8, height = 5, units = "in")
+ ## SAVE -----
+ggplot2::ggsave("./figures/cheem_fifa_messi_dijk.pdf", pw, device = "pdf",
+                width = 4, height = 9, units = "in")
