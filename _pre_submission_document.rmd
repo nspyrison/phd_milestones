@@ -143,19 +143,24 @@ knitr::include_graphics(
 A more in-depth description and discussion of this user study is attached as appendix A, a draft version of the paper we intend to submit to the Journal of Data Science, Statistics, and Visualization.
 
 
-## Trees of Cheem
+## Extending the interpretation of black-box models with use of interactive continous linear projections
 
-For the third project the higher-level goal is to use manual tours, that is, interactive, continuous linear projections in order to improve the interpretability of black-box models. There are different measures and degrees of specificity that describe a model. Local explanations describe the linear variable weights in the vicinity of an observation, given the model. Below we use the local explanation, SHAP, as applied to a random forest model. This is in the interest of mitigating the relatively long runtime of SHAP. For comparison, the FIFA data we look at below is 5000 observations of 9 aggregate skill attributes, which takes 10 seconds to fit the random forest model, but about 1230 seconds to extract all 5000 SHAP values.
+For the third project the higher-level goal is to use interactive, continuous linear projections in order to improve the interpretability of black-box models. Local explanations describe the linear variable weights in the vicinity of an observation for a given the model. To introduce the idea of SHAP values, consider FIFA soccer data[@leone_fifa_2020]. We use 5000 player-observations of 9 aggregate skill measures to predict wages in a random forest model. We use SHAP to observe how the skill attribution changes in the vicinity of players of different fielding positions.
 
-### SHAP values and prediction explanations.
+### SHAP values; local variable weights and additive prediction explanations.
 
-To illustrate SHAP we use a dataset of FIFA soccer players (2020 season), a subset of 5000 players, observations of 42 wage, and skill variables[@leone_fifa_2020]. Following the work in [@biecek_dalex_2018, @biecek_explanatory_2021] we can extract SHAP values and also create a "break down" profile explanation of the observations prediction. Such an additive explanation has an asymmetry to the ordering of its variables. The figure below take a look at the SHAP and break down profiles of a star offensive and defensive player.
+We have trained a random forest model and wish to further explore weightings of this non-linear model. Following the work in [@biecek_dalex_2018, @biecek_explanatory_2021] we can similarly extract SHAP values, highlighting the that different skills are valued differently across player positions within the model. We also show "break down" profiles, that is additive prediction explanations, how much of each players predicted wages is added by each variable. The figure below takes a look at the SHAP and break down profiles of a star offensive and defensive player.
 
 ```{r cheemShapBd, echo=FALSE, out.width = "100%", fig.align='center', fig.cap = "SHAP values and prediction explanations of an offensive player (Messi, top) and a defensive player (van Dijk). SHAP values show a change in weights at the location of each player. Break down profiles show one order-sensitive explanation for the prediction of that observation."}
 knitr::include_graphics("figures/cheem_fifa_messi_dijk.pdf")
 ```
 
-While this shows the differing of weights across 2 different fielders within the same model we have lost sense of the global distribution of the explanatory variables. We illustrate this with the smaller Palmer penguins data[@gorman_ecological_2014]. We will extract all observation's SHAP values. We now have the original $[n~\times~p]$ data and wish to compare it with the distribution of the SHAP matrix of the same dimensionality. We approximate their data with the first 2 principal components. We extract the with-in class Mahalanobis distance and put the QQ plots of these distances for a comparison of how sensitive the SHAP space is relative to the data space.
+### Trees of Cheem
+
+Above, we highlight the differing of weights across 2 different fielder positions within the same model. It is hard to see where this fits in the full context of the other observations. Below we create a global (all observation) view approximating the data and SHAP-spaces in 2d (PC1 & 2). Additionally, we want to see how much more sensitive the SHAP values are compared with their data counter-parts. To do so, we extact the Mahanaobis distances to better understand how extreme each observation is. 
+
+#### TODO:XXX palmerpenguins to toy data 
+We illustrate this with the smaller Palmer penguins data[@gorman_ecological_2014]. We will extract all observation's SHAP values. We now have the original $[n~\times~p]$ data and wish to compare it with the distribution of the SHAP matrix of the same dimensionality. We approximate their data with the first 2 principal components. We extract the with-in class Mahalanobis distance and put the QQ plots of these distances for a comparison of how sensitive the SHAP space is relative to the data space.
 
 ```{r cheemAppPenguins, echo=FALSE, out.width = "100%", fig.align='center', fig.cap = "Screen capture from an interactive shiny application. Data and SHAP spaces (top and bottom respectively) of Palmer penguins by the first 2 principal components and quantile-quantile plots of their with-in class Mahalanobis distances (left and right respectively. The points are colored and shaped according to their predicted class, misclassified points are identified with a red circle. A class-corrupted target observation '*' is shown in comparison with nearby real observation 'x'. These same two points are tracked in the proceeding tour."}
 knitr::include_graphics("figures/cheem_pca_qq_maha.PNG")
@@ -171,7 +176,7 @@ The application is quickly maturing and will be shown to experts for comment. Th
 
 ### Discussion
 
-We have used radial tours to improve the interpretability of black-box models by exploring local explanation SHAP's sensitive to misclassified observations. It is important to note that this is independent of the quality of the model or even the quality of the explanation. Indeed the very term explanation feels like a bit of a misnomer as it seems to imply reason or validity, rather I prefer to think of it as local weightings of the model. 
+We have used radial tours to improve the interpretability of black-box models by exploring local explanation, SHAP values, sensitive to misclassified observations. It is important to note that this is independent of the quality of the model or even the quality of the explanation. Indeed the very term explanation feels like a bit of a misnomer as it seems to imply reason or validity, rather I prefer to think of it as local weightings of the model.
 
 Keeping in mind the real-world application is particularly important. Finding methods to better interpret black-box models is an important challenge as corporations and nation-states increasingly use complex models to classify and predict their customers and citizens. Being able to glean insight into a models weights and how they differ for misclassified observations is extremely important for building and challenging models as we attempt to build a just world of tomorrow.
 
