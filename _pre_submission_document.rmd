@@ -164,13 +164,15 @@ We approximate the data and SHAP spaces as the first 2 principal components. In 
 
 #### TODO:XXX New plot with simulated data, Add in the skew test?
 
-```{r cheemPcaQq, echo=FALSE, out.width = "100%", fig.align='center', fig.cap = "Screen capture from an interactive shiny application. Data and SHAP spaces (top and bottom respectively) of Palmer penguins by the first 2 principal components and quantile-quantile plots of their with-in class Mahalanobis distances (left and right respectively. The points are colored and shaped according to their predicted class, misclassified points are identified with a red circle. A class-corrupted target observation '*' is shown in comparison with nearby real observation 'x'. These same two points are tracked in the proceeding tour."}
+```{r cheemPcaQq, echo=FALSE, out.width = "100%", fig.align='center', fig.cap = "Screen capture from an interactive shiny application. Data and SHAP spaces (top and bottom respectively) of Palmer penguins by the first 2 principal components and quantile-quantile plots of their with-in class Mahalanobis distances (left and right respectively. The points are colored and shaped according to their predicted class, misclassified points are identified with a red circle."}
+# A class-corrupted target observation '*' is shown in comparison with nearby real observation 'x'. These same two points are tracked in the proceeding tour.
 knitr::include_graphics("figures/cheem_pca_qq_maha.pdf")
 ```
 
 Given the global view above we want to look at the local weightings of primary and comparison points (shown as '*/x' above and dashed/dotted lines below). In this case, the primary observation is a class-corrupted observation while the comparison point is a correctly classified nearby point. The idea is to view just how sensitive SHAP values are to this sort of class-corruption attack.
 
-```{r cheemTour, echo=FALSE, out.width = "100%", fig.align='center', fig.cap = "The first frame of the radial tour. The SHAP values of the selected '*' from the preceding figure given the variable weights of the 1D basis (grey/blue bars on top), the class distributions of the SHAP values are shown as parallel coordinate plots above each variable contribution. The class densities and rug values are shown on the bottom. A light grey light shows zero on the projection, with the dashed and dotted lines correspond to the position of primary and comparison observations ('*/x' in the preceeding figure). The tour animates over small changes in the basis (top bars) as the variable with the largest contribution (weight) is rotated to have a full contribution, zero contribution, and then back to the initial contribution."}
+```{r cheemTour, echo=FALSE, out.width = "100%", fig.align='center', fig.cap = "The first frame of the radial tour. The SHAP values of the selected observation set the inital basis, shown as the grey and black bars on top. Within class distributions of the SHAP values are shown as parallel coordinate plots above each variable contribution. The class densities and observation positions of the 1D projection are shown on the bottom. The tour animates over small changes in the basis (top bars) as the variable with the largest contribution (weight) is rotated to have a full contribution, zero contribution, and then back to the initial contribution."}
+# A light grey line shows zero on the projection, with the dashed and dotted lines correspond to the position of primary and comparison observations ('*/x' in the preceeding figure).
 knitr::include_graphics("figures/cheem_manualtour.PNG")
 ```
 
@@ -184,8 +186,7 @@ Keeping in mind the real-world application is particularly important. Finding me
 
 
 # Proposed thesis structure & program requirement
-
-
+<!-- For thesis structure see: https://thesisgeek.com/blog/thesis-structure/ -->
 
 This is my assessment of the completion of the thesis research thus far:
 
@@ -193,19 +194,25 @@ This is my assessment of the completion of the thesis research thus far:
 - Literature review -- 80%
 - (RO #1) GI \& manual tours -- 90%
 - (RO #2) manual tour efficacy user study -- 80%
-- (RO #3) manual tour interpretability, XAI -- 60%
-- Conclusion and future plans -- 40%
+- (RO #3) manual tour interpretability, XAI -- 70%
+- Discussion -- 70%
+<!-- Explain to the audience what your results mean for the scientific community. -->
+<!-- Comment on each of the results and discuss how your findings support your thesis. -->
+<!-- Explain any unexpected results so the evaluation committee can see that you know what you’re doing. -->
+<!-- Interpret the results and tie them with other research on the subject. How does your research help the academic community? -->
+- Conclusion -- 40%
+<!-- show your readers that you have achieved your research objectives. You can talk a bit about what you’ve learned in the process and even make some suggestions regarding the need for future research. In most cases, students also reiterate the thesis statement at the beginning of the conclusion, followed by a short summary of the paper’s most important chapters. -->
 
 The other requirements for this program are complete.
 
 Figure \@ref(fig:timeline) illustrates the purposed timeline for this research.
 
 ```{r timeline, echo=FALSE, out.width = "100%", out.extra = '', fig.cap = "Proposed research timeline."}
-knitr::include_graphics("figures/phd_timeline.png")
+knitr::include_graphics("figures/timeline_post_presubmission.png")
 ```
 
 <!-- ## Program requirements -->
-<!-- <!-- http://www.monash.edu/pubs/2018handbooks/aos/information-technology-phd-program/ --> 
+<!-- <!-- http://www.monash.edu/pubs/2018handbooks/aos/information-technology-phd-program/ -->
 
 <!-- - WES Academic record -->
 <!--     - FIT5144: 2019 S1+2, **Completed**, extended to the pre-submission seminar with the unit coordinator for the usual 2 opportunities to complete. -->
@@ -233,7 +240,9 @@ Review. van der Maaten" 2020 <!-- August 2020 -->
 
 # Acknowledgements {#sec:acknowledgements}
 
-This research was supported by an Australian Government Research Training Program (RTP) Scholarship. This article was created in `R` [@r_core_team_r:_2020] and `rmarkdown` [@xie_r_2018].
+I would like to thank Professor Przemyslaw Biecek for his time and input in suggesting to look at SHAP local explainations and try applying to the FIFA dataset.
+
+This research was supported by an Australian government Research Training Program (RTP) scholarship. This article was created in `R` [@r_core_team_r:_2020] and `rmarkdown` [@xie_r_2018].
 
 For transparency and reproducibility, the source files are made available at [github.com/nspyrison/phd_milestones](https://github.com/nspyrison/phd_milestones).
 
