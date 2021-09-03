@@ -13,72 +13,100 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
+editor_options: 
+  chunk_output_type: console
 ---
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(eval      = TRUE,   # R code 
+knitr::opts_chunk$set(eval      = TRUE,   # R code
                       echo      = FALSE,  # code text
                       include   = TRUE,   # plots
                       results   = 'asis', # text 'markup' 'asis' 'hold' 'hide'
                       fig.align = "center",
                       collapse  = TRUE,
-                      message   = F, warning = F, error = F, 
+                      message   = F, warning = F, error = F,
                       cache     = F, cache.lazy = F
 )
-library(knitr)
-library(kableExtra)
-library(magrittr)
+require("knitr")
+require("kableExtra")
+require("magrittr")
 ```
+
+
+## Outline
+
+- Introduction
+- Motivation
+- Research objectives & methology
+- Refresher: linear projections
+RO#2:\
+- User study model
+- User study results
+RO#3:\
+XXX, TODO
+
+
+---
+
+## Introduction
+
+- Multivariate data visualization
+- Data visualization _tour_; continuous linear projection over small changes in the projection basis
+- _Radial_ tour (RO#1); given a basis and variable to manipulate, rotate its contribution to full, zero, and back to the initial
+- Efficacy of the radial tour (RO#2); $n=108$ within-participant user study against the alternatives PCA and grand tour
+- Improving the interpretability of black-box models using of tours
+-- Local explanation of black-box models 
+
+---
 
 ## Motivation
 
-- _Exploratory data analysis (EDA)_ is important and ubiquitous
-- 2D EDA: visualization is more robust and thorough than statistical summarization alone
-- Visualization of high dimension space, $p > 3$ is non-trivial
-- _Need more options in the analysts' toolbelt to explore high-dimension spaces!_
+- _Exploratory data analysis_ is important for understanding the data and testing the validity of assumptions
+- Visualization is more robust and thorough than statistical summarization alone, _Eg._ datasaurus dozen below
+- Tours are one way to extend our ability to visualize linear data space as dimensions increase
 
 ```{r, echo = F, out.width = '75%'}
 knitr::include_graphics("./slide_figures/AllDinosAnimatedSmaller.gif")
 ```
-Datasaurus dozen; same means, standard deviations, and correlations _(Matejka & Fitzmaurice, 2017)_
+Datasaurus dozen; same numeric statistics are opaque to patterns in the data _(Matejka & Fitzmaurice, 2017)_
 
 ---
 
-## Scope of data
+<!-- ## Type/scope of the data -->
 
-__Multivariate tabular,__ $n$ observations of $p$ attributes
-- Can be feature- or parameter- decomposition of non-standard formats
+<!-- __Multivariate tabular,__ $n$ observations of $p$ attributes -->
+<!-- - Can be feature- or parameter- decomposition of non-standard formats -->
 
-```{r, echo = F, out.width = '90%'}
-knitr::include_graphics("./slide_figures/tmunzner_vad16.png")
-```
-_(Munzner, 2014)_
+<!-- ```{r, echo = F, out.width = '90%'} -->
+<!-- knitr::include_graphics("./slide_figures/tmunzner_vad16.png") -->
+<!-- ``` -->
+<!-- _(Munzner, 2014)_ -->
 
----
+<!-- --- -->
 
-## Linear projections
+<!-- ## Linear projections -->
 
-- Simple dimension reduction, highlight interesting features
-- Analytical procedures:
-    - Principal component analysis (PCA)
-    - Linear discriminant analysis
-    - Multiple regression
-- Visual procedures:
-    - _Tour_, animation of many frames that are close
-    - Types: grand, guided, little, local, manual (most available in `tourr` R package)
-    - Method to control the contribution of a single variable _(Cook & Buja, 1997)_
+<!-- - Simple dimension reduction, highlight interesting features -->
+<!-- - Analytical procedures: -->
+<!--     - Principal component analysis (PCA) -->
+<!--     - Linear discriminant analysis -->
+<!--     - Multiple regression -->
+<!-- - Visual procedures: -->
+<!--     - _Tour_, animation of many frames that are close -->
+<!--     - Types: grand, guided, little, local, manual (most available in `tourr` R package) -->
+<!--     - Method to control the contribution of a single variable _(Cook & Buja, 1997)_ -->
 
-__Shadow analogy:__
-```{r, echo = F, out.width = '65%'}
-knitr::include_graphics("./slide_figures/shadow_puppet.png")
-```
+<!-- __Shadow analogy:__ -->
+<!-- ```{r, echo = F, out.width = '65%'} -->
+<!-- knitr::include_graphics("./slide_figures/shadow_puppet.png") -->
+<!-- ``` -->
 
----
+<!-- --- -->
 
-## Basis
+## Linear projections & bases
 
-Linear projections are specified by their basis.
-- Each column is a linear combinations the original variables 
-- _Orthonormal_: all columns at right angles and of length 1
+Linear projections are specified by their basis
+- Each column is a linear combinations the original variables
+- _Orthonormal_: all columns at right angles (orthogonal) and of length 1 (normal)
 
 ```{r, echo = F, out.width = '82%'}
 knitr::include_graphics("./slide_figures/basis.png")
@@ -86,64 +114,49 @@ knitr::include_graphics("./slide_figures/basis.png")
 
 ---
 
-## Geodesic interpolation (GI)
+<!-- ## Geodesic interpolation (GI) -->
 
-Selection of intermediate bases along the shortest path of orthonormal bases.
+<!-- Selection of intermediate bases along the shortest path of orthonormal bases. -->
 
-- Used in other tour methods including the grand tour _(Asimov, 1985)_
+<!-- - Used in other tour methods including the grand tour _(Asimov, 1985)_ -->
 
-```{r, echo = F, out.width = '62%'}
-knitr::include_graphics("./slide_figures/buja05fig.png")
-```
-_(Buja et al., 2005)_
+<!-- ```{r, echo = F, out.width = '62%'} -->
+<!-- knitr::include_graphics("./slide_figures/buja05fig.png") -->
+<!-- ``` -->
+<!-- _(Buja et al., 2005)_ -->
 
----
+<!-- --- -->
 
-## Sensitivity of structure in a projection
+<!-- ## Sensitivity of structure in a projection -->
 
-- Some variables are more sensitive to the structure within a projection
-- Illustrated by controling variable contributions:
+<!-- - Some variables are more sensitive to the structure within a projection -->
+<!-- - Illustrated by controlling variable contributions: -->
 
-```{r, echo = F, out.width = '87%'}
-knitr::include_graphics("./slide_figures/basisStructure.png")
-```
+<!-- ```{r, echo = F, out.width = '87%'} -->
+<!-- knitr::include_graphics("./slide_figures/basisStructure.png") -->
+<!-- ``` -->
 
----
+<!-- --- -->
 
-## Research objectives
+## Research objectives & methology
 
-__Can user-guided geodesic interpolation help analysts understand linear projections of data and explore the sensitivity of structure in the projection to the variables contributing to the projection?__
+__Can user-guided geodesic interpolation help analysts understand linear projections and explore the sensitivity of structure in the projection to the variables contributing to the projection?__
 <br>
 
-- 1) How do we define user interaction for a geodesic interpolator to add and remove variables smoothly from a 2D linear projection of data? 
-    - _Algorithm design_ adapt and apply manual interaction (interactive 2D GI)
-- 2) Do analysts understand the relationship between variables and structure in a 2D linear projection better when the interactive geodesic interpolator is available? 
-    - _Experimental study_ comparing the efficacy of 2D GI (2D GI usability study)
-- 3) Can we define a geodesic interpolator for 3D projections so that the technology can be implemented in modern virtual reality environments? 
-    - _Algorithm design_ extend and apply theory to 3D (interactive 3D GI)
-- 4) Does geodesic interpolation in 3D provide advantages over 2D for understanding structure in linear projections? (3D GI usability study)
-    - _Experimental study_ comparing the efficacy of 3D GI (3D GI usability study)
+- 1) Define user interaction for a geodesic interpolator to add and remove variables from a 2D linear projection
+    - *Algorithm design*, develop and apply manual interaction; R package `{spinifex}` _Spyrison, et al, 2019_
+- 2) Do analysts better understand the relationship between variables and structure in a 2D linear projection better when the interactive geodesic interpolator is available?
+    - *Experimental study*, $n=108$ within participant user study comparing radial tours with PCA, and the grand tour. Below we'll briefly get into the model and results
+- 3) Can the geodesic interpolator be used in conjunction with the local explanation, SHAP, to improve the interpretability of black-box models?
+    - *visualization design*, how can we best view the sensitivity of the SHAP matrix, and what can we gain by exploring a single local explanation with radial tours
+
 
 ---
 
-## Progress since confirmation -- interactive 2D GI (RO #1)
+## User study model
 
-.large[
-Paper: 
-- R Journal (_accepted_, to be published in next issue)
-- Adaptation:
-    - Define the axes of rotation
-    - Proof for the rotation matrix with the application of Rodrigues' formula _(Rodrigues, 1840)_
-    - Initialization of angle parameters to clarify the understanding and implementation
-- Application to particle physics data
-- Appendix A of the milestone document
-
-Software: `spinifex` R package, available on [CRAN](https://cran.r-project.org/web/packages/spinifex/index.html)
-]
-
----
-
-## Work in progress -- 2D GI usability study (RO #2)
+- random effects mixed regression model regressing:
+- $y_1$, accuracy, $y_2$, response time.
 
 .large[.large[ 
 Experimental study:
