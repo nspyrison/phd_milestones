@@ -64,10 +64,10 @@ XXX, TODO
 - Visualization is more robust and thorough than statistical summarization alone, _Eg._ datasaurus dozen below
 - Tours are one way to extend our ability to visualize linear data space as dimensions increase
 
-```{r, echo = F, out.width = '75%'}
+```{r, echo = F, out.width = '80%'}
 knitr::include_graphics("./slide_figures/AllDinosAnimatedSmaller.gif")
 ```
-Datasaurus dozen; same numeric statistics are opaque to patterns in the data _(Matejka & Fitzmaurice, 2017)_
+_(Matejka & Fitzmaurice, 2017)_
 
 ---
 

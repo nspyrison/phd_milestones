@@ -173,7 +173,7 @@ dist_df$variable <- factor(dist_df$variable, levels = rev(.lvl_ord))
     scale_color_brewer(palette = "Dark2") +
     scale_fill_brewer(palette = "Dark2") +
     labs(title="SHAP values",
-         y = "Variable", x = "SHAP value, normalized\nmedian of the contritributions, permuting X's") +
+         y = "Variable", x = "SHAP value, normalized\nmedian of the contributions, permuting X's") +
     theme(legend.position = "off")
   )
 

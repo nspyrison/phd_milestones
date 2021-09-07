@@ -3,7 +3,7 @@ require("plotly")
 require("spinifex")
 load("../trees_of_cheem/apps/cheem_app/data/0local_funcs.RData")
 load("../trees_of_cheem/apps/cheem_app/data/2preprocess_simulation.RData")
-shap_obs <- 19L; comp_obs <- 4L;
+shap_obs <- 18L; comp_obs <- 111L;
 
 ## PCA of data/SHAP -----
 THIS_linked_plotly_func <- function(
@@ -93,10 +93,12 @@ THIS_linked_plotly_func <- function(
 }
 p <- THIS_linked_plotly_func(shap_layer_ls, shap_obs, comp_obs,
                              do_include_maha_qq = FALSE)
-p <- p + labs(title = "PC1:2 of data and SHAP spaces",
-              caption = paste0("Predicted class mapped to color & shape\n",
-                               "Red circles indicate a misclassified observation\n",
-                               "'*' is out observation of interest, 'x' is a nearby comparison")
+p <- p + 
+  labs(title = "PC1:2 of data and SHAP spaces",
+       caption = paste0("Predicted class mapped to color & shape\n",
+                        "Red circles indicate a misclassified observation\n",
+                        "'*' is an observation of interest\n",
+                        "'x' is comparison observation, nearby in the data, but distant in the SHAP space")
 ) + theme(aspect.ratio=1)
 ### Export static & interactive PCA data/shap of sim -----
 ## Save static png
@@ -109,7 +111,7 @@ ggp <- ggplotly(p, tooltip = "tooltip") %>%
   layout(dragmode = "select", showlegend = FALSE) %>% ## Set drag left mouse
   event_register("plotly_selected") %>% ## Reflect "selected", on release of the mouse button.
   highlight(on = "plotly_selected", off = "plotly_deselect")
-htmlwidgets::saveWidget(ggp, "./figures/cheem_pca_interactive.html",
+htmlwidgets::saveWidget(ggp, "./figures/cheem_pca_widget.html",
                         selfcontained = TRUE)
 
 ## 1D manual tour of cheem ----
@@ -124,21 +126,21 @@ ggt142 <- manual_tour1d_func(
   shap_layer_ls, bas, mv_nm,
   shap_obs, comp_obs,
   do_add_pcp_segements = TRUE,
-  pcp_shape = c(142, 124) ## '|' plotly and gganimate respectively
-)
-animate_plotly(ggt142) %>% layout(dragmode = FALSE, showlegend = FALSE) %>% ## Set drag left mouse
+  pcp_shape = c(142, 124), ## '|' plotly and gganimate respectively
+  angle = 1.1)
+anim <- animate_plotly(ggt142) %>% layout(dragmode = FALSE, showlegend = FALSE) %>% ## Set drag left mouse
   event_register("plotly_selected") %>% ## Reflect "selected", on release of the mouse button.
   highlight(on = "plotly_selected", off = "plotly_deselect")
+htmlwidgets::saveWidget(anim, "./figures/cheem_manualtour_widget.html",
+                        selfcontained = TRUE)
 
-#debugonce(manual_tour1d_func)
 ggt124 <- manual_tour1d_func(
   shap_layer_ls, bas, mv_nm,
   shap_obs, comp_obs,
   do_add_pcp_segements = TRUE,
   pcp_shape = 124,
-  angle = 1.9
-)
-gg <- spinifex::filmstrip(ggt124)
+  angle = 1.3)
+(gg <- spinifex::filmstrip(ggt124))
 ggplot2::ggsave("./figures/cheem_manualtour.pdf", plot = gg, device = "pdf",
-                width = 8, height = 7, units = "in")
+                width = 8, height = 9, units = "in")
 

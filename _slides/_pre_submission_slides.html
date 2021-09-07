@@ -20,14 +20,18 @@ class: center, middle, inverse, title-slide
 
 
 
----
-
-
 
 ## Outline
 
-
--  
+- Introduction
+- Motivation
+- Research objectives &amp; methology
+- Refresher: linear projections
+RO#2:\
+- User study model
+- User study results
+RO#3:\
+XXX, TODO
 
 
 ---
@@ -49,8 +53,8 @@ class: center, middle, inverse, title-slide
 - Visualization is more robust and thorough than statistical summarization alone, _Eg._ datasaurus dozen below
 - Tours are one way to extend our ability to visualize linear data space as dimensions increase
 
-&lt;img src="./slide_figures/AllDinosAnimatedSmaller.gif" width="75%" style="display: block; margin: auto;" /&gt;
-Datasaurus dozen; same numeric statistics are opaque to patterns in the data _(Matejka &amp; Fitzmaurice, 2017)_
+&lt;img src="./slide_figures/AllDinosAnimatedSmaller.gif" width="80%" style="display: block; margin: auto;" /&gt;
+_(Matejka &amp; Fitzmaurice, 2017)_
 
 ---
 
@@ -108,49 +112,36 @@ Linear projections are specified by their basis
 
 &lt;!-- --- --&gt;
 
-## Sensitivity of structure in a projection
+&lt;!-- ## Sensitivity of structure in a projection --&gt;
 
-- Some variables are more sensitive to the structure within a projection
-- Illustrated by controlling variable contributions:
+&lt;!-- - Some variables are more sensitive to the structure within a projection --&gt;
+&lt;!-- - Illustrated by controlling variable contributions: --&gt;
 
-&lt;img src="./slide_figures/basisStructure.png" width="87%" style="display: block; margin: auto;" /&gt;
+&lt;!-- ```{r, echo = F, out.width = '87%'} --&gt;
+&lt;!-- knitr::include_graphics("./slide_figures/basisStructure.png") --&gt;
+&lt;!-- ``` --&gt;
 
----
+&lt;!-- --- --&gt;
 
-## Research objectives
+## Research objectives &amp; methology
 
-__Can user-guided geodesic interpolation help analysts understand linear projections of data and explore the sensitivity of structure in the projection to the variables contributing to the projection?__
+__Can user-guided geodesic interpolation help analysts understand linear projections and explore the sensitivity of structure in the projection to the variables contributing to the projection?__
 &lt;br&gt;
 
-- 1) How do we define user interaction for a geodesic interpolator to add and remove variables smoothly from a 2D linear projection of data? 
-    - _Algorithm design_ adapt and apply manual interaction (interactive 2D GI)
-- 2) Do analysts understand the relationship between variables and structure in a 2D linear projection better when the interactive geodesic interpolator is available? 
-    - _Experimental study_ comparing the efficacy of 2D GI (2D GI usability study)
-- 3) Can we define a geodesic interpolator for 3D projections so that the technology can be implemented in modern virtual reality environments? 
-    - _Algorithm design_ extend and apply theory to 3D (interactive 3D GI)
-- 4) Does geodesic interpolation in 3D provide advantages over 2D for understanding structure in linear projections? (3D GI usability study)
-    - _Experimental study_ comparing the efficacy of 3D GI (3D GI usability study)
+- 1) Define user interaction for a geodesic interpolator to add and remove variables from a 2D linear projection
+    - *Algorithm design*, develop and apply manual interaction; R package `{spinifex}` _Spyrison, et al, 2019_
+- 2) Do analysts better understand the relationship between variables and structure in a 2D linear projection better when the interactive geodesic interpolator is available?
+    - *Experimental study*, `\(n=108\)` within participant user study comparing radial tours with PCA, and the grand tour. Below we'll briefly get into the model and results
+- 3) Can the geodesic interpolator be used in conjunction with the local explanation, SHAP, to improve the interpretability of black-box models?
+    - *visualization design*, how can we best view the sensitivity of the SHAP matrix, and what can we gain by exploring a single local explanation with radial tours
+
 
 ---
 
-## Progress since confirmation -- interactive 2D GI (RO #1)
+## User study model
 
-.large[
-Paper: 
-- R Journal (_accepted_, to be published in next issue)
-- Adaptation:
-    - Define the axes of rotation
-    - Proof for the rotation matrix with the application of Rodrigues' formula _(Rodrigues, 1840)_
-    - Initialization of angle parameters to clarify the understanding and implementation
-- Application to particle physics data
-- Appendix A of the milestone document
-
-Software: `spinifex` R package, available on [CRAN](https://cran.r-project.org/web/packages/spinifex/index.html)
-]
-
----
-
-## Work in progress -- 2D GI usability study (RO #2)
+- random effects mixed regression model regressing:
+- `\(y_1\)`, accuracy, `\(y_2\)`, response time.
 
 .large[.large[ 
 Experimental study:
