@@ -68,10 +68,10 @@ The term exploratory data analysis (EDA) was coined by @tukey_exploratory_1977, 
 While static documents are the norm, there are sizable benefits of user interaction. Interactive data visualization shift the locus of control back to the user, inviting them to explore and interact with the data, and offers a compact way to explore a wider range of dimensions, questions, and keep the curiosity and the interest of the user.
 
 <!-- Black box, interprebility vs accuracy -->
-With the emerging field of XAI, the constant tension between the  interpretability of a model and its predictive power is receiving more attention. Linear models are the champions of interpretability with modest accuracy while increasing complex models improve accuracy but they can scarcely be interpreted even by experienced practitioners. One way to gain insight into a model is to focus on the local vicinity of one observation, and explain the variable weighting around that location, in an agnostic non-linear model. We call this observation level variable weights a _local explanation_[@biecek_explanatory_2021]. There are various such local explanations, many are tied to specific classes of models, while others are model-agnostic. LIME[@] and SHAP[@] are two such examples.
+With the emerging field of XAI, the constant tension between the  interpretability of a model and its predictive power is receiving more attention. Linear models are the champions of interpretability with modest accuracy while increasing complex models improve accuracy but they can scarcely be interpreted even by experienced practitioners. One way to gain insight into a model is to focus on the local vicinity of one observation, and explain the variable weighting around that location, in an agnostic non-linear model. We call this observation level variable weights a _local explanation_. There are various such local explanations, many are tied to specific classes of models, while others are model-agnostic.
 
 <!-- summary -->
-We know that data visualization is important in EDA and assumption validation. User interaction allows us to explore widely and quickly while allowing us to explore ideas as they arise. These two elements were used to answer the first RO. Their efficacy was supported in response to the second RO. In this work, we apply a manual tour in tandem with SHAP local explanations to address the third RO.
+We know that data visualization is important in EDA and assumption validation. User interaction allows us to explore widely and quickly while allowing us to explore ideas as they arise. These two elements were used to answer the first RO. Their efficacy was supported in response to the second RO. In this work, we apply tours in tandem with local explanations to extend the interpretability of black-box models, RO#3.
 
 
 # Research objectives
@@ -97,11 +97,11 @@ The tension from the trade-off between accuracy and interpretability of black-bo
 # Methodology
 <!-- HOW YOU WILL GO ABOUT EACH PROJECT -->
 
-The research corresponding with RO #1 entails _algorithm design_ adapting the algorithm from @cook_manual_1997. This allows for interactive control of 2D projections and serves as a foundation for the remaining work to follow. 
+The research corresponding with RO #1 entails _algorithm design_ adapting the algorithm from @cook_manual_1997. This allows for interactive control of 2D projections and serves as a foundation for the remaining work to follow.
 
 To address RO #2, a controlled _experimental study_ has explored the efficacy of interactive radial tours as compared with two benchmark methods: Principal Component Analysis (PCA, @pearson_liii._1901) and the grand tour[@asimov_grand_1985]. This was a within-participant user study where each participant experienced each visual. Trials were balanced across 3 other experimental factors: location of the signal, the shape of the cluster distributions, and the dimensionality of the data.
 
-The research for RO #3 involves _visualization design_. We know that the SAHP value is a local explanation for one observation. This SHAP value will also serve as the 1D basis for the manual tour. While using SHAP as a projection basis is novel it is not particularly insightful by itself. We provide tracking marks on the tour as well as showing the within-class distributions of the SHAP components as parallel coordinate marks on the basis. We also offer a global view and quantitative analysis evaluating the sensitivity of the SHAP space relative to the sensitivity of the original data space.
+The research for RO #3 involves _expert review_ of visualization design. We know that the SAHP value is a local explanation for one observation. This SHAP value will also serve as the 1D basis for the manual tour. While using SHAP as a projection basis is novel it is not particularly insightful by itself. We provide tracking marks on the tour as well as showing the within-class distributions of the SHAP components as parallel coordinate marks on the basis. We also offer a global view and quantitative analysis evaluating the sensitivity of the SHAP space relative to the sensitivity of the original data space.
 
 
 # Work since the mid-candidature review
@@ -115,7 +115,7 @@ At the mid-candidature review, we discussed the experimental design of the user 
 
 The $N=108$ within-participant user study collected 6 trials from each participant (648 total), with 2 trials of each of visuals: PCA, grand tour, and radial tour. Three further factors: location, shape, and data dimensionality  were also evenly evaluated for a comparison with the effect of controlling the visuals.
 
-In summary, we use a mixed regression model, using the factors above as main effects, and use the participant and data simulations as random effects. We regress on $Y_1$, accuracy, and $Y_2$, log time. We test increasingly complex interactions of the main effects, but settle on the following model to look at the coefficient output.
+In summary, we use a mixed regression model, using the factors above as main effects, and use the participant and data simulations as random effects. We regress on $Y_1$, accuracy. We test increasingly complex interactions of the main effects, but settle on the following model to look at the coefficient output.
 
 $$
 \begin{array}{ll}
@@ -131,16 +131,15 @@ $$
 \end{array}
 $$
 
-```{r studyResults, echo=FALSE, out.width = "49%", out.extra = '',fig.show='hold',fig.align='center', fig.cap = "Model coefficients regressing against our accuracy measure (left) and log time (right). We have strong evidence supporting a relatively large increase in accuracy with the radial tour. We also notice that there is some evidence suggesting that use of the grand tour is fastest, perhaps because there is no interaction and participants can devote all of their attention to watching the animation once."}
+```{r studyResults, echo=FALSE, out.width = "100%", out.extra = '',fig.show='hold',fig.align='center', fig.cap = "Model coefficients regressing against our accuracy measure (left) and log time (right). We have strong evidence supporting a relatively large increase in accuracy with the radial tour. We also notice that there is some evidence suggesting that use of the grand tour is fastest, perhaps because there is no interaction and participants can devote all of their attention to watching the animation once."}
 # knitr::include_graphics("figures/spinifex_study_exp_factors.PNG")
 # knitr::include_graphics("figures/spinifex_study_task.PNG")
 # knitr::include_graphics("figures/spinifex_study_model.PNG")
-knitr::include_graphics(
-  c("figures/spinifex_study_y1_results.PNG",
-    "figures/spinifex_study_y2_results.PNG"))
+## created in latex above.
+knitr::include_graphics("figures/spinifex_study_y1_results.PNG")
 ```
 
-A more in-depth description and discussion of this user study is attached as appendix A, a draft version of the paper we intend to submit to the Journal of Data Science, Statistics, and Visualization.
+A more in-depth description and discussion of this user study is attached as appendix A, a draft version of the paper we intend to submit to the Journal of Data Science, Statistics, and Visualization. There we also use the the same mixed regression model to predict log response time where grand tour has the fastest responses, presumably due to the lack of interaction.
 
 ## Extending the interpretation of black-box models with the use of interactive continuous linear projections
 
@@ -156,23 +155,20 @@ knitr::include_graphics("figures/cheem_fifa_messi_dijk.pdf")
 
 ### Trees of Cheem
 
-Above, we highlight the differing weights across 2 different fielder positions within the same model. It is hard to see where this fits in the full context of the other observations. Below we create a global (all observation) view approximating the data and SHAP-spaces in 2d (PC1 & 2). Additionally, we want to see how much more sensitive the SHAP values are compared with their data counterparts. To do so, we extract the Mahalanobis distances to better understand how extreme each observation is.
+Above, we highlight the differing weights across 2 different fielder positions within the same model. It is hard to see where this fits in the full context of the other observations. Below we create a global (all observation) view by approximating the data and SHAP-spaces in 2d as the their two principal components.
 
-We illustrate our work we take a look at much simpler data; a simulation of 3 spherical clusters on the vertices of a triangle. The difference between the clusters is contained in the first 2 dimensions with another 2 noise dimensions distributed as unit normal. We will extract all observation's SHAP values, forming a SHAP _matrix_, of the original $[n~\times~p]$, dimensions. We want to show a global view of the SHAP matrix and show how it and its sensitivity differ from that of the original data.
+To illustrate this we take a look at much simpler data; a simulation of 3 spherical clusters on the vertices of a triangle. The difference between the clusters is contained in the first 2 dimensions with another 2 noise dimensions distributed as unit normal. After extracting all observation's SHAP values, forming a SHAP _matrix_, of the original dimensionality, $(n~\times~p)$. We want to show a global view of the SHAP matrix and show how it and its sensitivity differ from that of the original data.
 
-We approximate the data and SHAP spaces as the first 2 principal components. In order to show how much more the SHAP values are than the same observation in data space we first want a univariate measure to explaining how unique an observation is. We accomodate this via the within-class Mahalanobis distances for both spaces. The Mahalanobis distance of an observation is the sum of its univariate z-score for each dimension, $\sum_{i=1}^p(x - \bar{x_i})/\sigma_i$. This is calculated within each cluster, resulting in a single variable measure of how extreme each observation is within its cluster. We add quantile-quantile (QQ) plots of the Mahalanobis distances side-by-side for each space. These QQ plots put the empirical quantiles of a Chi-squared distribution on the X-axis and the observed quantiles on the Y-axis. This illustrates the shape of a univariate distribution, where a normal distribution lies near the x=y line, while left- and right-skewed distributions form a concavity to the left and right of the x=y line respectively. The figure below shows these together. With interactive application, we further couple this display with linked brushing and display the tabular subset of the selected observations.
+We approximate the data and SHAP spaces as the first 2 principal components. With interactive application, we further couple this display with linked brushing and display the tabular subset of the selected observations.
 
-```{r cheemPcaQq, echo=FALSE, out.width = "100%", fig.align='center', fig.cap = "Data and SHAP spaces (top and bottom respectively) of simulated data. The points are colored and shaped according to their predicted class, misclassified points are identified with a red circle."}
-# by the first 2 principal components and quantile-quantile plots of their within-class Mahalanobis distances (left and right respectively.
-# A class-corrupted target observation '*' is shown in comparison with nearby real observation 'x'. These same two points are tracked in the proceeding tour.
-knitr::include_graphics("figures/cheem_pca_qq_maha.pdf")
+```{r cheemPca, echo=FALSE, out.width = "100%", fig.align='center', fig.cap = "Data and SHAP spaces (top and bottom respectively) of simulated data. The points are colored and shaped according to their predicted class, misclassified points are identified with a red circle. A target observation '*' is shown in comparison with nearby observation 'x'. These same two points are tracked in the proceeding tour."}
+knitr::include_graphics("figures/cheem_pca.pdf")
 ```
 
 <!-- Given the global view above we want to look at the local weightings of primary and comparison points (shown as '*/x' above and dashed/dotted lines below). In this case, the primary observation is a class-corrupted observation while the comparison point is a correctly classified nearby point. The idea is to view just how sensitive SHAP values are to this sort of class-corruption attack. -->
 
-```{r cheemTour, echo=FALSE, out.width = "100%", fig.align='center', fig.cap = "The first frame of the radial tour. The SHAP values of the selected observation set the initial basis, shown as the grey and black bars on top. Within class distributions of the SHAP values are shown as parallel coordinate plots above each variable contribution. The class densities and observation positions of the 1D projection are shown on the bottom. The tour animates over small changes in the basis (top bars) as the variable with the largest contribution (weight) is rotated to have a full contribution, zero contribution, and then back to the initial contribution."}
-# A light grey line shows zero on the projection, with the dashed and dotted lines correspond to the position of primary and comparison observations ('*/x' in the preceeding figure).
-knitr::include_graphics("figures/cheem_manualtour.PNG")
+```{r cheemTour, echo=FALSE, out.width = "100%", fig.align='center', fig.cap = "The first frame of the radial tour. The SHAP values of the selected observation set the initial basis, shown as the grey and black bars on top. Within class distributions of the SHAP values are shown as parallel coordinate plots above each variable contribution. The class densities and observation positions of the 1D projection are shown on the bottom. The tour animates over small changes in the basis (top bars) as the variable with the largest contribution (weight) is rotated to have a full contribution, zero contribution, and then back to the initial contribution. A light grey line shows zero on the projection, with the dashed and dotted lines correspond to the position of primary and comparison observations ('*/x' in the preceeding figure)"}
+knitr::include_graphics("figures/cheem_manualtour.pdf")
 ```
 
 The application is quickly maturing and will be shown to experts for comment. This work is being written up to be submitted to the WHY-21 workshop, part of the NeurIPS 2021 Conference.
