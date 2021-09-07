@@ -3,13 +3,13 @@ require("dplyr")
 require("ggplot2")
 
 ## Local func
-my_boxplot_df <- function(pred_parts, player_tag = "<tag unused>"){
+my_parts_boxplot_df <- function(pred_parts, player_tag = "<tag unused>"){
   ## Remade from: iBreakDown:::print.break_down_uncertainty
   data.frame(
     player = player_tag,
-    label = tapply(pred_parts$label, paste(pred_parts$label, pred_parts$variable, sep = ": "), unique, na.rm = TRUE),
+    label  = tapply(pred_parts$label, paste(pred_parts$label, pred_parts$variable, sep = ": "), unique, na.rm = TRUE),
     variable = tapply(pred_parts$variable_name, paste(pred_parts$label, pred_parts$variable, sep = ": "), unique, na.rm = TRUE),
-    value = tapply(pred_parts$variable_value, paste(pred_parts$label, pred_parts$variable, sep = ": "), unique, na.rm = TRUE), ## oos variable value
+    value  = tapply(pred_parts$variable_value, paste(pred_parts$label, pred_parts$variable, sep = ": "), unique, na.rm = TRUE), ## oos variable value
     ## Of the distribution of local attributions:
     min    = tapply(pred_parts$contribution, paste(pred_parts$label, pred_parts$variable, sep = ": "), min, na.rm = TRUE),
     q1     = tapply(pred_parts$contribution, paste(pred_parts$label, pred_parts$variable, sep = ": "), quantile, 0.25, na.rm = TRUE),
@@ -17,7 +17,37 @@ my_boxplot_df <- function(pred_parts, player_tag = "<tag unused>"){
     q3     = tapply(pred_parts$contribution, paste(pred_parts$label, pred_parts$variable, sep = ": "), quantile, 0.75, na.rm = TRUE),
     max    = tapply(pred_parts$contribution, paste(pred_parts$label, pred_parts$variable, sep = ": "), max, na.rm = TRUE))
 }
-
+my_parts_distribution <- function(pred_parts, player_tag = "<tag unused>"){
+  df <- data.frame(
+    player = player_tag,
+    label = pred_parts$label,
+    variable = pred_parts$variable_name,
+    value = pred_parts$variable_value, ## Obs value of X
+    contribution = pred_parts$contribution, ## SHAP contribution
+    B_perm_num = pred_parts$B
+  )
+  rownames(df) <- paste(pred_parts$label, pred_parts$variable, pred_parts$B, sep = ": ")
+  return(df)
+}
+my_bd_df <- function(break_down, player_tag = "<tag unused>"){
+  df <- data.frame(
+    player = player_tag,
+    label = break_down$label,
+    variable = break_down$variable_name,
+    contribution = break_down$contribution, ## SHAP contribution
+    cumulative = break_down$cumulative, ## Cumulative SHAP contribution
+    sign = break_down$sign
+  )
+  .n <- nrow(df)
+  df$variable[is.na(df$variable)|df$variable==""] <- "prediction"
+  df$variable <- factor(
+    df$variable, rev(c("intercept", .lvl_ord, "prediction")))
+  df$cumulative <- (df$cumulative - min(df$cumulative)) /
+    (max(df$cumulative) - min(df$cumulative))
+  df$last_cumulative <- c(NA, df$cumulative[-.n])
+  rownames(df) <- paste(break_down$label, break_down$variable, break_down$B, sep = ": ")
+  return(df)
+}
 
 
 ### Create FIFA x ------
@@ -28,7 +58,7 @@ my_boxplot_df <- function(pred_parts, player_tag = "<tag unused>"){
   as.data.frame()
 
 if(F) ## View corrplot?
-  corrplot::corrplot(cor(.dat_less_ys), 
+  corrplot::corrplot(cor(.dat_less_ys),
                      method = "circle", ## geom
                      type = "upper", ## only upper triangle
                      diag = F, ## remove auto correlation
@@ -84,14 +114,17 @@ rf_expl <- DALEX::explain(model = rf_mod,
                           data  = X,
                           y     = Y,
                           label = "Random Forest")
+
+## SHAP values & plot ----
 ## Messi SHAP
 messi <- X[1, ]
 shap_messi <- predict_parts(explainer       = rf_expl,
                             new_observation = messi,
                             type            = "shap",
                             B               = 25L)
-box_df_messi <- my_boxplot_df(shap_messi, "Messi")
-.lvl_ord <- box_df_messi$variable[order(box_df_messi$median, decreasing = TRUE)]
+shap_messi$contribution <- shap_messi$contribution %>%
+  spinifex::scale_01()
+box_df_messi <- my_parts_boxplot_df(shap_messi, "Messi")
 
 ## Virgil van Dijk SHAP
 dijk <- X[8, ]
@@ -100,48 +133,93 @@ shap_dijk <- predict_parts(explainer       = rf_expl,
                            type            = "shap",
                            B               = 25L,
                            order = .lvl_ord)
-box_df_dijk <- my_boxplot_df(shap_dijk, "van Dijk")
+shap_dijk$contribution <- shap_dijk$contribution %>%
+  spinifex::scale_01()
+box_df_dijk <- my_parts_boxplot_df(shap_dijk, "van Dijk")
+
+## Bind shap aggs:
+# .lvl_ord <- box_df_messi$variable[order(box_df_messi$median, decreasing = TRUE)]
+ord_df <- boxplot_df %>% select(player, variable, median) %>%
+  tidyr::pivot_wider(names_from = "player", values_from = "median") %>%
+  mutate(sum = Messi + `van Dijk`)
+.lvl_ord <- ord_df$variable[order(ord_df$sum, decreasing = TRUE)] %>%
+  as.character()
 boxplot_df <- rbind(box_df_messi, box_df_dijk)
 boxplot_df$variable <- factor(boxplot_df$variable, levels = rev(.lvl_ord))
-boxplot_df$Player <- boxplot_df$player
 
-(g1 <- ggplot(boxplot_df, aes(x=variable, color=Player, fill=Player)) +
-  geom_boxplot(
-    aes(ymin=min, lower=q1, middle=median, upper=q3, ymax=max),
-    stat = "identity", alpha =.3) +
-    coord_flip() + 
+## B Distributions of the SHAPS
+dist_shap_messi <- my_parts_distribution(shap_messi, "Messi")
+dist_shap_dijk <- my_parts_distribution(shap_dijk, "van Dijk")
+dist_df <- rbind(dist_shap_messi, dist_shap_dijk)
+dist_df$variable <- factor(dist_df$variable, levels = rev(.lvl_ord))
+
+(g_shap <- ggplot(boxplot_df) +
+    ## Connecting grey line
+    geom_segment(aes(x=Messi, xend=`van Dijk`, y=variable, yend=variable),
+                 alpha =.7, size = 2L, color = "grey", fill = NA,
+                 data = boxplot_df %>% select(player, variable, median) %>%
+                   tidyr::pivot_wider(names_from = "player", values_from = "median") %>% 
+                   mutate(sum = Messi + `van Dijk`)) +
+    geom_point(aes(x=median, y=variable, color=player, fill=player),
+               alpha =.7, size = 5L) +
+    ## Shap distributions
+    geom_point(aes(x=contribution, y=variable, color=player, fill=player),
+               dist_df, alpha =.8, size = 3, shape = 124,
+               position = position_dodge(-.5)) +
+  # geom_boxplot(
+  #   aes(ymin=min, lower=q1, middle=median, upper=q3, ymax=max),
+  #   stat = "identity", alpha =.3) +
     theme_bw() + 
     scale_color_brewer(palette = "Dark2") +
     scale_fill_brewer(palette = "Dark2") +
-    labs("SHAP Values",
-         y = "SHAP value", x = "Variable") +
-    theme(legend.margin = margin(0,0,0,0),
-          legend.position = "top")
+    labs(title="SHAP values",
+         y = "Variable", x = "SHAP value, normalized\nmedian of the contritributions, permuting X's") +
+    theme(legend.position = "off")
   )
 
-
+## Breakdowns & plot ----
 ## Messi Breakdown
 bd_messi <- predict_parts(explainer       = rf_expl,
                           new_observation = messi,
-                          type            = "break_down")
-g2 <- plot(bd_messi, max_features = 9) +
-  ggtitle("Break Down, Messi")
-
-# ## B is the number of random variable order perms to order the magnetude of, 25 is default
-# g3 <- plot(shap_dijk) +
-#   ggtitle("SHAP, V. van Dijk")
-## Messi Breakdown
+                          type            = "break_down",
+                          order= .lvl_ord)
+bd_df_messi <- my_bd_df(bd_messi, "Messi")
+## Dijk Breakdown
 bd_dijk <- predict_parts(explainer       = rf_expl,
                          new_observation = dijk,
-                         type            = "break_down")
-g4 <- plot(bd_dijk, max_features = 9) +
-  ggtitle("Break Down, van Dijk",
-          "Order of Messi's variables")
+                         type            = "break_down",
+                         order = .lvl_ord)
+bd_df_dijk <- my_bd_df(bd_dijk, "van Dijk")
+## Bind, by row
+bd_df <- rbind(bd_df_messi, bd_df_dijk)
+bd_df <- bd_df[is.na(bd_df$variable) == FALSE, ]
+(g_bd <- ggplot(bd_df) +
+  geom_segment(aes(x=cumulative, xend=last_cumulative, y=variable, yend=variable, color=player),
+               size=1.5, alpha=.8) + facet_grid(col=vars(player))+
+  theme_bw() + 
+  scale_color_brewer(palette = "Dark2") +
+  labs(title="Break down profile of predictions",
+       y = "Variable", x = "Contribution to prediction | variable order") +
+  theme(legend.margin = margin(0,0,0,0),
+        legend.position = "bottom",
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank()))
 
+## Relative wages and patchwork
+wages_df <- tibble::tibble(
+  player = factor(c("Messi", "van Dijk")),
+  wages = .raw$wage_eur[c(1L, 8L)])
+(g_wage <- ggplot(wages_df, aes(wages, player, xend=0, yend=player, color = player)) +
+    geom_segment(size=3) +
+    theme_bw() +
+    scale_color_brewer(palette = "Dark2") +
+    labs(y = "player", x = "Wages [2020 Euros]") +
+    theme(legend.position = "off"))
 ### Plot together
 require("patchwork")
-pw = (g1) / (g2 / g4)
+(pw <- g_wage / g_shap / g_bd +
+    plot_layout(heights = c(1, 3, 3)))
 
  ## SAVE -----
 ggplot2::ggsave("./figures/cheem_fifa_messi_dijk.pdf", pw, device = "pdf",
-                width = 4, height = 9, units = "in")
+                width = 6, height = 7, units = "in")
