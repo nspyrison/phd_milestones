@@ -118,7 +118,7 @@ The $N=108$ within-participant user study collected 6 trials from each participa
 knitr::include_graphics("figures/study_exp_factors.pdf")
 ```
 
-In summary, we use a mixed regression model, using the factors above as main effects, and use the participant and data simulations as random effects. The model regressing on the accuracy. We select on the following model.
+In summary, we use a mixed regression model, to regress accuracy using the factors above as main effects, and use the participant and data simulations as random effects. The random effect capture the variation of the participant's skill and variation of difficulty due to the sampling of the data. Several models of increasing complexity were fit, and based on the model metrics select on the following model to explore the coeffient estimates of in detail.
 
 $$
 \begin{array}{ll}
@@ -144,9 +144,11 @@ A more in-depth description and discussion of this user study is attached as app
 
 ## Extending the interpretation of black-box models with the use of interactive continuous linear projections
 
-For the third project, the higher-level goal is to use interactive, continuous linear projections to improve the interpretability of black-box models. Local explanations describe the linear variable weights in the vicinity of an observation for a given model. There are several *model-agnostic* local explanations such as LIME[@ribeiro_why_2016], and SHAP[@lundberg_unified_2017]. In practice, any model and compatible local weighting could be used. To introduce the idea of SHAP values, consider FIFA soccer data[@leone_fifa_2020]. We use 5000 player-observations of 9 aggregate skill measures to predict wages in a random forest model. We use SHAP to observe how the skill attribution changes in the vicinity of players of different fielding positions.
+Local explanations describe the linear variable weights in the vicinity of an observation for a given model. For a highly-non linear space, the weightings of the variables will change more quickly in some areas than others. Local explanations are a point-measurements of these weights that reveal how important each variable is to model at that particular location. There are several *model-agnostic* local explanations such as LIME[@ribeiro_why_2016], and SHAP[@lundberg_unified_2017]. In practice, any model and compatible local explanation can be used, however, we will be discussing and  applying SHAP to a random forest model below.
 
 ### SHAP values; local variable weights and additive prediction explanations.
+
+To introduce the idea of SHAP values, consider FIFA soccer data[@leone_fifa_2020]. We use 5000 player-observations of 9 aggregate skill measures to predict that player's wages. We use SHAP to observe how the skill attribution changes in the vicinity of players of different fielding positions. The intuition is that a model should change the weighting of the variables to more accurately predict the wages of the different positions' wages based solely on the values of explanatory skills and dispite not explicitly knowing the fielding position.
 
 We have trained a random forest model and wish to further explore the weightings of this non-linear model. Following the work in [@biecek_dalex_2018, @biecek_explanatory_2021] we can similarly extract SHAP values, highlighting that different skills are valued differently across player positions within the model. We also show "break down" profiles, that is additive prediction explanations, how much of each player's predicted wages is added by each of the skill evaluations. The figure below takes a look at the SHAP and break down profiles of a star offensive and defensive player.
 
@@ -155,6 +157,8 @@ knitr::include_graphics("figures/cheem_fifa_messi_dijk.pdf")
 ```
 
 ### Trees of Cheem
+
+<!-- For the third project, the higher-level goal is to use interactive, continuous linear projections to improve the interpretability of black-box models. -->
 
 Above, we highlight the differing weights across 2 different fielder positions within the same model. It is hard to see where this fits in the full context of the other observations. Below we create a global (all observation) view by approximating the data- and SHAP-spaces in 2d with their first two principal components.
 
@@ -166,15 +170,17 @@ We approximate the data and SHAP spaces as the first 2 principal components. We 
 knitr::include_graphics("figures/cheem_pca.pdf")
 ```
 
-Given the global view above we want to look at the local weightings of primary and comparison points (shown as '*/x' above and dashed/dotted lines below). In this case, the primary observation is a misclassified observation while the comparison point is a correctly classified nearby point. The idea is to view how sensitive SHAP values are to this misclassified points. Two points that are classified differently, but otherwise have very similar values in the explanatory variables, often lie quite far apart in SHAP space.
+Note that the bulk of the correctly classified points, are clustered in relatively small areas. This means that each of their SHAP values are quite similar; the model is independently selecting very tight variable weights to explain the predicted class of each of different observation. Conversely, misclassified points tend to lie in between two clusters of correctly classified points. Using the interactive brushing and tooltips we confirm that these points lie between the actual and predicted classes.
 
-Now we have the global context, and an idea of the sensitivity of the SHAP spaces. We can further explore an agnostic local explanation by exploring the structure identified by the SHAP values of a particular observation. Consider the selected observation labeled with as a star/atersk. Its normalized SHAP value will become the starting 1D basis to perform a radial tour exploring the structure, in this case separation from other clusters.
+Given the global view above we want to look at the local weightings of primary and comparison points (shown as '*/x' above and dashed/dotted lines below). In this case, the primary observation is a misclassified observation while the comparison point is a correctly classified nearby point. The idea is to view how sensitive SHAP values are to this misclassified points. Two points that are classified differently, but otherwise have very similar values in the explanatory variables, lie quite far apart in SHAP space.
+
+Now we have the global context, and an idea of the sensitivity of the SHAP spaces. To further explore an agnostic local explanation by exploring the structure created by the SHAP values of a particular observation. That is, it will be the projection that best puts this observation with its _predicted class_ and separate from the others. Consider the selected observation labeled as a star/asterisk above. Its normalized SHAP value will become the starting 1D basis to perform a radial tour exploring the structure. By default the variable with the largest contribution is selected to rotated fully into and out of projection. The location of the '*' and 'x' observations are shown as the dashed and fainter, dotted lines respectively on the tour. Their current and initial (more faint, stationary) location are highlighted through out the tour.
 
 ```{r cheemTour, echo=FALSE, out.width = "100%", fig.align='center', fig.cap = "The first frame of the radial tour. The SHAP values of the selected observation set the initial basis, shown as the grey and black bars on top. Within class distributions of the SHAP values are shown as parallel coordinate plots above each variable contribution. The class densities and observation positions of the 1D projection are shown on the bottom. The tour animates over small changes in the basis (top bars) as the variable with the largest contribution (weight) is rotated to have a full contribution, zero contribution, and then back to the initial contribution. A light grey line shows zero on the projection, with the dashed and dotted lines correspond to the position of primary and comparison observations ('*/x' in the preceeding figure)"}
 knitr::include_graphics("figures/cheem_manualtour.pdf")
 ```
 
-The application is quickly maturing and will be shown to experts for comment. This work is being written up to be submitted to the WHY-21 workshop, part of the NeurIPS 2021 Conference.
+The application is in progress maturing and will be shown to experts for comment. This work is being written up to be submitted to the WHY-21 workshop, part of the NeurIPS 2021 Conference.
 
 ### Discussion
 
