@@ -52,52 +52,49 @@ XXX, TODO
 - _Exploratory data analysis_ is important for understanding the data and testing the validity of assumptions
 - Visualization is more robust and thorough than statistical summarization alone, _Eg._ datasaurus dozen below
 - Tours are one way to extend our ability to visualize linear data space as dimensions increase
-
-&lt;img src="./slide_figures/AllDinosAnimatedSmaller.gif" width="80%" style="display: block; margin: auto;" /&gt;
-_(Matejka &amp; Fitzmaurice, 2017)_
+- XAI, TODO
 
 ---
 
-&lt;!-- ## Type/scope of the data --&gt;
 
-&lt;!-- __Multivariate tabular,__ `\(n\)` observations of `\(p\)` attributes --&gt;
-&lt;!-- - Can be feature- or parameter- decomposition of non-standard formats --&gt;
-
-&lt;!-- ```{r, echo = F, out.width = '90%'} --&gt;
-&lt;!-- knitr::include_graphics("./slide_figures/tmunzner_vad16.png") --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- _(Munzner, 2014)_ --&gt;
-
-&lt;!-- --- --&gt;
-
-&lt;!-- ## Linear projections --&gt;
-
-&lt;!-- - Simple dimension reduction, highlight interesting features --&gt;
-&lt;!-- - Analytical procedures: --&gt;
-&lt;!--     - Principal component analysis (PCA) --&gt;
-&lt;!--     - Linear discriminant analysis --&gt;
-&lt;!--     - Multiple regression --&gt;
-&lt;!-- - Visual procedures: --&gt;
-&lt;!--     - _Tour_, animation of many frames that are close --&gt;
-&lt;!--     - Types: grand, guided, little, local, manual (most available in `tourr` R package) --&gt;
-&lt;!--     - Method to control the contribution of a single variable _(Cook &amp; Buja, 1997)_ --&gt;
-
-&lt;!-- __Shadow analogy:__ --&gt;
-&lt;!-- ```{r, echo = F, out.width = '65%'} --&gt;
-&lt;!-- knitr::include_graphics("./slide_figures/shadow_puppet.png") --&gt;
-&lt;!-- ``` --&gt;
-
-&lt;!-- --- --&gt;
-
-## Linear projections &amp; bases
-
-Linear projections are specified by their basis
-- Each column is a linear combinations the original variables
-- _Orthonormal_: all columns at right angles (orthogonal) and of length 1 (normal)
+## Linear projections &amp; orthonormal basis
 
 &lt;img src="./slide_figures/basis.png" width="82%" style="display: block; margin: auto;" /&gt;
 
 ---
+
+
+## Research objectives &amp; methology
+
+__Can user-guided geodesic interpolation help analysts understand linear projections and explore the sensitivity of structure in the projection to the variables contributing to the projection?__
+&lt;br&gt;
+
+- 1) Define user interaction for a geodesic interpolator to add and remove variables from a 2D linear projection
+- *Algorithm design*, develop and apply manual interaction; R package `{spinifex}` _Spyrison, et al, 2019_
+- 2) Do analysts better understand the relationship between variables and structure in a 2D linear projection better when the interactive geodesic interpolator is available?
+- *Experimental study*, `\(n=108\)` within participant user study comparing radial tours with PCA, and the grand tour. Below we'll briefly get into the model and results
+- 3) Can the geodesic interpolator be used in conjunction with the local explanation, SHAP, to improve the interpretability of black-box models?
+- *visualization design*, how can we best view the sensitivity of the SHAP matrix, and what can we gain by exploring a single local explanation with radial tours
+
+
+---
+
+## User study model
+
+- random effects mixed regression model regressing:
+- `\(y\)`, accuracy
+
+.large[.large[ 
+Experimental study:
+- Hypothesis: _Does the finer control afforded by GI improve the ability of the analyst to understand the importance of variables contributing to the structure?_
+- Factors: principal component analysis, grand tour (grand), and 2D GI
+- Within-participant study; all participants will perform all factors
+- Implemented via `shiny` application
+- Draft of paper included as appendix B of the milestone document
+]]
+
+---
+
 
 &lt;!-- ## Geodesic interpolation (GI) --&gt;
 
@@ -129,11 +126,11 @@ __Can user-guided geodesic interpolation help analysts understand linear project
 &lt;br&gt;
 
 - 1) Define user interaction for a geodesic interpolator to add and remove variables from a 2D linear projection
-    - *Algorithm design*, develop and apply manual interaction; R package `{spinifex}` _Spyrison, et al, 2019_
+- *Algorithm design*, develop and apply manual interaction; R package `{spinifex}` _Spyrison, et al, 2019_
 - 2) Do analysts better understand the relationship between variables and structure in a 2D linear projection better when the interactive geodesic interpolator is available?
-    - *Experimental study*, `\(n=108\)` within participant user study comparing radial tours with PCA, and the grand tour. Below we'll briefly get into the model and results
+- *Experimental study*, `\(n=108\)` within participant user study comparing radial tours with PCA, and the grand tour. Below we'll briefly get into the model and results
 - 3) Can the geodesic interpolator be used in conjunction with the local explanation, SHAP, to improve the interpretability of black-box models?
-    - *visualization design*, how can we best view the sensitivity of the SHAP matrix, and what can we gain by exploring a single local explanation with radial tours
+- *visualization design*, how can we best view the sensitivity of the SHAP matrix, and what can we gain by exploring a single local explanation with radial tours
 
 
 ---
@@ -201,7 +198,7 @@ Experimental study:
 
 - Logfile capturing every action
 - During evaluation:
-    - Response, time, number, and type of interaction
+- Response, time, number, and type of interaction
 
 &lt;img src="./slide_figures/exampleResponse.png" width="75%" style="display: block; margin: auto;" /&gt;
 
@@ -282,15 +279,15 @@ Slides available -- [github.com/nspyrison/mid_candidature/_slides](https://githu
 WES Academic record
 - FIT 5144: 2019 S1+2, __In progress__, extended to the pre-submission seminar with the unit
 coordinator for the usual 2 year duration
-    - Hours: 147 of 120 hours _Tracked_, missing the following requirements (12 hr total)
-        - __Needed__: CYR 2 (A &amp; B) – 2x 3hr
-        - __Needed__: Faculty of IT Workshop 1 and 3 on Ethical Research and Publishing – 2x 3hr
+- Hours: 147 of 120 hours _Tracked_, missing the following requirements (12 hr total)
+- __Needed__: CYR 2 (A &amp; B) – 2x 3hr
+- __Needed__: Faculty of IT Workshop 1 and 3 on Ethical Research and Publishing – 2x 3hr
 - FIT 5113: 2018 S2, `exemption`
 - FIT 6021: 2018 S2, `completed with distinction`
 -myDevelopment - IT: Monash Doctoral Program - compulsory modules
-    - Monash graduate research student induction: `completed`
-    - Research integrity - Choose the Option most relevant: `completed`
-    - Faculty induction: `completed`
+- Monash graduate research student induction: `completed`
+- Research integrity - Choose the Option most relevant: `completed`
+- Faculty induction: `completed`
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

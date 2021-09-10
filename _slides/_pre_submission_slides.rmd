@@ -51,92 +51,31 @@ XXX, TODO
 
 - Multivariate data visualization
 - Data visualization _tour_; continuous linear projection over small changes in the projection basis
-- _Radial_ tour (RO#1); given a basis and variable to manipulate, rotate its contribution to full, zero, and back to the initial
+- _radial tour_ (RO#1); given a basis, variable and direction to change using geodesic interpolator, to change it's contribution
 - Efficacy of the radial tour (RO#2); $n=108$ within-participant user study against the alternatives PCA and grand tour
-- Improving the interpretability of black-box models using of tours
--- Local explanation of black-box models 
+- Improving the interpretability of black-box models using the radial tour (RO#3)
+
 
 ---
 
 ## Motivation
 
 - _Exploratory data analysis_ is important for understanding the data and testing the validity of assumptions
-- Visualization is more robust and thorough than statistical summarization alone, _Eg._ datasaurus dozen below
-- Tours are one way to extend our ability to visualize linear data space as dimensions increase
-
-```{r, echo = F, out.width = '80%'}
-knitr::include_graphics("./slide_figures/AllDinosAnimatedSmaller.gif")
-```
-_(Matejka & Fitzmaurice, 2017)_
+- Data visualization is more robust and thorough than statistical summarization alone
+- Tours are one way to extend our ability to visualize data space as dimensions increase
+- Exploratory Artificial Intellegence (XAI), growing tension of accuracy and interpretability of black-box models.
 
 ---
 
-<!-- ## Type/scope of the data -->
 
-<!-- __Multivariate tabular,__ $n$ observations of $p$ attributes -->
-<!-- - Can be feature- or parameter- decomposition of non-standard formats -->
-
-<!-- ```{r, echo = F, out.width = '90%'} -->
-<!-- knitr::include_graphics("./slide_figures/tmunzner_vad16.png") -->
-<!-- ``` -->
-<!-- _(Munzner, 2014)_ -->
-
-<!-- --- -->
-
-<!-- ## Linear projections -->
-
-<!-- - Simple dimension reduction, highlight interesting features -->
-<!-- - Analytical procedures: -->
-<!--     - Principal component analysis (PCA) -->
-<!--     - Linear discriminant analysis -->
-<!--     - Multiple regression -->
-<!-- - Visual procedures: -->
-<!--     - _Tour_, animation of many frames that are close -->
-<!--     - Types: grand, guided, little, local, manual (most available in `tourr` R package) -->
-<!--     - Method to control the contribution of a single variable _(Cook & Buja, 1997)_ -->
-
-<!-- __Shadow analogy:__ -->
-<!-- ```{r, echo = F, out.width = '65%'} -->
-<!-- knitr::include_graphics("./slide_figures/shadow_puppet.png") -->
-<!-- ``` -->
-
-<!-- --- -->
-
-## Linear projections & bases
-
-Linear projections are specified by their basis
-- Each column is a linear combinations the original variables
-- _Orthonormal_: all columns at right angles (orthogonal) and of length 1 (normal)
+## Linear projections & orthonormal basis
 
 ```{r, echo = F, out.width = '82%'}
-knitr::include_graphics("./slide_figures/basis.png")
+knitr::include_graphics("./slide_figures/linear_proj.png")
 ```
 
 ---
 
-<!-- ## Geodesic interpolation (GI) -->
-
-<!-- Selection of intermediate bases along the shortest path of orthonormal bases. -->
-
-<!-- - Used in other tour methods including the grand tour _(Asimov, 1985)_ -->
-
-<!-- ```{r, echo = F, out.width = '62%'} -->
-<!-- knitr::include_graphics("./slide_figures/buja05fig.png") -->
-<!-- ``` -->
-<!-- _(Buja et al., 2005)_ -->
-
-<!-- --- -->
-
-<!-- ## Sensitivity of structure in a projection -->
-
-<!-- - Some variables are more sensitive to the structure within a projection -->
-<!-- - Illustrated by controlling variable contributions: -->
-
-<!-- ```{r, echo = F, out.width = '87%'} -->
-<!-- knitr::include_graphics("./slide_figures/basisStructure.png") -->
-<!-- ``` -->
-
-<!-- --- -->
 
 ## Research objectives & methology
 
@@ -144,11 +83,27 @@ __Can user-guided geodesic interpolation help analysts understand linear project
 <br>
 
 - 1) Define user interaction for a geodesic interpolator to add and remove variables from a 2D linear projection
-    - *Algorithm design*, develop and apply manual interaction; R package `{spinifex}` _Spyrison, et al, 2019_
+- *Algorithm design*, develop and apply user interaction; R package `{spinifex}` _Spyrison, et al, 2019_
 - 2) Do analysts better understand the relationship between variables and structure in a 2D linear projection better when the interactive geodesic interpolator is available?
-    - *Experimental study*, $n=108$ within participant user study comparing radial tours with PCA, and the grand tour. Below we'll briefly get into the model and results
+- *Experimental study*, $n=108$ within participant user study comparing radial tours with PCA, and the grand tour. Below we'll briefly get into the model and results
+- 3) Can the _radial tour_ be used in conjunction with the local explanations to improve the interpretability of black-box models?
+- *fundamental visualization design*, how can we best view the sensitivity of the local explanation, and what can we gain by exploring a single local explanation with radial tours
+
+---
+
+
+## Research objectives & methology
+
+__Can the manual tour help analysts understand linear projections and explore the sensitivity of structure in the projection to the variables contributing to the projection?__
+<br>
+
+- 1) Define user interaction for the manual tour to add and remove variables from a 2D linear projection
+    - *Algorithm design*, develop and apply user interaction; R package `{spinifex}` _Spyrison, et al, 2019_
+- 2) Do analysts better understand the relationship between variables and structure in a 2D linear projection better when the interactive manual tour is available?
+    - *Experimental study*, $n=108$ within participant user study comparing radial tours with PCA, and the grand tour. 
+    - briefly get into the model and results
 - 3) Can the geodesic interpolator be used in conjunction with the local explanation, SHAP, to improve the interpretability of black-box models?
-    - *visualization design*, how can we best view the sensitivity of the SHAP matrix, and what can we gain by exploring a single local explanation with radial tours
+    - *fundamental visualization design*, how can we use the radial tour to explore the structure identified in local explanations of a black-box model
 
 
 ---
@@ -156,85 +111,17 @@ __Can user-guided geodesic interpolation help analysts understand linear project
 ## User study model
 
 - random effects mixed regression model regressing:
-- $y_1$, accuracy, $y_2$, response time.
+- $y$, accuracy
 
 .large[.large[ 
 Experimental study:
-- Hypothesis: _Does the finer control afforded by GI improve the ability of the analyst to understand the importance of variables contributing to the structure?_
-- Factors: principal component analysis, grand tour (grand), and 2D GI
-- Within-participant study; all participants will perform all factors
-- Implemented via `shiny` application
-- Draft of paper included as appendix B of the milestone document
+- Hypothesis: _Does the finer control afforded by radial tour improve the ability of the analyst to understand the importance of variables contributing to the structure?_
+- Primary factor: principal component analysis, grand tour, and radial tour
+- Block factors: _location_ mixing of signal and noise var, _shape_ of distribution, and _dim_ensionality of the data.
+- $n=108$, Within-participant study; all participants performed on each of the 3 visuals
+- Implemented via `shiny` application, crowdsourced via `prolific.co`
+- Draft of paper included as appendix A of the milestone document (JDSSV)
 ]]
-
----
-
-## Work in progress -- design
-
-```{r, echo = F, out.width = '100%'}
-knitr::include_graphics("./slide_figures/experimental_design_personA.png")
-```
-
----
-
-## Work in progress -- introduction & training
-
-```{r, echo = F, out.width = '100%'}
-knitr::include_graphics("./slide_figures/appTraining1.png")
-```
-
----
-
-## Work in progress -- task training
-
-```{r, echo = F, out.width = '100%'}
-knitr::include_graphics("./slide_figures/appTraining2.png")
-```
-
----
-
-## Work in progress -- evaluation interface, PCA
-
-```{r, echo = F, out.width = '78%'}
-knitr::include_graphics("./slide_figures/appPca.png")
-```
-
----
-
-## Work in progress -- evaluation interface, GI
-
-
-```{r, echo = F, out.width = '94%'}
-knitr::include_graphics("./slide_figures/appManual.png")
-```
-
----
-
-## Work in progress -- evaluation interface, grand
-
-```{r, echo = F, out.width = '86%'}
-knitr::include_graphics("./slide_figures/appGrand.png")
-```
-
----
-
-## Work in progress -- follow up survey
-
-```{r, echo = F, out.width = '100%', out.height = '100%'}
-knitr::include_graphics("./slide_figures/appSurvey.png")
-```
-
----
-
-## Measures and response -- 2D GI usability study
-
-- Logfile capturing every action
-- During evaluation:
-    - Response, time, number, and type of interaction
-
-```{r, echo = F, out.width = '75%'}
-knitr::include_graphics("./slide_figures/exampleResponse.png")
-```
 
 ---
 
@@ -315,12 +202,12 @@ Slides available -- [github.com/nspyrison/mid_candidature/_slides](https://githu
 WES Academic record
 - FIT 5144: 2019 S1+2, __In progress__, extended to the pre-submission seminar with the unit
 coordinator for the usual 2 year duration
-    - Hours: 147 of 120 hours _Tracked_, missing the following requirements (12 hr total)
-        - __Needed__: CYR 2 (A & B) – 2x 3hr
-        - __Needed__: Faculty of IT Workshop 1 and 3 on Ethical Research and Publishing – 2x 3hr
+- Hours: 147 of 120 hours _Tracked_, missing the following requirements (12 hr total)
+- __Needed__: CYR 2 (A & B) – 2x 3hr
+- __Needed__: Faculty of IT Workshop 1 and 3 on Ethical Research and Publishing – 2x 3hr
 - FIT 5113: 2018 S2, `exemption`
 - FIT 6021: 2018 S2, `completed with distinction`
 -myDevelopment - IT: Monash Doctoral Program - compulsory modules
-    - Monash graduate research student induction: `completed`
-    - Research integrity - Choose the Option most relevant: `completed`
-    - Faculty induction: `completed`
+- Monash graduate research student induction: `completed`
+- Research integrity - Choose the Option most relevant: `completed`
+- Faculty induction: `completed`

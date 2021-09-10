@@ -72,7 +72,8 @@ While static documents are the norm, there are sizable benefits of user interact
 With the emerging field of XAI, the constant tension between the interpretability of a model and its predictive power is receiving more attention. Linear models are the champions of interpretability with modest accuracy while increasing complex models improve accuracy but they can scarcely be interpreted even by experienced practitioners. One way to gain insight into a model is to focus on the local vicinity of one observation, and explain the variable weighting around that location, in an agnostic non-linear model. We call this observation level variable weights a _local explanation_. There are various such local explanations, many are tied to specific classes of models, while others are model-agnostic.
 
 <!-- summary -->
-We know that data visualization is important in EDA and assumption validation. User interaction allows us to explore widely and quickly while allowing us to explore ideas as they arise. These 2 elements were especially important to consider from the work addressing RO#1 as it forms a foundation to build on for the further work. The efficacy of manual tours was supported by a user study in response to the second obujective. In the latest work, we apply tours in tandem with local explanations to extend the interpretability of black-box models, to address RO#3.
+We know that data visualization is important in EDA and assumption validation. User interaction allows us to explore widely and quickly while allowing us to explore ideas as they arise. These 2 elements were especially important to consider from the work addressing RO#1 as it forms a foundation to build on for the further work. The efficacy of manual tours was supported by a user study in response to the second objective. In the latest work, we apply tours in tandem with local explanations to extend the interpretability of black-box models, to address RO#3.
+
 
 
 # Research objectives
@@ -115,6 +116,7 @@ At the mid-candidature review, we discussed the experimental design of the user 
 
 The $N=108$ within-participant user study collected 6 trials from each participant (648 evaluations total), with 2 trials of each of visuals: PCA, grand tour, and radial tour. Three further factors: location, shape, and data dimensionality were also evenly evaluated for a comparison with the effect of controlling the visuals. Participants were crowdsourced from `prolific.co`, were selected from users that had completed an undergraduate degree, and were  compensated for their time at \pounds 7.50 per hour. Participants were tasked with identifying any and all variables contributing more than $1/p$ to the separation of clusters.
 
+
 ```{r studyExpFactors, echo=FALSE, out.width = "90%", out.extra = '',fig.show='hold',fig.align='center', fig.cap = "The experimental factors of the study. Visualization is the primary factor of interest. The other factors extend the scope this problem is tested under."}
 knitr::include_graphics("figures/study_exp_factors.pdf")
 ```
@@ -145,11 +147,11 @@ A more in-depth description and discussion of this user study is attached as app
 
 ## Extending the interpretation of black-box models with the use of interactive continuous linear projections
 
-Local explanations describe the linear variable weights in the vicinity of an observation for a given model. For a non-linear space, the weightings of the variables change based on the particular location of the explanatory variables. Local explanations are point-measurements of these weights that reveal how important each variable is to model at that particular location. There are several *model-agnostic* local explanations such as LIME[@ribeiro_why_2016], and SHAP[@lundberg_unified_2017]. We will be  applying and discuss SHAP values extracted from a random forest model below. In theory, this application is extensible to many such models and compatible local explanations.
+Local explanations describe the linear variable weights in the vicinity of an observation in $p-dim$ space. Local explanations are point-measurements of  weights for each variable describing the importance at the prediction at that point. In a highly non-linear space, the weightings of the variables change based on the particular location of the explanatory variables. There are several *model-agnostic* local explanations such as LIME [@ribeiro_why_2016], and SHAP [@lundberg_unified_2017]. We will be  applying and discuss SHAP values extracted from a random forest model below. In theory, this application is extensible to many such models and compatible local explanations.
 
-### SHAP values; local variable weights and additive prediction explanations.
+### How a SHAP value is calculated
 
-To introduce the idea of SHAP values, consider FIFA soccer data[@leone_fifa_2020]. We use 5000 player-observations of 9 aggregate skill measures to predict that player's wages. We use SHAP to observe how the skill attribution changes in the vicinity of players of different fielding positions. The intuition is that a model should change the weighting of the variables to more accurately predict the wages based on the different distribution of skills associated with different positions, despite the model not explicitly knowing the fielding position.
+We use FIFA soccer data[@leone_fifa_2020] to exaplain SHAP values. We use 5000 player-observations of 9 aggregate skill measures to predict that player's wages. We use SHAP to observe how the skill attribution changes for different players, which should reflect different fielding positions. Fielding position is not used in the model, but we would expect that SHAP finds a way to weight the variables differently to impreove wage prediction, giving it some implicit weighting.  The intuition is that a model should change the weighting of the variables to more accurately predict the wages based on the different distribution of skills associated with different positions, despite the model not explicitly knowing the fielding position.
 
 We have trained a random forest model and wish to further explore the weightings of this non-linear model. Following the work in [@biecek_dalex_2018, @biecek_explanatory_2021] we can similarly extract SHAP values, highlighting that different skills are valued differently across player positions within the model. We also show "break down" profiles, that is additive prediction explanations, how much of each player's predicted wages is added by each of the skill evaluations. The figure below takes a look at the SHAP and break down profiles of a star offensive and defensive player.
 
@@ -157,10 +159,15 @@ We have trained a random forest model and wish to further explore the weightings
 knitr::include_graphics("figures/cheem_fifa_messi_dijk.pdf")
 ```
 
-### Trees of Cheem
+<!-- Explanation of the wage, SHAP, and breakdown profiles. -->
+At the top of figure \@ref(fig:cheemShapBd) we see the relative wages of the 2 different players. SHAP uses permutations of the X variables to approximate the variable weights. In the middle we see the distributions of the variable weightings for each player across 25 such permutations. We use the median of those distributions (large dot) as the SHAP value. We see a difference in the weights across the 2 players that makes sense considering their positions. Reaction skills are important for both players, while offensive and movement are weighted higher of the offensive player. Conversely, defensive, power, and accuracy skills are weighted higher for the defensive player. The bottom used the SHAP values to explain their relative wage predictions. We see a similar trend of the SHAP values additively explaining the difference of the global intercept to their predictions. We would expect that other offensive players have explanations closer to Messi and defensive players to lie closer to van Dijk's. Middle fielders and goal keepers would likely receive very differnt patterns.
 
-<!-- For the third project, the higher-level goal is to use interactive, continuous linear projections to improve the interpretability of black-box models. -->
 
+### Our application; Trees of Cheem
+
+My software `Trees of Cheem`, was developed with the classification in mind. TODO.....
+
+<!-- GO TO simulation now -->
 Above, we highlight the differing weights across 2 different fielder positions within the same model. It is hard to see where this fits in the full context of the other observations. Below we create a global (all observation) view by approximating the data- and SHAP-spaces in 2d with their first 2 principal components.
 
 To illustrate this we take a look at much simpler data; a simulation of 3 spherical clusters on the vertices of a triangle. The difference between the clusters is contained in the first 2 dimensions with another 2 noise dimensions distributed as unit normal. After extracting all observation's SHAP values, forming a SHAP _matrix_, of the original dimensionality, $(n~\times~p)$. We want to show a global view of the SHAP matrix and show how it and its sensitivity differ from that of the original data.

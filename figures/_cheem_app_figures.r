@@ -193,7 +193,7 @@ if(F)
 bas <- .df[shap_obs, -ncol(.df)] %>%
   as.matrix(nrow = 1L) %>% t() %>%
   tourr::normalise()
-mv <- spinifex::manip_var_of(bas)
+mv <- 2L#spinifex::manip_var_of(bas)
 .opts <- rownames(bas)
 mv_nm <- .opts[mv]
 
