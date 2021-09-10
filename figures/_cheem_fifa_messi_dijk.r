@@ -173,7 +173,7 @@ dist_df$variable <- factor(dist_df$variable, levels = rev(.lvl_ord))
     scale_color_brewer(palette = "Dark2") +
     scale_fill_brewer(palette = "Dark2") +
     labs(title="SHAP values",
-         y = "Variable", x = "SHAP value, normalized\nmedian of the contributions, permuting X's") +
+         y = "variable", x = "SHAP values, normalized\n The median of the contributions while permuting X's") +
     theme(legend.position = "off")
   )
 
@@ -198,8 +198,8 @@ bd_df <- bd_df[is.na(bd_df$variable) == FALSE, ]
                size=1.5, alpha=.8) + facet_grid(col=vars(player))+
   theme_bw() + 
   scale_color_brewer(palette = "Dark2") +
-  labs(title="Break down profile of predictions",
-       y = "Variable", x = "Contribution to prediction | variable order") +
+  labs(title="Breakdown profile of predictions",
+       y = "variable", x = "contribution to prediction | variable order") +
   theme(legend.margin = margin(0,0,0,0),
         legend.position = "bottom",
         axis.text.x = element_blank(),
@@ -210,10 +210,10 @@ wages_df <- tibble::tibble(
   player = factor(c("Messi", "van Dijk")),
   wages = .raw$wage_eur[c(1L, 8L)])
 (g_wage <- ggplot(wages_df, aes(wages, player, xend=0, yend=player, color = player)) +
-    geom_segment(size=3) +
+    geom_segment(size=3L) +
     theme_bw() +
     scale_color_brewer(palette = "Dark2") +
-    labs(y = "player", x = "Wages [2020 Euros]") +
+    labs(y = "player", x = "wages [2020 Euros]") +
     theme(legend.position = "off"))
 ### Plot together
 require("patchwork")
