@@ -170,7 +170,7 @@ p <- p +
   )
 
 
-### Export static & interactive PCA data/shap of sim -----
+## Export static & interactive PCA data/shap of sim -----
 
 ## Save static png
 if(F)
@@ -208,7 +208,7 @@ ggt142 <- manual_tour1d_func(
     event_register("plotly_selected") %>% ## Reflect "selected", on release of the mouse button.
     highlight(on = "plotly_selected", off = "plotly_deselect"))
 if(F)
-  htmlwidgets::saveWidget(anim, "./figures/cheem_manualtour_widget.html",
+  htmlwidgets::saveWidget(anim, "./figures/cheem_radialtour_widget.html",
                           selfcontained = TRUE)
 ### SWAPPING shap and comp obs
 bas_swap <- .df[comp_obs, -ncol(.df)] %>%
@@ -225,7 +225,7 @@ ggt142_swapped <- manual_tour1d_func(
     event_register("plotly_selected") %>% ## Reflect "selected", on release of the mouse button.
     highlight(on = "plotly_selected", off = "plotly_deselect"))
 if(F)
-  htmlwidgets::saveWidget(anim_swapped, "./figures/cheem_manualtour_swapped_widget.html",
+  htmlwidgets::saveWidget(anim_swapped, "./figures/cheem_radialtour_swapped_widget.html",
                           selfcontained = TRUE)
   
 # ggt124 <- manual_tour1d_func(
@@ -237,123 +237,74 @@ if(F)
 # 
 # debugonce(spinifex::filmstrip)
 # (gg <- spinifex::filmstrip(ggt124))
-# ggplot2::ggsave("./figures/cheem_manualtour.pdf", plot = gg, device = "pdf",
+# ggplot2::ggsave("./figures/cheem_radialtour.pdf", plot = gg, device = "pdf",
 #                 width = 8, height = 9, units = "in")
 
-### Manually make the frames:
-dat <- mtcars[, 1:4] %>% spinifex::scale_01()
-foo <- bas
-attr(foo, "manip_var") <- mv
-# mt <- manual_tour(basis = bas, manip_var = mv,
-#                   theta = pi / 2, phi_min = NULL, phi_max = NULL)
-
-#debugonce(spinifex:::interpolate_manual_tour)
-ex1 <- ggtour(foo, dat) + proto_default1d() + ggtitle(waiver(), subtitle = "frame1")
-#ggtour(mt, dat) + proto_default1d()
-
-require("patchwork")
-ex1 + ex1
+### Manually make the frames -----
 
 ## Frames 1 at a time; init:
-array_dummy <- bas
-attr(array_dummy, "manip_var") <- mv
-
-
-
-fr1 <- THIS_manual_tour1d_func(tour_array = array_dummy,
-  shap_layer_ls,
-  shap_obs, comp_obs,
-  do_add_basis_distri = TRUE,
-  do_add_pcp_segements = TRUE,
-  pcp_shape = 124L, ## '|' plotly and gganimate respectively
-  angle = .2) + theme(legend.position = "off") + ggtitle(waiver(), subtitle = "frame1")
-manual_tour(bas, mv)
-msp <- create_manip_space(bas, mv)
-bas2 <- rotate_manip_space(msp, 0, -.2)
-attr(bas2, "manip_var") <- mv
-fr2 <- THIS_manual_tour1d_func(
-  tour_array = bas2,
-  shap_layer_ls,
-  shap_obs, comp_obs,
-  FALSE, FALSE,
-  pcp_shape = 124L, ## '|' plotly and gganimate respectively
-  angle = .2) + theme(legend.position = "off") + ggtitle(waiver(), subtitle = "frame2")
-
-bas3 <- rotate_manip_space(msp, 0, -.66666)
-attr(bas3, "manip_var") <- mv
-fr3 <- THIS_manual_tour1d_func(
-  tour_array = bas3,
-  shap_layer_ls,
-  shap_obs, comp_obs,
-  FALSE, FALSE,
-  pcp_shape = 124L, ## '|' plotly and gganimate respectively
-  angle = .2) + theme(legend.position = "off") + ggtitle(waiver(), subtitle = "frame3")
-
-bas4 <- rotate_manip_space(msp, 0, -.1)
-attr(bas4, "manip_var") <- mv
-fr4 <- THIS_manual_tour1d_func(
-  tour_array = bas4,
-  shap_layer_ls,
-  shap_obs, comp_obs,
-  FALSE, FALSE,
-  pcp_shape = 124L, ## '|' plotly and gganimate respectively
-  angle = .2) + theme(legend.position = "off") + ggtitle(waiver(), subtitle = "frame4")
-
-
-bas5 <- rotate_manip_space(msp, 0, .2)
-attr(bas5, "manip_var") <- mv
-fr5 <- THIS_manual_tour1d_func(
-  tour_array = bas5,
-  shap_layer_ls,
-  shap_obs, comp_obs,
-  FALSE, FALSE,
-  pcp_shape = 124L, ## '|' plotly and gganimate respectively
-  angle = .2) + theme(legend.position = "off") + ggtitle(waiver(), subtitle = "frame5")
-
-bas6 <- rotate_manip_space(msp, 0, .5)
-attr(bas6, "manip_var") <- mv
-fr6 <- THIS_manual_tour1d_func(
-  tour_array = bas6,
-  shap_layer_ls,
-  shap_obs, comp_obs,
-  FALSE, FALSE,
-  pcp_shape = 124L, ## '|' plotly and gganimate respectively
-  angle = .2) + theme(legend.position = "off") + ggtitle(waiver(), subtitle = "frame6")
-
-bas7 <- rotate_manip_space(msp, 0, .9)
-attr(bas7, "manip_var") <- mv
-fr7 <- THIS_manual_tour1d_func(
-  tour_array = bas7,
-  shap_layer_ls,
-  shap_obs, comp_obs,
-  FALSE, FALSE,
-  pcp_shape = 124L, ## '|' plotly and gganimate respectively
-  angle = .2) + theme(legend.position = "off") + ggtitle(waiver(), subtitle = "frame7")
-
-bas8 <- rotate_manip_space(msp, 0, .45)
-attr(bas8, "manip_var") <- mv
-fr8 <- THIS_manual_tour1d_func(
-  tour_array = bas8,
-  shap_layer_ls,
-  shap_obs, comp_obs,
-  FALSE, FALSE,
-  pcp_shape = 124L, ## '|' plotly and gganimate respectively
-  angle = .2) + theme(legend.position = "off") + ggtitle(waiver(), subtitle = "frame8")
-
-bas9 <- rotate_manip_space(msp, 0, 0)
-attr(bas9, "manip_var") <- mv
-fr9 <- THIS_manual_tour1d_func(
-  tour_array = bas9,
-  shap_layer_ls,
-  shap_obs, comp_obs,
-  FALSE, FALSE,
-  pcp_shape = 124L, ## '|' plotly and gganimate respectively
-  angle = .2) + theme(legend.position = "off")  + ggtitle(waiver(), subtitle = "frame9")
-
-require("patchwork")
-(pw <- (fr1 + fr2 + fr3) /
-  (fr4 + fr5 + fr6) /
-  (fr7 + fr8 + fr9))
-
-ggplot2::ggsave("./figures/cheem_manualtour.pdf", plot = pw, device = "pdf",
-                width = 8, height = 9, units = "in")
+{
+  array_dummy <- bas
+  attr(array_dummy, "manip_var") <- mv
+  manual_tour(array_dummy, mv)
+  
+  ## Initial, with distribution
+  fr1_with <- THIS_manual_tour1d_func(
+    tour_array = array_dummy,
+    shap_layer_ls,
+    shap_obs, comp_obs,
+    do_add_basis_distri = TRUE,
+    do_add_pcp_segements = TRUE,
+    pcp_shape = 124L, ## '|' plotly and gganimate respectively
+    angle = .2) + 
+    theme(legend.position = "off") + 
+    ggtitle(waiver(), subtitle = "Initial contribution")
+  ## Initial, with/out distribution
+  fr1_wo <- THIS_manual_tour1d_func(
+    tour_array = array_dummy,
+    shap_layer_ls,
+    shap_obs, comp_obs,
+    do_add_basis_distri = FALSE,
+    do_add_pcp_segements = FALSE,
+    pcp_shape = 124L, ## '|' plotly and gganimate respectively
+    angle = .2) + 
+    theme(legend.position = "off") + 
+    ggtitle(waiver(), subtitle = "Initial contribution")
+  msp <- create_manip_space(bas, mv)
+  ## Full contribution
+  bas2 <- rotate_manip_space(msp, 0, -.66666)
+  attr(bas2, "manip_var") <- mv
+  fr2 <- THIS_manual_tour1d_func(
+    tour_array = bas2,
+    shap_layer_ls,
+    shap_obs, comp_obs,
+    FALSE, FALSE,
+    pcp_shape = 124L, ## '|' plotly and gganimate respectively
+    angle = .2) +
+    theme(legend.position = "off") +
+    ggtitle(waiver(), subtitle = "Full contribution")
+  ## Zero contribution
+  bas3 <- rotate_manip_space(msp, 0, .866)
+  attr(bas3, "manip_var") <- mv
+  (fr3 <- THIS_manual_tour1d_func(
+    tour_array = bas3,
+    shap_layer_ls,
+    shap_obs, comp_obs,
+    FALSE, FALSE,
+    pcp_shape = 124L, ## '|' plotly and gganimate respectively
+    angle = .2) +
+    theme(legend.position = "off") +
+    ggtitle(waiver(), subtitle = "Zero contribution"))
+  
+  require("patchwork")
+  pw <- (fr1_wo + fr2 + fr3)
+}
+  
+if(F){
+  ## Frame 1 with distribution
+  ggplot2::ggsave("./figures/cheem_radialtour_inital.pdf", plot = fr1_with, device = "pdf",
+                  width = 4, height = 6, units = "in")
+  ## Rotating points without distr.
+  ggplot2::ggsave("./figures/cheem_radialtour.pdf", plot = pw, device = "pdf",
+                  width = 8, height = 3, units = "in")
+}
