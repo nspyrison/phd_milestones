@@ -142,7 +142,7 @@
           shap_obs = shap_obs,
           comp_obs = comp_obs)
       }
-      ggt +
+      ggt <- ggt +
         ## Highlight comparison obs, if passed
         proto_highlight1d(comp_obs,
                           list(color = .pred_clas),
@@ -162,11 +162,11 @@
 p <- THIS_linked_plotly_func(shap_layer_ls, shap_obs, comp_obs,
                              do_include_maha_qq = FALSE)
 p <- p + 
-  labs(title = "PC1:2 of data and SHAP spaces",
-       caption = paste0("Predicted class mapped to color & shape\n",
-                        "Red circles indicate a misclassified observation\n",
-                        "'*' is an observation of interest\n",
-                        "'x' is comparison observation, nearby in the data, but distant in the SHAP space")
+  labs(title = "PC1:2 of data and SHAP spaces"#,
+       # caption = paste0("Predicted class mapped to color & shape\n",
+       #                  "Red circles indicate a misclassified observation\n",
+       #                  "'*' is an observation of interest\n",
+       #                  "'x' is a comparison observation, nearby in the data, but distant in the SHAP space")
   )
 
 
@@ -272,9 +272,9 @@ if(F)
     ggtitle(waiver(), subtitle = "Initial contribution")
   msp <- create_manip_space(bas, mv)
   ## Full contribution
-  bas2 <- rotate_manip_space(msp, 0, -.66666)
+  bas2 <- rotate_manip_space(msp, 0, .98)
   attr(bas2, "manip_var") <- mv
-  fr2 <- THIS_manual_tour1d_func(
+  (fr2 <- THIS_manual_tour1d_func(
     tour_array = bas2,
     shap_layer_ls,
     shap_obs, comp_obs,
@@ -282,9 +282,9 @@ if(F)
     pcp_shape = 124L, ## '|' plotly and gganimate respectively
     angle = .2) +
     theme(legend.position = "off") +
-    ggtitle(waiver(), subtitle = "Full contribution")
+    ggtitle(waiver(), subtitle = "Full contribution"))
   ## Zero contribution
-  bas3 <- rotate_manip_space(msp, 0, .866)
+  bas3 <- rotate_manip_space(msp, 0, -.49)
   attr(bas3, "manip_var") <- mv
   (fr3 <- THIS_manual_tour1d_func(
     tour_array = bas3,
@@ -302,9 +302,9 @@ if(F)
   
 if(F){
   ## Frame 1 with distribution
-  ggplot2::ggsave("./figures/cheem_radialtour_inital.pdf", plot = fr1_with, device = "pdf",
-                  width = 4, height = 6, units = "in")
+  ggplot2::ggsave("./figures/cheem_radialtour_initial.pdf", plot = fr1_with, device = "pdf",
+                  width = 8, height = 4, units = "in")
   ## Rotating points without distr.
-  ggplot2::ggsave("./figures/cheem_radialtour.pdf", plot = pw, device = "pdf",
-                  width = 8, height = 3, units = "in")
+  ggplot2::ggsave("./figures/cheem_radialtour_endpts.pdf", plot = pw, device = "pdf",
+                  width = 8, height = 4, units = "in")
 }
