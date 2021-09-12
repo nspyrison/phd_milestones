@@ -78,7 +78,7 @@ The over-arching question of interest can be stated as:
 
 **Can the radial tour with user interaction help analysts understand linear projections, and explore the sensitivity of structure in the projection to the variables contributing to the projection?**
 
-Which is further divided into these more specific objectives that we address respectively:
+This is further divided into these more specific objectives that we address respectively:
 
 1. **How do we define user interaction for the radial tours to add and remove variables smoothly from a 2D linear projection of data?**\
 @cook_manual_1997 described an algorithm for manually controlling a tour, to rotate a variable into and out of a 2D projection. This algorithm provides the start to human-controlled radial tours. The work [@spyrison_spinifex_2020] was adapted so that the user has more control of the interpolation. The user can set the full range of the contribution from $[-1, 1]$, and output to a device that allows the user to reproduce motions and animate or rock the rotation backward and forwards. These fine-tuned controls provide a better tool for sensitivity analysis.
@@ -111,27 +111,39 @@ At the mid-candidature review, we discussed the experimental design of the user 
 
 The $N=108$ within-participant user study collected 6 trials from each participant (648 evaluations total), with 2 trials of each of visuals: PCA, grand tour, and radial tour. Three further factors: location, shape, and data dimensionality were also evenly evaluated for a comparison with the effect of controlling the visuals. Participants were crowdsourced from `prolific.co`, were selected from users that had completed an undergraduate degree, and were  compensated for their time at \pounds 7.50 per hour. Participants were tasked with identifying any and all variables contributing more than $1/p$ to the separation of clusters.
 
-```{r studyExpFactors, echo=FALSE, out.width = "90%", out.extra = '',fig.show='hold',fig.align='center', fig.cap = "The experimental factors of the study. Visualization is the primary factor of interest. The other factors extend the scope this problem is tested under."}
+```{r studyExpFactors, echo=FALSE, out.width = "90%", out.extra = '',fig.show='hold',fig.align='center', fig.cap = "The experimental factors of the study. Visualization method is the primary factor of interest. The other factors extend the scope this problem is tested under."}
 knitr::include_graphics("figures/study_exp_factors.pdf")
 ```
 
-In summary, we use a mixed regression model, to regress accuracy using the factors illustrated in figure \@ref(fig:studyExpFactors) as main effects, and use the participant and data simulations as random effects. The random effects capture the variation in the accuracy due to the participant's skill and the random sampling of the data. Several models of increasing complexity were fit, and based on the model metrics we select the following model to explore the coefficient estimates of in detail.
+We discussed our task and measure in detail last time and in appendix A, the draft of our paper, but in summary we define accuracy as the sum of the signed square root of the signal, if selected, above or below the true cluster separation given the median:
+
+\begin{align*}
+\text{variable weight}, w_{j} &=\frac
+{(\overline{X_{j, k=1}} - \overline{X_{j, k=2}})}
+{\sum_{j=1}^{p}(|\overline{X_{j,k=1}} - \overline{X_{j,k=2}}|)}
+- \frac{1}{p} \\
+\\
+\text{Accuracy}, Y &= \sum_{j=1}^{p}I(r_j) * sign(w_j) * \sqrt{|w_j|}  \\
+\end{align*}
+
+
+We use a mixed regression model, to regress accuracy using the factors illustrated in figure \@ref(fig:studyExpFactors) as main effects, and use the participant and data simulations as random effects. The random effects capture the variation in the accuracy due to the participant's skill and the random sampling of the data. Several models of increasing complexity were fit, and based on the model metrics we select the following model to explore the coefficient estimates of in detail.
 
 $$
 \begin{array}{ll}
-&\widehat{Y} = \mu + \alpha_i * \beta_j + \textbf{Z} + \textbf{W} + \epsilon \\
+&\widehat{Y} = \mu + \alpha_i * \beta_j + \gamma_k + \delta_l + \textbf{Z} + \textbf{W} + \epsilon \\
 \text{where } &\mu \text{ is the intercept of the model including the mean of random effect} \\
-&\epsilon   \sim \mathcal{N}(0,~\sigma), \text{ the error of the model} \\
 &\textbf{Z} \sim \mathcal{N}(0,~\tau), \text{ the random effect of participant} \\
 &\textbf{W} \sim \mathcal{N}(0,~\upsilon), \text{ the random effect of simulation} \\
+&\epsilon   \sim \mathcal{N}(0,~\sigma), \text{ the error of the model} \\
 &\alpha_i \text{, fixed term for factor}~|~i\in (\text{pca, grand, radial}) \\
-&\beta_j  \text{, fixed term for location}~|~j\in (\text{0\_1, 33\_66, 50\_50}) \text{ \% noise/signal mixing} \\
+&\beta_j  \text{, fixed term for location}~|~j\in (\text{0/1, 33/66, 50/50}) \text{ \% noise/signal mixing} \\
 &\gamma_k \text{, fixed term for shape}~|~k\in (\text{EEE, EEV, EVV banana}) \text{ model shapes} \\
 &\delta_l \text{, fixed term for dimension}~|~l\in (\text{4 variables \& 3 cluster, 6 variables \& 4 clusters}) \\
 \end{array}
 $$
 
-```{r studyResults, echo=FALSE, out.width = "100%", out.extra = '',fig.show='hold',fig.align='center', fig.cap = "Model coefficients regressing against our accuracy measure. We have strong evidence supporting a relatively large increase in accuracy with the radial tour."}
+```{r studyResults, echo=FALSE, out.width = "100%", out.extra = '',fig.show='hold',fig.align='center', fig.cap = "Summary of fitted model for accuracy. We have strong evidence supporting a relatively large increase in accuracy with the radial tour."}
 knitr::include_graphics("figures/spinifex_study_y1_results.PNG")
 ```
 
@@ -238,14 +250,14 @@ Intermission periods:
 # Other Contributions
 
 - “Is IEEE VIS *that* good?”, AltVis [@spyrison_is_2021]
-- Student Volunteer, UseR2021 Online
-- A Review of the State-of-the-Art on tours Dynamic Visualization of High-dimensional Data [@lee_review_2021]
+- Student Volunteer, UseR!2021 Online
+- A Review of the State-of-the-Art on tours Dynamic Visualization of High-dimensional Data [@lee_advanced_2021]
 - 1st place in 2020 Melbourne Data Marathon [@barrow_melbourne_2020] <!-- Oct? 2020 -->
 - Statistics Ph.D. reading group, Introduction to linear & nonlinear dimension reduction, discussing: "Dimensionality Reduction: A Comparative
 Review. van der Maaten" 2020 <!-- August 2020 -->
-- Student Volunteer, CHI Down Under 2020 Online
+- Student Volunteer, CHI Down Under 2020, Online
 - NUMBAT Workshop, Animating ggplot2 figures with gganimate, 2018 <!-- Oct 2018 --> 
-- Student Volunteer, UseR2018 Online
+- Student Volunteer, UseR!2018, Brisbane, Australia
 
 # Acknowledgements {#sec:acknowledgements}
 
