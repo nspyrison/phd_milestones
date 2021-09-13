@@ -1,10 +1,10 @@
 ---
-title: "New Tools to Interactively Explore the Sensitivity of Structure in Low-dimensional Projections of Data"
-author: "<br> Nicholas Spyrison <br> Monash University, Faculty of Information Technology <br><br> Supervisors: Prof. Kimbal Marriott,<br> Prof. Dianne Cook<br>"
-date: "Mid candidature review <br> 25 February 2020 <br><br> _Slides -- [github.com/nspyrison/mid_candidature/_slides/](https://github.com/nspyrison/mid_candidature/_slides/)_"
+title: "The use of radial tour to understand variable importance, with application to interpreting black-box models"
+author: "<br> Nicholas Spyrison <br> Monash University, Faculty of Information Technology <br><br> Supervisors: Prof. Kim Marriott,<br> Prof. Di Cook<br>"
+date: "presubmission review <br> 17 September 2021 <br><br> _Slides -- [github.com/nspyrison/phd_milestones/_slides/](https://github.com/nspyrison/mid_candidature/_slides/)_"
 output:
   xaringan::moon_reader:
-    css: 
+    css:
       - "assets/custom.css"
       - "assets/xaringan-themer.css"
     self_contained: false
@@ -13,36 +13,57 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
-editor_options: 
+      slideNumberFormat: '%current%/%total%'
+      navigation:
+        scroll: false
+        touch: true
+        click: true
+editor_options:
   chunk_output_type: console
 ---
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(eval      = TRUE,   # R code
-                      echo      = FALSE,  # code text
-                      include   = TRUE,   # plots
-                      results   = 'asis', # text 'markup' 'asis' 'hold' 'hide'
-                      fig.align = "center",
-                      collapse  = TRUE,
-                      message   = F, warning = F, error = F,
-                      cache     = F, cache.lazy = F
+knitr::opts_chunk$set(
+  eval      = TRUE,   # R code
+  echo      = FALSE,  # code text
+  include   = TRUE,   # plots
+  results   = 'asis', # text 'markup' 'asis' 'hold' 'hide'
+  fig.align = "center",
+  collapse  = TRUE,
+  message   = F, warning = F, error = F,
+  cache     = F, cache.lazy = F
 )
 require("knitr")
 require("kableExtra")
 require("magrittr")
 ```
 
-
 ## Outline
 
+.pull-left[
 - Introduction
 - Motivation
-- Research objectives & methology
+- Research objectives & methodology
 - Refresher: linear projections
-RO#2:\
-- User study model
-- User study results
-RO#3:\
-XXX, TODO
+
+RO#2, Radial tour user study:
+- Task
+- Factors
+- Model
+- Results
+]
+
+.pull-right[
+RO#3, Radial tour and local explanations:
+- Local explanations
+- SHAP values
+Our application:
+- Global view
+- 1D basis distributions
+- Radial tour
+- Demo application
+- Conslusion
+- Thsis outline
+]
 
 
 ---
@@ -55,7 +76,6 @@ XXX, TODO
 - Efficacy of the radial tour (RO#2); $n=108$ within-participant user study against the alternatives PCA and grand tour
 - Improving the interpretability of black-box models using the radial tour (RO#3)
 
-
 ---
 
 ## Motivation
@@ -67,30 +87,15 @@ XXX, TODO
 
 ---
 
-
 ## Linear projections & orthonormal basis
 
-```{r, echo = F, out.width = '82%'}
+```{r, echo = F, out.width = '100%'}
 knitr::include_graphics("./slide_figures/linear_proj.png")
 ```
 
----
 
-
-## Research objectives & methology
-
-__Can user-guided geodesic interpolation help analysts understand linear projections and explore the sensitivity of structure in the projection to the variables contributing to the projection?__
-<br>
-
-- 1) Define user interaction for a geodesic interpolator to add and remove variables from a 2D linear projection
-- *Algorithm design*, develop and apply user interaction; R package `{spinifex}` _Spyrison, et al, 2019_
-- 2) Do analysts better understand the relationship between variables and structure in a 2D linear projection better when the interactive geodesic interpolator is available?
-- *Experimental study*, $n=108$ within participant user study comparing radial tours with PCA, and the grand tour. Below we'll briefly get into the model and results
-- 3) Can the _radial tour_ be used in conjunction with the local explanations to improve the interpretability of black-box models?
-- *fundamental visualization design*, how can we best view the sensitivity of the local explanation, and what can we gain by exploring a single local explanation with radial tours
 
 ---
-
 
 ## Research objectives & methology
 
@@ -100,28 +105,49 @@ __Can the manual tour help analysts understand linear projections and explore th
 - 1) Define user interaction for the manual tour to add and remove variables from a 2D linear projection
     - *Algorithm design*, develop and apply user interaction; R package `{spinifex}` _Spyrison, et al, 2019_
 - 2) Do analysts better understand the relationship between variables and structure in a 2D linear projection better when the interactive manual tour is available?
-    - *Experimental study*, $n=108$ within participant user study comparing radial tours with PCA, and the grand tour. 
+    - *Experimental study*, $n=108$ within participant user study comparing radial tours with PCA, and the grand tour.
     - briefly get into the model and results
 - 3) Can the geodesic interpolator be used in conjunction with the local explanation, SHAP, to improve the interpretability of black-box models?
     - *fundamental visualization design*, how can we use the radial tour to explore the structure identified in local explanations of a black-box model
 
+---
+class: inverse, center, middle
+
+# RO#2: User study
+
+- $n=108$ with-in participant
+- Crowdsourced with prolific.co
 
 ---
 
-## User study model
+## User study task
+
+- TODO
+
+---
+
+## Experimental factors
 
 - random effects mixed regression model regressing:
 - $y$, accuracy
 
-.large[.large[ 
+.large[.large[
 Experimental study:
 - Hypothesis: _Does the finer control afforded by radial tour improve the ability of the analyst to understand the importance of variables contributing to the structure?_
 - Primary factor: principal component analysis, grand tour, and radial tour
-- Block factors: _location_ mixing of signal and noise var, _shape_ of distribution, and _dim_ensionality of the data.
+- Block factors: _location_ mixing of signal and noise var, _shape_ of distribution, and _dimension_-ality of the data.
 - $n=108$, Within-participant study; all participants performed on each of the 3 visuals
 - Implemented via `shiny` application, crowdsourced via `prolific.co`
 - Draft of paper included as appendix A of the milestone document (JDSSV)
 ]]
+
+---
+
+## Model
+
+---
+
+## Task
 
 ---
 

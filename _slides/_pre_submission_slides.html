@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>New Tools to Interactively Explore the Sensitivity of Structure in Low-dimensional Projections of Data</title>
+    <title>The use of radial tour to understand variable importance, with application to interpreting black-box models</title>
     <meta charset="utf-8" />
-    <meta name="author" content="  Nicholas Spyrison   Monash University, Faculty of Information Technology    Supervisors: Prof. Kimbal Marriott,  Prof. Dianne Cook " />
-    <script src="_pre_submission_slides_files/header-attrs-2.9/header-attrs.js"></script>
+    <meta name="author" content="  Nicholas Spyrison   Monash University, Faculty of Information Technology    Supervisors: Prof. Kim Marriott,  Prof. Di Cook " />
+    <script src="_pre_submission_slides_files/header-attrs-2.10/header-attrs.js"></script>
     <link rel="stylesheet" href="assets/custom.css" type="text/css" />
     <link rel="stylesheet" href="assets/xaringan-themer.css" type="text/css" />
   </head>
@@ -12,9 +12,9 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# New Tools to Interactively Explore the Sensitivity of Structure in Low-dimensional Projections of Data
-### <br> Nicholas Spyrison <br> Monash University, Faculty of Information Technology <br><br> Supervisors: Prof. Kimbal Marriott,<br> Prof. Dianne Cook<br>
-### Mid candidature review <br> 25 February 2020 <br><br> <em>Slides – <a href="https://github.com/nspyrison/mid_candidature/_slides/">github.com/nspyrison/mid_candidature/_slides/</a></em>
+# The use of radial tour to understand variable importance, with application to interpreting black-box models
+### <br> Nicholas Spyrison <br> Monash University, Faculty of Information Technology <br><br> Supervisors: Prof. Kim Marriott,<br> Prof. Di Cook<br>
+### presubmission review <br> 17 September 2021 <br><br> <em>Slides – <a href="https://github.com/nspyrison/mid_candidature/_slides/">github.com/nspyrison/phd_milestones/_slides/</a></em>
 
 ---
 
@@ -23,15 +23,31 @@ class: center, middle, inverse, title-slide
 
 ## Outline
 
+.pull-left[
 - Introduction
 - Motivation
-- Research objectives &amp; methology
+- Research objectives &amp; methodology
 - Refresher: linear projections
-RO#2:\
-- User study model
-- User study results
-RO#3:\
-XXX, TODO
+
+RO#2, Radial tour user study:
+- Task
+- Factors
+- Model
+- Results
+]
+
+.pull-right[
+RO#3, Radial tour and local explanations:
+- Local explanations
+- SHAP values
+Our application:
+- Global view
+- 1D basis distributions
+- Radial tour
+- Demo application
+- Conslusion
+- Thsis outline
+]
 
 
 ---
@@ -40,167 +56,80 @@ XXX, TODO
 
 - Multivariate data visualization
 - Data visualization _tour_; continuous linear projection over small changes in the projection basis
-- _Radial_ tour (RO#1); given a basis and variable to manipulate, rotate its contribution to full, zero, and back to the initial
+- _radial tour_ (RO#1); given a basis, variable and direction to change using geodesic interpolator, to change it's contribution
 - Efficacy of the radial tour (RO#2); `\(n=108\)` within-participant user study against the alternatives PCA and grand tour
-- Improving the interpretability of black-box models using of tours
--- Local explanation of black-box models 
+- Improving the interpretability of black-box models using the radial tour (RO#3)
 
 ---
 
 ## Motivation
 
 - _Exploratory data analysis_ is important for understanding the data and testing the validity of assumptions
-- Visualization is more robust and thorough than statistical summarization alone, _Eg._ datasaurus dozen below
-- Tours are one way to extend our ability to visualize linear data space as dimensions increase
-- XAI, TODO
+- Data visualization is more robust and thorough than statistical summarization alone
+- Tours are one way to extend our ability to visualize data space as dimensions increase
+- Exploratory Artificial Intellegence (XAI), growing tension of accuracy and interpretability of black-box models.
 
 ---
-
 
 ## Linear projections &amp; orthonormal basis
 
-&lt;img src="./slide_figures/basis.png" width="82%" style="display: block; margin: auto;" /&gt;
+&lt;img src="./slide_figures/linear_proj.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
 
 ---
-
 
 ## Research objectives &amp; methology
 
-__Can user-guided geodesic interpolation help analysts understand linear projections and explore the sensitivity of structure in the projection to the variables contributing to the projection?__
+__Can the manual tour help analysts understand linear projections and explore the sensitivity of structure in the projection to the variables contributing to the projection?__
 &lt;br&gt;
 
-- 1) Define user interaction for a geodesic interpolator to add and remove variables from a 2D linear projection
-- *Algorithm design*, develop and apply manual interaction; R package `{spinifex}` _Spyrison, et al, 2019_
-- 2) Do analysts better understand the relationship between variables and structure in a 2D linear projection better when the interactive geodesic interpolator is available?
-- *Experimental study*, `\(n=108\)` within participant user study comparing radial tours with PCA, and the grand tour. Below we'll briefly get into the model and results
+- 1) Define user interaction for the manual tour to add and remove variables from a 2D linear projection
+    - *Algorithm design*, develop and apply user interaction; R package `{spinifex}` _Spyrison, et al, 2019_
+- 2) Do analysts better understand the relationship between variables and structure in a 2D linear projection better when the interactive manual tour is available?
+    - *Experimental study*, `\(n=108\)` within participant user study comparing radial tours with PCA, and the grand tour.
+    - briefly get into the model and results
 - 3) Can the geodesic interpolator be used in conjunction with the local explanation, SHAP, to improve the interpretability of black-box models?
-- *visualization design*, how can we best view the sensitivity of the SHAP matrix, and what can we gain by exploring a single local explanation with radial tours
+    - *fundamental visualization design*, how can we use the radial tour to explore the structure identified in local explanations of a black-box model
 
+---
+class: inverse, center, middle
+
+# RO#2: User study
+
+- `\(n=108\)` with-in participant
+- Crowdsourced with prolific.co
 
 ---
 
-## User study model
+## User study task
+
+- TODO
+
+---
+
+## Experimental factors
 
 - random effects mixed regression model regressing:
 - `\(y\)`, accuracy
 
-.large[.large[ 
+.large[.large[
 Experimental study:
-- Hypothesis: _Does the finer control afforded by GI improve the ability of the analyst to understand the importance of variables contributing to the structure?_
-- Factors: principal component analysis, grand tour (grand), and 2D GI
-- Within-participant study; all participants will perform all factors
-- Implemented via `shiny` application
-- Draft of paper included as appendix B of the milestone document
+- Hypothesis: _Does the finer control afforded by radial tour improve the ability of the analyst to understand the importance of variables contributing to the structure?_
+- Primary factor: principal component analysis, grand tour, and radial tour
+- Block factors: _location_ mixing of signal and noise var, _shape_ of distribution, and _dimension_-ality of the data.
+- `\(n=108\)`, Within-participant study; all participants performed on each of the 3 visuals
+- Implemented via `shiny` application, crowdsourced via `prolific.co`
+- Draft of paper included as appendix A of the milestone document (JDSSV)
 ]]
 
 ---
 
-
-&lt;!-- ## Geodesic interpolation (GI) --&gt;
-
-&lt;!-- Selection of intermediate bases along the shortest path of orthonormal bases. --&gt;
-
-&lt;!-- - Used in other tour methods including the grand tour _(Asimov, 1985)_ --&gt;
-
-&lt;!-- ```{r, echo = F, out.width = '62%'} --&gt;
-&lt;!-- knitr::include_graphics("./slide_figures/buja05fig.png") --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- _(Buja et al., 2005)_ --&gt;
-
-&lt;!-- --- --&gt;
-
-&lt;!-- ## Sensitivity of structure in a projection --&gt;
-
-&lt;!-- - Some variables are more sensitive to the structure within a projection --&gt;
-&lt;!-- - Illustrated by controlling variable contributions: --&gt;
-
-&lt;!-- ```{r, echo = F, out.width = '87%'} --&gt;
-&lt;!-- knitr::include_graphics("./slide_figures/basisStructure.png") --&gt;
-&lt;!-- ``` --&gt;
-
-&lt;!-- --- --&gt;
-
-## Research objectives &amp; methology
-
-__Can user-guided geodesic interpolation help analysts understand linear projections and explore the sensitivity of structure in the projection to the variables contributing to the projection?__
-&lt;br&gt;
-
-- 1) Define user interaction for a geodesic interpolator to add and remove variables from a 2D linear projection
-- *Algorithm design*, develop and apply manual interaction; R package `{spinifex}` _Spyrison, et al, 2019_
-- 2) Do analysts better understand the relationship between variables and structure in a 2D linear projection better when the interactive geodesic interpolator is available?
-- *Experimental study*, `\(n=108\)` within participant user study comparing radial tours with PCA, and the grand tour. Below we'll briefly get into the model and results
-- 3) Can the geodesic interpolator be used in conjunction with the local explanation, SHAP, to improve the interpretability of black-box models?
-- *visualization design*, how can we best view the sensitivity of the SHAP matrix, and what can we gain by exploring a single local explanation with radial tours
-
+## Model
 
 ---
 
-## User study model
-
-- random effects mixed regression model regressing:
-- `\(y_1\)`, accuracy, `\(y_2\)`, response time.
-
-.large[.large[ 
-Experimental study:
-- Hypothesis: _Does the finer control afforded by GI improve the ability of the analyst to understand the importance of variables contributing to the structure?_
-- Factors: principal component analysis, grand tour (grand), and 2D GI
-- Within-participant study; all participants will perform all factors
-- Implemented via `shiny` application
-- Draft of paper included as appendix B of the milestone document
-]]
-
----
-
-## Work in progress -- design
-
-&lt;img src="./slide_figures/experimental_design_personA.png" width="100%" style="display: block; margin: auto;" /&gt;
-
----
-
-## Work in progress -- introduction &amp; training
-
-&lt;img src="./slide_figures/appTraining1.png" width="100%" style="display: block; margin: auto;" /&gt;
-
----
-
-## Work in progress -- task training
-
-&lt;img src="./slide_figures/appTraining2.png" width="100%" style="display: block; margin: auto;" /&gt;
-
----
-
-## Work in progress -- evaluation interface, PCA
-
-&lt;img src="./slide_figures/appPca.png" width="78%" style="display: block; margin: auto;" /&gt;
-
----
-
-## Work in progress -- evaluation interface, GI
-
-
-&lt;img src="./slide_figures/appManual.png" width="94%" style="display: block; margin: auto;" /&gt;
-
----
-
-## Work in progress -- evaluation interface, grand
-
-&lt;img src="./slide_figures/appGrand.png" width="86%" style="display: block; margin: auto;" /&gt;
-
----
-
-## Work in progress -- follow up survey
-
-&lt;img src="./slide_figures/appSurvey.png" width="100%" height="100%" style="display: block; margin: auto;" /&gt;
-
----
-
-## Measures and response -- 2D GI usability study
-
-- Logfile capturing every action
-- During evaluation:
-- Response, time, number, and type of interaction
-
-&lt;img src="./slide_figures/exampleResponse.png" width="75%" style="display: block; margin: auto;" /&gt;
+## Task
 
 ---
 
@@ -295,7 +224,13 @@ coordinator for the usual 2 year duration
 "ratio": "16:9",
 "highlightStyle": "github",
 "highlightLines": true,
-"countIncrementalSlides": false
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current%/%total%",
+"navigation": {
+"scroll": false,
+"touch": true,
+"click": true
+}
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
