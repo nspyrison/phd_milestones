@@ -35,6 +35,26 @@ knitr::opts_chunk$set(
 require("knitr")
 require("kableExtra")
 require("magrittr")
+
+
+### half-working title slide; c+p outside of chunk ###
+# background-size: cover
+# class: title-slide
+# count: false
+# <!-- Half working custom title slide -->
+# 
+# # .monash-blue[`r rmarkdown::metadata$title`]
+# 
+# <br>
+# <h2 style="font-weight:900!important;">`r rmarkdown::metadata$subtitle`</h2>
+# .bottom_abs.width100[
+# Presenter: *`r rmarkdown::metadata$author`*
+# <i class="fas fa-university"></i> `r rmarkdown::metadata$department`, <Br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Monash University, Melbourne, Australia
+# <i class="fas fa-envelope"></i>  `r rmarkdown::metadata$email`
+# <a href="https://twitter.com/statsgen" style="color:black"><i class="fab fa-twitter"></i> @statsgen</a>
+# <i class="fas fa-calendar-alt"></i> `r rmarkdown::metadata$date`
+# <br>
+# ]
 ```
 
 ## Outline
@@ -45,24 +65,25 @@ require("magrittr")
 - Research objectives & methodology
 - Refresher: linear projections
 
-RO#2, Radial tour user study:
-- Task
+**RO#2 Radial tour user study:**
 - Factors
+- Task
 - Model
 - Results
 ]
 
 .pull-right[
-RO#3, Radial tour and local explanations:
+**RO#3, Radial tour and local explanations:**
 - Local explanations
 - SHAP values
-Our application:
+
+**Our application:**
 - Global view
 - 1D basis distributions
 - Radial tour
 - Demo application
-- Conslusion
-- Thsis outline
+- Conclusion
+- Thesis progress
 ]
 
 
@@ -93,8 +114,6 @@ Our application:
 knitr::include_graphics("./slide_figures/linear_proj.png")
 ```
 
-
-
 ---
 
 ## Research objectives & methology
@@ -113,49 +132,125 @@ __Can the manual tour help analysts understand linear projections and explore th
 ---
 class: inverse, center, middle
 
-# RO#2: User study
+# RO#2, User study
 
-- $n=108$ with-in participant
-- Crowdsourced with prolific.co
-
----
-
-## User study task
-
-- TODO
+<!-- - $n=108$ with-in participant -->
+<!-- - Crowdsourced with prolific.co -->
 
 ---
 
 ## Experimental factors
 
-- random effects mixed regression model regressing:
-- $y$, accuracy
-
-.large[.large[
-Experimental study:
-- Hypothesis: _Does the finer control afforded by radial tour improve the ability of the analyst to understand the importance of variables contributing to the structure?_
-- Primary factor: principal component analysis, grand tour, and radial tour
-- Block factors: _location_ mixing of signal and noise var, _shape_ of distribution, and _dimension_-ality of the data.
-- $n=108$, Within-participant study; all participants performed on each of the 3 visuals
-- Implemented via `shiny` application, crowdsourced via `prolific.co`
-- Draft of paper included as appendix A of the milestone document (JDSSV)
-]]
-
----
-
-## Model
+```{r echo = F, out.width = '100%'}
+knitr::include_graphics("./slide_figures/study_exp_factors.pdf")
+```
 
 ---
 
 ## Task
 
+```{r echo = F, out.width = '100%'}
+knitr::include_graphics("./slide_figures/spinifex_study_task.PNG")
+```
+
 ---
 
-## Thesis drafting
+## Model
+
+\begin{array}{ll}
+&\widehat{Y} = \mu + \alpha_i * \beta_j + \gamma_k + \delta_l + \textbf{Z} + \textbf{W} + \epsilon \newline
+\text{where } &\mu \text{ is the intercept of the model including the means of random effects} \newline
+&\textbf{Z} \sim \mathcal{N}(0,~\tau), \text{ the random effect of participant} \newline
+&\textbf{W} \sim \mathcal{N}(0,~\upsilon), \text{ the random effect of simulation} \newline
+&\epsilon   \sim \mathcal{N}(0,~\sigma), \text{ the error of the model} \newline
+&\alpha_i \text{, fixed term for factor}~|~i\in (\text{pca, grand, radial}) \newline
+&\beta_j  \text{, fixed term for location}~|~j\in (\text{0/1, 33/66, 50/50}) \text{ % noise/signal mixing} \newline
+&\gamma_k \text{, fixed term for shape}~|~k\in (\text{EEE, EEV, EVV banana}) \text{ model shapes} \newline
+&\delta_l \text{, fixed term for dimension}~|~l\in (\text{4 variables & 3 cluster, 6 variables & 4 clusters})
+\end{array}
+
+---
+
+## Results
+
+```{r echo = F, out.width = '100%'}
+knitr::include_graphics("./slide_figures/spinifex_study_y1_results.PNG")
+```
+
+---
+class: inverse, center, middle
+
+# RO#3, Radial tour and local explanations
+
+---
+
+## Local explanations
+
+- Point-measurement, the variable weights of the importance to the model
+- Applied 1 observation, given a model
+
+```{r echo = F, out.width = '60%'}
+knitr::include_graphics("./slide_figures/lime_nonlinear.png")
+```
+Ribeiro, M. et. al. (2017). Why Should I Trust You?
+
+---
+
+## SHAP values
+
+- We apply use the model-agnostic explanation, SHAP, to random forest models.
+- Approximates importance to the model with the median importance, permuting over combinations of the explanatory variables
+
+```{r echo = F, out.width = '100%'}
+knitr::include_graphics("./slide_figures/cheem_fifa_messi_dijk.pdf")
+```
+
+---
+class: inverse, center, middle
+
+# Our application, Trees of Cheem
+
+---
+
+## Global View
+
+```{r echo = F, out.width = '100%'}
+knitr::include_graphics("./slide_figures/cheem_pca.pdf", TRUE)
+```
+
+---
+
+## 1D basis distribution
+
+```{r echo = F, out.width = '100%'}
+knitr::include_graphics("./slide_figures/cheem_pca.pdf")
+```
+
+---
+
+## Radial tour
+
+```{r echo = F, out.width = '100%'}
+knitr::include_graphics("./slide_figures/cheem_pca.pdf")
+```
+
+---
+
+## Demonstration
+
+???
+
+run Trees of Cheem app, or app function if working package structure
+
+---
+
+## Conculsion
+
+---
+
+## Thesis progress
 
 .large[.large[
-This is my assessment of the completion of the thesis drafting thus far:
-
 - Introduction – 60%
 - Literature review – 80%
 - (RO #1) 2D GI – 90%
@@ -169,7 +264,7 @@ This is my assessment of the completion of the thesis drafting thus far:
 
 ## Research timeline
 
-```{r timeline, echo = F, out.width = '92%'}
+```{r, echo = F, out.width = '92%'}
 knitr::include_graphics("./slide_figures/phd_timeline.png")
 ```
 

@@ -29,6 +29,7 @@ my_parts_distribution <- function(pred_parts, player_tag = "<tag unused>"){
   rownames(df) <- paste(pred_parts$label, pred_parts$variable, pred_parts$B, sep = ": ")
   return(df)
 }
+.lvl_ord <- c("react", "off", "mvm", "def", "pwr", "acc", "bmi", "age", "gk")
 my_bd_df <- function(break_down, player_tag = "<tag unused>"){
   df <- data.frame(
     player = player_tag,
@@ -139,11 +140,11 @@ box_df_dijk <- my_parts_boxplot_df(shap_dijk, "van Dijk")
 
 ## Bind shap aggs:
 # .lvl_ord <- box_df_messi$variable[order(box_df_messi$median, decreasing = TRUE)]
-ord_df <- boxplot_df %>% select(player, variable, median) %>%
-  tidyr::pivot_wider(names_from = "player", values_from = "median") %>%
-  mutate(sum = Messi + `van Dijk`)
-.lvl_ord <- ord_df$variable[order(ord_df$sum, decreasing = TRUE)] %>%
-  as.character()
+# ord_df <- boxplot_df %>% select(player, variable, median) %>%
+#   tidyr::pivot_wider(names_from = "player", values_from = "median") %>%
+#   mutate(sum = Messi + `van Dijk`)
+# # .lvl_ord <- ord_df$variable[order(ord_df$sum, decreasing = TRUE)] %>%
+# #   as.character()
 boxplot_df <- rbind(box_df_messi, box_df_dijk)
 boxplot_df$variable <- factor(boxplot_df$variable, levels = rev(.lvl_ord))
 
@@ -221,5 +222,9 @@ require("patchwork")
     plot_layout(heights = c(1, 3, 3)))
 
  ## SAVE -----
-ggplot2::ggsave("./figures/cheem_fifa_messi_dijk.pdf", pw, device = "pdf",
-                width = 6, height = 7, units = "in")
+if(F){
+  ggplot2::ggsave("./figures/cheem_fifa_messi_dijk.pdf", 
+                  pw, device = "pdf", width = 6, height = 7, units = "in")
+  ggplot2::ggsave("./_slides/slide_figures/cheem_fifa_messi_dijk.png",
+                  pw, device = "png", width = 6, height = 7, units = "in")
+}
