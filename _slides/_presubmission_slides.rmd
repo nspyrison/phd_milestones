@@ -1,12 +1,13 @@
 ---
 title: "The use of radial tour to understand variable importance, with application to interpreting black-box models"
-author: "<br> Nicholas Spyrison <br> Monash University, Faculty of Information Technology <br><br> Supervisors: Prof. Kim Marriott,<br> Prof. Di Cook<br>"
+author: "<br> Nicholas Spyrison <br> Monash University"
 date: "Presubmission seminar <br> 17 September 2021 <br><br> _Slides -- [github.com/nspyrison/phd_milestones/_slides/](https://github.com/nspyrison/phd_milestones/_slides/)_"
 output:
   xaringan::moon_reader:
     css:
-      - "assets/custom.css"
+      - ninjutsu
       - "assets/xaringan-themer.css"
+      - "assets/custom.css"
     self_contained: false
     nature:
       ratio: '16:9'
@@ -199,8 +200,8 @@ rt_anim <- animate_plotly(ggt142) %>% layout(dragmode = FALSE, showlegend = FALS
 
 **Our application:**
 - Global view
-- 1D basis distributions
 - Radial tour
+- Tour end points
 - Demo application
 - Conclusion
 - Thesis progress
@@ -327,8 +328,8 @@ Ribeiro, M. et. al. (2017). Why Should I Trust You?
 .pull-left[
 ## SHAP values
 
-- We apply use the model-agnostic explanation, SHAP, to random forest models.
-- Approximates importance to the model with the median importance, permuting over combinations of the explanatory variables
+- SHAP, model-agnostic local explanation, as applied to random forest models
+- Approximate variable importance to the model; median importance, permuting over combinations of the explanatory variables
 ]
 
 .pull-right[
@@ -361,7 +362,11 @@ linked_plotly
 .pull-left[
 ## Radial tour
 
-- text here
+- SHAP value of the selected observation, `'dashed line`, (previously '*') becomes the 1D projection basis, grey/black bars
+- Other shap values displayed as faint parallel coordinate lines, comparison observation dotted line (previously 'x')
+<br><br>
+
+- Compare initial with full contribution with no contribution
 ]
 
 .pull-right[
@@ -372,29 +377,12 @@ rt_anim
 
 ---
 
-## Target frames
-
-```{r echo = F, out.width = '100%'}
-knitr::include_graphics("./slide_figures/cheem_radialtour_endpts.png")
-```
-
----
-
-## Demonstration
-
-???
-
-run Trees of Cheem app, or app function if working package structure
-
----
-
 ## Conculsion
 
 - local explanation, give observation level variable importance
 - Start with a global approximation for exploration and observation selection
 - View as a radial tour exploring the structure identified by the SHAP values
     - Default to the variable that has largest deviation from expected value
-    
 
 ---
 
@@ -421,7 +409,7 @@ knitr::include_graphics("./slide_figures/timeline_post_presubmission.png")
 
 ## Acknowledgments
 
-.large[
+.larger[
 Special thanks to Professor Przemyslaw Biecek for his time and input suggesting SHAP and FIFA in addition to the `{DALEX}` package eco-system and *Exploratory Model Analysis* book.
 
 Thanks to Di and Kim for their guidance and the panel and chair for their time and input.
