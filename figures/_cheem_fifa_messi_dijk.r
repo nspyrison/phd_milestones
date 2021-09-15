@@ -226,5 +226,5 @@ if(F){
   ggplot2::ggsave("./figures/cheem_fifa_messi_dijk.pdf", 
                   pw, device = "pdf", width = 6, height = 7, units = "in")
   ggplot2::ggsave("./_slides/slide_figures/cheem_fifa_messi_dijk.png",
-                  pw, device = "png", width = 6, height = 7, units = "in")
+                  pw, device = "png", width = 6.6, height = 7.7, units = "in")
 }

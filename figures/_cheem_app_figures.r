@@ -162,21 +162,19 @@
 p <- THIS_linked_plotly_func(shap_layer_ls, shap_obs, comp_obs,
                              do_include_maha_qq = FALSE)
 p <- p + 
-  labs(title = "PC1:2 of data and SHAP spaces"#,
-       # caption = paste0("Predicted class mapped to color & shape\n",
-       #                  "Red circles indicate a misclassified observation\n",
-       #                  "'*' is an observation of interest\n",
-       #                  "'x' is a comparison observation, nearby in the data, but distant in the SHAP space")
-  )
+  labs(title = "PC1:2 of data and SHAP spaces")
 
 
 ## Export static & interactive PCA data/shap of sim -----
-
 ## Save static png
-if(F)
+if(F){
   ggplot2::ggsave("./figures/cheem_pca.pdf",
                   plot = p + theme(aspect.ratio=1), device = "pdf",
                   width = 8, height = 4.8, units = "in")
+  ggplot2::ggsave("./_slides/slide_figures/cheem_pca.png",
+                  plot = p + theme(aspect.ratio=1), device = "png",
+                  width = 8, height = 4.8, units = "in")
+}
 
 ## Save interactive html widget
 ggp <- ggplotly(p, tooltip = "tooltip") %>%
@@ -302,9 +300,11 @@ if(F)
   
 if(F){
   ## Frame 1 with distribution
-  ggplot2::ggsave("./figures/cheem_radialtour_initial.pdf", plot = fr1_with, device = "pdf",
-                  width = 8, height = 4, units = "in")
+  ggplot2::ggsave("./figures/cheem_radialtour_initial.pdf", 
+                  fr1_with, device = "pdf", width = 8, height = 4, units = "in")
   ## Rotating points without distr.
-  ggplot2::ggsave("./figures/cheem_radialtour_endpts.pdf", plot = pw, device = "pdf",
-                  width = 8, height = 4, units = "in")
+  ggplot2::ggsave("./figures/cheem_radialtour_endpts.pdf", 
+                  pw, device = "pdf", width = 8, height = 4, units = "in")
+  ggplot2::ggsave("./_slides/slide_figures/cheem_radialtour_endpts.png",
+                  pw, device = "png", width = 8, height = 4, units = "in")
 }

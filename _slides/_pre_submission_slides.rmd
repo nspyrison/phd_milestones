@@ -1,7 +1,7 @@
 ---
 title: "The use of radial tour to understand variable importance, with application to interpreting black-box models"
 author: "<br> Nicholas Spyrison <br> Monash University, Faculty of Information Technology <br><br> Supervisors: Prof. Kim Marriott,<br> Prof. Di Cook<br>"
-date: "presubmission review <br> 17 September 2021 <br><br> _Slides -- [github.com/nspyrison/phd_milestones/_slides/](https://github.com/nspyrison/mid_candidature/_slides/)_"
+date: "Presubmission seminar <br> 17 September 2021 <br><br> _Slides -- [github.com/nspyrison/phd_milestones/_slides/](https://github.com/nspyrison/phd_milestones/_slides/)_"
 output:
   xaringan::moon_reader:
     css:
@@ -17,7 +17,7 @@ output:
       navigation:
         scroll: false
         touch: true
-        click: true
+        click: false
 editor_options:
   chunk_output_type: console
 ---
@@ -35,7 +35,127 @@ knitr::opts_chunk$set(
 require("knitr")
 require("kableExtra")
 require("magrittr")
+## for cheem stuff:
+require("plotly")
+require("spinifex")
+load("../../trees_of_cheem/apps/cheem_app/data/0local_funcs.RData")
+load("../../trees_of_cheem/apps/cheem_app/data/2preprocess_simulation.RData")
+shap_obs <- 18L; comp_obs <- 111L;
 
+## prep linked plotly for later ----
+THIS_linked_plotly_func <- function(
+  layer_ls,
+  shap_obs = NULL,
+  comp_obs = NULL,
+  height_px = 640L,
+  width_px = 640L,
+  do_include_maha_qq = FALSE
+){
+  .alpha <- ifelse(nrow(layer_ls$decode_df) > 999L, .1, .6)
+  .xlab <- ifelse(do_include_maha_qq == FALSE, "PC1",
+                  "PC1 | Quantile, chi-squared")
+  .ylab <- ifelse(do_include_maha_qq == FALSE, "PC2",
+                  "PC2 | Quantile, observed Mahalanobis distance")
+  ## Remove QQ maha rows if needed
+  plot_df <- layer_ls$plot_df ## Init
+  if(do_include_maha_qq == FALSE){
+    plot_df <- layer_ls$plot_df[
+      layer_ls$plot_df$projection_nm != "QQ Mahalanobis distance", ]
+    height_px <- height_px / 2L ## Half height display as qq maha is removed.
+  }
+  is_classification <- attr(layer_ls, "problem_type") == "classification"
+  # ifelse("is_misclassified" %in% colnames(layer_ls$decode_df), TRUE, FALSE)
+  pred_clas <- as.factor(FALSE) ## If regression; dummy pred_clas
+  if(is_classification == TRUE) pred_clas <-
+    layer_ls$decode_df$predicted_class %>%
+    rep_len(nrow(plot_df)) %>%
+    as.factor()
+  
+  gg <- plot_df %>%
+    plotly::highlight_key(~rownum) %>%
+    ggplot(aes(V1, V2))
+  ## Red misclassified points, if present
+  if(is_classification == TRUE){
+    .rn_misclass <- which(layer_ls$decode_df$is_misclassified == TRUE)
+    .idx_misclas <- plot_df$rownum %in% .rn_misclass
+    if(sum(.idx_misclas) > 0L){
+      .df <- plot_df[.idx_misclas, ] %>% plotly::highlight_key(~rownum)
+      gg <- gg +
+        geom_point(aes(V1, V2), .df,
+                   color = "red", fill = NA,
+                   shape = 21L, size = 3L, alpha = .alpha)
+    }
+  }
+  ## Highlight comparison obs, if passed
+  if(is.null(comp_obs) == FALSE){
+    .idx_comp <- plot_df$rownum == comp_obs
+    if(sum(.idx_comp) > 0L){
+      .df <- plot_df[.idx_comp, ] %>% plotly::highlight_key(~rownum)
+      gg <- gg +
+        ## Highlight comparison obs
+        geom_point(aes(V1, V2, color = pred_clas[.idx_comp]),
+                   .df, size = 4L, shape = 4L)
+    }
+  }
+  ## Highlight shap obs, if passed
+  if(is.null(shap_obs) == FALSE){
+    .idx_shap <- plot_df$rownum == shap_obs
+    if(sum(.idx_shap) > 0L){
+      .df <- plot_df[.idx_shap, ] %>% plotly::highlight_key(~rownum)
+      gg <- gg +
+        geom_point(aes(V1, V2, color = pred_clas[.idx_shap]),
+                   .df, size = 5L, shape = 8L)
+    }
+  }
+  ## Maha skew text,
+  #### geom_text not working with plotly... & annotate() not working with facets...
+  if(do_include_maha_qq == TRUE){
+    gg <- gg +
+      geom_text(aes(x = -Inf, y = Inf, label = ggtext),
+                hjust = 0L, vjust = 1L, size = 4L)
+  }
+  ## Normal points
+  gg <- gg +
+    suppressWarnings(geom_point(
+      aes(V1, V2, color = pred_clas, shape = pred_clas, tooltip = tooltip),
+      alpha = .alpha, show_legend = FALSE)) +
+    facet_grid(rows = vars(projection_nm), cols = vars(layer_nm), scales = "free") +
+    theme_bw() +
+    labs(x = .xlab, y = .ylab) +
+    scale_color_brewer(palette = "Dark2") +
+    theme(axis.text  = element_blank(),
+          axis.ticks = element_blank(),
+          legend.position = "off")
+  return(gg)
+}
+linked_plotly <- THIS_linked_plotly_func(
+  shap_layer_ls, shap_obs, comp_obs,
+  do_include_maha_qq = FALSE) %>%
+  ggplotly(tooltip = "tooltip") %>%
+  config(displayModeBar = FALSE) %>% ## Remove html buttons
+  layout(dragmode = "select", showlegend = FALSE) %>% 
+  event_register("plotly_selected") %>%
+  highlight(on = "plotly_selected", off = "plotly_deselect")
+
+  ## Prep rt_anim for later -----
+.df <- shap_layer_ls$shap_df
+bas <- .df[shap_obs, -ncol(.df)] %>%
+  as.matrix(nrow = 1L) %>% t() %>%
+  tourr::normalise()
+mv <- 2L#spinifex::manip_var_of(bas)
+.opts <- rownames(bas)
+mv_nm <- .opts[mv]
+
+ggt142 <- manual_tour1d_func(
+  shap_layer_ls, bas, mv_nm,
+  shap_obs, comp_obs,
+  do_add_pcp_segements = TRUE,
+  pcp_shape = c(142, 124), ## '|' plotly and gganimate respectively
+  angle = .08)
+
+rt_anim <- animate_plotly(ggt142) %>% layout(dragmode = FALSE, showlegend = FALSE) %>% ## Set drag left mouse
+  event_register("plotly_selected") %>% ## Reflect "selected", on release of the mouse button.
+  highlight(on = "plotly_selected", off = "plotly_deselect")
 
 ### half-working title slide; c+p outside of chunk ###
 # background-size: cover
@@ -66,9 +186,9 @@ require("magrittr")
 - Refresher: linear projections
 
 **RO#2 Radial tour user study:**
-- Factors
-- Task
-- Model
+- Experimental factors
+- Particpant task
+- Mixed regression model
 - Results
 ]
 
@@ -84,6 +204,8 @@ require("magrittr")
 - Demo application
 - Conclusion
 - Thesis progress
+- Thesis timeline
+- Acknowledgements
 ]
 
 
@@ -92,8 +214,8 @@ require("magrittr")
 ## Introduction
 
 - Multivariate data visualization
-- Data visualization _tour_; continuous linear projection over small changes in the projection basis
-- _radial tour_ (RO#1); given a basis, variable and direction to change using geodesic interpolator, to change it's contribution
+- Data visualization *tour*; continuous linear projection over small changes in the projection basis
+- *radial tour* (RO#1); given a basis, variable and direction to change using geodesic interpolator, to change it's contribution
 - Efficacy of the radial tour (RO#2); $n=108$ within-participant user study against the alternatives PCA and grand tour
 - Improving the interpretability of black-box models using the radial tour (RO#3)
 
@@ -101,10 +223,10 @@ require("magrittr")
 
 ## Motivation
 
-- _Exploratory data analysis_ is important for understanding the data and testing the validity of assumptions
+- *Exploratory data analysis* is important for understanding the data and testing the validity of assumptions
 - Data visualization is more robust and thorough than statistical summarization alone
 - Tours are one way to extend our ability to visualize data space as dimensions increase
-- Exploratory Artificial Intellegence (XAI), growing tension of accuracy and interpretability of black-box models.
+- Exploratory Artificial Intelligence (XAI), growing tension of accuracy and interpretability of black-box models.
 
 ---
 
@@ -139,23 +261,29 @@ class: inverse, center, middle
 
 ---
 
+.pull-left[
 ## Experimental factors
+]
 
-```{r echo = F, out.width = '100%'}
-knitr::include_graphics("./slide_figures/study_exp_factors.pdf")
+.pull-right[
+```{r echo = F, out.width = '85%'}
+knitr::include_graphics("./slide_figures/study_exp_factors.png")
 ```
+]
 
 ---
 
 ## Task
 
-```{r echo = F, out.width = '100%'}
-knitr::include_graphics("./slide_figures/spinifex_study_task.PNG")
+- Select any/all variables that contribute more than $1/p$ of the separation between the orange triangle and the green circles
+
+```{r echo = F, out.width = '80%'}
+knitr::include_graphics("./slide_figures/figBiplotScoring.png")
 ```
 
 ---
 
-## Model
+## Mixed regression model
 
 \begin{array}{ll}
 &\widehat{Y} = \mu + \alpha_i * \beta_j + \gamma_k + \delta_l + \textbf{Z} + \textbf{W} + \epsilon \newline
@@ -173,7 +301,7 @@ knitr::include_graphics("./slide_figures/spinifex_study_task.PNG")
 
 ## Results
 
-```{r echo = F, out.width = '100%'}
+```{r echo = F, out.width = '90%'}
 knitr::include_graphics("./slide_figures/spinifex_study_y1_results.PNG")
 ```
 
@@ -196,14 +324,18 @@ Ribeiro, M. et. al. (2017). Why Should I Trust You?
 
 ---
 
+.pull-left[
 ## SHAP values
 
 - We apply use the model-agnostic explanation, SHAP, to random forest models.
 - Approximates importance to the model with the median importance, permuting over combinations of the explanatory variables
+]
 
+.pull-right[
 ```{r echo = F, out.width = '100%'}
-knitr::include_graphics("./slide_figures/cheem_fifa_messi_dijk.pdf")
+knitr::include_graphics("./slide_figures/cheem_fifa_messi_dijk.png")
 ```
+]
 
 ---
 class: inverse, center, middle
@@ -214,24 +346,36 @@ class: inverse, center, middle
 
 ## Global View
 
-```{r echo = F, out.width = '100%'}
-knitr::include_graphics("./slide_figures/cheem_pca.pdf", TRUE)
+```{r echo = F, out.width = '80%'}
+linked_plotly
 ```
+
+???
+
+- PC1:2 of data (left) and SHAP (right)
+- points color and shape are mapped to *predicted* cluster,
+- misclassified have red circle.
 
 ---
 
-## 1D basis distribution
-
-```{r echo = F, out.width = '100%'}
-knitr::include_graphics("./slide_figures/cheem_pca.pdf")
-```
-
----
-
+.pull-left[
 ## Radial tour
 
+- text here
+]
+
+.pull-right[
+```{r echo = F, out.width='110%', out.height='610px'}
+rt_anim
+```
+]
+
+---
+
+## Target frames
+
 ```{r echo = F, out.width = '100%'}
-knitr::include_graphics("./slide_figures/cheem_pca.pdf")
+knitr::include_graphics("./slide_figures/cheem_radialtour_endpts.png")
 ```
 
 ---
@@ -246,89 +390,48 @@ run Trees of Cheem app, or app function if working package structure
 
 ## Conculsion
 
+- local explanation, give observation level variable importance
+- Start with a global approximation for exploration and observation selection
+- View as a radial tour exploring the structure identified by the SHAP values
+    - Default to the variable that has largest deviation from expected value
+    
+
 ---
 
 ## Thesis progress
 
-.large[.large[
-- Introduction – 60%
-- Literature review – 80%
-- (RO #1) 2D GI – 90%
-- (RO #2) 2D GI Experimental study – 40%
-- (RO #3) 3D GI – 0%
-- (RO #4) 3D GI Experimental study – 0%
-- Conclusion and future plans – 0%
+.larger[.larger[
+- Introduction -- 60%
+- Literature review -- 80%
+- (RO #1) GI & radial tours -- 90%
+- (RO #2) radial tour efficacy user study -- 80%
+- (RO #3) radial tour & local explanations -- 70%
+- Discussion -- 50%
 ]]
 
 ---
 
-## Research timeline
+## Thesis timeline
 
-```{r, echo = F, out.width = '92%'}
-knitr::include_graphics("./slide_figures/phd_timeline.png")
+```{r, echo = F, out.width = '85%'}
+knitr::include_graphics("./slide_figures/timeline_post_presubmission.png")
 ```
 
 ---
 
-## Future work -- Interactive 3D GI (RO #3)
-
-.large[.large[
-2D GI rotates a 2D basis in a 3D manipulation space with 2 angle parameters.
-
-Analogously, 3D GI rotates a 3D basis in a 4D manipulation space with 3 angle parameters.
-
-- Define the 3 axes of rotation
-- Solve for the rotation matrix by application of Rodrigues' formula
-- Attention to sign changes (4D and trig functions supporting half a rotation)
-]]
-
----
-
-## Future work -- 3D GI usability study (RO #4)
-
-.large[
-Option 1: implement using `shinyaframe` and append to the `shiny` application addressing RO #2
-- Pro: faster implementation and reuse of previous implementation
-- Con: unknown extent and extendibility of user interaction
-- Proof of concept; _Hadjar et al. (2018)_ user interaction changing axes on a 3D scatterplot 
-
-Option 2: implement in `Unity` and implement a new application for experimental study
-- Pro: unimpeded extendibility of user interaction 
-- Con: slower implementation and slower and rework implementation
-]
-
----
-class: center, middle
-
-.large[
-## Thanks
-
-To Di and Kim for their suggestions and guidance.
-<br><br>
-
 ## Acknowledgments
 
-Slides created in R using rmarkdown and xaringan _(R Core Team, 2019; Xie et al. 2018; Xie, 2018)_
+.large[
+Special thanks to Professor Przemyslaw Biecek for his time and input suggesting SHAP and FIFA in addition to the `{DALEX}` package eco-system and *Exploratory Model Analysis* book.
 
-Slides available -- [github.com/nspyrison/mid_candidature/_slides](https://github.com/nspyrison/mid_candidature/_slides)
+Thanks to Di and Kim for their guidance and the panel and chair for their time and input.
+
+This research was supported by an Australian government Research Training Program (RTP) scholarship. These slides were in `R` using `{rmarkdown}` and `{xaringan}` *(R Core Team, 2021; Xie et al. 2018; Xie, 2018)*
 <br><br>
+
+Slides available -- [github.com/nspyrison/phd_milestones/_slides](https://github.com/nspyrison/phd_milestones/_slides)
+<br>
 
 ### Questions?
 ]
 
----
-
-## Appendix -- Program requirements
-
-WES Academic record
-- FIT 5144: 2019 S1+2, __In progress__, extended to the pre-submission seminar with the unit
-coordinator for the usual 2 year duration
-- Hours: 147 of 120 hours _Tracked_, missing the following requirements (12 hr total)
-- __Needed__: CYR 2 (A & B) – 2x 3hr
-- __Needed__: Faculty of IT Workshop 1 and 3 on Ethical Research and Publishing – 2x 3hr
-- FIT 5113: 2018 S2, `exemption`
-- FIT 6021: 2018 S2, `completed with distinction`
--myDevelopment - IT: Monash Doctoral Program - compulsory modules
-- Monash graduate research student induction: `completed`
-- Research integrity - Choose the Option most relevant: `completed`
-- Faculty induction: `completed`
