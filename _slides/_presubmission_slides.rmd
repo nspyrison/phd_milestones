@@ -215,10 +215,11 @@ rt_anim <- animate_plotly(ggt142) %>% layout(dragmode = FALSE, showlegend = FALS
 ## Introduction
 
 - Multivariate data visualization
-- Data visualization *tour*; continuous linear projection over small changes in the projection basis
-- *radial tour* (RO#1); given a basis, variable and direction to change using geodesic interpolator, to change it's contribution
-- Efficacy of the radial tour (RO#2); $n=108$ within-participant user study against the alternatives PCA and grand tour
-- Improving the interpretability of black-box models using the radial tour (RO#3)
+- Data visualization *tour*; animation of continuous linear projections over small changes in the projection basis
+- *radial tour* (RO#1); given a basis and variable rotate the contribution fully into and out of the projection frame
+- Efficacy of the radial tour (RO#2); user study measuring against PCA and grand tour (randomly select target bases)
+- In exploratory artificial intelligence, _local explanations_ explore variable importance at one observation
+    - Further investigate with the radial tour (RO#3)
 
 ---
 
@@ -227,7 +228,7 @@ rt_anim <- animate_plotly(ggt142) %>% layout(dragmode = FALSE, showlegend = FALS
 - *Exploratory data analysis* is important for understanding the data and testing the validity of assumptions
 - Data visualization is more robust and thorough than statistical summarization alone
 - Tours are one way to extend our ability to visualize data space as dimensions increase
-- Exploratory Artificial Intelligence (XAI), growing tension of accuracy and interpretability of black-box models.
+- Growing tension between the accuracy and interpretability of models.
 
 ---
 
@@ -241,15 +242,14 @@ knitr::include_graphics("./slide_figures/linear_proj.png")
 
 ## Research objectives & methology
 
-__Can the manual tour help analysts understand linear projections and explore the sensitivity of structure in the projection to the variables contributing to the projection?__
+__Can the radial tour help analysts understand linear projections and explore the sensitivity of structure in the projection to the variables contributing to the projection?__
 <br>
 
-- 1) Define user interaction for the manual tour to add and remove variables from a 2D linear projection
+- 1) Define user interaction for the radial tour to add and remove variables from a 2D linear projection
     - *Algorithm design*, develop and apply user interaction; R package `{spinifex}` _Spyrison, et al, 2019_
 - 2) Do analysts better understand the relationship between variables and structure in a 2D linear projection better when the interactive manual tour is available?
     - *Experimental study*, $n=108$ within participant user study comparing radial tours with PCA, and the grand tour.
-    - briefly get into the model and results
-- 3) Can the geodesic interpolator be used in conjunction with the local explanation, SHAP, to improve the interpretability of black-box models?
+- 3) Can the radial toru be used in conjunction with the local explanation, SHAP, to improve the interpretability of black-box models?
     - *fundamental visualization design*, how can we use the radial tour to explore the structure identified in local explanations of a black-box model
 
 ---
@@ -257,18 +257,21 @@ class: inverse, center, middle
 
 # RO#2, User study
 
-<!-- - $n=108$ with-in participant -->
-<!-- - Crowdsourced with prolific.co -->
-
 ---
 
 .pull-left[
 ## Experimental factors
+
+- _factor_; visualization method
+- _location_ of separation; mix a signal and noisy dimension at different ratios
+- _shape_ & orientations of the clusters
+- _dimension_-ality and number of clusters
 ]
 
 .pull-right[
-```{r echo = F, out.width = '85%'}
-knitr::include_graphics("./slide_figures/study_exp_factors.png")
+```{r echo = F, out.width = '90%'}
+knitr::include_graphics(
+  "./slide_figures/study_exp_factors.png")
 ```
 ]
 
@@ -279,7 +282,8 @@ knitr::include_graphics("./slide_figures/study_exp_factors.png")
 - Select any/all variables that contribute more than $1/p$ of the separation between the orange triangle and the green circles
 
 ```{r echo = F, out.width = '80%'}
-knitr::include_graphics("./slide_figures/figBiplotScoring.png")
+knitr::include_graphics(
+  "./slide_figures/figBiplotScoring.png")
 ```
 
 ---
@@ -295,7 +299,7 @@ knitr::include_graphics("./slide_figures/figBiplotScoring.png")
 &\alpha_i \text{, fixed term for factor}~|~i\in (\text{pca, grand, radial}) \newline
 &\beta_j  \text{, fixed term for location}~|~j\in (\text{0/1, 33/66, 50/50}) \text{ % noise/signal mixing} \newline
 &\gamma_k \text{, fixed term for shape}~|~k\in (\text{EEE, EEV, EVV banana}) \text{ model shapes} \newline
-&\delta_l \text{, fixed term for dimension}~|~l\in (\text{4 variables & 3 cluster, 6 variables & 4 clusters})
+&\delta_l \text{, fixed term for dimension}~|~l\in (\text{4 variables & 3 cluster, 6 var & 4 cl})
 \end{array}
 
 ---
@@ -303,7 +307,8 @@ knitr::include_graphics("./slide_figures/figBiplotScoring.png")
 ## Results
 
 ```{r echo = F, out.width = '90%'}
-knitr::include_graphics("./slide_figures/spinifex_study_y1_results.PNG")
+knitr::include_graphics(
+  "./slide_figures/spinifex_study_y1_results.PNG")
 ```
 
 ---
@@ -319,22 +324,24 @@ class: inverse, center, middle
 - Applied 1 observation, given a model
 
 ```{r echo = F, out.width = '60%'}
-knitr::include_graphics("./slide_figures/lime_nonlinear.png")
+knitr::include_graphics(
+  "./slide_figures/lime_nonlinear.png")
 ```
-Ribeiro, M. et. al. (2017). Why Should I Trust You?
+*Ribeiro, M. et. al. (2017). Why Should I Trust You?*
 
 ---
 
 .pull-left[
 ## SHAP values
 
-- SHAP, model-agnostic local explanation, as applied to random forest models
-- Approximate variable importance to the model; median importance, permuting over combinations of the explanatory variables
+- SHAP is a model-agnostic local explanation, we apply to random forest models
+- Approximate variable importance at one point-observation of the model; median importance, permuting over combinations of the explanatory variables
 ]
 
 .pull-right[
-```{r echo = F, out.width = '100%'}
-knitr::include_graphics("./slide_figures/cheem_fifa_messi_dijk.png")
+```{r echo = F, out.width = '120%'}
+knitr::include_graphics(
+  "./slide_figures/cheem_fifa_messi_dijk.png")
 ```
 ]
 
@@ -409,7 +416,6 @@ knitr::include_graphics("./slide_figures/timeline_post_presubmission.png")
 
 ## Acknowledgments
 
-.larger[
 Special thanks to Professor Przemyslaw Biecek for his time and input suggesting SHAP and FIFA in addition to the `{DALEX}` package eco-system and *Exploratory Model Analysis* book.
 
 Thanks to Di and Kim for their guidance and the panel and chair for their time and input.
@@ -417,9 +423,22 @@ Thanks to Di and Kim for their guidance and the panel and chair for their time a
 This research was supported by an Australian government Research Training Program (RTP) scholarship. These slides were in `R` using `{rmarkdown}` and `{xaringan}` *(R Core Team, 2021; Xie et al. 2018; Xie, 2018)*
 <br><br>
 
-Slides available -- [github.com/nspyrison/phd_milestones/_slides](https://github.com/nspyrison/phd_milestones/_slides)
+
+
+---
+
+## Thank you for attending
 <br>
 
 ### Questions?
-]
+<br>
 
+`The use of radial tour to understand variable importance, with application to interpreting black-box models`
+
+Nicholas Spyrison
+
+Presubmission seminar
+<br><br><br>
+
+Slides available -- [github.com/nspyrison/phd_milestones/_slides](https://github.com/nspyrison/phd_milestones/_slides)
+<br>
