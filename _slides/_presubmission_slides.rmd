@@ -1,27 +1,61 @@
 ---
 title: "The use of radial tour to understand variable importance, with application to interpreting black-box models"
-author: "<br> Nicholas Spyrison <br> Monash University"
-date: "Presubmission seminar <br> 17 September 2021 <br><br> _Slides -- [github.com/nspyrison/phd_milestones/_slides/](https://github.com/nspyrison/phd_milestones/_slides/)_"
+subtitle: "Presubmission seminar"
+author: "Nicholas Spyrison"
+email: "XXX@monash.edu"
+date: "17 September 2021"
+length: "20 minutes"
+department: "Department of Human-Centred Computing"
 output:
   xaringan::moon_reader:
     css:
       - ninjutsu
-      - "assets/xaringan-themer.css"
+      - "assets/font-awesome-all.css"
+      - "assets/tachyons-addon.css"
+      - "assets/animate.css"
+      - "assets/fira-code.css"
+      - "assets/boxes.css"
+      - "assets/table.css"
+      - "assets/styles.css"
+      - "assets/monash-brand.css"
+      - "assets/monash-fonts.css"
+      - "assets/slide-types.css"
       - "assets/custom.css"
     self_contained: false
+    seal: false
     nature:
-      ratio: '16:9'
-      highlightStyle: github
+      highlightStyle: magula
+      highlightLanguage: r
       highlightLines: true
+      highlightSpans: false
       countIncrementalSlides: false
       slideNumberFormat: '%current%/%total%'
       navigation:
         scroll: false
         touch: true
         click: false
-editor_options:
-  chunk_output_type: console
+      ratio: '16:9'
 ---
+
+```{r, include = FALSE}
+current_file <- knitr::current_input()
+basename <- gsub(".Rmd$", "", current_file)
+
+knitr::opts_chunk$set(
+  fig.path = sprintf("images/%s/", basename),
+  fig.width = 6,
+  fig.height = 4,
+  fig.align = "center",
+  out.width = "100%",
+  fig.retina = 3,
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  cache = TRUE,
+  cache.path = "cache/"
+)
+```
+
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   eval      = TRUE,   # R code
@@ -178,9 +212,32 @@ rt_anim <- animate_plotly(ggt142) %>% layout(dragmode = FALSE, showlegend = FALS
 # ]
 ```
 
+background-size: cover
+class: title-slide
+count: false
+
+# .monash-blue[`r rmarkdown::metadata$title`]
+
+<br>
+
+<h2 style="font-weight:900!important;">`r rmarkdown::metadata$subtitle`</h2>
+
+.bottom_abs.width100[
+<br>
+Presenter: *`r rmarkdown::metadata$author`* <br>
+`r rmarkdown::metadata$department` <br>
+<!-- `r rmarkdown::metadata$email` <br>-->
+`r rmarkdown::metadata$date` <br>
+<br>
+Slides -- [github.com/nspyrison/phd_milestones/_slides](https://github.com/nspyrison/phd_milestones/_slides)
+]
+
+---
+
 ## Outline
 
 .pull-left[
+<br><br><br>
 - Introduction
 - Motivation
 - Research objectives & methodology
@@ -234,7 +291,7 @@ rt_anim <- animate_plotly(ggt142) %>% layout(dragmode = FALSE, showlegend = FALS
 
 ## Linear projections & orthonormal basis
 
-```{r, echo = F, out.width = '100%'}
+```{r, echo = F, out.width = '75%'}
 knitr::include_graphics("./slide_figures/linear_proj.png")
 ```
 
@@ -253,9 +310,9 @@ __Can the radial tour help analysts understand linear projections and explore th
     - *fundamental visualization design*, how can we use the radial tour to explore the structure identified in local explanations of a black-box model
 
 ---
-class: inverse, center, middle
+class: transition
 
-# RO#2, User study
+## RO#2, User study
 
 ---
 
@@ -269,7 +326,7 @@ class: inverse, center, middle
 ]
 
 .pull-right[
-```{r echo = F, out.width = '90%'}
+```{r echo = F, out.width = '75%'}
 knitr::include_graphics(
   "./slide_figures/study_exp_factors.png")
 ```
@@ -312,16 +369,16 @@ knitr::include_graphics(
 ```
 
 ---
-class: inverse, center, middle
+class: transition
 
-# RO#3, Radial tour and local explanations
+## RO#3, Radial tour and local explanations
 
 ---
 
 ## Local explanations
 
 - Point-measurement, the variable weights of the importance to the model
-- Applied 1 observation, given a model
+- Applied to 1 observation, given a model
 
 ```{r echo = F, out.width = '60%'}
 knitr::include_graphics(
@@ -339,22 +396,22 @@ knitr::include_graphics(
 ]
 
 .pull-right[
-```{r echo = F, out.width = '120%'}
+```{r echo = F, out.width = '100%'}
 knitr::include_graphics(
   "./slide_figures/cheem_fifa_messi_dijk.png")
 ```
 ]
 
 ---
-class: inverse, center, middle
+class: transition
 
-# Our application, Trees of Cheem
+## Our application, Trees of Cheem
 
 ---
 
 ## Global View
 
-```{r echo = F, out.width = '80%'}
+```{r echo = F, out.width = '100%', out.height='600px'}
 linked_plotly
 ```
 
@@ -373,11 +430,11 @@ linked_plotly
 - Other shap values displayed as faint parallel coordinate lines, comparison observation dotted line (previously 'x')
 <br><br>
 
-- Compare initial with full contribution with no contribution
+- Compare initial, full contribution, no contribution
 ]
 
 .pull-right[
-```{r echo = F, out.width='110%', out.height='610px'}
+```{r echo = F, out.width='100%', out.height='600px'}
 rt_anim
 ```
 ]
@@ -416,29 +473,37 @@ knitr::include_graphics("./slide_figures/timeline_post_presubmission.png")
 
 ## Acknowledgments
 
+<br><br>
 Special thanks to Professor Przemyslaw Biecek for his time and input suggesting SHAP and FIFA in addition to the `{DALEX}` package eco-system and *Exploratory Model Analysis* book.
 
+<br>
 Thanks to Di and Kim for their guidance and the panel and chair for their time and input.
 
+<br>
 This research was supported by an Australian government Research Training Program (RTP) scholarship. These slides were in `R` using `{rmarkdown}` and `{xaringan}` *(R Core Team, 2021; Xie et al. 2018; Xie, 2018)*
-<br><br>
-
 
 
 ---
+background-size: cover
+class: title-slide
+count: false
 
-## Thank you for attending
+### Thank you for attending, any questions?
+
+<hr><br>
+
+<h1 class="monash-blue" style="font-size: 24pt!important;">`r rmarkdown::metadata$title`</h1>
+
 <br>
 
-### Questions?
+<h3 style="font-weight:900!important;">`r rmarkdown::metadata$subtitle`</h2>
+
+.bottom_abs.width100[
 <br>
-
-`The use of radial tour to understand variable importance, with application to interpreting black-box models`
-
-Nicholas Spyrison
-
-Presubmission seminar
-<br><br><br>
-
-Slides available -- [github.com/nspyrison/phd_milestones/_slides](https://github.com/nspyrison/phd_milestones/_slides)
+Presenter: *`r rmarkdown::metadata$author`* <br>
+`r rmarkdown::metadata$department` <br>
+<!-- `r rmarkdown::metadata$email` <br>-->
+`r rmarkdown::metadata$date` <br>
 <br>
+Slides -- [github.com/nspyrison/phd_milestones/_slides](https://github.com/nspyrison/phd_milestones/_slides)
+]
