@@ -97,9 +97,9 @@ Slides -- [github.com/nspyrison/phd_milestones/_slides](https://github.com/nspyr
 - Multivariate data visualization
 - Data visualization *tour*; animation of continuous linear projections over small changes in the projection basis
 - *radial tour* (RO#1); given a basis and variable rotate the contribution fully into and out of the projection frame
-- Efficacy of the radial tour (RO#2); user study measuring against PCA and grand tour (randomly select target bases)
+- Efficacy of the radial tour (RO#2); user study measuring against PCA and grand tour (target bases randomly select)
 - In exploratory artificial intelligence, _local explanations_ explore variable importance at one observation
-    - Further investigate with the radial tour (RO#3)
+    - Further explore with the radial tour (RO#3)
 
 ---
 
@@ -108,7 +108,7 @@ Slides -- [github.com/nspyrison/phd_milestones/_slides](https://github.com/nspyr
 - *Exploratory data analysis* is important for understanding the data and testing the validity of assumptions
 - Data visualization is more robust and thorough than statistical summarization alone
 - Tours are one way to extend our ability to visualize data space as dimensions increase
-- Growing tension between the accuracy and interpretability of models.
+- Growing tension between the accuracy and interpretability of models
 
 ---
 
@@ -126,8 +126,8 @@ __Can the radial tour help analysts understand linear projections and explore th
 - 1) Define user interaction for the radial tour to add and remove variables from a 2D linear projection
     - *Algorithm design*, develop and apply user interaction; R package `{spinifex}` _Spyrison, et al, 2019_
 - 2) Do analysts better understand the relationship between variables and structure in a 2D linear projection better when the interactive manual tour is available?
-    - *Experimental study*, `\(n=108\)` within participant user study comparing radial tours with PCA, and the grand tour.
-- 3) Can the radial toru be used in conjunction with the local explanation, SHAP, to improve the interpretability of black-box models?
+    - *Experimental study*, `\(n=108\)` within participant user study comparing radial tours with PCA, and the grand tour
+- 3) Can the radial tour be used in conjunction with the local explanation, SHAP, to improve the interpretability of black-box models?
     - *fundamental visualization design*, how can we use the radial tour to explore the structure identified in local explanations of a black-box model
 
 ---
@@ -140,8 +140,9 @@ class: transition
 .pull-left[
 ## Experimental factors
 
+&lt;br&gt;&lt;br&gt;
 - _factor_; visualization method
-- _location_ of separation; mix a signal and noisy dimension at different ratios
+- _location_ of separation; mix a signal and noise dimension at different ratios
 - _shape_ &amp; orientations of the clusters
 - _dimension_-ality and number of clusters
 ]
@@ -165,13 +166,13 @@ class: transition
 \begin{array}{ll}
 &amp;\widehat{Y} = \mu + \alpha_i * \beta_j + \gamma_k + \delta_l + \textbf{Z} + \textbf{W} + \epsilon \newline
 \text{where } &amp;\mu \text{ is the intercept of the model including the means of random effects} \newline
-&amp;\textbf{Z} \sim \mathcal{N}(0,~\tau), \text{ the random effect of participant} \newline
-&amp;\textbf{W} \sim \mathcal{N}(0,~\upsilon), \text{ the random effect of simulation} \newline
-&amp;\epsilon   \sim \mathcal{N}(0,~\sigma), \text{ the error of the model} \newline
 &amp;\alpha_i \text{, fixed term for factor}~|~i\in (\text{pca, grand, radial}) \newline
 &amp;\beta_j  \text{, fixed term for location}~|~j\in (\text{0/1, 33/66, 50/50}) \text{ % noise/signal mixing} \newline
 &amp;\gamma_k \text{, fixed term for shape}~|~k\in (\text{EEE, EEV, EVV banana}) \text{ model shapes} \newline
-&amp;\delta_l \text{, fixed term for dimension}~|~l\in (\text{4 variables &amp; 3 cluster, 6 var &amp; 4 cl})
+&amp;\delta_l \text{, fixed term for dimension}~|~l\in (\text{4 variables &amp; 3 cluster, 6 var &amp; 4 cl}) \newline
+&amp;\textbf{Z} \sim \mathcal{N}(0,~\tau), \text{ the random effect of participant} \newline
+&amp;\textbf{W} \sim \mathcal{N}(0,~\upsilon), \text{ the random effect of simulation} \newline
+&amp;\epsilon   \sim \mathcal{N}(0,~\sigma), \text{ the error of the model} \newline
 \end{array}
 
 ---
@@ -189,7 +190,7 @@ class: transition
 
 ## Local explanations
 
-- Point-measurement, the variable weights of the importance to the model
+- Point-measurement, the variable importance to the model
 - Applied to 1 observation, given a model
 
 &lt;img src="./slide_figures/lime_nonlinear.png" width="60%" style="display: block; margin: auto;" /&gt;
@@ -202,6 +203,7 @@ class: transition
 
 - SHAP is a model-agnostic local explanation, we apply to random forest models
 - Approximate variable importance at one point-observation of the model; median importance, permuting over combinations of the explanatory variables
+- FIFA 2020 data, model predicting soccer player's wage from the evaluation of their skills
 ]
 
 .pull-right[
@@ -231,7 +233,7 @@ class: transition
 .pull-left[
 ## Radial tour
 
-- SHAP value of the selected observation, `'dashed line`, (previously '*') becomes the 1D projection basis, grey/black bars
+- SHAP value of the selected observation, `dashed line`, (previously '*') becomes the 1D projection basis, grey/black bars
 - Other shap values displayed as faint parallel coordinate lines, comparison observation dotted line (previously 'x')
 &lt;br&gt;&lt;br&gt;
 
@@ -256,14 +258,12 @@ class: transition
 
 ## Thesis progress
 
-.larger[.larger[
 - Introduction -- 60%
 - Literature review -- 80%
 - (RO #1) GI &amp; radial tours -- 90%
 - (RO #2) radial tour efficacy user study -- 80%
 - (RO #3) radial tour &amp; local explanations -- 70%
 - Discussion -- 50%
-]]
 
 ---
 
