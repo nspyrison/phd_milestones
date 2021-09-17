@@ -429,7 +429,7 @@ linked_plotly
 ## Radial tour
 
 - SHAP value of the selected observation, `dashed line`, (previously '*') becomes the 1D projection basis, grey/black bars
-- Other shap values displayed as faint parallel coordinate lines, comparison observation dotted line (previously 'x')
+- Other SHAP values displayed as faint parallel coordinate lines, comparison observation dotted line (previously 'x')
 <br><br>
 
 - Compare initial, full contribution, no contribution
